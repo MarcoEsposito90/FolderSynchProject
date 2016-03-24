@@ -1,0 +1,14 @@
+C:\Users\Unieuro\Documents\Poli\ProgrammazioneSistema\Malnati\Progetto\FolderSynchService\FolderSynchWPFClient\bin\Release\FolderSynchWPFClient.exe.config
+C:\Users\Unieuro\Documents\Poli\ProgrammazioneSistema\Malnati\Progetto\FolderSynchService\FolderSynchWPFClient\obj\Release\FolderSynchWPFClient.csprojResolveAssemblyReference.cache
+C:\Users\Unieuro\Documents\Poli\ProgrammazioneSistema\Malnati\Progetto\FolderSynchService\FolderSynchWPFClient\obj\Release\MainWindow.g.cs
+C:\Users\Unieuro\Documents\Poli\ProgrammazioneSistema\Malnati\Progetto\FolderSynchService\FolderSynchWPFClient\obj\Release\App.g.cs
+C:\Users\Unieuro\Documents\Poli\ProgrammazioneSistema\Malnati\Progetto\FolderSynchService\FolderSynchWPFClient\obj\Release\FolderSynchWPFClient_MarkupCompile.cache
+C:\Users\Unieuro\Documents\Poli\ProgrammazioneSistema\Malnati\Progetto\FolderSynchService\FolderSynchWPFClient\obj\Release\FolderSynchWPFClient_MarkupCompile.lref
+C:\Users\Unieuro\Documents\Poli\ProgrammazioneSistema\Malnati\Progetto\FolderSynchService\FolderSynchWPFClient\bin\Release\FolderSynchWPFClient.exe
+C:\Users\Unieuro\Documents\Poli\ProgrammazioneSistema\Malnati\Progetto\FolderSynchService\FolderSynchWPFClient\bin\Release\FolderSynchWPFClient.pdb
+C:\Users\Unieuro\Documents\Poli\ProgrammazioneSistema\Malnati\Progetto\FolderSynchService\FolderSynchWPFClient\obj\Release\MainWindow.baml
+C:\Users\Unieuro\Documents\Poli\ProgrammazioneSistema\Malnati\Progetto\FolderSynchService\FolderSynchWPFClient\obj\Release\FolderSynchWPFClient.g.resources
+C:\Users\Unieuro\Documents\Poli\ProgrammazioneSistema\Malnati\Progetto\FolderSynchService\FolderSynchWPFClient\obj\Release\FolderSynchWPFClient.Properties.Resources.resources
+C:\Users\Unieuro\Documents\Poli\ProgrammazioneSistema\Malnati\Progetto\FolderSynchService\FolderSynchWPFClient\obj\Release\FolderSynchWPFClient.csproj.GenerateResource.Cache
+C:\Users\Unieuro\Documents\Poli\ProgrammazioneSistema\Malnati\Progetto\FolderSynchService\FolderSynchWPFClient\obj\Release\FolderSynchWPFClient.exe
+C:\Users\Unieuro\Documents\Poli\ProgrammazioneSistema\Malnati\Progetto\FolderSynchService\FolderSynchWPFClient\obj\Release\FolderSynchWPFClient.pdb
