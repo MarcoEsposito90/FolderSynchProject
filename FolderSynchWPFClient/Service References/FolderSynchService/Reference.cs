@@ -20,6 +20,18 @@ namespace FolderSynchWPFClient.FolderSynchService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFolderSynchService/DoWork", ReplyAction="http://tempuri.org/IFolderSynchService/DoWorkResponse")]
         System.Threading.Tasks.Task<string> DoWorkAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFolderSynchService/DoWork2", ReplyAction="http://tempuri.org/IFolderSynchService/DoWork2Response")]
+        int DoWork2();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFolderSynchService/DoWork2", ReplyAction="http://tempuri.org/IFolderSynchService/DoWork2Response")]
+        System.Threading.Tasks.Task<int> DoWork2Async();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFolderSynchService/DoWork3", ReplyAction="http://tempuri.org/IFolderSynchService/DoWork3Response")]
+        bool DoWork3();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFolderSynchService/DoWork3", ReplyAction="http://tempuri.org/IFolderSynchService/DoWork3Response")]
+        System.Threading.Tasks.Task<bool> DoWork3Async();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -55,6 +67,22 @@ namespace FolderSynchWPFClient.FolderSynchService {
         
         public System.Threading.Tasks.Task<string> DoWorkAsync() {
             return base.Channel.DoWorkAsync();
+        }
+        
+        public int DoWork2() {
+            return base.Channel.DoWork2();
+        }
+        
+        public System.Threading.Tasks.Task<int> DoWork2Async() {
+            return base.Channel.DoWork2Async();
+        }
+        
+        public bool DoWork3() {
+            return base.Channel.DoWork3();
+        }
+        
+        public System.Threading.Tasks.Task<bool> DoWork3Async() {
+            return base.Channel.DoWork3Async();
         }
     }
 }

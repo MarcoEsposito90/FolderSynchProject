@@ -13,5 +13,11 @@ namespace FolderSynchService
     {
         [OperationContract]
         string DoWork();
+
+        [OperationContract]
+        int DoWork2();
+
+        [OperationContract]
+        bool DoWork3();
     }
 }

@@ -20,10 +20,30 @@
   <wsdl:message name="IFolderSynchService_DoWork_OutputMessage">
     <wsdl:part name="parameters" element="tns:DoWorkResponse" />
   </wsdl:message>
+  <wsdl:message name="IFolderSynchService_DoWork2_InputMessage">
+    <wsdl:part name="parameters" element="tns:DoWork2" />
+  </wsdl:message>
+  <wsdl:message name="IFolderSynchService_DoWork2_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DoWork2Response" />
+  </wsdl:message>
+  <wsdl:message name="IFolderSynchService_DoWork3_InputMessage">
+    <wsdl:part name="parameters" element="tns:DoWork3" />
+  </wsdl:message>
+  <wsdl:message name="IFolderSynchService_DoWork3_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DoWork3Response" />
+  </wsdl:message>
   <wsdl:portType name="IFolderSynchService">
     <wsdl:operation name="DoWork">
       <wsdl:input wsaw:Action="http://tempuri.org/IFolderSynchService/DoWork" message="tns:IFolderSynchService_DoWork_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IFolderSynchService/DoWorkResponse" message="tns:IFolderSynchService_DoWork_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DoWork2">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFolderSynchService/DoWork2" message="tns:IFolderSynchService_DoWork2_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFolderSynchService/DoWork2Response" message="tns:IFolderSynchService_DoWork2_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DoWork3">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFolderSynchService/DoWork3" message="tns:IFolderSynchService_DoWork3_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFolderSynchService/DoWork3Response" message="tns:IFolderSynchService_DoWork3_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="serviceTcpEndpoint" type="tns:IFolderSynchService">
@@ -31,6 +51,24 @@
     <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
     <wsdl:operation name="DoWork">
       <soap12:operation soapAction="http://tempuri.org/IFolderSynchService/DoWork" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DoWork2">
+      <soap12:operation soapAction="http://tempuri.org/IFolderSynchService/DoWork2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DoWork3">
+      <soap12:operation soapAction="http://tempuri.org/IFolderSynchService/DoWork3" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

@@ -43,7 +43,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FolderSynchService.cs" />
     <Compile Include="IFolderSynchService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

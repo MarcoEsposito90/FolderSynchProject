@@ -25,7 +25,7 @@ namespace FolderSynchWPFClient
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Button_DoWork(object sender, RoutedEventArgs e)
         {
 
             string responseString = "the server answered: ";
@@ -34,6 +34,19 @@ namespace FolderSynchWPFClient
             responseString += App.FolderSynchProxy.DoWork();
             
             responseLabel.Content = responseString;
+        }
+
+        private void Button_DoWork2(object sender, RoutedEventArgs e)
+        {
+
+            int answer = App.FolderSynchProxy.DoWork2();
+            responseLabel.Content = "The server answered:" + answer;
+        }
+
+        private void Button_DoWork3(object sender, RoutedEventArgs e)
+        {
+            bool answer = App.FolderSynchProxy.DoWork3();
+            responseLabel.Content = "The server answered:" + answer;
         }
     }
 }

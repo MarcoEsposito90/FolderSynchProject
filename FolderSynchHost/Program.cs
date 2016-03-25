@@ -21,7 +21,7 @@ namespace FolderSynchHost
             // first, create an instance of the service which will be hosted inside this process
             try
             {
-                using (ServiceHost host = new ServiceHost(typeof(FolderSynchService.FolderSynchService)))
+                using (ServiceHost host = new ServiceHost(typeof(FolderSynchHost.FolderSynchService)))
                 {
 
                     // open the service to make it available. After that, it will react to clients' requests
@@ -29,7 +29,6 @@ namespace FolderSynchHost
                     Console.WriteLine("Host running and service available");
                     Console.WriteLine("press enter to stop");
 
-                    // next statement for keeping the process alive and don't make it shutdown
                     Console.ReadLine();
                 }
             }
@@ -37,6 +36,7 @@ namespace FolderSynchHost
             {
 
                 System.Console.WriteLine("excepion caught: " + e.GetType());
+                Console.ReadLine();
             }
             
 

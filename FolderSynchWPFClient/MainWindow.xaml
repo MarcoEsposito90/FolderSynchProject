@@ -12,7 +12,13 @@
         <Label Content="press to invoke DoWork on the server:"/>
         
         <Button Content="DoWork"
-                Click="Button_Click"/>
+                Click="Button_DoWork"/>
+        
+        <Button Content="DoWork2"
+                Click ="Button_DoWork2"/>
+        
+        <Button Content="DoWork3"
+                Click="Button_DoWork3"/>
         
         <Label Name = "responseLabel"/>
         
