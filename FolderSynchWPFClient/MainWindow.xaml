@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:FolderSynchWPFClient"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
-    
+
     <StackPanel Orientation="Vertical">
 
         <Label Content="press to invoke DoWork on the server:"/>

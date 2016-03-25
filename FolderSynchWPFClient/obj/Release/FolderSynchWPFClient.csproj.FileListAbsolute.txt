@@ -12,3 +12,4 @@ C:\Users\Unieuro\Documents\Poli\ProgrammazioneSistema\Malnati\Progetto\FolderSyn
 C:\Users\Unieuro\Documents\Poli\ProgrammazioneSistema\Malnati\Progetto\FolderSynchService\FolderSynchWPFClient\obj\Release\FolderSynchWPFClient.csproj.GenerateResource.Cache
 C:\Users\Unieuro\Documents\Poli\ProgrammazioneSistema\Malnati\Progetto\FolderSynchService\FolderSynchWPFClient\obj\Release\FolderSynchWPFClient.exe
 C:\Users\Unieuro\Documents\Poli\ProgrammazioneSistema\Malnati\Progetto\FolderSynchService\FolderSynchWPFClient\obj\Release\FolderSynchWPFClient.pdb
+C:\Users\Unieuro\Documents\Poli\ProgrammazioneSistema\Malnati\Progetto\FolderSynchService\FolderSynchWPFClient\obj\Release\App.baml
