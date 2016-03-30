@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 
 namespace FolderSynchMUIClient
 {
@@ -21,6 +22,7 @@ namespace FolderSynchMUIClient
 
             // first, open connection with the service
             FolderSynchProxy = new FolderSynchService.FolderSynchServiceClient();
+            Application.Current.Resources["ButtonBackgroundHover"] = Brushes.AliceBlue;
 
             // opening the main window
             MainWindow mw = new MainWindow();

@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\Unieuro\Documents\Poli\ProgrammazioneSistema\Malnati\Progetto\FolderSynchService\FolderSynchMUIClient\obj\Release\
+C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchMUIClient\obj\Release\
 FolderSynchMUIClient
 none
 false
 TRACE
-C:\Users\Unieuro\Documents\Poli\ProgrammazioneSistema\Malnati\Progetto\FolderSynchService\FolderSynchMUIClient\App.xaml
-5-1202269702
+C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchMUIClient\App.xaml
+71465700689
 
-92071904381
-151838971859
-MainWindow.xaml;Pages\Settings\About.xaml;Pages\Settings\Appearance.xaml;Pages\Home.xaml;Pages\SettingsPage.xaml;
+11587488241
+15-623624461
+MainWindow.xaml;Pages\LoginPage.xaml;Pages\RegisterPage.xaml;Pages\Settings\About.xaml;Pages\Settings\Appearance.xaml;Pages\Home.xaml;Pages\SettingsPage.xaml;
 
 False
 

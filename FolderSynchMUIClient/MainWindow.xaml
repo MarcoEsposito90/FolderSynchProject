@@ -14,16 +14,25 @@
             </mui:LinkGroup.Links>
         </mui:LinkGroup>
 
-        <mui:LinkGroup DisplayName="settings" GroupKey="settings">
+        <mui:LinkGroup DisplayName="Settings" GroupKey="settings">
             <mui:LinkGroup.Links>
-                <mui:Link DisplayName="software" Source="/Pages/SettingsPage.xaml" />
+                <mui:Link DisplayName="Software" Source="/Pages/SettingsPage.xaml" />
+            </mui:LinkGroup.Links>
+        </mui:LinkGroup>
+
+        <mui:LinkGroup DisplayName="Account" GroupKey="account">
+            <mui:LinkGroup.Links>
+                <mui:Link DisplayName="Login" Source="/Pages/LoginPage.xaml" />
+                <mui:Link DisplayName="Register" Source="/Pages/RegisterPage.xaml" />
             </mui:LinkGroup.Links>
         </mui:LinkGroup>
 
     </mui:ModernWindow.MenuLinkGroups>
 
     <mui:ModernWindow.TitleLinks>
-        <mui:Link DisplayName="settings" Source="/Pages/SettingsPage.xaml" />
+        <mui:Link DisplayName="Home" Source="/Pages/Home.xaml" />
+        <mui:Link DisplayName="Setting" Source="/Pages/SettingsPage.xaml" />
+        <mui:Link DisplayName="Account" Source="/Pages/LoginPage.xaml" />
     </mui:ModernWindow.TitleLinks>
 
 </mui:ModernWindow>

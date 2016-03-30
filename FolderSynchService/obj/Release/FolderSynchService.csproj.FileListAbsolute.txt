@@ -3,3 +3,9 @@ C:\Users\Unieuro\Documents\Poli\ProgrammazioneSistema\Malnati\Progetto\FolderSyn
 C:\Users\Unieuro\Documents\Poli\ProgrammazioneSistema\Malnati\Progetto\FolderSynchService\FolderSynchService\bin\Release\FolderSynchService.pdb
 C:\Users\Unieuro\Documents\Poli\ProgrammazioneSistema\Malnati\Progetto\FolderSynchService\FolderSynchService\obj\Release\FolderSynchService.dll
 C:\Users\Unieuro\Documents\Poli\ProgrammazioneSistema\Malnati\Progetto\FolderSynchService\FolderSynchService\obj\Release\FolderSynchService.pdb
+C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchService\bin\Release\FolderSynchService.dll.config
+C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchService\bin\Release\FolderSynchService.dll
+C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchService\bin\Release\FolderSynchService.pdb
+C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchService\obj\Release\FolderSynchService.csprojResolveAssemblyReference.cache
+C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchService\obj\Release\FolderSynchService.dll
+C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchService\obj\Release\FolderSynchService.pdb
