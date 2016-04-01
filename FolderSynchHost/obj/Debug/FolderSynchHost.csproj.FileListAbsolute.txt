@@ -1,8 +1,0 @@
-C:\Users\Unieuro\Documents\Poli\ProgrammazioneSistema\Malnati\Progetto\FolderSynchService\FolderSynchHost\bin\Debug\FolderSynchHost.exe.config
-C:\Users\Unieuro\Documents\Poli\ProgrammazioneSistema\Malnati\Progetto\FolderSynchService\FolderSynchHost\bin\Debug\FolderSynchHost.exe
-C:\Users\Unieuro\Documents\Poli\ProgrammazioneSistema\Malnati\Progetto\FolderSynchService\FolderSynchHost\bin\Debug\FolderSynchHost.pdb
-C:\Users\Unieuro\Documents\Poli\ProgrammazioneSistema\Malnati\Progetto\FolderSynchService\FolderSynchHost\bin\Debug\FolderSynchService.dll
-C:\Users\Unieuro\Documents\Poli\ProgrammazioneSistema\Malnati\Progetto\FolderSynchService\FolderSynchHost\bin\Debug\FolderSynchService.pdb
-C:\Users\Unieuro\Documents\Poli\ProgrammazioneSistema\Malnati\Progetto\FolderSynchService\FolderSynchHost\obj\Debug\FolderSynchHost.csprojResolveAssemblyReference.cache
-C:\Users\Unieuro\Documents\Poli\ProgrammazioneSistema\Malnati\Progetto\FolderSynchService\FolderSynchHost\obj\Debug\FolderSynchHost.exe
-C:\Users\Unieuro\Documents\Poli\ProgrammazioneSistema\Malnati\Progetto\FolderSynchService\FolderSynchHost\obj\Debug\FolderSynchHost.pdb
