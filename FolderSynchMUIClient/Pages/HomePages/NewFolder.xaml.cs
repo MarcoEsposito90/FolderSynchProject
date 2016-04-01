@@ -36,5 +36,10 @@ namespace FolderSynchMUIClient.Pages.HomePages
                 choosedFolderPathEditor.Text = openFolderDialog.FileName.ToString();
             }
         }
+
+        private void btnSynchFolder_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

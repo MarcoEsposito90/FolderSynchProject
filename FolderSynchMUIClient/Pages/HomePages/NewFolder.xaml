@@ -9,13 +9,16 @@
     <Grid Style="{StaticResource ContentRoot}">
         <ScrollViewer>
             <StackPanel MinWidth="200">
-                <TextBlock Text="New Folder" Style="{StaticResource Heading2}" />
+                <TextBlock Text="NEW FOLDER" Style="{StaticResource Heading2}" />
                 <TextBlock Margin="10" TextWrapping="Wrap" Text="Would you like to synchronize a new folder? By selecting a folder in your filesystem, a remote version of it will be created." />
                 <WrapPanel HorizontalAlignment="left" DockPanel.Dock="Top" Margin="10,0,0,10">
                     <TextBlock Text="Select a folder: " VerticalAlignment="Center"/>
-                    <Button Name="btnBrowseFolder" Click="btnBrowseFolder_Click" Margin="10,0,0,0">Browse</Button>
+                    <Button Name="btnBrowseFolder" Click="btnBrowseFolder_Click" Margin="10,0,0,0" Style="{StaticResource BaseButtonStyle}">Browse</Button>
                 </WrapPanel>
-                <TextBox Name="choosedFolderPathEditor" />
+                <TextBox Name="choosedFolderPathEditor" IsEnabled="False" Foreground="Black" Margin="10,0,10,0"/>
+                <WrapPanel HorizontalAlignment="Center" DockPanel.Dock="Top">
+                    <Button Name="btnSynchFolder" Click="btnSynchFolder_Click" Margin="10"  Style="{StaticResource BaseButtonStyle}">Synchronize this folder</Button>
+                </WrapPanel>
             </StackPanel>
         </ScrollViewer>
     </Grid>

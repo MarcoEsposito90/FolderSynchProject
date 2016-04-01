@@ -27,7 +27,6 @@ C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchMUIClient\b
 C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchMUIClient\bin\Release\FolderSynchMUIClient.pdb
 C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchMUIClient\bin\Release\FirstFloor.ModernUI.dll
 C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchMUIClient\bin\Release\FirstFloor.ModernUI.xml
-C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchMUIClient\obj\Release\FolderSynchMUIClient.csprojResolveAssemblyReference.cache
 C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchMUIClient\obj\Release\MainWindow.baml
 C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchMUIClient\obj\Release\Pages\Settings\About.baml
 C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchMUIClient\obj\Release\Pages\Settings\Appearance.baml
@@ -54,3 +53,7 @@ C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchMUIClient\b
 C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchMUIClient\bin\Release\Microsoft.WindowsAPICodePack.Shell.dll
 C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchMUIClient\bin\Release\Microsoft.WindowsAPICodePack.xml
 C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchMUIClient\bin\Release\Microsoft.WindowsAPICodePack.Shell.xml
+C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchMUIClient\obj\Release\GeneratedInternalTypeHelper.g.cs
+C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchMUIClient\obj\Release\FolderSynchMUIClient_MarkupCompile.lref
+C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchMUIClient\obj\Release\Pages\TabBrowseWindow.g.cs
+C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchMUIClient\obj\Release\Pages\TabBrowseWindow.baml
