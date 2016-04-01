@@ -4,31 +4,37 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FolderSynchService;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace FolderSynchHost
 {
     class FolderSynchService : IFolderSynchService
     {
-        public static int requestNumber = 0;
-        public static bool boolValue = true;
-
-        public string DoWork()
+        public bool RegisterNewUser(string username, string password)
         {
-            requestNumber++;
-            Console.WriteLine("DoWork called");
-            return "you asked to execute DoWork at: " + DateTime.Now.ToString();
-        }
+            string usersFilePath;
 
-        public int DoWork2()
-        {
-            Console.WriteLine("DoWork2 called");
-            return ++requestNumber;
-        }
+            try
+            {
+                usersFilePath = FolderSynchServer.Instance.UsersFile;
 
-        public bool DoWork3()
-        {
-            boolValue = !boolValue;
-            return boolValue;
+                using (StreamReader sr = new StreamReader(usersFilePath))
+                {
+
+                    string fileContent = sr.ReadToEnd();
+                    Console.WriteLine(fileContent);
+                    return true;
+                }
+
+
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+
         }
     }
 }

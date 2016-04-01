@@ -12,12 +12,7 @@ namespace FolderSynchService
     public interface IFolderSynchService
     {
         [OperationContract]
-        string DoWork();
+        bool RegisterNewUser(string username, string password);
 
-        [OperationContract]
-        int DoWork2();
-
-        [OperationContract]
-        bool DoWork3();
     }
 }

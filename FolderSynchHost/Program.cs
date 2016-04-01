@@ -4,13 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ServiceModel;
+using System.IO;
 
 namespace FolderSynchHost
 {
     class Program
     {
+
         static void Main(string[] args)
         {
+            /* ---------------------------------------------------------------- */
+            /* ------------------ STARTUP ------------------------------------- */
+            /* ---------------------------------------------------------------- */
+
+            FolderSynchServer server = FolderSynchServer.Instance;
+            server.Startup();
 
 
             /*  NOTE:
@@ -25,6 +33,7 @@ namespace FolderSynchHost
                 {
 
                     // open the service to make it available. After that, it will react to clients' requests
+                    Console.WriteLine("Opening host...");
                     host.Open();
                     Console.WriteLine("Host running and service available");
                     Console.WriteLine("press enter to stop");
@@ -32,13 +41,13 @@ namespace FolderSynchHost
                     Console.ReadLine();
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
 
                 System.Console.WriteLine("excepion caught: " + e.GetType());
                 Console.ReadLine();
             }
-            
+
 
         }
     }
