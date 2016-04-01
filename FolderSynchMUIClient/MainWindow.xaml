@@ -4,13 +4,13 @@
         xmlns:mui="http://firstfloorsoftware.com/ModernUI"
         Title="FolderSynch" IsTitleVisible="True"
         LogoData=""
-        ContentSource="/Pages/Home.xaml">
+        ContentSource="/Pages/HomePage.xaml">
 
     <mui:ModernWindow.MenuLinkGroups>
 
         <mui:LinkGroup DisplayName="welcome">
             <mui:LinkGroup.Links>
-                <mui:Link DisplayName="home" Source="/Pages/Home.xaml" />
+                <mui:Link DisplayName="home" Source="/Pages/HomePage.xaml" />
             </mui:LinkGroup.Links>
         </mui:LinkGroup>
 
@@ -30,7 +30,7 @@
     </mui:ModernWindow.MenuLinkGroups>
 
     <mui:ModernWindow.TitleLinks>
-        <mui:Link DisplayName="Home" Source="/Pages/Home.xaml" />
+        <mui:Link DisplayName="Home" Source="/Pages/HomePage.xaml" />
         <mui:Link DisplayName="Setting" Source="/Pages/SettingsPage.xaml" />
         <mui:Link DisplayName="Account" Source="/Pages/LoginPage.xaml" />
     </mui:ModernWindow.TitleLinks>

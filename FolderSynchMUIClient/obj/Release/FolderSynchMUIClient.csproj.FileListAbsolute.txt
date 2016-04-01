@@ -31,13 +31,11 @@ C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchMUIClient\o
 C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchMUIClient\obj\Release\MainWindow.baml
 C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchMUIClient\obj\Release\Pages\Settings\About.baml
 C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchMUIClient\obj\Release\Pages\Settings\Appearance.baml
-C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchMUIClient\obj\Release\Pages\Home.baml
 C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchMUIClient\obj\Release\Pages\SettingsPage.baml
 C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchMUIClient\obj\Release\App.baml
 C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchMUIClient\obj\Release\MainWindow.g.cs
 C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchMUIClient\obj\Release\Pages\Settings\About.g.cs
 C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchMUIClient\obj\Release\Pages\Settings\Appearance.g.cs
-C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchMUIClient\obj\Release\Pages\Home.g.cs
 C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchMUIClient\obj\Release\Pages\SettingsPage.g.cs
 C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchMUIClient\obj\Release\App.g.cs
 C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchMUIClient\obj\Release\FolderSynchMUIClient_MarkupCompile.cache
@@ -46,3 +44,9 @@ C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchMUIClient\o
 C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchMUIClient\obj\Release\Pages\RegisterPage.baml
 C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchMUIClient\obj\Release\Pages\LoginPage.g.cs
 C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchMUIClient\obj\Release\Pages\RegisterPage.g.cs
+C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchMUIClient\obj\Release\Pages\HomePage.baml
+C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchMUIClient\obj\Release\Pages\HomePages\MyFolders.baml
+C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchMUIClient\obj\Release\Pages\HomePages\NewFolder.baml
+C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchMUIClient\obj\Release\Pages\HomePage.g.cs
+C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchMUIClient\obj\Release\Pages\HomePages\MyFolders.g.cs
+C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchMUIClient\obj\Release\Pages\HomePages\NewFolder.g.cs

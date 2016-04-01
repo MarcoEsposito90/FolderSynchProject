@@ -10,11 +10,11 @@ none
 false
 TRACE
 C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchMUIClient\App.xaml
-71465700689
+91450988209
 
-11587488241
+131734514709
 15-623624461
-MainWindow.xaml;Pages\LoginPage.xaml;Pages\RegisterPage.xaml;Pages\Settings\About.xaml;Pages\Settings\Appearance.xaml;Pages\Home.xaml;Pages\SettingsPage.xaml;
+MainWindow.xaml;Pages\HomePage.xaml;Pages\HomePages\MyFolders.xaml;Pages\HomePages\NewFolder.xaml;Pages\LoginPage.xaml;Pages\RegisterPage.xaml;Pages\Settings\About.xaml;Pages\Settings\Appearance.xaml;Pages\SettingsPage.xaml;
 
 False
 

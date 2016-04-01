@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="FolderSynchMUIClient.Pages.HomePages.NewFolder"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid Style="{StaticResource ContentRoot}">
+        <ScrollViewer>
+            <StackPanel MinWidth="200">
+                <TextBlock Text="New Folder" Style="{StaticResource Heading2}" />
+                <TextBlock Margin="10" TextWrapping="Wrap" Text="Would you like to synchronize a new folder? By selecting a folder in your filesystem, a remote version of it will be created." />
+                <WrapPanel HorizontalAlignment="left" DockPanel.Dock="Top" Margin="10,0,0,10">
+                    <TextBlock Text="Select a folder: " VerticalAlignment="Center"/>
+                    <Button Name="btnBrowseFolder" Click="btnBrowseFolder_Click" Margin="10,0,0,0">Browse</Button>
+                </WrapPanel>
+                <TextBox Name="choosedFolderPathEditor" />
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

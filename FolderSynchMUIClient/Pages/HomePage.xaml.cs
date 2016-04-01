@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace FolderSynchMUIClient.Pages
 {
     /// <summary>
-    /// Interaction logic for Home.xaml
+    /// Interaction logic for HomePage.xaml
     /// </summary>
-    public partial class Home : UserControl
+    public partial class HomePage : UserControl
     {
-        public Home()
+        public HomePage()
         {
             InitializeComponent();
         }
