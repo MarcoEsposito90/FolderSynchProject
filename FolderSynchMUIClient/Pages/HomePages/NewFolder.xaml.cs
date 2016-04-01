@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace FolderSynchMUIClient.Pages.HomePages
 {
@@ -27,7 +28,13 @@ namespace FolderSynchMUIClient.Pages.HomePages
 
         private void btnBrowseFolder_Click(object sender, RoutedEventArgs e)
         {
+            var openFolderDialog = new CommonOpenFileDialog();
+            openFolderDialog.IsFolderPicker = true;
 
+            if (openFolderDialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                choosedFolderPathEditor.Text = openFolderDialog.FileName.ToString();
+            }
         }
     }
 }

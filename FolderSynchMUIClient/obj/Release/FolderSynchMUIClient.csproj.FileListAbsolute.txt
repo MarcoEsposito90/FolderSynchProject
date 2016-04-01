@@ -50,3 +50,7 @@ C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchMUIClient\o
 C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchMUIClient\obj\Release\Pages\HomePage.g.cs
 C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchMUIClient\obj\Release\Pages\HomePages\MyFolders.g.cs
 C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchMUIClient\obj\Release\Pages\HomePages\NewFolder.g.cs
+C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchMUIClient\bin\Release\Microsoft.WindowsAPICodePack.dll
+C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchMUIClient\bin\Release\Microsoft.WindowsAPICodePack.Shell.dll
+C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchMUIClient\bin\Release\Microsoft.WindowsAPICodePack.xml
+C:\Users\Giulia Genta\Documents\GitHub\FolderSynchProject\FolderSynchMUIClient\bin\Release\Microsoft.WindowsAPICodePack.Shell.xml
