@@ -90,6 +90,15 @@
     <Compile Include="Pages\TabBrowseWindow.xaml.cs">
       <DependentUpon>TabBrowseWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\TabDetailsWindow.xaml.cs">
+      <DependentUpon>TabDetailsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\TabHistoryWindow.xaml.cs">
+      <DependentUpon>TabHistoryWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\TabOptionsWindow.xaml.cs">
+      <DependentUpon>TabOptionsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Service References\FolderSynchService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -147,6 +156,18 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Page Include="Pages\TabBrowseWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\TabDetailsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\TabHistoryWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\TabOptionsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

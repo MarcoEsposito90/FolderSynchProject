@@ -13,55 +13,14 @@
             <StackPanel MinWidth="200">
                 <TextBlock Text="MY FOLDERS" Style="{StaticResource Heading2}" />
                 <StackPanel>
-                    <TabControl Margin="0,5,0,0">
-                        <TabItem Header="Detalis" Width="60">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="1*"/>
-                                    <ColumnDefinition Width="2*"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="1*"/>
-                                    <RowDefinition Height="1*"/>
-                                    <RowDefinition Height="1*"/>
-                                    <RowDefinition Height="1*"/>
-                                    <RowDefinition Height="1*"/>
-                                </Grid.RowDefinitions>
-                                <TextBlock Text="Folder details:" Grid.ColumnSpan="2" Grid.Row="0" Style="{StaticResource ModernWindowTitle}" Margin="5,10,10,0"/>
-                                <TextBlock Text="Path: " HorizontalAlignment="Right" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" Margin="10,10,10,10"/>
-                                <TextBlock Name="TBFolderDetails_Path" Text="C://folder/path" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="0,10,30,10"/>
-                                <TextBlock Text="Synched at: " HorizontalAlignment="Right" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" Margin="10,10,10,10"/>
-                                <TextBlock Name="TBFolderDetails_SynchDate" Text="dd/MM/yyyy"  Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" Margin="0,10,30,10"/>
-                                <TextBlock Text="Files count: " HorizontalAlignment="Right" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" Margin="10,10,10,10"/>
-                                <TextBlock Name="TBFolderDetails_NumFiles" Text="980"  Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" Margin="0,10,30,10"/>
-                                <TextBlock Text="Folder size: " HorizontalAlignment="Right" Grid.Column="0" Grid.Row="4" VerticalAlignment="Center" Margin="10,10,10,10"/>
-                                <TextBlock Name="TBFolderDetails_Size" Text="2.65 GB"  Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" Margin="0,10,30,10"/>
-                            </Grid>
-                        </TabItem>
-                        <TabItem Header="Browse" Width="60">
-                            <TreeView Name="trvFolders">
-                                <TreeView.Resources>
-                                    <HierarchicalDataTemplate DataType="{x:Type local:Folder}" ItemsSource="{Binding Items}">
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="{Binding Name}" />
-                                            <TextBlock Text=" [" Foreground="Blue" />
-                                            <TextBlock Text="{Binding Path}" Foreground="Blue" />
-                                            <TextBlock Text="]" Foreground="Blue" />
-                                        </StackPanel>
-                                    </HierarchicalDataTemplate>
-                                    <DataTemplate DataType="{x:Type local:FileItem}">
-                                        <StackPanel Orientation="Horizontal">
-                                           <TextBlock Text="{Binding Name}" />
-                                            <TextBlock Text=" (" Foreground="Green" />
-                                            <TextBlock Text="{Binding Path}" Foreground="Green" />
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </TreeView.Resources>
-                            </TreeView>
-                        </TabItem>
-                        <TabItem Header="History" Width="60"/>
-                        <TabItem Header="Options" Width="60"/>
-                    </TabControl>
+                    <mui:ModernTab>
+                        <mui:ModernTab.Links>
+                            <mui:Link DisplayName="Details" Source="/Pages/TabDetailsWindow.xaml" />
+                            <mui:Link DisplayName="Browse" Source="/Pages/TabBrowseWindow.xaml" />
+                            <mui:Link DisplayName="History" Source="/Pages/TabHistoryWindow.xaml" />
+                            <mui:Link DisplayName="Options" Source="/Pages/TabOptionsWindow.xaml" />
+                        </mui:ModernTab.Links>
+                    </mui:ModernTab>
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>

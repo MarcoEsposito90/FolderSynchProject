@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,16 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace FolderSynchMUIClient.Pages.HomePages
+namespace FolderSynchMUIClient.Pages
 {
     /// <summary>
-    /// Interaction logic for MyFolders.xaml
+    /// Interaction logic for TabDetailsWindow.xaml
     /// </summary>
-    public partial class MyFolders : UserControl
+    public partial class TabDetailsWindow : UserControl
     {
-        public MyFolders()
+        public TabDetailsWindow()
         {
             InitializeComponent();
-        } 
+        }
     }
 }
