@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="Sbri9TdWlrFW17kZ2iS4Kw0Xdd8=">
+<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="R+dhIivxgRcLBPy6tQPUgxdXX50=">
   <bindingConfigurations>
     <bindingConfiguration bindingType="netTcpBinding" name="serviceTcpEndpoint">
       <properties>
@@ -121,7 +121,7 @@
     </bindingConfiguration>
   </bindingConfigurations>
   <endpoints>
-    <endpoint name="serviceTcpEndpoint" contract="FolderSynchService.IFolderSynchService" bindingType="netTcpBinding" address="net.tcp://localhost:8090/FolderSynchService" bindingConfiguration="serviceTcpEndpoint">
+    <endpoint name="serviceTcpEndpoint" contract="FolderSynchService.FolderSynchServiceContract" bindingType="netTcpBinding" address="net.tcp://localhost:8090/FolderSynchService" bindingConfiguration="serviceTcpEndpoint">
       <properties>
         <property path="/address" isComplexType="false" isExplicitlyDefined="true" clrType="System.Uri, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue>net.tcp://localhost:8090/FolderSynchService</serializedValue>
@@ -136,7 +136,7 @@
           <serializedValue>serviceTcpEndpoint</serializedValue>
         </property>
         <property path="/contract" isComplexType="false" isExplicitlyDefined="true" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>FolderSynchService.IFolderSynchService</serializedValue>
+          <serializedValue>FolderSynchService.FolderSynchServiceContract</serializedValue>
         </property>
         <property path="/headers" isComplexType="true" isExplicitlyDefined="false" clrType="System.ServiceModel.Configuration.AddressHeaderCollectionElement, System.ServiceModel, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue>System.ServiceModel.Configuration.AddressHeaderCollectionElement</serializedValue>

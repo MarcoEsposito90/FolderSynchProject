@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FolderSynchService;
+using Newtonsoft.Json;
 
 namespace FolderSynchHost
 {
@@ -38,7 +41,8 @@ namespace FolderSynchHost
                 if (!IsInitialized)
                     throw new Exception("The server is not initialized yet");
 
-                return USERS_FILE_RELATIVE_PATH;
+                string docsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                return docsFolder + USERS_FILE_RELATIVE_PATH;
             }
             private set { }
         }
@@ -85,7 +89,13 @@ namespace FolderSynchHost
 
             if (!File.Exists(docsFolder + USERS_FILE_RELATIVE_PATH))
             {
-                File.Create(docsFolder + USERS_FILE_RELATIVE_PATH);
+
+                // create file and write empty list
+                StreamWriter sw = new StreamWriter(docsFolder + USERS_FILE_RELATIVE_PATH);
+                List<User> users = new List<User>();
+                string output = JsonConvert.SerializeObject(users);
+                sw.WriteLine(output);
+                sw.Close();
             }
 
             IsInitialized = true;

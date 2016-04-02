@@ -8,11 +8,12 @@ using System.Threading.Tasks;
 namespace FolderSynchService
 {
     [DataContract]
-    class User
+    public class User
     {
 
         /* -------------- PROPERTIES -------------------------*/
 
+        [DataMember]
         public string Password
         {
             get;

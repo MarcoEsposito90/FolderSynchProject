@@ -12,77 +12,49 @@ namespace FolderSynchMUIClient.FolderSynchService {
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="FolderSynchService.IFolderSynchService")]
-    public interface IFolderSynchService {
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="FolderSynchService.FolderSynchServiceContract")]
+    public interface FolderSynchServiceContract {
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFolderSynchService/DoWork", ReplyAction="http://tempuri.org/IFolderSynchService/DoWorkResponse")]
-        string DoWork();
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/FolderSynchServiceContract/RegisterNewUser", ReplyAction="http://tempuri.org/FolderSynchServiceContract/RegisterNewUserResponse")]
+        bool RegisterNewUser(string username, string password);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFolderSynchService/DoWork", ReplyAction="http://tempuri.org/IFolderSynchService/DoWorkResponse")]
-        System.Threading.Tasks.Task<string> DoWorkAsync();
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFolderSynchService/DoWork2", ReplyAction="http://tempuri.org/IFolderSynchService/DoWork2Response")]
-        int DoWork2();
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFolderSynchService/DoWork2", ReplyAction="http://tempuri.org/IFolderSynchService/DoWork2Response")]
-        System.Threading.Tasks.Task<int> DoWork2Async();
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFolderSynchService/DoWork3", ReplyAction="http://tempuri.org/IFolderSynchService/DoWork3Response")]
-        bool DoWork3();
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFolderSynchService/DoWork3", ReplyAction="http://tempuri.org/IFolderSynchService/DoWork3Response")]
-        System.Threading.Tasks.Task<bool> DoWork3Async();
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/FolderSynchServiceContract/RegisterNewUser", ReplyAction="http://tempuri.org/FolderSynchServiceContract/RegisterNewUserResponse")]
+        System.Threading.Tasks.Task<bool> RegisterNewUserAsync(string username, string password);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface IFolderSynchServiceChannel : FolderSynchMUIClient.FolderSynchService.IFolderSynchService, System.ServiceModel.IClientChannel {
+    public interface FolderSynchServiceContractChannel : FolderSynchMUIClient.FolderSynchService.FolderSynchServiceContract, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class FolderSynchServiceClient : System.ServiceModel.ClientBase<FolderSynchMUIClient.FolderSynchService.IFolderSynchService>, FolderSynchMUIClient.FolderSynchService.IFolderSynchService {
+    public partial class FolderSynchServiceContractClient : System.ServiceModel.ClientBase<FolderSynchMUIClient.FolderSynchService.FolderSynchServiceContract>, FolderSynchMUIClient.FolderSynchService.FolderSynchServiceContract {
         
-        public FolderSynchServiceClient() {
+        public FolderSynchServiceContractClient() {
         }
         
-        public FolderSynchServiceClient(string endpointConfigurationName) : 
+        public FolderSynchServiceContractClient(string endpointConfigurationName) : 
                 base(endpointConfigurationName) {
         }
         
-        public FolderSynchServiceClient(string endpointConfigurationName, string remoteAddress) : 
+        public FolderSynchServiceContractClient(string endpointConfigurationName, string remoteAddress) : 
                 base(endpointConfigurationName, remoteAddress) {
         }
         
-        public FolderSynchServiceClient(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
+        public FolderSynchServiceContractClient(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(endpointConfigurationName, remoteAddress) {
         }
         
-        public FolderSynchServiceClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
+        public FolderSynchServiceContractClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(binding, remoteAddress) {
         }
         
-        public string DoWork() {
-            return base.Channel.DoWork();
+        public bool RegisterNewUser(string username, string password) {
+            return base.Channel.RegisterNewUser(username, password);
         }
         
-        public System.Threading.Tasks.Task<string> DoWorkAsync() {
-            return base.Channel.DoWorkAsync();
-        }
-        
-        public int DoWork2() {
-            return base.Channel.DoWork2();
-        }
-        
-        public System.Threading.Tasks.Task<int> DoWork2Async() {
-            return base.Channel.DoWork2Async();
-        }
-        
-        public bool DoWork3() {
-            return base.Channel.DoWork3();
-        }
-        
-        public System.Threading.Tasks.Task<bool> DoWork3Async() {
-            return base.Channel.DoWork3Async();
+        public System.Threading.Tasks.Task<bool> RegisterNewUserAsync(string username, string password) {
+            return base.Channel.RegisterNewUserAsync(username, password);
         }
     }
 }

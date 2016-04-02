@@ -49,7 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FolderSynchServer.cs" />
-    <Compile Include="FolderSynchService.cs" />
+    <Compile Include="FolderSynchServiceImplementation.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

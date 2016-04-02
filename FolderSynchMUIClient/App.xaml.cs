@@ -12,16 +12,16 @@ namespace FolderSynchMUIClient
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class FolderSynchApplication : Application
+    public partial class App : Application
     {
-        public static FolderSynchService.FolderSynchServiceClient FolderSynchProxy;
+        public static FolderSynchService.FolderSynchServiceContractClient FolderSynchProxy;
 
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
 
             // first, open connection with the service
-            FolderSynchProxy = new FolderSynchService.FolderSynchServiceClient();
+            FolderSynchProxy = new FolderSynchService.FolderSynchServiceContractClient();
             Application.Current.Resources["ButtonBackgroundHover"] = Brushes.AliceBlue;
 
             // opening the main window

@@ -9,7 +9,7 @@ namespace FolderSynchService
 {
 
     [ServiceContract]
-    public interface IFolderSynchService
+    public interface FolderSynchServiceContract
     {
         [OperationContract]
         bool RegisterNewUser(string username, string password);
