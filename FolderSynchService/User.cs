@@ -14,14 +14,14 @@ namespace FolderSynchService
         /* -------------- PROPERTIES -------------------------*/
 
         [DataMember]
-        public string Password
+        public string Username
         {
             get;
             private set;
         }
 
         [DataMember]
-        public string Username
+        public string Password
         {
             get;
             private set;
