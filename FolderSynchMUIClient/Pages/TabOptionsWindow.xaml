@@ -9,7 +9,7 @@
     <Grid Style="{StaticResource ContentRoot}">
         <ScrollViewer>
             <StackPanel MinWidth="200">
-                <TextBlock Text="BASIC PAGE" Style="{StaticResource Heading2}" />
+                <TextBlock Text="OPTIONS" Style="{StaticResource Heading2}" />
                 <TextBlock Text="Content goes here" />
             </StackPanel>
         </ScrollViewer>

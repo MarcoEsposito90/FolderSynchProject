@@ -28,7 +28,7 @@ namespace FolderSynchMUIClient.Pages
         private void ButtonRegister_Click(object sender, RoutedEventArgs e)
         {
             Console.WriteLine("Registering user: " + TBRegisterUsername.Text.ToString());
-            bool success = App.FolderSynchProxy.RegisterNewUser(TBRegisterUsername.Text.ToString(), TBRegisterPassword.Text.ToString());
+            bool success = App.FolderSynchProxy.RegisterNewUser(TBRegisterUsername.Text.ToString(), TBRegisterPassword.Password.ToString());
 
             Console.WriteLine("registration answered: " + success);
         }

@@ -13,7 +13,7 @@
             <StackPanel MinWidth="200">
                 <TextBlock Text="MY FOLDERS" Style="{StaticResource Heading2}" />
                 <StackPanel>
-                    <mui:ModernTab>
+                    <mui:ModernTab Margin="10,30,10,10">
                         <mui:ModernTab.Links>
                             <mui:Link DisplayName="Details" Source="/Pages/TabDetailsWindow.xaml" />
                             <mui:Link DisplayName="Browse" Source="/Pages/TabBrowseWindow.xaml" />

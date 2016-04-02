@@ -23,7 +23,7 @@
                     <TextBox Name="TBLoginUsername" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Margin="0,10,30,10"/>
 
                     <TextBlock Text="Password: " Style="{StaticResource ModernWindowTitle}" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" Margin="30,10,10,10"/>
-                    <TextBox Name="TBLoginPassword" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="0,10,30,10"/>
+                    <PasswordBox Name="TBLoginPassword" PasswordChar="*" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="0,10,30,10"/>
 
                 </Grid>
 
