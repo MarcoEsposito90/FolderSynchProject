@@ -12,7 +12,8 @@ namespace FolderSynchService
     public interface FolderSynchServiceContract
     {
         [OperationContract]
-        bool RegisterNewUser(string username, string password);
+        [FaultContract(typeof(RegistrationFault))]
+        void RegisterNewUser(string username, string password);
 
     }
 }

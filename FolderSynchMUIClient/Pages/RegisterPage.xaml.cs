@@ -1,6 +1,8 @@
-﻿using System;
+﻿using FolderSynchService;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -27,10 +29,28 @@ namespace FolderSynchMUIClient.Pages
 
         private void ButtonRegister_Click(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine("Registering user: " + TBRegisterUsername.Text.ToString());
-            bool success = App.FolderSynchProxy.RegisterNewUser(TBRegisterUsername.Text.ToString(), TBRegisterPassword.Password.ToString());
+            if (TBRegisterPassword.Password.Equals(TBRegisterConfirmPassword.Password))
+            {
+                Console.WriteLine("Registering user: " + TBRegisterUsername.Text.ToString());
 
-            Console.WriteLine("registration answered: " + success);
+                try
+                {
+                    App.FolderSynchProxy.RegisterNewUser(TBRegisterUsername.Text.ToString(), TBRegisterPassword.Password.ToString());
+                    ResponseLabel.Content = "Registration successful";
+                }
+                catch(FaultException f)
+                {
+
+                    ResponseLabel.Content = "Error: " + f.Message;
+                }
+
+            }
+            else
+            {
+                ResponseLabel.Content = "the passwords don't match";
+            }
+
+
         }
     }
 }

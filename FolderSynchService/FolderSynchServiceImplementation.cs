@@ -8,9 +8,9 @@ namespace FolderSynchService
 {
     public class FolderSynchServiceImplementation : FolderSynchServiceContract
     {
-        public bool RegisterNewUser(string username, string password)
+        public void RegisterNewUser(string username, string password)
         {
-            return FolderSynchServer.Instance.registerNewUser(username, password);
+            FolderSynchServer.Instance.registerNewUser(username, password);
         }
     }
 }

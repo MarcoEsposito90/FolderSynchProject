@@ -51,6 +51,7 @@
     <Compile Include="FolderSynchServiceContract.cs" />
     <Compile Include="FolderSynchServiceImplementation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RegistrationFault.cs" />
     <Compile Include="User.cs" />
   </ItemGroup>
   <ItemGroup>

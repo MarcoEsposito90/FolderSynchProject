@@ -16,10 +16,10 @@ namespace FolderSynchMUIClient.FolderSynchService {
     public interface FolderSynchServiceContract {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/FolderSynchServiceContract/RegisterNewUser", ReplyAction="http://tempuri.org/FolderSynchServiceContract/RegisterNewUserResponse")]
-        bool RegisterNewUser(string username, string password);
+        void RegisterNewUser(string username, string password);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/FolderSynchServiceContract/RegisterNewUser", ReplyAction="http://tempuri.org/FolderSynchServiceContract/RegisterNewUserResponse")]
-        System.Threading.Tasks.Task<bool> RegisterNewUserAsync(string username, string password);
+        System.Threading.Tasks.Task RegisterNewUserAsync(string username, string password);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -49,11 +49,11 @@ namespace FolderSynchMUIClient.FolderSynchService {
                 base(binding, remoteAddress) {
         }
         
-        public bool RegisterNewUser(string username, string password) {
-            return base.Channel.RegisterNewUser(username, password);
+        public void RegisterNewUser(string username, string password) {
+            base.Channel.RegisterNewUser(username, password);
         }
         
-        public System.Threading.Tasks.Task<bool> RegisterNewUserAsync(string username, string password) {
+        public System.Threading.Tasks.Task RegisterNewUserAsync(string username, string password) {
             return base.Channel.RegisterNewUserAsync(username, password);
         }
     }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.IO;
+using System.ServiceModel;
 
 namespace FolderSynchService
 {
@@ -64,8 +65,8 @@ namespace FolderSynchService
         /* ------------------ METHODS ------------------------------------- */
         /* ---------------------------------------------------------------- */
 
-        /* startup is in charge to check if all host application files are available 
-           and create them otherwise */
+        /* startup is in charge to check if all host application files are available --------
+           and create them otherwise  ------------------------------------------------------- */
         public void Startup()
         {
             string docsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
@@ -96,83 +97,77 @@ namespace FolderSynchService
         }
 
 
-        /*  this method is in charge of registrating a new user */
-        public bool registerNewUser(string username, string password)
+        /*  ------------- this method is in charge of registrating a new user --------------- */
+        public void registerNewUser(string username, string password)
         {
-
+            // check if server has startupped ----------------
             if (!IsInitialized)
             {
                 Console.WriteLine("Trying to register a user on an uninitalized server");
-                return false;
+                throw new FaultException<RegistrationFault>(new RegistrationFault(RegistrationFault.SERVER_ERROR));
             }
 
-            try
+            // open users file ------------------------
+            StreamReader sr = new StreamReader(this.UsersFile);
+            string fileContent = sr.ReadToEnd();
+            sr.Close();
+
+            Object o = JsonConvert.DeserializeObject(fileContent);
+
+            if (!o.GetType().Equals(typeof(Newtonsoft.Json.Linq.JArray)))
             {
-                StreamReader sr = new StreamReader(this.UsersFile);
-                string fileContent = sr.ReadToEnd();
-                sr.Close();
+                Console.WriteLine("wrong type: " + o.GetType());
+                throw new FaultException<RegistrationFault>(new RegistrationFault(RegistrationFault.SERVER_ERROR));
+            }
 
-                Object o = JsonConvert.DeserializeObject(fileContent);
+            Newtonsoft.Json.Linq.JArray array = (Newtonsoft.Json.Linq.JArray)o;
+            List<User> users = new List<User>();
 
-                if (!o.GetType().Equals(typeof(Newtonsoft.Json.Linq.JArray)))
-                {
-                    Console.WriteLine("wrong type: " + o.GetType());
-                    return false;
-                }
-
-                Newtonsoft.Json.Linq.JArray array = (Newtonsoft.Json.Linq.JArray)o;
-                List<User> users = new List<User>();
-
-                if (array.Count == 0)
-                {
-                    // first user
-                    users.Add(new User(username, password));
-
-                    string output = JsonConvert.SerializeObject(users);
-
-                    StreamWriter sw = new StreamWriter(this.UsersFile);
-                    sw.WriteLine(output);
-                    sw.Close();
-
-                    return true;
-                }
-
-                foreach (Object i in array)
-                {
-                    if (!i.GetType().Equals(typeof(Newtonsoft.Json.Linq.JObject)))
-                    {
-                        Console.WriteLine("Wrong type: " + i.GetType());
-                        return false;
-                    }
-
-
-                    Newtonsoft.Json.Linq.JObject jo = (Newtonsoft.Json.Linq.JObject)i;
-                    User u = (User)jo.ToObject(typeof(User));
-
-                    if (u.Username.Equals(username))
-                    {
-                        Console.WriteLine("registration failed: username not available: " + username);
-                        return false;
-                    }
-
-                    users.Add(u);
-                }
-
+            // first user --------------------------------
+            if (array.Count == 0)
+            {
                 users.Add(new User(username, password));
-                string output2 = JsonConvert.SerializeObject(users);
 
-                StreamWriter sw2 = new StreamWriter(this.UsersFile);
-                sw2.WriteLine(output2);
-                sw2.Close();
+                string output = JsonConvert.SerializeObject(users);
 
-                return true;
+                StreamWriter sw = new StreamWriter(this.UsersFile);
+                sw.WriteLine(output);
+                sw.Close();
 
             }
-            catch (Exception e)
+
+            // check if username is still available ------------
+            foreach (Object i in array)
             {
-                Console.WriteLine("Error in registration: " + e.Message);
-                return false;
+                if (!i.GetType().Equals(typeof(Newtonsoft.Json.Linq.JObject)))
+                {
+                    Console.WriteLine("Wrong type: " + i.GetType());
+                    throw new FaultException<RegistrationFault>(new RegistrationFault(RegistrationFault.SERVER_ERROR));
+                }
+
+
+                Newtonsoft.Json.Linq.JObject jo = (Newtonsoft.Json.Linq.JObject)i;
+                User u = (User)jo.ToObject(typeof(User));
+
+                if (u.Username.Equals(username))
+                {
+                    Console.WriteLine("registration failed; username not available: " + username);
+                    throw new FaultException<RegistrationFault>(new RegistrationFault(RegistrationFault.USERNAME_UNAVAILABLE));
+                }
+
+                users.Add(u);
             }
+
+            // add new user to list -----------------------------
+            users.Add(new User(username, password));
+            string output2 = JsonConvert.SerializeObject(users);
+
+
+            // write to file -----------------------------------
+            StreamWriter sw2 = new StreamWriter(this.UsersFile);
+            sw2.WriteLine(output2);
+            sw2.Close();
+
         }
     }
 }
