@@ -88,16 +88,23 @@ namespace FolderSynchService
 
             if (!Directory.Exists((docsFolder + MAIN_DIRECTORY_RELATIVE_PATH)))
                 Directory.CreateDirectory(docsFolder + MAIN_DIRECTORY_RELATIVE_PATH);
+            Console.WriteLine("main directory ok");
+
 
             if (!Directory.Exists(docsFolder + REMOTE_FOLDERS_RELATIVE_PATH))
                 Directory.CreateDirectory(docsFolder + REMOTE_FOLDERS_RELATIVE_PATH);
+            Console.WriteLine("remotefolders directory ok");
+
 
             UsersFileHandler.Instance.checkUsersFile();
+            Console.WriteLine("users file ok");
+
 
             // 2) initialize users data structures --------------------------
             ConnectedUsers = new List<User>();
             Users = new List<User>();
             UsersFileHandler.Instance.ReadUsersFromFile(Users);
+            Console.WriteLine("users structures ok");
 
 
             IsInitialized = true;
