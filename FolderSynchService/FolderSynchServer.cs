@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 using System.IO;
 using System.ServiceModel;
 
-namespace FolderSynchServiceNamespace
+namespace FolderSynchService
 {
     public class FolderSynchServer
     {

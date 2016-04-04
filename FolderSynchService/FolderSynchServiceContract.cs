@@ -5,13 +5,13 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
 
-namespace FolderSynchServiceNamespace
+namespace FolderSynchService
 {
 
     [ServiceContract (SessionMode = SessionMode.Required)]
     public interface FolderSynchServiceContract
     {
-        [OperationContract(IsInitiating = true, IsTerminating = true)]
+        [OperationContract(IsInitiating = true, IsTerminating = false)]
         [FaultContract(typeof(RegistrationFault))]
         void RegisterNewUser(string username, string password);
 

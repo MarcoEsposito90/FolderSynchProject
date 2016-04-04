@@ -15,7 +15,7 @@ namespace FolderSynchMUIClient.FolderSynchService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="RegistrationFault", Namespace="http://schemas.datacontract.org/2004/07/FolderSynchServiceNamespace")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="RegistrationFault", Namespace="http://schemas.datacontract.org/2004/07/FolderSynchService")]
     [System.SerializableAttribute()]
     public partial class RegistrationFault : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -60,7 +60,7 @@ namespace FolderSynchMUIClient.FolderSynchService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="User", Namespace="http://schemas.datacontract.org/2004/07/FolderSynchServiceNamespace")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="User", Namespace="http://schemas.datacontract.org/2004/07/FolderSynchService")]
     [System.SerializableAttribute()]
     public partial class User : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -121,7 +121,7 @@ namespace FolderSynchMUIClient.FolderSynchService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="LoginFault", Namespace="http://schemas.datacontract.org/2004/07/FolderSynchServiceNamespace")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="LoginFault", Namespace="http://schemas.datacontract.org/2004/07/FolderSynchService")]
     [System.SerializableAttribute()]
     public partial class LoginFault : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -168,16 +168,16 @@ namespace FolderSynchMUIClient.FolderSynchService {
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="FolderSynchService.FolderSynchServiceContract", SessionMode=System.ServiceModel.SessionMode.Required)]
     public interface FolderSynchServiceContract {
         
-        [System.ServiceModel.OperationContractAttribute(IsTerminating=true, Action="http://tempuri.org/FolderSynchServiceContract/RegisterNewUser", ReplyAction="http://tempuri.org/FolderSynchServiceContract/RegisterNewUserResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/FolderSynchServiceContract/RegisterNewUser", ReplyAction="http://tempuri.org/FolderSynchServiceContract/RegisterNewUserResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(FolderSynchMUIClient.FolderSynchService.RegistrationFault), Action="http://tempuri.org/FolderSynchServiceContract/RegisterNewUserRegistrationFaultFau" +
-            "lt", Name="RegistrationFault", Namespace="http://schemas.datacontract.org/2004/07/FolderSynchServiceNamespace")]
+            "lt", Name="RegistrationFault", Namespace="http://schemas.datacontract.org/2004/07/FolderSynchService")]
         void RegisterNewUser(string username, string password);
         
-        [System.ServiceModel.OperationContractAttribute(IsTerminating=true, Action="http://tempuri.org/FolderSynchServiceContract/RegisterNewUser", ReplyAction="http://tempuri.org/FolderSynchServiceContract/RegisterNewUserResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/FolderSynchServiceContract/RegisterNewUser", ReplyAction="http://tempuri.org/FolderSynchServiceContract/RegisterNewUserResponse")]
         System.Threading.Tasks.Task RegisterNewUserAsync(string username, string password);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/FolderSynchServiceContract/loginUser", ReplyAction="http://tempuri.org/FolderSynchServiceContract/loginUserResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(FolderSynchMUIClient.FolderSynchService.LoginFault), Action="http://tempuri.org/FolderSynchServiceContract/loginUserLoginFaultFault", Name="LoginFault", Namespace="http://schemas.datacontract.org/2004/07/FolderSynchServiceNamespace")]
+        [System.ServiceModel.FaultContractAttribute(typeof(FolderSynchMUIClient.FolderSynchService.LoginFault), Action="http://tempuri.org/FolderSynchServiceContract/loginUserLoginFaultFault", Name="LoginFault", Namespace="http://schemas.datacontract.org/2004/07/FolderSynchService")]
         FolderSynchMUIClient.FolderSynchService.User loginUser(string username, string password);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/FolderSynchServiceContract/loginUser", ReplyAction="http://tempuri.org/FolderSynchServiceContract/loginUserResponse")]
