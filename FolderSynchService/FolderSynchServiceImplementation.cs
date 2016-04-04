@@ -9,26 +9,26 @@ namespace FolderSynchService
 {
     [ServiceBehavior(   InstanceContextMode = InstanceContextMode.PerSession,
                         ConcurrencyMode = ConcurrencyMode.Single)]
-
     public class FolderSynchServiceImplementation : FolderSynchServiceContract
     {
+        User currentUser = null;
 
         public User loginUser(string username, string password)
         {
-            Console.WriteLine("login called on service instance = " + this.ToString());
-            return FolderSynchServer.Instance.LoginUser(username, password);
+            currentUser = FolderSynchServer.Instance.LoginUser(username, password);
+            return currentUser;
         }
 
         public void logoutUser(User user)
         {
-            Console.WriteLine("logout called on service instance = " + this.ToString());
             FolderSynchServer.Instance.logoutUser(user);
+            currentUser = null;
         }
 
-        public void RegisterNewUser(string username, string password)
+        public User RegisterNewUser(string username, string password)
         {
-            Console.WriteLine("register called on service instance = " + this.ToString());
-            FolderSynchServer.Instance.registerNewUser(username, password);
+            currentUser = FolderSynchServer.Instance.registerNewUser(username, password);
+            return currentUser;
         }
 
     }

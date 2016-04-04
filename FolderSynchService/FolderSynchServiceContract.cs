@@ -13,7 +13,7 @@ namespace FolderSynchService
     {
         [OperationContract(IsInitiating = true, IsTerminating = false)]
         [FaultContract(typeof(RegistrationFault))]
-        void RegisterNewUser(string username, string password);
+        User RegisterNewUser(string username, string password);
 
         [OperationContract (IsInitiating = true, IsTerminating = false)]
         [FaultContract(typeof(LoginFault))]

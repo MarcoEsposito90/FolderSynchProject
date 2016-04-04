@@ -11,7 +11,9 @@
   </xs:element>
   <xs:element name="RegisterNewUserResponse">
     <xs:complexType>
-      <xs:sequence />
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/FolderSynchService" minOccurs="0" name="RegisterNewUserResult" nillable="true" type="q1:User" />
+      </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="loginUser">
@@ -25,14 +27,14 @@
   <xs:element name="loginUserResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/FolderSynchService" minOccurs="0" name="loginUserResult" nillable="true" type="q1:User" />
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/FolderSynchService" minOccurs="0" name="loginUserResult" nillable="true" type="q2:User" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="logoutUser">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/FolderSynchService" minOccurs="0" name="user" nillable="true" type="q2:User" />
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/FolderSynchService" minOccurs="0" name="user" nillable="true" type="q3:User" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

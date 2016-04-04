@@ -15,19 +15,34 @@ namespace FolderSynchMUIClient
     /// </summary>
     public partial class App : Application
     {
-        public static FolderSynchService.FolderSynchServiceContractClient FolderSynchProxy;
-        public static User currentUser;
+        public FolderSynchServiceContractClient FolderSynchProxy
+        {
+            get;
+            set;
+        }
 
+        public User User
+        {
+            get;
+            set;
+        }
+
+        /* ---------------------------------------------------------------- */
+        /* ------------ CALLBACKS ----------------------------------------- */
+        /* ---------------------------------------------------------------- */
         private void Application_Startup(object sender, StartupEventArgs e)
         {
 
             // first, open connection with the service
-            FolderSynchProxy = new FolderSynchService.FolderSynchServiceContractClient();
+            FolderSynchProxy = new FolderSynchServiceContractClient();
             Application.Current.Resources["ButtonBackgroundHover"] = Brushes.AliceBlue;
 
             // opening the main window
             MainWindow mw = new MainWindow();
             mw.Show();
         }
+
+
+        
     }
 }

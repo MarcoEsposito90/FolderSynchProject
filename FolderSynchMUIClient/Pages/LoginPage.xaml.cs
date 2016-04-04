@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FolderSynchMUIClient.FolderSynchService;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
@@ -30,13 +31,27 @@ namespace FolderSynchMUIClient.Pages
         {
             try
             {
-                App.currentUser = App.FolderSynchProxy.loginUser(TBLoginUsername.Text.ToString(), TBLoginPassword.Password.ToString());
+                App application = (App)Application.Current;
+                FolderSynchServiceContractClient proxy = application.FolderSynchProxy;
+                application.User = proxy.loginUser(TBLoginUsername.Text.ToString(), TBLoginPassword.Password.ToString());
                 responseLabel.Content = "login successful";
             }
             catch(FaultException f)
             {
                 responseLabel.Content = "error: " + f.Message;
             }
+        }
+
+        private void ButtonLogout_Click(object sender, RoutedEventArgs e)
+        {
+            App application = (App)Application.Current;
+
+            if (application.User == null)
+                responseLabel.Content = "must login before logout";
+
+            FolderSynchServiceContractClient proxy = application.FolderSynchProxy;
+            proxy.logoutUser(application.User);
+            application.User = null;
         }
     }
 }

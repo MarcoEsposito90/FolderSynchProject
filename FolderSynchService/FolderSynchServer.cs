@@ -74,7 +74,7 @@ namespace FolderSynchService
 
 
         /* ---------------------------------------------------------------- */
-        /* ------------------ METHODS ------------------------------------- */
+        /* ------------ PUBLIC METHODS ------------------------------------ */
         /* ---------------------------------------------------------------- */
 
         /*******************************************************************************************************/
@@ -84,27 +84,19 @@ namespace FolderSynchService
             // 1) initialize files and directories ---------------------
 
             string docsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            Console.WriteLine("documents folder path: " + docsFolder);
 
             if (!Directory.Exists((docsFolder + MAIN_DIRECTORY_RELATIVE_PATH)))
                 Directory.CreateDirectory(docsFolder + MAIN_DIRECTORY_RELATIVE_PATH);
-            Console.WriteLine("main directory ok");
-
 
             if (!Directory.Exists(docsFolder + REMOTE_FOLDERS_RELATIVE_PATH))
                 Directory.CreateDirectory(docsFolder + REMOTE_FOLDERS_RELATIVE_PATH);
-            Console.WriteLine("remotefolders directory ok");
-
 
             UsersFileHandler.Instance.checkUsersFile();
-            Console.WriteLine("users file ok");
-
 
             // 2) initialize users data structures --------------------------
             ConnectedUsers = new List<User>();
             Users = new List<User>();
             UsersFileHandler.Instance.ReadUsersFromFile(Users);
-            Console.WriteLine("users structures ok");
 
 
             IsInitialized = true;
@@ -113,7 +105,7 @@ namespace FolderSynchService
 
 
         /******************************************************************************************************/
-        public void registerNewUser(string username, string password)
+        public User registerNewUser(string username, string password)
         {
             // check if server has startupped ----------------
             if (!IsInitialized)
@@ -124,13 +116,15 @@ namespace FolderSynchService
 
             lock (Users)
             {
+                User newUser;
 
                 // first user --------------------------------
                 if (Users.Count == 0)
                 {
-                    Users.Add(new User(username, password));
+                    newUser = new User(username, password);
+                    Users.Add(newUser);
                     UsersFileHandler.Instance.WriteUsersList(Users);
-                    return;
+                    return newUser;
                 }
 
                 // check if username is still available ------------
@@ -146,8 +140,12 @@ namespace FolderSynchService
                 }
 
                 // add new user to list -----------------------------
-                Users.Add(new User(username, password));
+                newUser = new User(username, password);
+                Users.Add(newUser);
                 UsersFileHandler.Instance.WriteUsersList(Users);
+
+                LoginUser(newUser);
+                return newUser;
             }
 
 
@@ -164,15 +162,8 @@ namespace FolderSynchService
                     {
                         if (u.Password.Equals(password))
                         {
-                            lock (ConnectedUsers)
-                            {
-                                if (ConnectedUsers.Contains(u))
-                                    throw new FaultException<LoginFault>(new LoginFault(LoginFault.USER_ALREADY_IN));
-
-                                ConnectedUsers.Add(u);
-                                return u;
-                            }
-
+                            LoginUser(u);
+                            return u;
                         }
 
                         throw new FaultException<LoginFault>(new LoginFault(LoginFault.WRONG_USERNAME_OR_PASSWORD));
@@ -195,7 +186,22 @@ namespace FolderSynchService
             }
             
         }
+
+        /* ---------------------------------------------------------------- */
+        /* ------------ AUXILIARY METHODS --------------------------------- */
+        /* ---------------------------------------------------------------- */
+        private void LoginUser(User u)
+        {
+            lock (ConnectedUsers)
+            {
+                if (ConnectedUsers.Contains(u))
+                    throw new FaultException<LoginFault>(new LoginFault(LoginFault.USER_ALREADY_IN));
+
+                ConnectedUsers.Add(u);
+            }
+        }
     }
+
 
 
 

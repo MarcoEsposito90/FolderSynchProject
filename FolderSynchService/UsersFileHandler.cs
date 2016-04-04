@@ -74,7 +74,6 @@ namespace FolderSynchService
                 // add users to list
                 foreach (Object i in array)
                 {
-
                     Newtonsoft.Json.Linq.JObject jo = (Newtonsoft.Json.Linq.JObject)i;
                     User u = (User)jo.ToObject(typeof(User));
                     users.Add(u);

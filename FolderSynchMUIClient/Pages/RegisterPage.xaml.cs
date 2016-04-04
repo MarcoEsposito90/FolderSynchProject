@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using FolderSynchMUIClient.FolderSynchService;
 
 namespace FolderSynchMUIClient.Pages
 {
@@ -34,7 +35,10 @@ namespace FolderSynchMUIClient.Pages
 
                 try
                 {
-                    App.FolderSynchProxy.RegisterNewUser(TBRegisterUsername.Text.ToString(), TBRegisterPassword.Password.ToString());
+                    App application = (App)Application.Current;
+                    FolderSynchServiceContractClient proxy = application.FolderSynchProxy;
+
+                    application.User = proxy.RegisterNewUser(TBRegisterUsername.Text.ToString(), TBRegisterPassword.Password.ToString());
                     ResponseLabel.Content = "Registration successful";
                 }
                 catch(FaultException f)
