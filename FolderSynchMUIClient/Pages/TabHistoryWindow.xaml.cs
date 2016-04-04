@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,18 @@ namespace FolderSynchMUIClient.Pages
         public TabHistoryWindow()
         {
             InitializeComponent();
+
+            ObservableCollection<Folder> FolderList = new ObservableCollection<Folder>();
+
+            Folder f1 = new Folder() { Name = "Folder1", Path = "xxx" };
+            Folder f2 = new Folder() { Name = "Folder2", Path = "yyy" };
+            Folder f3 = new Folder() { Name = "Folder2", Path = "zzz" };
+
+            FolderList.Add(f1);
+            FolderList.Add(f2);
+            FolderList.Add(f3);
+
+            folderEditDates.ItemsSource = FolderList;
         }
     }
 }

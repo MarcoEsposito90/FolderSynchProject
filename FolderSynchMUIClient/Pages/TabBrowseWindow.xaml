@@ -9,26 +9,28 @@
              d:DesignHeight="300" d:DesignWidth="300">
 
     <Grid Margin="10">
-        <TreeView Name="trvFolders">
-            <TreeView.Resources>
-                <HierarchicalDataTemplate DataType="{x:Type local:Folder}" ItemsSource="{Binding Items}">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Name}" />
-                        <TextBlock Text=" [" Foreground="Blue" />
-                        <TextBlock Text="{Binding Path}" Foreground="Blue" />
-                        <TextBlock Text="]" Foreground="Blue" />
-                    </StackPanel>
-                </HierarchicalDataTemplate>
-                <DataTemplate DataType="{x:Type local:FileItem}">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Name}" />
-                        <TextBlock Text=" (" Foreground="Green" />
-                        <TextBlock Text="{Binding Path}" Foreground="Green" />
-                        <TextBlock Text=")" Foreground="Green" />
-                    </StackPanel>
-                </DataTemplate>
-            </TreeView.Resources>
-        </TreeView>
+        <ScrollViewer>
+            <TreeView Name="trvFolders">
+                <TreeView.Resources>
+                    <HierarchicalDataTemplate DataType="{x:Type local:Folder}" ItemsSource="{Binding Items}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Name}" />
+                            <TextBlock Text=" [" Foreground="Blue" />
+                            <TextBlock Text="{Binding Path}" Foreground="Blue" />
+                            <TextBlock Text="]" Foreground="Blue" />
+                        </StackPanel>
+                    </HierarchicalDataTemplate>
+                    <DataTemplate DataType="{x:Type local:FileItem}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Name}" />
+                            <TextBlock Text=" (" Foreground="Green" />
+                            <TextBlock Text="{Binding Path}" Foreground="Green" />
+                            <TextBlock Text=")" Foreground="Green" />
+                        </StackPanel>
+                    </DataTemplate>
+                </TreeView.Resources>
+            </TreeView>
+        </ScrollViewer>
     </Grid>
    
 </UserControl>

@@ -44,7 +44,7 @@ namespace FolderSynchMUIClient.Pages
            */
             ItemProvider itemProvider = new ItemProvider();
 
-            ObservableCollection<Item> ItemsList = itemProvider.GetItems("C:\\Users\\Giulia Genta\\Documents\\GitHub");
+            ObservableCollection<Item> ItemsList = itemProvider.GetItems("C:\\Users\\Giulia Genta\\Desktop");
 
             //DataContext = ItemsList;
             trvFolders.ItemsSource = ItemsList;

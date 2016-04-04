@@ -24,6 +24,23 @@ namespace FolderSynchMUIClient.Pages.HomePages
         public MyFolders()
         {
             InitializeComponent();
-        } 
+
+            ObservableCollection<Folder> FolderList = new ObservableCollection<Folder>();
+
+            Folder f1 = new Folder() { Name = "Folder1", Path = "xxx" };
+            Folder f2 = new Folder() { Name = "Folder2", Path = "yyy" };
+            Folder f3 = new Folder() { Name = "Folder2", Path = "zzz" };
+
+            FolderList.Add(f1);
+            FolderList.Add(f2);
+            FolderList.Add(f3);
+
+            foldersButtonControl.ItemsSource = FolderList;
+        }
+
+        private void folderNameButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
