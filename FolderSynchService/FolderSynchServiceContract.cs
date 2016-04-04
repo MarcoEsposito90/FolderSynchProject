@@ -8,15 +8,18 @@ using System.Text;
 namespace FolderSynchService
 {
 
-    [ServiceContract]
+    [ServiceContract (SessionMode = SessionMode.Required)]
     public interface FolderSynchServiceContract
     {
-        [OperationContract]
+        [OperationContract(IsInitiating = true, IsTerminating = true)]
         [FaultContract(typeof(RegistrationFault))]
         void RegisterNewUser(string username, string password);
 
-        [OperationContract]
-        void loginUser(string username, string password);
+        [OperationContract (IsInitiating = true, IsTerminating = false)]
+        [FaultContract(typeof(LoginFault))]
+        User loginUser(string username, string password);
 
+        [OperationContract(IsInitiating = false, IsTerminating = true)]
+        void logoutUser(User user);
     }
 }

@@ -65,7 +65,7 @@ namespace FolderSynchService
             private set;
         }
 
-        
+
 
         /* ---------------------------------------------------------------- */
         /* ------------------ CONSTRUCTOR --------------------------------- */
@@ -90,8 +90,7 @@ namespace FolderSynchService
         /* ------------------ METHODS ------------------------------------- */
         /* ---------------------------------------------------------------- */
 
-        /*************************** initialization ************************************************/
-
+        /*******************************************************************************************************/
         public void Startup()
         {
 
@@ -121,8 +120,7 @@ namespace FolderSynchService
 
 
 
-        /*************************** registrating a new user ************************************************/
-
+        /******************************************************************************************************/
         public void registerNewUser(string username, string password)
         {
             // check if server has startupped ----------------
@@ -132,54 +130,81 @@ namespace FolderSynchService
                 throw new FaultException<RegistrationFault>(new RegistrationFault(RegistrationFault.SERVER_ERROR));
             }
 
-            // first user --------------------------------
-            if (Users.Count == 0)
-            {
-                Users.Add(new User(username, password));
-                UsersFileHandler.Instance.WriteUsersList(Users);
-                return;
-            }
-
-            // check if username is still available ------------
-            foreach (User u in Users)
+            lock (Users)
             {
 
-                if (u.Username.Equals(username))
+                // first user --------------------------------
+                if (Users.Count == 0)
                 {
-                    Console.WriteLine("registration failed; username not available: " + username);
-                    throw new FaultException<RegistrationFault>(new RegistrationFault(RegistrationFault.USERNAME_UNAVAILABLE));
+                    Users.Add(new User(username, password));
+                    UsersFileHandler.Instance.WriteUsersList(Users);
+                    return;
                 }
 
+                // check if username is still available ------------
+                foreach (User u in Users)
+                {
+
+                    if (u.Username.Equals(username))
+                    {
+                        Console.WriteLine("registration failed; username not available: " + username);
+                        throw new FaultException<RegistrationFault>(new RegistrationFault(RegistrationFault.USERNAME_UNAVAILABLE));
+                    }
+
+                }
+
+                // add new user to list -----------------------------
+                Users.Add(new User(username, password));
+                UsersFileHandler.Instance.WriteUsersList(Users);
             }
 
-            // add new user to list -----------------------------
-            Users.Add(new User(username, password));
-            UsersFileHandler.Instance.WriteUsersList(Users);
 
         }
 
-        /************************************ user login ********************************************************************/
-        public void LoginUser(string username, string password)
+        /***************************************************************************************************/
+        public User LoginUser(string username, string password)
         {
-
-            foreach(User u in Users)
+            lock (Users)
             {
-                if (u.Username.Equals(username))
+                foreach (User u in Users)
                 {
-                    if (u.Password.Equals(password))
+                    if (u.Username.Equals(username))
                     {
-                        ConnectedUsers.Add(u);
-                        return;
-                    }
+                        if (u.Password.Equals(password))
+                        {
+                            lock (ConnectedUsers)
+                            {
+                                if (ConnectedUsers.Contains(u))
+                                    throw new FaultException<LoginFault>(new LoginFault(LoginFault.USER_ALREADY_IN));
 
-                    throw new FaultException<LoginFault>(new LoginFault(LoginFault.WRONG_USERNAME_OR_PASSWORD));
+                                ConnectedUsers.Add(u);
+                                return u;
+                            }
+
+                        }
+
+                        throw new FaultException<LoginFault>(new LoginFault(LoginFault.WRONG_USERNAME_OR_PASSWORD));
+                    }
                 }
+
+                throw new FaultException<LoginFault>(new LoginFault(LoginFault.WRONG_USERNAME_OR_PASSWORD));
             }
 
-            throw new FaultException<LoginFault>(new LoginFault(LoginFault.WRONG_USERNAME_OR_PASSWORD));
+        }
+
+
+        /*******************************************************************************************/
+        public void logoutUser(User user)
+        {
+            lock (ConnectedUsers)
+            {
+                if (ConnectedUsers.Contains(user))
+                    ConnectedUsers.Remove(user);
+            }
+            
         }
     }
 
 
-    
+
 }

@@ -39,31 +39,39 @@ namespace FolderSynchService
 
         public void WriteUsersList(List<User> users)
         {
-            StreamWriter sw = new StreamWriter(FolderSynchServer.Instance.MainDirectory + USERS_FILE_RELATIVE_PATH);
-            string output = JsonConvert.SerializeObject(users);
-            sw.WriteLine(output);
-            sw.Close();
+            lock(_instance){
+
+                StreamWriter sw = new StreamWriter(FolderSynchServer.Instance.MainDirectory + USERS_FILE_RELATIVE_PATH);
+                string output = JsonConvert.SerializeObject(users);
+                sw.WriteLine(output);
+                sw.Close();
+            }
+            
         }
 
         public void ReadUsersFromFile(List<User> users)
         {
 
-            // open users file
-            StreamReader sr = new StreamReader(FolderSynchServer.Instance.MainDirectory + USERS_FILE_RELATIVE_PATH);
-            string fileContent = sr.ReadToEnd();
-            sr.Close();
-
-            Object o = JsonConvert.DeserializeObject(fileContent);
-            Newtonsoft.Json.Linq.JArray array = (Newtonsoft.Json.Linq.JArray)o;
-
-            // add users to list
-            foreach (Object i in array)
+            lock (_instance)
             {
+                // open users file
+                StreamReader sr = new StreamReader(FolderSynchServer.Instance.MainDirectory + USERS_FILE_RELATIVE_PATH);
+                string fileContent = sr.ReadToEnd();
+                sr.Close();
 
-                Newtonsoft.Json.Linq.JObject jo = (Newtonsoft.Json.Linq.JObject)i;
-                User u = (User)jo.ToObject(typeof(User));
-                users.Add(u);
+                Object o = JsonConvert.DeserializeObject(fileContent);
+                Newtonsoft.Json.Linq.JArray array = (Newtonsoft.Json.Linq.JArray)o;
+
+                // add users to list
+                foreach (Object i in array)
+                {
+
+                    Newtonsoft.Json.Linq.JObject jo = (Newtonsoft.Json.Linq.JObject)i;
+                    User u = (User)jo.ToObject(typeof(User));
+                    users.Add(u);
+                }
             }
+            
         }
     }
 }
