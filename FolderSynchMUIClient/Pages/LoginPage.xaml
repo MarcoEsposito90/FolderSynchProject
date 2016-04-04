@@ -53,7 +53,9 @@
                         Content="Login" 
                         Style="{StaticResource BaseButtonStyle}"
                         Click="ButtonLogin_Click"/>
-                
+
+                <Label Name="responseLabel"/>
+
             </StackPanel>
         </ScrollViewer>
     </Grid>

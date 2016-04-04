@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -28,8 +29,15 @@ namespace FolderSynchMUIClient.Pages
 
         private void ButtonLogin_Click(object sender, RoutedEventArgs e)
         {
-
-            App.currentUser = App.FolderSynchProxy.loginUser(TBLoginUsername.Text.ToString(), TBLoginPassword.Password.ToString());
+            try
+            {
+                App.currentUser = App.FolderSynchProxy.loginUser(TBLoginUsername.Text.ToString(), TBLoginPassword.Password.ToString());
+                responseLabel.Content = "login successful";
+            }
+            catch(FaultException f)
+            {
+                responseLabel.Content = "error: " + f.Message;
+            }
         }
     }
 }
