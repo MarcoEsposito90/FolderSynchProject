@@ -12,9 +12,9 @@ namespace FolderSynchMUIClient
     {
         public ObservableCollection<Item> GetItems(string path)
         {
-            var items = new ObservableCollection<Item>();
+            ObservableCollection<Item> items = new ObservableCollection<Item>();
 
-            var dirInfo = new DirectoryInfo(path);
+            DirectoryInfo dirInfo = new DirectoryInfo(path);
 
             foreach (var directory in dirInfo.GetDirectories())
             {
@@ -41,6 +41,25 @@ namespace FolderSynchMUIClient
 
             return items;
         }
+        public ObservableCollection<Folder> GetFolders(string path)
+        {
+            ObservableCollection<Folder> folders = new ObservableCollection<Folder>();
+            DirectoryInfo dirInfo = new DirectoryInfo(path);
+
+            foreach (var directory in dirInfo.GetDirectories())
+            {
+                Folder f = new Folder
+                {
+                    Name = directory.Name,
+                    Path = directory.FullName,
+                    Items = GetItems(directory.FullName)
+                };
+
+                folders.Add(f);
+            }
+            return folders;
+        }
+
     }
 }
 
