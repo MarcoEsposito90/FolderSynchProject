@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FolderSynchService;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -15,7 +16,7 @@ namespace FolderSynchMUIClient
     public partial class App : Application
     {
         public static FolderSynchService.FolderSynchServiceContractClient FolderSynchProxy;
-
+        public static User currentUser;
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {

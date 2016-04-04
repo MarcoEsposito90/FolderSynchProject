@@ -11,6 +11,7 @@
   <wsdl:types>
     <xsd:schema targetNamespace="http://tempuri.org/Imports">
       <xsd:import schemaLocation="http://localhost:8080/?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://localhost:8080/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/FolderSynchService" />
       <xsd:import schemaLocation="http://localhost:8080/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
     </xsd:schema>
   </wsdl:types>
@@ -20,10 +21,38 @@
   <wsdl:message name="FolderSynchServiceContract_RegisterNewUser_OutputMessage">
     <wsdl:part name="parameters" element="tns:RegisterNewUserResponse" />
   </wsdl:message>
-  <wsdl:portType name="FolderSynchServiceContract">
-    <wsdl:operation name="RegisterNewUser">
+  <wsdl:message name="FolderSynchServiceContract_RegisterNewUser_RegistrationFaultFault_FaultMessage">
+    <wsdl:part xmlns:q1="http://schemas.datacontract.org/2004/07/FolderSynchService" name="detail" element="q1:RegistrationFault" />
+  </wsdl:message>
+  <wsdl:message name="FolderSynchServiceContract_loginUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:loginUser" />
+  </wsdl:message>
+  <wsdl:message name="FolderSynchServiceContract_loginUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:loginUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="FolderSynchServiceContract_loginUser_LoginFaultFault_FaultMessage">
+    <wsdl:part xmlns:q2="http://schemas.datacontract.org/2004/07/FolderSynchService" name="detail" element="q2:LoginFault" />
+  </wsdl:message>
+  <wsdl:message name="FolderSynchServiceContract_logoutUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:logoutUser" />
+  </wsdl:message>
+  <wsdl:message name="FolderSynchServiceContract_logoutUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:logoutUserResponse" />
+  </wsdl:message>
+  <wsdl:portType msc:usingSession="true" name="FolderSynchServiceContract">
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="true" name="RegisterNewUser">
       <wsdl:input wsaw:Action="http://tempuri.org/FolderSynchServiceContract/RegisterNewUser" message="tns:FolderSynchServiceContract_RegisterNewUser_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/FolderSynchServiceContract/RegisterNewUserResponse" message="tns:FolderSynchServiceContract_RegisterNewUser_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/FolderSynchServiceContract/RegisterNewUserRegistrationFaultFault" name="RegistrationFaultFault" message="tns:FolderSynchServiceContract_RegisterNewUser_RegistrationFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="loginUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/FolderSynchServiceContract/loginUser" message="tns:FolderSynchServiceContract_loginUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/FolderSynchServiceContract/loginUserResponse" message="tns:FolderSynchServiceContract_loginUser_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/FolderSynchServiceContract/loginUserLoginFaultFault" name="LoginFaultFault" message="tns:FolderSynchServiceContract_loginUser_LoginFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="false" msc:isTerminating="true" name="logoutUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/FolderSynchServiceContract/logoutUser" message="tns:FolderSynchServiceContract_logoutUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/FolderSynchServiceContract/logoutUserResponse" message="tns:FolderSynchServiceContract_logoutUser_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="serviceTcpEndpoint" type="tns:FolderSynchServiceContract">
@@ -31,6 +60,30 @@
     <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
     <wsdl:operation name="RegisterNewUser">
       <soap12:operation soapAction="http://tempuri.org/FolderSynchServiceContract/RegisterNewUser" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="RegistrationFaultFault">
+        <soap12:fault use="literal" name="RegistrationFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="loginUser">
+      <soap12:operation soapAction="http://tempuri.org/FolderSynchServiceContract/loginUser" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="LoginFaultFault">
+        <soap12:fault use="literal" name="LoginFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="logoutUser">
+      <soap12:operation soapAction="http://tempuri.org/FolderSynchServiceContract/logoutUser" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

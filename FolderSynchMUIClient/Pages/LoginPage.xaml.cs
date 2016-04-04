@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FolderSynchService;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,12 @@ namespace FolderSynchMUIClient.Pages
         public LoginPage()
         {
             InitializeComponent();
+        }
+
+        private void ButtonLogin_Click(object sender, RoutedEventArgs e)
+        {
+
+            App.currentUser = App.FolderSynchProxy.loginUser(TBLoginUsername.Text.ToString(), TBLoginPassword.Password.ToString());
         }
     }
 }
