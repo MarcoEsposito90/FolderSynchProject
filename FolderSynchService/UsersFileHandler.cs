@@ -36,17 +36,26 @@ namespace FolderSynchService
         /* ---------------------------------------------------------------- */
         /* ------------------ METHODS ------------------------------------- */
         /* ---------------------------------------------------------------- */
+        public void checkUsersFile()
+        {
+            if (!File.Exists(FolderSynchServer.Instance.MainDirectory + USERS_FILE_RELATIVE_PATH))
+            {
+                WriteUsersList(new List<User>());
+            }
+        }
+
 
         public void WriteUsersList(List<User> users)
         {
-            lock(_instance){
+            lock (_instance)
+            {
 
                 StreamWriter sw = new StreamWriter(FolderSynchServer.Instance.MainDirectory + USERS_FILE_RELATIVE_PATH);
                 string output = JsonConvert.SerializeObject(users);
                 sw.WriteLine(output);
                 sw.Close();
             }
-            
+
         }
 
         public void ReadUsersFromFile(List<User> users)
@@ -71,7 +80,7 @@ namespace FolderSynchService
                     users.Add(u);
                 }
             }
-            
+
         }
     }
 }

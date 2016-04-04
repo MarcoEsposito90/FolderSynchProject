@@ -17,7 +17,6 @@ namespace FolderSynchService
 
         private static string MAIN_DIRECTORY_RELATIVE_PATH = "\\FolderSynchHost";
         private static string REMOTE_FOLDERS_RELATIVE_PATH = MAIN_DIRECTORY_RELATIVE_PATH + "\\RemoteFolders";
-        private static string USERS_FILE_RELATIVE_PATH = MAIN_DIRECTORY_RELATIVE_PATH + "\\users.txt";
 
 
         /* ---------------------------------------------------------------- */
@@ -36,18 +35,6 @@ namespace FolderSynchService
             {
                 string docsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
                 return docsFolder + MAIN_DIRECTORY_RELATIVE_PATH;
-            }
-        }
-
-        private String UsersFile
-        {
-            get
-            {
-                if (!IsInitialized)
-                    throw new Exception("The server is not initialized yet");
-
-                string docsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                return docsFolder + USERS_FILE_RELATIVE_PATH;
             }
         }
 
@@ -105,9 +92,7 @@ namespace FolderSynchService
             if (!Directory.Exists(docsFolder + REMOTE_FOLDERS_RELATIVE_PATH))
                 Directory.CreateDirectory(docsFolder + REMOTE_FOLDERS_RELATIVE_PATH);
 
-            if (!File.Exists(docsFolder + USERS_FILE_RELATIVE_PATH))
-                UsersFileHandler.Instance.WriteUsersList(new List<User>());
-
+            UsersFileHandler.Instance.checkUsersFile();
 
             // 2) initialize users data structures --------------------------
             ConnectedUsers = new List<User>();
