@@ -14,7 +14,7 @@
                 <TextBlock Text="MY FOLDERS" Style="{StaticResource Heading2}" />
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1.5*"/>
+                        <ColumnDefinition Width="1*"/>
                         <ColumnDefinition Width="3*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
@@ -23,7 +23,9 @@
                     <ItemsControl Name="foldersButtonControl" Margin="0,10,10,0" Grid.Column="0" Grid.Row="0">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Button Name="folderNameButton" Click="folderNameButton_Click" Content="{Binding Name}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                <Button x:Name="folderNameButton" Click="folderNameButton_Click" HorizontalContentAlignment="Left" Width="{Binding ActualWidth, ElementName=foldersButtonControl}">
+                                    <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" TextAlignment="Left"/>
+                                </Button>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
