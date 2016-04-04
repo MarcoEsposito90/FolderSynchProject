@@ -5,7 +5,7 @@ using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FolderSynchService
+namespace FolderSynchServiceNamespace
 {
     [ServiceBehavior(   InstanceContextMode = InstanceContextMode.PerSession,
                         ConcurrencyMode = ConcurrencyMode.Single)]

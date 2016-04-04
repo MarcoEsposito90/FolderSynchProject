@@ -15,7 +15,113 @@ namespace FolderSynchMUIClient.FolderSynchService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="LoginFault", Namespace="http://schemas.datacontract.org/2004/07/FolderSynchService")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="RegistrationFault", Namespace="http://schemas.datacontract.org/2004/07/FolderSynchServiceNamespace")]
+    [System.SerializableAttribute()]
+    public partial class RegistrationFault : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string MessageField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Message {
+            get {
+                return this.MessageField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.MessageField, value) != true)) {
+                    this.MessageField = value;
+                    this.RaisePropertyChanged("Message");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="User", Namespace="http://schemas.datacontract.org/2004/07/FolderSynchServiceNamespace")]
+    [System.SerializableAttribute()]
+    public partial class User : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string PasswordField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string UsernameField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Password {
+            get {
+                return this.PasswordField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.PasswordField, value) != true)) {
+                    this.PasswordField = value;
+                    this.RaisePropertyChanged("Password");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Username {
+            get {
+                return this.UsernameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.UsernameField, value) != true)) {
+                    this.UsernameField = value;
+                    this.RaisePropertyChanged("Username");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="LoginFault", Namespace="http://schemas.datacontract.org/2004/07/FolderSynchServiceNamespace")]
     [System.SerializableAttribute()]
     public partial class LoginFault : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -63,25 +169,25 @@ namespace FolderSynchMUIClient.FolderSynchService {
     public interface FolderSynchServiceContract {
         
         [System.ServiceModel.OperationContractAttribute(IsTerminating=true, Action="http://tempuri.org/FolderSynchServiceContract/RegisterNewUser", ReplyAction="http://tempuri.org/FolderSynchServiceContract/RegisterNewUserResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(FolderSynchService.RegistrationFault), Action="http://tempuri.org/FolderSynchServiceContract/RegisterNewUserRegistrationFaultFau" +
-            "lt", Name="RegistrationFault", Namespace="http://schemas.datacontract.org/2004/07/FolderSynchService")]
+        [System.ServiceModel.FaultContractAttribute(typeof(FolderSynchMUIClient.FolderSynchService.RegistrationFault), Action="http://tempuri.org/FolderSynchServiceContract/RegisterNewUserRegistrationFaultFau" +
+            "lt", Name="RegistrationFault", Namespace="http://schemas.datacontract.org/2004/07/FolderSynchServiceNamespace")]
         void RegisterNewUser(string username, string password);
         
         [System.ServiceModel.OperationContractAttribute(IsTerminating=true, Action="http://tempuri.org/FolderSynchServiceContract/RegisterNewUser", ReplyAction="http://tempuri.org/FolderSynchServiceContract/RegisterNewUserResponse")]
         System.Threading.Tasks.Task RegisterNewUserAsync(string username, string password);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/FolderSynchServiceContract/loginUser", ReplyAction="http://tempuri.org/FolderSynchServiceContract/loginUserResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(FolderSynchMUIClient.FolderSynchService.LoginFault), Action="http://tempuri.org/FolderSynchServiceContract/loginUserLoginFaultFault", Name="LoginFault", Namespace="http://schemas.datacontract.org/2004/07/FolderSynchService")]
-        FolderSynchService.User loginUser(string username, string password);
+        [System.ServiceModel.FaultContractAttribute(typeof(FolderSynchMUIClient.FolderSynchService.LoginFault), Action="http://tempuri.org/FolderSynchServiceContract/loginUserLoginFaultFault", Name="LoginFault", Namespace="http://schemas.datacontract.org/2004/07/FolderSynchServiceNamespace")]
+        FolderSynchMUIClient.FolderSynchService.User loginUser(string username, string password);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/FolderSynchServiceContract/loginUser", ReplyAction="http://tempuri.org/FolderSynchServiceContract/loginUserResponse")]
-        System.Threading.Tasks.Task<FolderSynchService.User> loginUserAsync(string username, string password);
+        System.Threading.Tasks.Task<FolderSynchMUIClient.FolderSynchService.User> loginUserAsync(string username, string password);
         
         [System.ServiceModel.OperationContractAttribute(IsTerminating=true, IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/logoutUser", ReplyAction="http://tempuri.org/FolderSynchServiceContract/logoutUserResponse")]
-        void logoutUser(FolderSynchService.User user);
+        void logoutUser(FolderSynchMUIClient.FolderSynchService.User user);
         
         [System.ServiceModel.OperationContractAttribute(IsTerminating=true, IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/logoutUser", ReplyAction="http://tempuri.org/FolderSynchServiceContract/logoutUserResponse")]
-        System.Threading.Tasks.Task logoutUserAsync(FolderSynchService.User user);
+        System.Threading.Tasks.Task logoutUserAsync(FolderSynchMUIClient.FolderSynchService.User user);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -119,19 +225,19 @@ namespace FolderSynchMUIClient.FolderSynchService {
             return base.Channel.RegisterNewUserAsync(username, password);
         }
         
-        public FolderSynchService.User loginUser(string username, string password) {
+        public FolderSynchMUIClient.FolderSynchService.User loginUser(string username, string password) {
             return base.Channel.loginUser(username, password);
         }
         
-        public System.Threading.Tasks.Task<FolderSynchService.User> loginUserAsync(string username, string password) {
+        public System.Threading.Tasks.Task<FolderSynchMUIClient.FolderSynchService.User> loginUserAsync(string username, string password) {
             return base.Channel.loginUserAsync(username, password);
         }
         
-        public void logoutUser(FolderSynchService.User user) {
+        public void logoutUser(FolderSynchMUIClient.FolderSynchService.User user) {
             base.Channel.logoutUser(user);
         }
         
-        public System.Threading.Tasks.Task logoutUserAsync(FolderSynchService.User user) {
+        public System.Threading.Tasks.Task logoutUserAsync(FolderSynchMUIClient.FolderSynchService.User user) {
             return base.Channel.logoutUserAsync(user);
         }
     }

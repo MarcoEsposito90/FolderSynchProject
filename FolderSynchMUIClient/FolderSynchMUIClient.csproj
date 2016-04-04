@@ -180,6 +180,9 @@
     <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\FolderSynchService.User.datasource" />
+    <None Include="Service References\FolderSynchService\FolderSynchMUIClient.FolderSynchService.User.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Service References\FolderSynchService\FolderSynchService.wsdl" />
     <None Include="Service References\FolderSynchService\item.xsd">
       <SubType>Designer</SubType>
@@ -211,12 +214,6 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\FolderSynchService\FolderSynchService.csproj">
-      <Project>{346a7ac7-9771-49af-9e8e-f151dbc9b065}</Project>
-      <Name>FolderSynchService</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Icons\folder_icon.png" />

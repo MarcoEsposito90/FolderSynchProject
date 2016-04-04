@@ -11,7 +11,7 @@
   <wsdl:types>
     <xsd:schema targetNamespace="http://tempuri.org/Imports">
       <xsd:import schemaLocation="http://localhost:8080/?xsd=xsd0" namespace="http://tempuri.org/" />
-      <xsd:import schemaLocation="http://localhost:8080/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/FolderSynchService" />
+      <xsd:import schemaLocation="http://localhost:8080/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/FolderSynchServiceNamespace" />
       <xsd:import schemaLocation="http://localhost:8080/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
     </xsd:schema>
   </wsdl:types>
@@ -22,7 +22,7 @@
     <wsdl:part name="parameters" element="tns:RegisterNewUserResponse" />
   </wsdl:message>
   <wsdl:message name="FolderSynchServiceContract_RegisterNewUser_RegistrationFaultFault_FaultMessage">
-    <wsdl:part xmlns:q1="http://schemas.datacontract.org/2004/07/FolderSynchService" name="detail" element="q1:RegistrationFault" />
+    <wsdl:part xmlns:q1="http://schemas.datacontract.org/2004/07/FolderSynchServiceNamespace" name="detail" element="q1:RegistrationFault" />
   </wsdl:message>
   <wsdl:message name="FolderSynchServiceContract_loginUser_InputMessage">
     <wsdl:part name="parameters" element="tns:loginUser" />
@@ -31,7 +31,7 @@
     <wsdl:part name="parameters" element="tns:loginUserResponse" />
   </wsdl:message>
   <wsdl:message name="FolderSynchServiceContract_loginUser_LoginFaultFault_FaultMessage">
-    <wsdl:part xmlns:q2="http://schemas.datacontract.org/2004/07/FolderSynchService" name="detail" element="q2:LoginFault" />
+    <wsdl:part xmlns:q2="http://schemas.datacontract.org/2004/07/FolderSynchServiceNamespace" name="detail" element="q2:LoginFault" />
   </wsdl:message>
   <wsdl:message name="FolderSynchServiceContract_logoutUser_InputMessage">
     <wsdl:part name="parameters" element="tns:logoutUser" />

@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FolderSynchService
+namespace FolderSynchServiceNamespace
 {
     [DataContract]
     public class User
