@@ -27,6 +27,13 @@ namespace FolderSynchService
             private set;
         }
 
+        [DataMember]
+        public List<String> Folders
+        {
+            get;
+            private set;
+        }
+
 
         /* -------------- CONSTRUCTORS -------------------------*/
 
@@ -35,6 +42,7 @@ namespace FolderSynchService
 
             this.Username = username;
             this.Password = password;
+            Folders = new List<string>();
         }
 
 

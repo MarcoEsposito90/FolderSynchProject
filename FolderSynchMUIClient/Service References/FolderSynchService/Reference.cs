@@ -23,6 +23,9 @@ namespace FolderSynchMUIClient.FolderSynchService {
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string[] FoldersField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string PasswordField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -35,6 +38,19 @@ namespace FolderSynchMUIClient.FolderSynchService {
             }
             set {
                 this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string[] Folders {
+            get {
+                return this.FoldersField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.FoldersField, value) != true)) {
+                    this.FoldersField = value;
+                    this.RaisePropertyChanged("Folders");
+                }
             }
         }
         
@@ -76,9 +92,11 @@ namespace FolderSynchMUIClient.FolderSynchService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="RegistrationFault", Namespace="http://schemas.datacontract.org/2004/07/FolderSynchService")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="MyBaseFault", Namespace="http://schemas.datacontract.org/2004/07/FolderSynchService")]
     [System.SerializableAttribute()]
-    public partial class RegistrationFault : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(FolderSynchMUIClient.FolderSynchService.LoginFault))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(FolderSynchMUIClient.FolderSynchService.RegistrationFault))]
+    public partial class MyBaseFault : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
@@ -123,45 +141,14 @@ namespace FolderSynchMUIClient.FolderSynchService {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="LoginFault", Namespace="http://schemas.datacontract.org/2004/07/FolderSynchService")]
     [System.SerializableAttribute()]
-    public partial class LoginFault : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string MessageField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Message {
-            get {
-                return this.MessageField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.MessageField, value) != true)) {
-                    this.MessageField = value;
-                    this.RaisePropertyChanged("Message");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
+    public partial class LoginFault : FolderSynchMUIClient.FolderSynchService.MyBaseFault {
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="RegistrationFault", Namespace="http://schemas.datacontract.org/2004/07/FolderSynchService")]
+    [System.SerializableAttribute()]
+    public partial class RegistrationFault : FolderSynchMUIClient.FolderSynchService.MyBaseFault {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -188,6 +175,14 @@ namespace FolderSynchMUIClient.FolderSynchService {
         
         [System.ServiceModel.OperationContractAttribute(IsTerminating=true, IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/logoutUser", ReplyAction="http://tempuri.org/FolderSynchServiceContract/logoutUserResponse")]
         System.Threading.Tasks.Task logoutUserAsync(FolderSynchMUIClient.FolderSynchService.User user);
+        
+        [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/addNewSynchronizedFolder", ReplyAction="http://tempuri.org/FolderSynchServiceContract/addNewSynchronizedFolderResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(FolderSynchMUIClient.FolderSynchService.MyBaseFault), Action="http://tempuri.org/FolderSynchServiceContract/addNewSynchronizedFolderMyBaseFault" +
+            "Fault", Name="MyBaseFault", Namespace="http://schemas.datacontract.org/2004/07/FolderSynchService")]
+        void addNewSynchronizedFolder(string folderName);
+        
+        [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/addNewSynchronizedFolder", ReplyAction="http://tempuri.org/FolderSynchServiceContract/addNewSynchronizedFolderResponse")]
+        System.Threading.Tasks.Task addNewSynchronizedFolderAsync(string folderName);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -239,6 +234,14 @@ namespace FolderSynchMUIClient.FolderSynchService {
         
         public System.Threading.Tasks.Task logoutUserAsync(FolderSynchMUIClient.FolderSynchService.User user) {
             return base.Channel.logoutUserAsync(user);
+        }
+        
+        public void addNewSynchronizedFolder(string folderName) {
+            base.Channel.addNewSynchronizedFolder(folderName);
+        }
+        
+        public System.Threading.Tasks.Task addNewSynchronizedFolderAsync(string folderName) {
+            return base.Channel.addNewSynchronizedFolderAsync(folderName);
         }
     }
 }

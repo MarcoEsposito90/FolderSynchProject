@@ -38,7 +38,7 @@ namespace FolderSynchService
         /* ---------------------------------------------------------------- */
         public void checkUsersFile()
         {
-            if (!File.Exists(FolderSynchServer.Instance.MainDirectory + USERS_FILE_RELATIVE_PATH))
+            if (!File.Exists(FolderSynchServer.Instance.MainDirectoryPath + USERS_FILE_RELATIVE_PATH))
             {
                 WriteUsersList(new List<User>());
             }
@@ -50,7 +50,7 @@ namespace FolderSynchService
             lock (_instance)
             {
 
-                StreamWriter sw = new StreamWriter(FolderSynchServer.Instance.MainDirectory + USERS_FILE_RELATIVE_PATH);
+                StreamWriter sw = new StreamWriter(FolderSynchServer.Instance.MainDirectoryPath + USERS_FILE_RELATIVE_PATH);
                 string output = JsonConvert.SerializeObject(users);
                 sw.WriteLine(output);
                 sw.Close();
@@ -64,7 +64,7 @@ namespace FolderSynchService
             lock (_instance)
             {
                 // open users file
-                StreamReader sr = new StreamReader(FolderSynchServer.Instance.MainDirectory + USERS_FILE_RELATIVE_PATH);
+                StreamReader sr = new StreamReader(FolderSynchServer.Instance.MainDirectoryPath + USERS_FILE_RELATIVE_PATH);
                 string fileContent = sr.ReadToEnd();
                 sr.Close();
 

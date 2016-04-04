@@ -13,6 +13,12 @@ namespace FolderSynchService
     {
         User currentUser = null;
 
+        public void addNewSynchronizedFolder(string folderName)
+        {
+            Console.WriteLine(currentUser.Username + " wants to add a new folder: " + folderName);
+            FolderSynchServer.Instance.AddNewFolder(currentUser, folderName);
+        }
+
         public User loginUser(string username, string password)
         {
             currentUser = FolderSynchServer.Instance.LoginUser(username, password);

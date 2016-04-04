@@ -8,19 +8,9 @@ using System.Threading.Tasks;
 namespace FolderSynchService
 {
     [DataContract]
-    class LogoutFault
+    public class LogoutFault : MyBaseFault
     {
 
-        [DataMember]
-        public string Message
-        {
-            get;
-            private set;
-        }
-        
-        public LogoutFault(string message)
-        {
-            this.Message = message;
-        }
+        public LogoutFault(string message): base(message) { }
     }
 }

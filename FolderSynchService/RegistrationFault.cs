@@ -9,26 +9,13 @@ using System.Threading.Tasks;
 namespace FolderSynchService
 {
     [DataContract]
-    public class RegistrationFault
+    public class RegistrationFault : MyBaseFault
     {
 
         public static string USERNAME_UNAVAILABLE = "Username not available";
         public static string SERVER_ERROR = "A server error occurred";
 
-
-        [DataMember]
-        public string Message
-        {
-            get;
-            private set;
-        }
-
-
-
-        public RegistrationFault(string message)
-        {
-            this.Message = message;
-        }
-
+        
+        public RegistrationFault(string message) : base(message) { }
     }
 }

@@ -15,21 +15,19 @@ namespace FolderSynchService
         /* ------------------ STATIC FIELDS ------------------------------- */
         /* ---------------------------------------------------------------- */
 
+        // main directory path is relative to documents folder
         private static string MAIN_DIRECTORY_RELATIVE_PATH = "\\FolderSynchHost";
-        private static string REMOTE_FOLDERS_RELATIVE_PATH = MAIN_DIRECTORY_RELATIVE_PATH + "\\RemoteFolders";
+
+        // all others are relative to main folder
+        private static string REMOTE_FOLDERS_RELATIVE_PATH = "\\RemoteFolders";
 
 
         /* ---------------------------------------------------------------- */
         /* ------------------ PROPERTIES ---------------------------------- */
         /* ---------------------------------------------------------------- */
 
-        public bool IsInitialized
-        {
-            get;
-            private set;
-        }
-
-        public String MainDirectory
+        // files and directories --------------------------------------------------------------
+        public String MainDirectoryPath
         {
             get
             {
@@ -38,7 +36,24 @@ namespace FolderSynchService
             }
         }
 
+        public String RemoteFoldersPath
+        {
+            get
+            {
+                return MainDirectoryPath + REMOTE_FOLDERS_RELATIVE_PATH;
+            }
+        }
 
+
+        // status variables --------------------------------------------------------------
+        public bool IsInitialized
+        {
+            get;
+            private set;
+        }
+
+
+        // users -----------------------------------------------------------------------
         public List<User> Users
         {
             get;
@@ -51,7 +66,6 @@ namespace FolderSynchService
             get;
             private set;
         }
-
 
 
         /* ---------------------------------------------------------------- */
@@ -73,9 +87,9 @@ namespace FolderSynchService
         private FolderSynchServer() { }
 
 
-        /* ---------------------------------------------------------------- */
-        /* ------------ PUBLIC METHODS ------------------------------------ */
-        /* ---------------------------------------------------------------- */
+        /* ----------------------------------------------------------------------------------------------- */
+        /* ------------ USER METHODS --------------------------------------------------------------------- */
+        /* ----------------------------------------------------------------------------------------------- */
 
         /*******************************************************************************************************/
         public void Startup()
@@ -85,11 +99,11 @@ namespace FolderSynchService
 
             string docsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
-            if (!Directory.Exists((docsFolder + MAIN_DIRECTORY_RELATIVE_PATH)))
-                Directory.CreateDirectory(docsFolder + MAIN_DIRECTORY_RELATIVE_PATH);
+            if (!Directory.Exists(MainDirectoryPath))
+                Directory.CreateDirectory(MainDirectoryPath);
 
-            if (!Directory.Exists(docsFolder + REMOTE_FOLDERS_RELATIVE_PATH))
-                Directory.CreateDirectory(docsFolder + REMOTE_FOLDERS_RELATIVE_PATH);
+            if (!Directory.Exists(RemoteFoldersPath))
+                Directory.CreateDirectory(RemoteFoldersPath);
 
             UsersFileHandler.Instance.checkUsersFile();
 
@@ -144,6 +158,7 @@ namespace FolderSynchService
                 Users.Add(newUser);
                 UsersFileHandler.Instance.WriteUsersList(Users);
 
+                Directory.CreateDirectory(RemoteFoldersPath + "\\" + newUser.Username);
                 LoginUser(newUser);
                 return newUser;
             }
@@ -187,9 +202,8 @@ namespace FolderSynchService
             
         }
 
-        /* ---------------------------------------------------------------- */
-        /* ------------ AUXILIARY METHODS --------------------------------- */
-        /* ---------------------------------------------------------------- */
+
+        /*******************************************************************************************/
         private void LoginUser(User u)
         {
             lock (ConnectedUsers)
@@ -200,6 +214,21 @@ namespace FolderSynchService
                 ConnectedUsers.Add(u);
             }
         }
+
+
+        /* ----------------------------------------------------------------------------------------------- */
+        /* ------------ FOLDERS METHODS ------------------------------------------------------------------ */
+        /* ----------------------------------------------------------------------------------------------- */
+
+        public void AddNewFolder(User user, string folderName)
+        {
+            if (Directory.Exists(RemoteFoldersPath + "\\" + user.Username + "\\" + folderName))
+                throw new FaultException<MyBaseFault>(new MyBaseFault("directory already on server"));
+
+            user.Folders.Add(folderName);
+            Directory.CreateDirectory(RemoteFoldersPath + "\\" + user.Username + "\\" + folderName);
+        }
+
     }
 
 

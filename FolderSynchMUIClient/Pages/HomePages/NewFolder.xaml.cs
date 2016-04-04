@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using FolderSynchMUIClient.FolderSynchService;
+using System.ServiceModel;
 
 namespace FolderSynchMUIClient.Pages.HomePages
 {
@@ -40,6 +42,30 @@ namespace FolderSynchMUIClient.Pages.HomePages
         private void btnSynchFolder_Click(object sender, RoutedEventArgs e)
         {
 
+            App application = (App)Application.Current;
+            FolderSynchServiceContractClient proxy = application.FolderSynchProxy;
+
+            string[] directories = choosedFolderPathEditor.Text.Split('\\');
+            string folderName = directories[directories.Length - 1];
+
+            Console.WriteLine("adding new folder: " + folderName);
+
+            try
+            {
+                if (application.User != null)
+                {
+                    proxy.addNewSynchronizedFolder(folderName);
+                    responseLabel.Content = "added successfully";
+                }
+                else
+                    responseLabel.Content = "please login";
+
+            }
+            catch(FaultException f)
+            {
+                responseLabel.Content = "error: " + f.Message;
+            }
+            
         }
     }
 }

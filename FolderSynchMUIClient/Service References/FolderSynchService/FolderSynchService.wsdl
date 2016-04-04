@@ -13,6 +13,7 @@
       <xsd:import schemaLocation="http://localhost:8080/?xsd=xsd0" namespace="http://tempuri.org/" />
       <xsd:import schemaLocation="http://localhost:8080/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/FolderSynchService" />
       <xsd:import schemaLocation="http://localhost:8080/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost:8080/?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="FolderSynchServiceContract_RegisterNewUser_InputMessage">
@@ -39,6 +40,15 @@
   <wsdl:message name="FolderSynchServiceContract_logoutUser_OutputMessage">
     <wsdl:part name="parameters" element="tns:logoutUserResponse" />
   </wsdl:message>
+  <wsdl:message name="FolderSynchServiceContract_addNewSynchronizedFolder_InputMessage">
+    <wsdl:part name="parameters" element="tns:addNewSynchronizedFolder" />
+  </wsdl:message>
+  <wsdl:message name="FolderSynchServiceContract_addNewSynchronizedFolder_OutputMessage">
+    <wsdl:part name="parameters" element="tns:addNewSynchronizedFolderResponse" />
+  </wsdl:message>
+  <wsdl:message name="FolderSynchServiceContract_addNewSynchronizedFolder_MyBaseFaultFault_FaultMessage">
+    <wsdl:part xmlns:q3="http://schemas.datacontract.org/2004/07/FolderSynchService" name="detail" element="q3:MyBaseFault" />
+  </wsdl:message>
   <wsdl:portType msc:usingSession="true" name="FolderSynchServiceContract">
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="RegisterNewUser">
       <wsdl:input wsaw:Action="http://tempuri.org/FolderSynchServiceContract/RegisterNewUser" message="tns:FolderSynchServiceContract_RegisterNewUser_InputMessage" />
@@ -53,6 +63,11 @@
     <wsdl:operation msc:isInitiating="false" msc:isTerminating="true" name="logoutUser">
       <wsdl:input wsaw:Action="http://tempuri.org/FolderSynchServiceContract/logoutUser" message="tns:FolderSynchServiceContract_logoutUser_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/FolderSynchServiceContract/logoutUserResponse" message="tns:FolderSynchServiceContract_logoutUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="false" msc:isTerminating="false" name="addNewSynchronizedFolder">
+      <wsdl:input wsaw:Action="http://tempuri.org/FolderSynchServiceContract/addNewSynchronizedFolder" message="tns:FolderSynchServiceContract_addNewSynchronizedFolder_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/FolderSynchServiceContract/addNewSynchronizedFolderResponse" message="tns:FolderSynchServiceContract_addNewSynchronizedFolder_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/FolderSynchServiceContract/addNewSynchronizedFolderMyBaseFaultFault" name="MyBaseFaultFault" message="tns:FolderSynchServiceContract_addNewSynchronizedFolder_MyBaseFaultFault_FaultMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="serviceTcpEndpoint" type="tns:FolderSynchServiceContract">
@@ -90,6 +105,18 @@
       <wsdl:output>
         <soap12:body use="literal" />
       </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addNewSynchronizedFolder">
+      <soap12:operation soapAction="http://tempuri.org/FolderSynchServiceContract/addNewSynchronizedFolder" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="MyBaseFaultFault">
+        <soap12:fault use="literal" name="MyBaseFaultFault" namespace="" />
+      </wsdl:fault>
     </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="FolderSynchServiceImplementation">

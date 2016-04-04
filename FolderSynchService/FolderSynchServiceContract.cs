@@ -21,5 +21,9 @@ namespace FolderSynchService
 
         [OperationContract(IsInitiating = false, IsTerminating = true)]
         void logoutUser(User user);
+
+        [OperationContract(IsInitiating = false, IsTerminating = false)]
+        [FaultContract(typeof(MyBaseFault))]
+        void addNewSynchronizedFolder(string folderName);
     }
 }
