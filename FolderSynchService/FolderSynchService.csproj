@@ -50,9 +50,11 @@
     <Compile Include="FolderSynchServer.cs" />
     <Compile Include="FolderSynchServiceContract.cs" />
     <Compile Include="FolderSynchServiceImplementation.cs" />
+    <Compile Include="LoginFault.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegistrationFault.cs" />
     <Compile Include="User.cs" />
+    <Compile Include="UsersFileHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">

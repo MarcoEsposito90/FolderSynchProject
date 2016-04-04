@@ -15,5 +15,8 @@ namespace FolderSynchService
         [FaultContract(typeof(RegistrationFault))]
         void RegisterNewUser(string username, string password);
 
+        [OperationContract]
+        void loginUser(string username, string password);
+
     }
 }

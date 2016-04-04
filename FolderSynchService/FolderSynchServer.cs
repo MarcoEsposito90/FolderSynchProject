@@ -30,6 +30,15 @@ namespace FolderSynchService
             private set;
         }
 
+        public String MainDirectory
+        {
+            get
+            {
+                string docsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                return docsFolder + MAIN_DIRECTORY_RELATIVE_PATH;
+            }
+        }
+
         private String UsersFile
         {
             get
@@ -41,6 +50,22 @@ namespace FolderSynchService
                 return docsFolder + USERS_FILE_RELATIVE_PATH;
             }
         }
+
+
+        public List<User> Users
+        {
+            get;
+            private set;
+        }
+
+
+        public List<User> ConnectedUsers
+        {
+            get;
+            private set;
+        }
+
+        
 
         /* ---------------------------------------------------------------- */
         /* ------------------ CONSTRUCTOR --------------------------------- */
@@ -65,39 +90,39 @@ namespace FolderSynchService
         /* ------------------ METHODS ------------------------------------- */
         /* ---------------------------------------------------------------- */
 
-        /* startup is in charge to check if all host application files are available --------
-           and create them otherwise  ------------------------------------------------------- */
+        /*************************** initialization ************************************************/
+
         public void Startup()
         {
+
+            // 1) initialize files and directories ---------------------
+
             string docsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             Console.WriteLine("documents folder path: " + docsFolder);
 
             if (!Directory.Exists((docsFolder + MAIN_DIRECTORY_RELATIVE_PATH)))
-            {
                 Directory.CreateDirectory(docsFolder + MAIN_DIRECTORY_RELATIVE_PATH);
-            }
 
             if (!Directory.Exists(docsFolder + REMOTE_FOLDERS_RELATIVE_PATH))
-            {
                 Directory.CreateDirectory(docsFolder + REMOTE_FOLDERS_RELATIVE_PATH);
-            }
 
             if (!File.Exists(docsFolder + USERS_FILE_RELATIVE_PATH))
-            {
+                UsersFileHandler.Instance.WriteUsersList(new List<User>());
 
-                // create file and write empty list
-                StreamWriter sw = new StreamWriter(docsFolder + USERS_FILE_RELATIVE_PATH);
-                List<User> users = new List<User>();
-                string output = JsonConvert.SerializeObject(users);
-                sw.WriteLine(output);
-                sw.Close();
-            }
+
+            // 2) initialize users data structures --------------------------
+            ConnectedUsers = new List<User>();
+            Users = new List<User>();
+            UsersFileHandler.Instance.ReadUsersFromFile(Users);
+
 
             IsInitialized = true;
         }
 
 
-        /*  ------------- this method is in charge of registrating a new user --------------- */
+
+        /*************************** registrating a new user ************************************************/
+
         public void registerNewUser(string username, string password)
         {
             // check if server has startupped ----------------
@@ -107,47 +132,17 @@ namespace FolderSynchService
                 throw new FaultException<RegistrationFault>(new RegistrationFault(RegistrationFault.SERVER_ERROR));
             }
 
-            // open users file ------------------------
-            StreamReader sr = new StreamReader(this.UsersFile);
-            string fileContent = sr.ReadToEnd();
-            sr.Close();
-
-            Object o = JsonConvert.DeserializeObject(fileContent);
-
-            if (!o.GetType().Equals(typeof(Newtonsoft.Json.Linq.JArray)))
-            {
-                Console.WriteLine("wrong type: " + o.GetType());
-                throw new FaultException<RegistrationFault>(new RegistrationFault(RegistrationFault.SERVER_ERROR));
-            }
-
-            Newtonsoft.Json.Linq.JArray array = (Newtonsoft.Json.Linq.JArray)o;
-            List<User> users = new List<User>();
-
             // first user --------------------------------
-            if (array.Count == 0)
+            if (Users.Count == 0)
             {
-                users.Add(new User(username, password));
-
-                string output = JsonConvert.SerializeObject(users);
-
-                StreamWriter sw = new StreamWriter(this.UsersFile);
-                sw.WriteLine(output);
-                sw.Close();
-
+                Users.Add(new User(username, password));
+                UsersFileHandler.Instance.WriteUsersList(Users);
+                return;
             }
 
             // check if username is still available ------------
-            foreach (Object i in array)
+            foreach (User u in Users)
             {
-                if (!i.GetType().Equals(typeof(Newtonsoft.Json.Linq.JObject)))
-                {
-                    Console.WriteLine("Wrong type: " + i.GetType());
-                    throw new FaultException<RegistrationFault>(new RegistrationFault(RegistrationFault.SERVER_ERROR));
-                }
-
-
-                Newtonsoft.Json.Linq.JObject jo = (Newtonsoft.Json.Linq.JObject)i;
-                User u = (User)jo.ToObject(typeof(User));
 
                 if (u.Username.Equals(username))
                 {
@@ -155,19 +150,36 @@ namespace FolderSynchService
                     throw new FaultException<RegistrationFault>(new RegistrationFault(RegistrationFault.USERNAME_UNAVAILABLE));
                 }
 
-                users.Add(u);
             }
 
             // add new user to list -----------------------------
-            users.Add(new User(username, password));
-            string output2 = JsonConvert.SerializeObject(users);
-
-
-            // write to file -----------------------------------
-            StreamWriter sw2 = new StreamWriter(this.UsersFile);
-            sw2.WriteLine(output2);
-            sw2.Close();
+            Users.Add(new User(username, password));
+            UsersFileHandler.Instance.WriteUsersList(Users);
 
         }
+
+        /************************************ user login ********************************************************************/
+        public void LoginUser(string username, string password)
+        {
+
+            foreach(User u in Users)
+            {
+                if (u.Username.Equals(username))
+                {
+                    if (u.Password.Equals(password))
+                    {
+                        ConnectedUsers.Add(u);
+                        return;
+                    }
+
+                    throw new FaultException<LoginFault>(new LoginFault(LoginFault.WRONG_USERNAME_OR_PASSWORD));
+                }
+            }
+
+            throw new FaultException<LoginFault>(new LoginFault(LoginFault.WRONG_USERNAME_OR_PASSWORD));
+        }
     }
+
+
+    
 }
