@@ -37,6 +37,9 @@ namespace FolderSynchMUIClient.Pages
                 responseLabel.Content = "login successful";
                 SecondWindow sw = new SecondWindow();
                 sw.Show();
+                //Console.WriteLine("fino a qui ok");
+                //NavigationService nav = NavigationService.GetNavigationService(this);
+                //nav.Navigate(new Uri("/Pages/LoginPage.xaml", UriKind.RelativeOrAbsolute));
             }
             catch (FaultException f)
             {

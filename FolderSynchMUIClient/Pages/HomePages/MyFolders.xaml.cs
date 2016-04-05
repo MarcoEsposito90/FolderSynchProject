@@ -35,7 +35,10 @@ namespace FolderSynchMUIClient.Pages.HomePages
 
         private void folderNameButton_Click(object sender, RoutedEventArgs e)
         {
-
+            App application = (App)Application.Current;
+            application.Folder = (Folder)(sender as Button).DataContext;
+            Console.WriteLine("Selected folder: " + application.Folder.Name + ", path: " + application.Folder.Path);
+            Console.WriteLine("Selected folder: " + application.Folder.Name + ", size: " + application.Folder.Size);
         }
     }
 }

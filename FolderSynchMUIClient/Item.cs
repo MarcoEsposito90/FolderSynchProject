@@ -15,6 +15,10 @@ namespace FolderSynchMUIClient
 
        // [DataMember]
         public string Path { get; set; }
+
+        public long Size { get; set; }
+
+        public string SizeInBytes { get; set; }
     }
 }
 

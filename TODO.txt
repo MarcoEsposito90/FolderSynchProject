@@ -1,0 +1,6 @@
+Per Marco: se vuoi provare a navigare con le tue cartelle in MyFolders.xaml.cs cambia il path di itemProvider.getFolders().
+Per vedere details, browse, etc di una cartella prima seleziona la cartella che vuoi vedere e poi clicca sui tab.
+
+TODO:
+1. Navigare nella stessa finestra invece che aprirne una seconda (ora se lo faccio dà null pointer);
+2. Fare in modo che quando clicco su una nuova cartella si modifichino le informazioni di details, browse, etc.

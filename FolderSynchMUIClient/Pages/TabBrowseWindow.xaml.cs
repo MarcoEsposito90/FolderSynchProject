@@ -44,10 +44,13 @@ namespace FolderSynchMUIClient.Pages
 
             ItemProvider itemProvider = new ItemProvider();
 
-            ObservableCollection<Item> ItemsList = itemProvider.GetItems("C:\\Users\\Giulia Genta\\Desktop");
-
+            App application = (App)Application.Current;
+            if(application.Folder != null) { 
+                 ObservableCollection<Item> ItemsList = itemProvider.GetItems(application.Folder.Path);
+                trvFolders.ItemsSource = ItemsList;
+            }
             //DataContext = ItemsList;
-            trvFolders.ItemsSource = ItemsList;
+            
             
         }
     }

@@ -23,7 +23,8 @@ namespace FolderSynchMUIClient
                 var item = new Folder(directory.Name, directory.FullName)
                 {
                    Items = GetItems(directory.FullName)
-                };
+                   
+            };
 
                 items.Add(item);
             }
@@ -52,6 +53,24 @@ namespace FolderSynchMUIClient
                 folders.Add(f);
             }
             return folders;
+        }
+
+        public long CalculateSize(DirectoryInfo dirInfo)
+        {
+            long size = 0;
+            // Add file sizes.
+            foreach (var file in dirInfo.GetFiles())
+            {
+                size += file.Length;
+            }
+            // Add subdirectory sizes.
+            foreach (var directory in dirInfo.GetDirectories())
+            {
+                size += CalculateSize(new DirectoryInfo(directory.FullName));
+            }
+            //Console.WriteLine("Chiamato metodo CalculateSize per " + dirInfo.Name + " " + size.ToString());
+
+            return size;
         }
 
     }

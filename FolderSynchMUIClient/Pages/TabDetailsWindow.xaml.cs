@@ -23,6 +23,15 @@ namespace FolderSynchMUIClient.Pages
         public TabDetailsWindow()
         {
             InitializeComponent();
+
+            App application = (App)Application.Current;
+            if (application.Folder != null)
+            {
+                TBFolderName.Text = application.Folder.Name;
+                TBFolderDetails_Path.Text = application.Folder.Path;
+                TBFolderDetails_Size.Text = application.Folder.SizeInBytes;
+                TBFolderDetails_NumFiles.Text = (application.Folder.ContainedFiles.ToString() + " files, "+ application.Folder.ContainedFolders.ToString() + " folders");
+            }
         }
     }
 }
