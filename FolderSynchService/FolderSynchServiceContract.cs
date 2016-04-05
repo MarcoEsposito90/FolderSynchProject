@@ -25,5 +25,10 @@ namespace FolderSynchService
         [OperationContract(IsInitiating = false, IsTerminating = false)]
         [FaultContract(typeof(MyBaseFault))]
         void addNewSynchronizedFolder(string folderName);
+
+        
+        [OperationContract(IsInitiating = false, IsTerminating = false)]
+        [FaultContract(typeof(FileTransferFault))]
+        void uploadNewFile(UploadFileStreamMessage message);
     }
 }

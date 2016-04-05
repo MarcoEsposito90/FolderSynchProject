@@ -229,6 +229,15 @@ namespace FolderSynchService
             Directory.CreateDirectory(RemoteFoldersPath + "\\" + user.Username + "\\" + folderName);
         }
 
+
+        public void addNewFile(User user, string baseFolder, string localPath, FileStream data)
+        {
+            if (!user.Folders.Contains(baseFolder))
+                throw new FaultException<FileTransferFault>(new FileTransferFault(FileTransferFault.UNKNOWN_BASE_FOLDER));
+
+            FileStream inputStream = new FileStream(RemoteFoldersPath + "\\" + user.Username + "\\" + baseFolder + "\\" + localPath, FileMode.Create);
+            data.CopyTo(inputStream);
+        }
     }
 
 

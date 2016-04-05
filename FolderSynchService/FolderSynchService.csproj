@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileTransferFault.cs" />
     <Compile Include="FolderSynchServer.cs" />
     <Compile Include="FolderSynchServiceContract.cs" />
     <Compile Include="FolderSynchServiceImplementation.cs" />
@@ -55,6 +56,7 @@
     <Compile Include="MyBaseFault.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegistrationFault.cs" />
+    <Compile Include="UploadFileStreamMessage.cs" />
     <Compile Include="User.cs" />
     <Compile Include="UsersFileHandler.cs" />
   </ItemGroup>

@@ -13,12 +13,8 @@ namespace FolderSynchService
     {
         User currentUser = null;
 
-        public void addNewSynchronizedFolder(string folderName)
-        {
-            Console.WriteLine(currentUser.Username + " wants to add a new folder: " + folderName);
-            FolderSynchServer.Instance.AddNewFolder(currentUser, folderName);
-        }
-
+        
+        /* ------------------------ USER ---------------------------------------- */
         public User loginUser(string username, string password)
         {
             currentUser = FolderSynchServer.Instance.LoginUser(username, password);
@@ -37,5 +33,20 @@ namespace FolderSynchService
             return currentUser;
         }
 
+
+        /* ------------------------ FOLDERS ---------------------------------------- */
+
+        public void uploadNewFile(UploadFileStreamMessage message)
+        {
+            Console.WriteLine(currentUser.Username + "wants to add a new file");
+            FolderSynchServer.Instance.addNewFile(currentUser, message.baseFolder, message.localPath, message.data);
+        }
+
+        public void addNewSynchronizedFolder(string folderName)
+        {
+            Console.WriteLine(currentUser.Username + " wants to add a new folder: " + folderName);
+            FolderSynchServer.Instance.AddNewFolder(currentUser, folderName);
+        }
+        
     }
 }
