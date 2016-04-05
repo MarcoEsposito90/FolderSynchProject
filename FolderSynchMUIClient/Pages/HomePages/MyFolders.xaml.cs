@@ -24,11 +24,13 @@ namespace FolderSynchMUIClient.Pages.HomePages
         public MyFolders()
         {
             InitializeComponent();
+            
             ItemProvider itemProvider = new ItemProvider();
             
             ObservableCollection<Folder> FolderList = itemProvider.GetFolders("C:\\Users\\Giulia Genta\\Desktop");
 
             foldersButtonControl.ItemsSource = FolderList;
+            
         }
 
         private void folderNameButton_Click(object sender, RoutedEventArgs e)

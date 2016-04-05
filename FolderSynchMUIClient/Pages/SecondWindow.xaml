@@ -1,0 +1,41 @@
+﻿<mui:ModernWindow x:Class="FolderSynchMUIClient.Pages.SecondWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+            ContentSource="/Pages/HomePage.xaml">
+    <mui:ModernWindow.MenuLinkGroups>
+
+        <mui:LinkGroup DisplayName="welcome">
+            <mui:LinkGroup.Links>
+                <mui:Link DisplayName="home" Source="/Pages/HomePage.xaml" />
+            </mui:LinkGroup.Links>
+        </mui:LinkGroup>
+
+        <mui:LinkGroup DisplayName="Settings" GroupKey="settings">
+            <mui:LinkGroup.Links>
+                <mui:Link DisplayName="Software" Source="/Pages/SettingsPage.xaml" />
+            </mui:LinkGroup.Links>
+        </mui:LinkGroup>
+
+        <mui:LinkGroup DisplayName="Logout" GroupKey="logout">
+            <mui:LinkGroup.Links>
+                <mui:Link DisplayName="Logout" Source="/Pages/LogoutPage.xaml" />
+            </mui:LinkGroup.Links>
+        </mui:LinkGroup>
+
+
+
+    </mui:ModernWindow.MenuLinkGroups>
+
+    <mui:ModernWindow.TitleLinks>
+        <mui:Link DisplayName="Home" Source="/Pages/HomePage.xaml" />
+        <mui:Link DisplayName="Setting" Source="/Pages/SettingsPage.xaml" />
+        <mui:Link DisplayName="Logout" Source="/Pages/LogoutPage.xaml" />
+    </mui:ModernWindow.TitleLinks>
+
+
+</mui:ModernWindow>

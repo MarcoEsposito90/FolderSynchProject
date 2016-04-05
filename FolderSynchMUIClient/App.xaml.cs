@@ -1,4 +1,5 @@
 ﻿using FolderSynchMUIClient.FolderSynchService;
+using FolderSynchMUIClient.Pages;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -38,6 +39,8 @@ namespace FolderSynchMUIClient
             Application.Current.Resources["ButtonBackgroundHover"] = Brushes.AliceBlue;
 
             // opening the main window
+            //SecondWindow sw = new SecondWindow();
+            //sw.Show();
             MainWindow mw = new MainWindow();
             mw.Show();
         }

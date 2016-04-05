@@ -35,8 +35,10 @@ namespace FolderSynchMUIClient.Pages
                 FolderSynchServiceContractClient proxy = application.FolderSynchProxy;
                 application.User = proxy.loginUser(TBLoginUsername.Text.ToString(), TBLoginPassword.Password.ToString());
                 responseLabel.Content = "login successful";
+                SecondWindow sw = new SecondWindow();
+                sw.Show();
             }
-            catch(FaultException f)
+            catch (FaultException f)
             {
                 responseLabel.Content = "error: " + f.Message;
             }

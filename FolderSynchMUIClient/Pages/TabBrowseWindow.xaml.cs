@@ -40,14 +40,15 @@ namespace FolderSynchMUIClient.Pages
            folder1.Items.Add(new FileItem() { Name = "File2", Path = "C://Folder1" });
            ItemsList.Add(folder2);
 
-           trvFolders.ItemsSource = ItemsList;
-           */
+           trvFolders.ItemsSource = ItemsList;*/
+
             ItemProvider itemProvider = new ItemProvider();
 
             ObservableCollection<Item> ItemsList = itemProvider.GetItems("C:\\Users\\Giulia Genta\\Desktop");
 
             //DataContext = ItemsList;
             trvFolders.ItemsSource = ItemsList;
+            
         }
     }
 }

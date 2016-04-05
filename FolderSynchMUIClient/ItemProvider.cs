@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Runtime.Serialization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,8 @@ using System.Threading.Tasks;
 
 namespace FolderSynchMUIClient
 {
-    class ItemProvider
+    //[DataContract]
+    public class ItemProvider
     {
         public ObservableCollection<Item> GetItems(string path)
         {
@@ -18,11 +20,9 @@ namespace FolderSynchMUIClient
 
             foreach (var directory in dirInfo.GetDirectories())
             {
-                var item = new Folder
+                var item = new Folder(directory.Name, directory.FullName)
                 {
-                    Name = directory.Name,
-                    Path = directory.FullName,
-                    Items = GetItems(directory.FullName)
+                   Items = GetItems(directory.FullName)
                 };
 
                 items.Add(item);
@@ -30,11 +30,7 @@ namespace FolderSynchMUIClient
 
             foreach (var file in dirInfo.GetFiles())
             {
-                var item = new FileItem
-                {
-                    Name = file.Name,
-                    Path = file.FullName
-                };
+                var item = new FileItem(file.Name, file.FullName);
 
                 items.Add(item);
             }
@@ -48,10 +44,8 @@ namespace FolderSynchMUIClient
 
             foreach (var directory in dirInfo.GetDirectories())
             {
-                Folder f = new Folder
+                Folder f = new Folder(directory.Name, directory.FullName)
                 {
-                    Name = directory.Name,
-                    Path = directory.FullName,
                     Items = GetItems(directory.FullName)
                 };
 

@@ -7,33 +7,11 @@
         ContentSource="/Pages/LoginPage.xaml">
 
     <mui:ModernWindow.MenuLinkGroups>
-
-        <mui:LinkGroup DisplayName="Account" GroupKey="account">
+        <mui:LinkGroup DisplayName="Login Page" GroupKey="login">
             <mui:LinkGroup.Links>
                 <mui:Link DisplayName="Login" Source="/Pages/LoginPage.xaml" />
                 <mui:Link DisplayName="Register" Source="/Pages/RegisterPage.xaml" />
             </mui:LinkGroup.Links>
         </mui:LinkGroup>
-        <mui:LinkGroup DisplayName="welcome">
-            <mui:LinkGroup.Links>
-                <mui:Link DisplayName="home" Source="/Pages/HomePage.xaml" />
-            </mui:LinkGroup.Links>
-        </mui:LinkGroup>
-
-        <mui:LinkGroup DisplayName="Settings" GroupKey="settings">
-            <mui:LinkGroup.Links>
-                <mui:Link DisplayName="Software" Source="/Pages/SettingsPage.xaml" />
-            </mui:LinkGroup.Links>
-        </mui:LinkGroup>
-
-        
-
     </mui:ModernWindow.MenuLinkGroups>
-
-    <mui:ModernWindow.TitleLinks>
-        <mui:Link DisplayName="Account" Source="/Pages/LoginPage.xaml" />
-        <mui:Link DisplayName="Home" Source="/Pages/HomePage.xaml" />
-        <mui:Link DisplayName="Setting" Source="/Pages/SettingsPage.xaml" />
-    </mui:ModernWindow.TitleLinks>
-
 </mui:ModernWindow>

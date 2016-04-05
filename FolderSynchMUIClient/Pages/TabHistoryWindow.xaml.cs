@@ -24,12 +24,12 @@ namespace FolderSynchMUIClient.Pages
         public TabHistoryWindow()
         {
             InitializeComponent();
-
+           
             ObservableCollection<Folder> FolderList = new ObservableCollection<Folder>();
 
-            Folder f1 = new Folder() { Name = "Folder1", Path = "xxx" };
-            Folder f2 = new Folder() { Name = "Folder2", Path = "yyy" };
-            Folder f3 = new Folder() { Name = "Folder2", Path = "zzz" };
+            Folder f1 = new Folder("Folder1", "xxx");
+            Folder f2 = new Folder("Folder2", "yyy");
+            Folder f3 = new Folder("Folder3", "zzz");
 
             FolderList.Add(f1);
             FolderList.Add(f2);
