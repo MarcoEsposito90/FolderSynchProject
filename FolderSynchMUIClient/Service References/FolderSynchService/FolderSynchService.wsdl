@@ -14,6 +14,8 @@
       <xsd:import schemaLocation="http://localhost:8080/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/FolderSynchService" />
       <xsd:import schemaLocation="http://localhost:8080/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
       <xsd:import schemaLocation="http://localhost:8080/?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+      <xsd:import schemaLocation="http://localhost:8080/?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/System.IO" />
+      <xsd:import schemaLocation="http://localhost:8080/?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/System" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="FolderSynchServiceContract_RegisterNewUser_InputMessage">
@@ -49,6 +51,14 @@
   <wsdl:message name="FolderSynchServiceContract_addNewSynchronizedFolder_MyBaseFaultFault_FaultMessage">
     <wsdl:part xmlns:q3="http://schemas.datacontract.org/2004/07/FolderSynchService" name="detail" element="q3:MyBaseFault" />
   </wsdl:message>
+  <wsdl:message name="UploadFileStreamMessage">
+    <wsdl:part name="parameters" element="tns:UploadFileStreamMessage" />
+  </wsdl:message>
+  <wsdl:message name="UploadFileStreamMessage_Headers">
+    <wsdl:part name="baseFolder" element="tns:baseFolder" />
+    <wsdl:part name="localPath" element="tns:localPath" />
+  </wsdl:message>
+  <wsdl:message name="FolderSynchServiceContract_uploadFile_OutputMessage" />
   <wsdl:portType msc:usingSession="true" name="FolderSynchServiceContract">
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="RegisterNewUser">
       <wsdl:input wsaw:Action="http://tempuri.org/FolderSynchServiceContract/RegisterNewUser" message="tns:FolderSynchServiceContract_RegisterNewUser_InputMessage" />
@@ -68,6 +78,10 @@
       <wsdl:input wsaw:Action="http://tempuri.org/FolderSynchServiceContract/addNewSynchronizedFolder" message="tns:FolderSynchServiceContract_addNewSynchronizedFolder_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/FolderSynchServiceContract/addNewSynchronizedFolderResponse" message="tns:FolderSynchServiceContract_addNewSynchronizedFolder_OutputMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/FolderSynchServiceContract/addNewSynchronizedFolderMyBaseFaultFault" name="MyBaseFaultFault" message="tns:FolderSynchServiceContract_addNewSynchronizedFolder_MyBaseFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="uploadFile">
+      <wsdl:input wsaw:Action="http://tempuri.org/FolderSynchServiceContract/uploadFile" name="UploadFileStreamMessage" message="tns:UploadFileStreamMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/FolderSynchServiceContract/uploadFileResponse" message="tns:FolderSynchServiceContract_uploadFile_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="serviceTcpEndpoint" type="tns:FolderSynchServiceContract">
@@ -117,6 +131,17 @@
       <wsdl:fault name="MyBaseFaultFault">
         <soap12:fault use="literal" name="MyBaseFaultFault" namespace="" />
       </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="uploadFile">
+      <soap12:operation soapAction="http://tempuri.org/FolderSynchServiceContract/uploadFile" style="document" />
+      <wsdl:input name="UploadFileStreamMessage">
+        <soap12:header message="tns:UploadFileStreamMessage_Headers" part="baseFolder" use="literal" />
+        <soap12:header message="tns:UploadFileStreamMessage_Headers" part="localPath" use="literal" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
     </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="FolderSynchServiceImplementation">

@@ -27,8 +27,7 @@ namespace FolderSynchService
         void addNewSynchronizedFolder(string folderName);
 
         
-        [OperationContract(IsInitiating = false, IsTerminating = false)]
-        [FaultContract(typeof(FileTransferFault))]
-        void uploadNewFile(UploadFileStreamMessage message);
+        [OperationContract]
+        void uploadFile(UploadFileStreamMessage message);
     }
 }

@@ -183,6 +183,48 @@ namespace FolderSynchMUIClient.FolderSynchService {
         
         [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/addNewSynchronizedFolder", ReplyAction="http://tempuri.org/FolderSynchServiceContract/addNewSynchronizedFolderResponse")]
         System.Threading.Tasks.Task addNewSynchronizedFolderAsync(string folderName);
+        
+        // CODEGEN: Generazione di un contratto di messaggio perché l'operazione uploadFile non è RPC né incapsulata da documenti.
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/FolderSynchServiceContract/uploadFile", ReplyAction="http://tempuri.org/FolderSynchServiceContract/uploadFileResponse")]
+        FolderSynchMUIClient.FolderSynchService.uploadFileResponse uploadFile(FolderSynchMUIClient.FolderSynchService.UploadFileStreamMessage request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/FolderSynchServiceContract/uploadFile", ReplyAction="http://tempuri.org/FolderSynchServiceContract/uploadFileResponse")]
+        System.Threading.Tasks.Task<FolderSynchMUIClient.FolderSynchService.uploadFileResponse> uploadFileAsync(FolderSynchMUIClient.FolderSynchService.UploadFileStreamMessage request);
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="UploadFileStreamMessage", WrapperNamespace="http://tempuri.org/", IsWrapped=true)]
+    public partial class UploadFileStreamMessage {
+        
+        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+        public string baseFolder;
+        
+        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+        public string localPath;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
+        public System.IO.FileStream data;
+        
+        public UploadFileStreamMessage() {
+        }
+        
+        public UploadFileStreamMessage(string baseFolder, string localPath, System.IO.FileStream data) {
+            this.baseFolder = baseFolder;
+            this.localPath = localPath;
+            this.data = data;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class uploadFileResponse {
+        
+        public uploadFileResponse() {
+        }
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -242,6 +284,32 @@ namespace FolderSynchMUIClient.FolderSynchService {
         
         public System.Threading.Tasks.Task addNewSynchronizedFolderAsync(string folderName) {
             return base.Channel.addNewSynchronizedFolderAsync(folderName);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        FolderSynchMUIClient.FolderSynchService.uploadFileResponse FolderSynchMUIClient.FolderSynchService.FolderSynchServiceContract.uploadFile(FolderSynchMUIClient.FolderSynchService.UploadFileStreamMessage request) {
+            return base.Channel.uploadFile(request);
+        }
+        
+        public void uploadFile(string baseFolder, string localPath, System.IO.FileStream data) {
+            FolderSynchMUIClient.FolderSynchService.UploadFileStreamMessage inValue = new FolderSynchMUIClient.FolderSynchService.UploadFileStreamMessage();
+            inValue.baseFolder = baseFolder;
+            inValue.localPath = localPath;
+            inValue.data = data;
+            FolderSynchMUIClient.FolderSynchService.uploadFileResponse retVal = ((FolderSynchMUIClient.FolderSynchService.FolderSynchServiceContract)(this)).uploadFile(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<FolderSynchMUIClient.FolderSynchService.uploadFileResponse> FolderSynchMUIClient.FolderSynchService.FolderSynchServiceContract.uploadFileAsync(FolderSynchMUIClient.FolderSynchService.UploadFileStreamMessage request) {
+            return base.Channel.uploadFileAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<FolderSynchMUIClient.FolderSynchService.uploadFileResponse> uploadFileAsync(string baseFolder, string localPath, System.IO.FileStream data) {
+            FolderSynchMUIClient.FolderSynchService.UploadFileStreamMessage inValue = new FolderSynchMUIClient.FolderSynchService.UploadFileStreamMessage();
+            inValue.baseFolder = baseFolder;
+            inValue.localPath = localPath;
+            inValue.data = data;
+            return ((FolderSynchMUIClient.FolderSynchService.FolderSynchServiceContract)(this)).uploadFileAsync(inValue);
         }
     }
 }

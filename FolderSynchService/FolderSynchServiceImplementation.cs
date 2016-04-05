@@ -36,7 +36,7 @@ namespace FolderSynchService
 
         /* ------------------------ FOLDERS ---------------------------------------- */
 
-        public void uploadNewFile(UploadFileStreamMessage message)
+        public void uploadFile(UploadFileStreamMessage message)
         {
             Console.WriteLine(currentUser.Username + "wants to add a new file");
             FolderSynchServer.Instance.addNewFile(currentUser, message.baseFolder, message.localPath, message.data);
