@@ -9,7 +9,7 @@ namespace FolderSynchService
 {
     [ServiceBehavior(   InstanceContextMode = InstanceContextMode.PerSession,
                         ConcurrencyMode = ConcurrencyMode.Single)]
-    public class FolderSynchServiceImplementation : FolderSynchServiceContract
+    public class FolderSynchImplementation : FolderSynchServiceContract
     {
         User currentUser = null;
 
@@ -34,14 +34,16 @@ namespace FolderSynchService
         }
 
 
-        /* ------------------------ FOLDERS ---------------------------------------- */
+        /* ------------------------ FILE TRANSFER ---------------------------------------- */
 
-        public void uploadFile(UploadFileStreamMessage message)
+        public void uploadFile(FileStreamMessage message)
         {
             Console.WriteLine(currentUser.Username + "wants to add a new file");
             FolderSynchServer.Instance.addNewFile(currentUser, message.baseFolder, message.localPath, message.data);
         }
 
+
+        /* ------------------------ FOLDERS --------------------------------------------- */
         public void addNewSynchronizedFolder(string folderName)
         {
             Console.WriteLine(currentUser.Username + " wants to add a new folder: " + folderName);

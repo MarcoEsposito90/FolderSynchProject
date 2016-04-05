@@ -230,13 +230,34 @@ namespace FolderSynchService
         }
 
 
-        public void addNewFile(User user, string baseFolder, string localPath, FileStream data)
+        public void addNewFile(User user, string baseFolder, string localPath, Stream uploadStream)
         {
             if (!user.Folders.Contains(baseFolder))
                 throw new FaultException<FileTransferFault>(new FileTransferFault(FileTransferFault.UNKNOWN_BASE_FOLDER));
 
-            FileStream inputStream = new FileStream(RemoteFoldersPath + "\\" + user.Username + "\\" + baseFolder + "\\" + localPath, FileMode.Create);
-            data.CopyTo(inputStream);
+            FileStream inputStream = new FileStream(RemoteFoldersPath + "\\" + user.Username + "\\" + baseFolder + "\\" + localPath, 
+                                                    FileMode.Create,
+                                                    FileAccess.Write,
+                                                    FileShare.None);
+
+            using (inputStream)
+            {
+                // allocate a 1 KB buffer
+                const int bufferSize = 1024;
+                byte[] buffer = new byte[bufferSize];
+                Console.WriteLine("Buffer allocated");
+
+                // read 1KB per iteration: first they are moved to the buffer, then to the destination file
+                int readBytesCount = 0;
+                while((readBytesCount = uploadStream.Read(buffer, 0, bufferSize)) > 0)
+                {
+                    inputStream.Write(buffer, 0, readBytesCount);
+                }
+
+                inputStream.Close();
+                uploadStream.Close();
+            }
+
         }
     }
 

@@ -22,6 +22,7 @@ namespace FolderSynchMUIClient
             set;
         }
 
+
         public User User
         {
             get;

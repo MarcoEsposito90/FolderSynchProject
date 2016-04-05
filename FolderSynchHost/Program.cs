@@ -29,7 +29,7 @@ namespace FolderSynchHost
             // first, create an instance of the service which will be hosted inside this process
             try
             {
-                using (ServiceHost host = new ServiceHost(typeof(FolderSynchService.FolderSynchServiceImplementation)))
+                using (ServiceHost host = new ServiceHost(typeof(FolderSynchService.FolderSynchImplementation)))
                 {
 
                     // open the service to make it available. After that, it will react to clients' requests

@@ -194,6 +194,9 @@
     <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\FolderSynchService.User.datasource" />
+    <None Include="Service References\FolderSynchService\FolderSynchMUIClient.FolderSynchService.uploadFileResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Service References\FolderSynchService\FolderSynchMUIClient.FolderSynchService.User.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
@@ -225,6 +228,9 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\FolderSynchService\item3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\FolderSynchService\item4.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\FolderSynchService\Reference.svcmap">

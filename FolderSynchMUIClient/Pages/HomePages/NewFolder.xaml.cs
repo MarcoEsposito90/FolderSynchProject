@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using FolderSynchMUIClient.FolderSynchService;
 using System.ServiceModel;
+using System.IO;
 
 namespace FolderSynchMUIClient.Pages.HomePages
 {
@@ -55,15 +56,40 @@ namespace FolderSynchMUIClient.Pages.HomePages
                 if (application.User != null)
                 {
                     proxy.addNewSynchronizedFolder(folderName);
-                    responseLabel.Content = "added successfully";
+
+                    string[] files = Directory.GetFiles(choosedFolderPathEditor.Text);
+
+                    if (files.Length > 0)
+                    {
+                        responseLabel.Content = "trying to upload " + files[0];
+                        string[] path = files[0].Split('\\');
+                        string localPath = "";
+
+                        for(int i = path.Length - 1; i >= 0; i--)
+                        {
+                            if (path[i].Equals(folderName))
+                                break;
+
+                            localPath += path[i] + localPath;
+                        }
+
+                        responseLabel.Content += "\nlocalPath = " + localPath;
+
+                        using (Stream uploadStream = new FileStream(files[0], FileMode.Open))
+                        {
+                            proxy.uploadFile(folderName, localPath, uploadStream);
+                        }
+                    }
                 }
                 else
                     responseLabel.Content = "please login";
 
+
+
             }
             catch(FaultException f)
             {
-                responseLabel.Content = "error: " + f.Message;
+                responseLabel.Content += "\nerror: " + f.Message;
             }
             
         }

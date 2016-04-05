@@ -27,7 +27,6 @@
     <MetadataFile FileName="FolderSynchService.wsdl" MetadataType="Wsdl" ID="3fbe03de-1187-4acc-9df7-f9ead5bd062d" SourceId="1" SourceUrl="http://localhost:8080/?wsdl" />
     <MetadataFile FileName="item4.xsd" MetadataType="Schema" ID="e66cba0f-5316-489d-a569-6c91026cbefc" SourceId="1" SourceUrl="http://localhost:8080/?xsd=xsd4" />
     <MetadataFile FileName="item1.xsd" MetadataType="Schema" ID="8d5e6578-31ab-4af0-bc23-a9bce6bea9b7" SourceId="1" SourceUrl="http://localhost:8080/?xsd=xsd1" />
-    <MetadataFile FileName="item41.xsd" MetadataType="Schema" ID="3aca96ad-cc1e-4908-9caa-38111b5c770d" SourceId="1" SourceUrl="http://localhost:8080/?xsd=xsd5" />
     <MetadataFile FileName="item3.xsd" MetadataType="Schema" ID="ebde1473-55d3-4038-9752-0555ac102677" SourceId="1" SourceUrl="http://localhost:8080/?xsd=xsd3" />
     <MetadataFile FileName="item.xsd" MetadataType="Schema" ID="aaa12573-1216-4730-999a-a0eba7821ed0" SourceId="1" SourceUrl="http://localhost:8080/?xsd=xsd0" />
   </Metadata>
