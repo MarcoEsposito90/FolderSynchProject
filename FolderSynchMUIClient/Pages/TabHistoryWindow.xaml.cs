@@ -25,18 +25,17 @@ namespace FolderSynchMUIClient.Pages
         public TabHistoryWindow()
         {
             InitializeComponent();
-           
-            ObservableCollection<Folder> FolderList = new ObservableCollection<Folder>();
 
-            Folder f1 = new Folder("Folder1", "xxx");
-            Folder f2 = new Folder("Folder2", "yyy");
-            Folder f3 = new Folder("Folder3", "zzz");
+            ItemProvider itemProvider = new ItemProvider();
 
-            FolderList.Add(f1);
-            FolderList.Add(f2);
-            FolderList.Add(f3);
+            App application = (App)Application.Current;
+            if (application.Folder != null)
+            {
+                //qui al posto delle folder dovrò mettere le date di modifica --> lista di date di modifica
+                ObservableCollection<Folder> ItemsList = itemProvider.GetFolders(application.Folder.Path);
+                folderEditDates.ItemsSource = ItemsList;
+            }
 
-            folderEditDates.ItemsSource = FolderList;
         }
     }
 }

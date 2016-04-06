@@ -34,6 +34,7 @@ namespace FolderSynchMUIClient.Pages.HomePages
             
         }
 
+        /*
         private void folderNameButton_Click(object sender, RoutedEventArgs e)
         {
             App application = (App)Application.Current;
@@ -41,5 +42,19 @@ namespace FolderSynchMUIClient.Pages.HomePages
             Console.WriteLine("Selected folder: " + application.Folder.Name + ", path: " + application.Folder.Path);
             Console.WriteLine("Selected folder: " + application.Folder.Name + ", size: " + application.Folder.Size);
         }
+        */
+
+        private void foldersButtonControl_changed(object sender, SelectionChangedEventArgs e)
+        {
+            if (foldersButtonControl.SelectedItem != null)
+            {
+                App application = (App)Application.Current;
+                application.Folder = (Folder)foldersButtonControl.SelectedItem;
+                Console.WriteLine("item type: " + foldersButtonControl.SelectedItem.GetType()) ;
+                //Console.WriteLine("Selected folder: " + application.Folder.Name + ", path: " + application.Folder.Path);
+            }
+        }
+
+       
     }
 }
