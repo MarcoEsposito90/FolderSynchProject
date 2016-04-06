@@ -251,6 +251,8 @@ namespace FolderSynchService
                 int readBytesCount = 0;
                 while((readBytesCount = uploadStream.Read(buffer, 0, bufferSize)) > 0)
                 {
+
+                    Console.WriteLine("copying...");
                     inputStream.Write(buffer, 0, readBytesCount);
                 }
 
