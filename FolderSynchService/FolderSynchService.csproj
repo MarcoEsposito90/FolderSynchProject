@@ -47,10 +47,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileItem.cs" />
     <Compile Include="FileTransferFault.cs" />
+    <Compile Include="Folder.cs" />
     <Compile Include="FolderSynchServer.cs" />
     <Compile Include="FolderSynchServiceContract.cs" />
     <Compile Include="FolderSynchImplementation.cs" />
+    <Compile Include="Item.cs" />
+    <Compile Include="ItemProvider.cs" />
     <Compile Include="LoginFault.cs" />
     <Compile Include="LogoutFault.cs" />
     <Compile Include="MyBaseFault.cs" />

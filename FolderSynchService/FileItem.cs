@@ -1,19 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FolderSynchMUIClient
+namespace FolderSynchService
 {
-   // [DataContract]
-    class FileItem : Item
+    [DataContract]
+    public class FileItem : Item
     {
-        //[DataMember]
+        [DataMember]
         public Folder parentFolder { get; set; }
 
-        public FileItem(string name, string path) {
+        public FileItem(string name, string path)
+        {
             this.Name = name;
             this.Path = path;
         }

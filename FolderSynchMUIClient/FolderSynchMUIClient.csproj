@@ -72,10 +72,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Folder.cs" />
-    <Compile Include="FileItem.cs" />
-    <Compile Include="Item.cs" />
-    <Compile Include="ItemProvider.cs" />
     <Compile Include="Pages\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>
@@ -240,6 +236,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Icons\folder_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FolderSynchService\FolderSynchService.csproj">
+      <Project>{346a7ac7-9771-49af-9e8e-f151dbc9b065}</Project>
+      <Name>FolderSynchService</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:mui="http://firstfloorsoftware.com/ModernUI"
              xmlns:local="clr-namespace:FolderSynchMUIClient"
+             xmlns:service="clr-namespace:FolderSynchService;assembly=FolderSynchService"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
@@ -12,7 +13,7 @@
         <ScrollViewer>
             <TreeView Name="trvFolders">
                 <TreeView.Resources>
-                    <HierarchicalDataTemplate DataType="{x:Type local:Folder}" ItemsSource="{Binding Items}">
+                    <HierarchicalDataTemplate DataType="{x:Type service:Folder}" ItemsSource="{Binding Items}">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="{Binding Name}" />
                             <TextBlock Text=" [" Foreground="Blue" />
@@ -20,7 +21,7 @@
                             <TextBlock Text="]" Foreground="Blue" />
                         </StackPanel>
                     </HierarchicalDataTemplate>
-                    <DataTemplate DataType="{x:Type local:FileItem}">
+                    <DataTemplate DataType="{x:Type service:FileItem}">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="{Binding Name}" />
                             <TextBlock Text=" (" Foreground="Green" />

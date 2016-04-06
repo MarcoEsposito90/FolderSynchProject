@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Runtime.Serialization;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FolderSynchMUIClient
+namespace FolderSynchService
 {
-    //[DataContract]
+    [DataContract]
     public class ItemProvider
     {
         public ObservableCollection<Item> GetItems(string path)
@@ -22,9 +22,9 @@ namespace FolderSynchMUIClient
             {
                 var item = new Folder(directory.Name, directory.FullName)
                 {
-                   Items = GetItems(directory.FullName)
-                   
-            };
+                    Items = GetItems(directory.FullName)
+
+                };
 
                 items.Add(item);
             }
@@ -55,24 +55,5 @@ namespace FolderSynchMUIClient
             return folders;
         }
 
-        public long CalculateSize(DirectoryInfo dirInfo)
-        {
-            long size = 0;
-            // Add file sizes.
-            foreach (var file in dirInfo.GetFiles())
-            {
-                size += file.Length;
-            }
-            // Add subdirectory sizes.
-            foreach (var directory in dirInfo.GetDirectories())
-            {
-                size += CalculateSize(new DirectoryInfo(directory.FullName));
-            }
-            //Console.WriteLine("Chiamato metodo CalculateSize per " + dirInfo.Name + " " + size.ToString());
-
-            return size;
-        }
-
     }
 }
-

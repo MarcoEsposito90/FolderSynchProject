@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
+using FolderSynchService;
 
 namespace FolderSynchMUIClient
 {
@@ -23,7 +24,7 @@ namespace FolderSynchMUIClient
         }
 
 
-        public User User
+        public FolderSynchMUIClient.FolderSynchService.User User
         {
             get;
             set;

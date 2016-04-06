@@ -1,38 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Runtime.Serialization;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
-using System.IO;
 
-namespace FolderSynchMUIClient
+namespace FolderSynchService
 {
-
-    //[DataContract]
+    [DataContract]
     public class Folder : Item
     {
 
         /* -------------- PROPERTIES -------------------------*/
 
-        //[DataMember]
-        public ObservableCollection<Item> Items {
+        [DataMember]
+        public ObservableCollection<Item> Items
+        {
             get;
             set;
         }
         static readonly string[] SizeSuffixes = { "bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
 
+        [DataMember]
         public int ContainedFiles { get; set; }
 
-        public int ContainedFolders { get; set;}
+        [DataMember]
+        public int ContainedFolders { get; set; }
 
+        [DataMember]
         public DirectoryInfo dirInfo { get; set; }
 
 
         /* -------------- CONSTRUCTORS -------------------------*/
 
-        public Folder(string name, string path) {
+        public Folder(string name, string path)
+        {
             this.Items = new ObservableCollection<Item>();
             this.Name = name;
             this.Path = path;
