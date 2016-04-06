@@ -63,6 +63,7 @@
     <Compile Include="Messages\FileStreamMessage.cs" />
     <Compile Include="ContractsAndImplementations\StreamedTransferContract.cs" />
     <Compile Include="ContractsAndImplementations\StreamedTransferImplementation.cs" />
+    <Compile Include="SharedTypes\Update.cs" />
     <Compile Include="SharedTypes\User.cs" />
     <Compile Include="HostClasses\UsersFileHandler.cs" />
   </ItemGroup>
