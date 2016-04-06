@@ -38,12 +38,20 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                     -->
-                    <mui:ModernTab Margin="10,30,10,10" Grid.Column="1" Grid.Row="0" >
+                    <mui:ModernTab Name="FolderTab" Margin="10,30,10,10" Grid.Column="1" Grid.Row="0" >
                         <mui:ModernTab.Links>
-                            <mui:Link DisplayName="Details" Source="/Pages/TabDetailsWindow.xaml"/>
-                            <mui:Link DisplayName="Browse" Source="/Pages/TabBrowseWindow.xaml" />
-                            <mui:Link DisplayName="History" Source="/Pages/TabHistoryWindow.xaml" />
-                            <mui:Link DisplayName="Options" Source="/Pages/TabOptionsWindow.xaml" />
+                            
+                            <mui:Link DisplayName="Details" 
+                                      Source="/Pages/TabDetailsWindow.xaml"/>
+                            
+                            <mui:Link DisplayName="Browse" 
+                                      Source="/Pages/TabBrowseWindow.xaml" />
+                            
+                            <mui:Link DisplayName="History" 
+                                      Source="/Pages/TabHistoryWindow.xaml" />
+                            
+                            <mui:Link DisplayName="Options" 
+                                      Source="/Pages/TabOptionsWindow.xaml" />
                         </mui:ModernTab.Links>
                     </mui:ModernTab>
                 </Grid>

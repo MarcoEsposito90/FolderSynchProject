@@ -11,7 +11,7 @@
 
     <Grid Margin="10">
         <ScrollViewer>
-            <TreeView Name="trvFolders">
+            <TreeView Name="trvFolders" ItemsSource="{Binding Items}">
                 <TreeView.Resources>
                     <HierarchicalDataTemplate DataType="{x:Type service:Folder}" ItemsSource="{Binding Items}">
                         <StackPanel Orientation="Horizontal">

@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using FolderSynchService;
+using FirstFloor.ModernUI.Presentation;
 
 namespace FolderSynchMUIClient.Pages.HomePages
 {
@@ -52,6 +53,8 @@ namespace FolderSynchMUIClient.Pages.HomePages
                 application.Folder = (Folder)foldersButtonControl.SelectedItem;
                 Console.WriteLine("item type: " + foldersButtonControl.SelectedItem.GetType()) ;
                 //Console.WriteLine("Selected folder: " + application.Folder.Name + ", path: " + application.Folder.Path);
+
+                FolderTab.DataContext = application.Folder;
             }
         }
 
