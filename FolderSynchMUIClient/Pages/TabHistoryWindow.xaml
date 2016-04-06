@@ -10,15 +10,15 @@
         <ScrollViewer>
             <StackPanel MinWidth="200">
                 <TextBlock Text="FOLDER HISTORY" Style="{StaticResource Heading2}" />
-                <ItemsControl Name="folderEditDates" Margin="0,10,10,0">
+                <ItemsControl Name="folderEditDates" Margin="0,10,10,0" ItemsSource="{Binding Updates}"> 
                     <ItemsControl.ItemTemplate>
-                        <DataTemplate>
+                        <DataTemplate >
                             <!--TODO - Al posto del nome mettere la data di modifica-->
-                            <Expander Header="{Binding Name}" Margin="0,10,0,10">
-                                <ItemsControl Name="folderEditDates">
+                            <Expander  Header="{Binding Timestamp}" Margin="0,10,0,10">
+                                <ItemsControl Name="folderEditDates" ItemsSource="{Binding UpdateEntries}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <!--TODO - Lista dei possibili file da scaricare-->
+                                            <TextBlock Text="{Binding ItemName}"/>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>

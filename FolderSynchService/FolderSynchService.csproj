@@ -61,6 +61,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegistrationFault.cs" />
     <Compile Include="FileStreamMessage.cs" />
+    <Compile Include="Update.cs" />
     <Compile Include="User.cs" />
     <Compile Include="UsersFileHandler.cs" />
   </ItemGroup>
