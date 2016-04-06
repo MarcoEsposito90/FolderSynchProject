@@ -17,8 +17,9 @@ namespace FolderSynchHost
             /* ------------------ STARTUP ------------------------------------- */
             /* ---------------------------------------------------------------- */
 
-            FolderSynchService.FolderSynchServer server = FolderSynchService.FolderSynchServer.Instance;
+            ServicesProject.FolderSynchServer server = ServicesProject.FolderSynchServer.Instance;
             server.Startup();
+
 
 
             /*  NOTE:
@@ -29,12 +30,14 @@ namespace FolderSynchHost
             // first, create an instance of the service which will be hosted inside this process
             try
             {
-                using (ServiceHost host = new ServiceHost(typeof(FolderSynchService.FolderSynchImplementation)))
+                using (ServiceHost host = new ServiceHost(typeof(ServicesProject.FolderSynchImplementation)))
+                using (ServiceHost streamHost = new ServiceHost(typeof(ServicesProject.StreamedTransferImplementation)))
                 {
 
                     // open the service to make it available. After that, it will react to clients' requests
                     Console.WriteLine("Opening host...");
                     host.Open();
+                    streamHost.Open();
                     Console.WriteLine("Host running and service available");
                     Console.WriteLine("press enter to stop");
 

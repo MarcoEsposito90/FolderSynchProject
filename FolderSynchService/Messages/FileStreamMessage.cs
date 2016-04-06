@@ -6,7 +6,7 @@ using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FolderSynchService
+namespace ServicesProject
 {
     [MessageContract]
     public class FileStreamMessage : IDisposable
@@ -18,19 +18,15 @@ namespace FolderSynchService
         [MessageHeader]
         public string localPath;
 
+        [MessageHeader]
+        public string username;
+
         [MessageBodyMember]
         public Stream data;
 
         public FileStreamMessage()
         {
 
-        }
-
-        public FileStreamMessage(string baseFolder, string localPath, FileStream data)
-        {
-            this.baseFolder = baseFolder;
-            this.localPath = localPath;
-            this.data = data;
         }
 
         public void Dispose()

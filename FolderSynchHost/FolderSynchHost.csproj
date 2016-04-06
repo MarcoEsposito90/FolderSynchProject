@@ -58,9 +58,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FolderSynchService\FolderSynchService.csproj">
+    <ProjectReference Include="..\FolderSynchService\ServicesProject.csproj">
       <Project>{346a7ac7-9771-49af-9e8e-f151dbc9b065}</Project>
-      <Name>FolderSynchService</Name>
+      <Name>ServicesProject</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -5,18 +5,23 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FolderSynchService
+namespace ServicesProject
 {
     [DataContract]
-    public class FileItem : Item
+    public class MyBaseFault
     {
-        [DataMember]
-        public Folder parentFolder { get; set; }
 
-        public FileItem(string name, string path)
+        [DataMember]
+        public string Message
         {
-            this.Name = name;
-            this.Path = path;
+            get;
+            private set;
         }
+
+        public MyBaseFault(string message)
+        {
+            this.Message = message;
+        }
+
     }
 }

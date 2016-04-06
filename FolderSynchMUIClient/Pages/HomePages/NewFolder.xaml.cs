@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using FolderSynchMUIClient.FolderSynchService;
+using FolderSynchMUIClient.StreamedTransferService;
 using System.ServiceModel;
 using System.IO;
 
@@ -45,6 +46,7 @@ namespace FolderSynchMUIClient.Pages.HomePages
 
             App application = (App)Application.Current;
             FolderSynchServiceContractClient proxy = application.FolderSynchProxy;
+            StreamedTransferContractClient streamProxy = application.StreamTransferProxy;
 
             string[] directories = choosedFolderPathEditor.Text.Split('\\');
             string folderName = directories[directories.Length - 1];
@@ -61,7 +63,7 @@ namespace FolderSynchMUIClient.Pages.HomePages
 
                     foreach(string file in files)
                     {
-                        responseLabel.Content = "trying to upload " + file;
+                        responseLabel.Content += "\ntrying to upload " + file;
                         string[] path = file.Split('\\');
                         string localPath = "";
 
@@ -73,12 +75,25 @@ namespace FolderSynchMUIClient.Pages.HomePages
                             localPath += path[i] + localPath;
                         }
 
-                        responseLabel.Content += "\nlocalPath = " + localPath;
-
-                        using (Stream uploadStream = new FileStream(file, FileMode.Open))
+                        using (Stream uploadStream = new FileStream(file, FileMode.Open, FileAccess.Read))
                         {
-                            proxy.uploadFile(folderName, localPath, uploadStream);
+                            FileInfo fi = new FileInfo(file);
+                            responseLabel.Content += "\nfile size = " + fi.Length;
+
+                            if (fi.Length > App.MAX_BUFFERED_TRANSFER_FILE_SIZE)
+                            {
+                                responseLabel.Content += "\nproceeding with streamed transfer";
+                                streamProxy.uploadFileStreamed(folderName, localPath, application.User.Username, uploadStream);
+                            }
+                            else
+                            {
+                                byte[] buffer = new byte[App.MAX_BUFFERED_TRANSFER_FILE_SIZE];
+                                uploadStream.Read(buffer, 0, App.MAX_BUFFERED_TRANSFER_FILE_SIZE);
+                                proxy.uploadFile(folderName, localPath, buffer);
+                            }
                         }
+
+                        responseLabel.Content += "\nuploaded";
                     }
                         
                 }

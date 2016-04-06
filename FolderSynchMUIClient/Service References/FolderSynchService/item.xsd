@@ -1,68 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import schemaLocation="http://localhost:8080/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/FolderSynchService" />
-  <xs:import schemaLocation="http://localhost:8080/?xsd=xsd4" namespace="http://schemas.microsoft.com/Message" />
-  <xs:element name="RegisterNewUser">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="username" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="password" nillable="true" type="xs:string" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="RegisterNewUserResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/FolderSynchService" minOccurs="0" name="RegisterNewUserResult" nillable="true" type="q1:User" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="loginUser">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="username" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="password" nillable="true" type="xs:string" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="loginUserResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/FolderSynchService" minOccurs="0" name="loginUserResult" nillable="true" type="q2:User" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="logoutUser">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/FolderSynchService" minOccurs="0" name="user" nillable="true" type="q3:User" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="logoutUserResponse">
-    <xs:complexType>
-      <xs:sequence />
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="addNewSynchronizedFolder">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="folderName" nillable="true" type="xs:string" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="addNewSynchronizedFolderResponse">
-    <xs:complexType>
-      <xs:sequence />
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="FileStreamMessage">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q4="http://schemas.microsoft.com/Message" name="data" type="q4:StreamBody" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="baseFolder" nillable="true" type="xs:string" />
-  <xs:element name="localPath" nillable="true" type="xs:string" />
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/ServicesProject" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/ServicesProject" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:8080/?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:complexType name="User">
+    <xs:sequence>
+      <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Folders" nillable="true" type="q1:ArrayOfstring" />
+      <xs:element minOccurs="0" name="Password" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Username" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="User" nillable="true" type="tns:User" />
+  <xs:complexType name="RegistrationFault">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:MyBaseFault">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="RegistrationFault" nillable="true" type="tns:RegistrationFault" />
+  <xs:complexType name="MyBaseFault">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MyBaseFault" nillable="true" type="tns:MyBaseFault" />
+  <xs:complexType name="LoginFault">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:MyBaseFault">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="LoginFault" nillable="true" type="tns:LoginFault" />
 </xs:schema>

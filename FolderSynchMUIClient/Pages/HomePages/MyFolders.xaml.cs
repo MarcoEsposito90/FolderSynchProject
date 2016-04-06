@@ -13,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using FolderSynchService;
+using ServicesProject;
 using FirstFloor.ModernUI.Presentation;
 
 namespace FolderSynchMUIClient.Pages.HomePages

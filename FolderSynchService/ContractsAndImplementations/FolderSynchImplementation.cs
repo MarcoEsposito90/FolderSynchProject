@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FolderSynchService
+namespace ServicesProject
 {
     [ServiceBehavior(   InstanceContextMode = InstanceContextMode.PerSession,
                         ConcurrencyMode = ConcurrencyMode.Single)]
@@ -36,10 +37,10 @@ namespace FolderSynchService
 
         /* ------------------------ FILE TRANSFER ---------------------------------------- */
 
-        public void uploadFile(FileStreamMessage message)
+        public void uploadFile(string baseFolder, string localPath, byte[] data)
         {
             Console.WriteLine(currentUser.Username + "wants to add a new file");
-            FolderSynchServer.Instance.addNewFile(currentUser, message.baseFolder, message.localPath, message.data);
+            //FolderSynchServer.Instance.addNewFile(currentUser, baseFolder, localPath, data);
         }
 
 

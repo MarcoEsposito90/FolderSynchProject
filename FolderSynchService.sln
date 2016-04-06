@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FolderSynchService", "FolderSynchService\FolderSynchService.csproj", "{346A7AC7-9771-49AF-9E8E-F151DBC9B065}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServicesProject", "FolderSynchService\ServicesProject.csproj", "{346A7AC7-9771-49AF-9E8E-F151DBC9B065}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FolderSynchHost", "FolderSynchHost\FolderSynchHost.csproj", "{61BDD2F1-02D9-4354-8F35-E61BF880F631}"
 EndProject

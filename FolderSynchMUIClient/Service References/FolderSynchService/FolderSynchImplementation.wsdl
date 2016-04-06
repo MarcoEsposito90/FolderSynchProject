@@ -11,10 +11,9 @@
   <wsdl:types>
     <xsd:schema targetNamespace="http://tempuri.org/Imports">
       <xsd:import schemaLocation="http://localhost:8080/?xsd=xsd0" namespace="http://tempuri.org/" />
-      <xsd:import schemaLocation="http://localhost:8080/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/FolderSynchService" />
+      <xsd:import schemaLocation="http://localhost:8080/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/ServicesProject" />
       <xsd:import schemaLocation="http://localhost:8080/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
       <xsd:import schemaLocation="http://localhost:8080/?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
-      <xsd:import schemaLocation="http://localhost:8080/?xsd=xsd4" namespace="http://schemas.microsoft.com/Message" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="FolderSynchServiceContract_RegisterNewUser_InputMessage">
@@ -24,7 +23,7 @@
     <wsdl:part name="parameters" element="tns:RegisterNewUserResponse" />
   </wsdl:message>
   <wsdl:message name="FolderSynchServiceContract_RegisterNewUser_RegistrationFaultFault_FaultMessage">
-    <wsdl:part xmlns:q1="http://schemas.datacontract.org/2004/07/FolderSynchService" name="detail" element="q1:RegistrationFault" />
+    <wsdl:part xmlns:q1="http://schemas.datacontract.org/2004/07/ServicesProject" name="detail" element="q1:RegistrationFault" />
   </wsdl:message>
   <wsdl:message name="FolderSynchServiceContract_loginUser_InputMessage">
     <wsdl:part name="parameters" element="tns:loginUser" />
@@ -33,7 +32,7 @@
     <wsdl:part name="parameters" element="tns:loginUserResponse" />
   </wsdl:message>
   <wsdl:message name="FolderSynchServiceContract_loginUser_LoginFaultFault_FaultMessage">
-    <wsdl:part xmlns:q2="http://schemas.datacontract.org/2004/07/FolderSynchService" name="detail" element="q2:LoginFault" />
+    <wsdl:part xmlns:q2="http://schemas.datacontract.org/2004/07/ServicesProject" name="detail" element="q2:LoginFault" />
   </wsdl:message>
   <wsdl:message name="FolderSynchServiceContract_logoutUser_InputMessage">
     <wsdl:part name="parameters" element="tns:logoutUser" />
@@ -48,16 +47,14 @@
     <wsdl:part name="parameters" element="tns:addNewSynchronizedFolderResponse" />
   </wsdl:message>
   <wsdl:message name="FolderSynchServiceContract_addNewSynchronizedFolder_MyBaseFaultFault_FaultMessage">
-    <wsdl:part xmlns:q3="http://schemas.datacontract.org/2004/07/FolderSynchService" name="detail" element="q3:MyBaseFault" />
+    <wsdl:part xmlns:q3="http://schemas.datacontract.org/2004/07/ServicesProject" name="detail" element="q3:MyBaseFault" />
   </wsdl:message>
-  <wsdl:message name="FileStreamMessage">
-    <wsdl:part name="parameters" element="tns:FileStreamMessage" />
+  <wsdl:message name="FolderSynchServiceContract_uploadFile_InputMessage">
+    <wsdl:part name="parameters" element="tns:uploadFile" />
   </wsdl:message>
-  <wsdl:message name="FileStreamMessage_Headers">
-    <wsdl:part name="baseFolder" element="tns:baseFolder" />
-    <wsdl:part name="localPath" element="tns:localPath" />
+  <wsdl:message name="FolderSynchServiceContract_uploadFile_OutputMessage">
+    <wsdl:part name="parameters" element="tns:uploadFileResponse" />
   </wsdl:message>
-  <wsdl:message name="FolderSynchServiceContract_uploadFile_OutputMessage" />
   <wsdl:portType msc:usingSession="true" name="FolderSynchServiceContract">
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="RegisterNewUser">
       <wsdl:input wsaw:Action="http://tempuri.org/FolderSynchServiceContract/RegisterNewUser" message="tns:FolderSynchServiceContract_RegisterNewUser_InputMessage" />
@@ -79,7 +76,7 @@
       <wsdl:fault wsaw:Action="http://tempuri.org/FolderSynchServiceContract/addNewSynchronizedFolderMyBaseFaultFault" name="MyBaseFaultFault" message="tns:FolderSynchServiceContract_addNewSynchronizedFolder_MyBaseFaultFault_FaultMessage" />
     </wsdl:operation>
     <wsdl:operation msc:isInitiating="false" msc:isTerminating="false" name="uploadFile">
-      <wsdl:input wsaw:Action="http://tempuri.org/FolderSynchServiceContract/uploadFile" name="FileStreamMessage" message="tns:FileStreamMessage" />
+      <wsdl:input wsaw:Action="http://tempuri.org/FolderSynchServiceContract/uploadFile" message="tns:FolderSynchServiceContract_uploadFile_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/FolderSynchServiceContract/uploadFileResponse" message="tns:FolderSynchServiceContract_uploadFile_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
@@ -133,9 +130,7 @@
     </wsdl:operation>
     <wsdl:operation name="uploadFile">
       <soap12:operation soapAction="http://tempuri.org/FolderSynchServiceContract/uploadFile" style="document" />
-      <wsdl:input name="FileStreamMessage">
-        <soap12:header message="tns:FileStreamMessage_Headers" part="baseFolder" use="literal" />
-        <soap12:header message="tns:FileStreamMessage_Headers" part="localPath" use="literal" />
+      <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
       <wsdl:output>

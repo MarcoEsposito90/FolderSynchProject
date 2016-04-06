@@ -1,34 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/FolderSynchService" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/FolderSynchService" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import schemaLocation="http://localhost:8080/?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
-  <xs:complexType name="User">
+<xs:schema xmlns:tns="http://schemas.microsoft.com/2003/10/Serialization/Arrays" elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="ArrayOfstring">
     <xs:sequence>
-      <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Folders" nillable="true" type="q1:ArrayOfstring" />
-      <xs:element minOccurs="0" name="Password" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="Username" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="xs:string" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="User" nillable="true" type="tns:User" />
-  <xs:complexType name="RegistrationFault">
-    <xs:complexContent mixed="false">
-      <xs:extension base="tns:MyBaseFault">
-        <xs:sequence />
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:element name="RegistrationFault" nillable="true" type="tns:RegistrationFault" />
-  <xs:complexType name="MyBaseFault">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="MyBaseFault" nillable="true" type="tns:MyBaseFault" />
-  <xs:complexType name="LoginFault">
-    <xs:complexContent mixed="false">
-      <xs:extension base="tns:MyBaseFault">
-        <xs:sequence />
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:element name="LoginFault" nillable="true" type="tns:LoginFault" />
+  <xs:element name="ArrayOfstring" nillable="true" type="tns:ArrayOfstring" />
 </xs:schema>

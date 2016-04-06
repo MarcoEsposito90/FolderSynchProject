@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
 
-namespace FolderSynchService
+namespace ServicesProject
 {
 
     [ServiceContract (SessionMode = SessionMode.Required)]
@@ -27,6 +28,6 @@ namespace FolderSynchService
         void addNewSynchronizedFolder(string folderName);
 
         [OperationContract(IsInitiating = false, IsTerminating = false)]
-        void uploadFile(FileStreamMessage message);
+        void uploadFile(string baseFolder, string localPath, byte[] data);
     }
 }

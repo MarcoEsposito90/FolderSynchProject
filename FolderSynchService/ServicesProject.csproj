@@ -47,22 +47,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FileItem.cs" />
-    <Compile Include="FileTransferFault.cs" />
-    <Compile Include="Folder.cs" />
-    <Compile Include="FolderSynchServer.cs" />
-    <Compile Include="FolderSynchServiceContract.cs" />
-    <Compile Include="FolderSynchImplementation.cs" />
-    <Compile Include="Item.cs" />
-    <Compile Include="ItemProvider.cs" />
-    <Compile Include="LoginFault.cs" />
-    <Compile Include="LogoutFault.cs" />
-    <Compile Include="MyBaseFault.cs" />
+    <Compile Include="SharedTypes\FileItem.cs" />
+    <Compile Include="Faults\FileTransferFault.cs" />
+    <Compile Include="SharedTypes\Folder.cs" />
+    <Compile Include="HostClasses\FolderSynchServer.cs" />
+    <Compile Include="ContractsAndImplementations\FolderSynchServiceContract.cs" />
+    <Compile Include="ContractsAndImplementations\FolderSynchImplementation.cs" />
+    <Compile Include="SharedTypes\Item.cs" />
+    <Compile Include="SharedTypes\ItemProvider.cs" />
+    <Compile Include="Faults\LoginFault.cs" />
+    <Compile Include="Faults\LogoutFault.cs" />
+    <Compile Include="Faults\MyBaseFault.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RegistrationFault.cs" />
-    <Compile Include="FileStreamMessage.cs" />
-    <Compile Include="User.cs" />
-    <Compile Include="UsersFileHandler.cs" />
+    <Compile Include="Faults\RegistrationFault.cs" />
+    <Compile Include="Messages\FileStreamMessage.cs" />
+    <Compile Include="ContractsAndImplementations\StreamedTransferContract.cs" />
+    <Compile Include="ContractsAndImplementations\StreamedTransferImplementation.cs" />
+    <Compile Include="SharedTypes\User.cs" />
+    <Compile Include="HostClasses\UsersFileHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">

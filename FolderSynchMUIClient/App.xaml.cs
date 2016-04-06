@@ -1,5 +1,4 @@
-﻿using FolderSynchMUIClient.FolderSynchService;
-using FolderSynchMUIClient.Pages;
+﻿using FolderSynchMUIClient.Pages;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -8,7 +7,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
-using FolderSynchService;
+using ServicesProject;
+using FolderSynchMUIClient.FolderSynchService;
+using FolderSynchMUIClient.StreamedTransferService;
 
 namespace FolderSynchMUIClient
 {
@@ -17,14 +18,31 @@ namespace FolderSynchMUIClient
     /// </summary>
     public partial class App : Application
     {
+
+        /* ---------------------------------------------------------------- */
+        /* ------------ STATICS ------------------------------------------- */
+        /* ---------------------------------------------------------------- */
+
+        public static int MAX_BUFFERED_TRANSFER_FILE_SIZE = 10485760;   // 10 MB
+
+
+
+        /* ---------------------------------------------------------------- */
+        /* ------------ PROPERTIES ---------------------------------------- */
+        /* ---------------------------------------------------------------- */
         public FolderSynchServiceContractClient FolderSynchProxy
         {
             get;
-            set;
+            private set;
         }
 
+        public StreamedTransferContractClient StreamTransferProxy
+        {
+            get;
+            private set;
+        }
 
-        public FolderSynchMUIClient.FolderSynchService.User User
+        public User User
         {
             get;
             set;
@@ -43,6 +61,7 @@ namespace FolderSynchMUIClient
 
             // first, open connection with the service
             FolderSynchProxy = new FolderSynchServiceContractClient();
+            StreamTransferProxy = new StreamedTransferContractClient();
             Application.Current.Resources["ButtonBackgroundHover"] = Brushes.AliceBlue;
 
             // opening the main window
