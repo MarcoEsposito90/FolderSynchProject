@@ -59,13 +59,13 @@ namespace FolderSynchMUIClient.Pages.HomePages
 
                     string[] files = Directory.GetFiles(choosedFolderPathEditor.Text);
 
-                    if (files.Length > 0)
+                    foreach(string file in files)
                     {
-                        responseLabel.Content = "trying to upload " + files[0];
-                        string[] path = files[0].Split('\\');
+                        responseLabel.Content = "trying to upload " + file;
+                        string[] path = file.Split('\\');
                         string localPath = "";
 
-                        for(int i = path.Length - 1; i >= 0; i--)
+                        for (int i = path.Length - 1; i >= 0; i--)
                         {
                             if (path[i].Equals(folderName))
                                 break;
@@ -75,11 +75,12 @@ namespace FolderSynchMUIClient.Pages.HomePages
 
                         responseLabel.Content += "\nlocalPath = " + localPath;
 
-                        using (Stream uploadStream = new FileStream(files[0], FileMode.Open))
+                        using (Stream uploadStream = new FileStream(file, FileMode.Open))
                         {
                             proxy.uploadFile(folderName, localPath, uploadStream);
                         }
                     }
+                        
                 }
                 else
                     responseLabel.Content = "please login";

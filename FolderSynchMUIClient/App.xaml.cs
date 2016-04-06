@@ -52,7 +52,14 @@ namespace FolderSynchMUIClient
             mw.Show();
         }
 
+        private void Application_Exit(object sender, ExitEventArgs e)
+        {
 
-        
+            if(User != null)
+            {
+                FolderSynchProxy.logoutUser(User);
+                User = null;
+            }
+        }
     }
 }

@@ -35,8 +35,10 @@ namespace FolderSynchMUIClient.Pages
                 FolderSynchServiceContractClient proxy = application.FolderSynchProxy;
                 application.User = proxy.loginUser(TBLoginUsername.Text.ToString(), TBLoginPassword.Password.ToString());
                 responseLabel.Content = "login successful";
+
                 SecondWindow sw = new SecondWindow();
                 sw.Show();
+                
                 //Console.WriteLine("fino a qui ok");
                 //NavigationService nav = NavigationService.GetNavigationService(this);
                 //nav.Navigate(new Uri("/Pages/LoginPage.xaml", UriKind.RelativeOrAbsolute));
