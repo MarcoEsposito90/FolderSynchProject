@@ -30,9 +30,20 @@ namespace FolderSynchMUIClient.Pages.HomePages
             ItemProvider itemProvider = new ItemProvider();
             
             ObservableCollection<Folder> FolderList = itemProvider.GetFolders("C:\\Users\\Giulia Genta\\Desktop");
+            Console.WriteLine("Prima cartella: " + FolderList[0].Name);         
+
+            Update u = new Update(FolderList[0], DateTime.Now);
+            Console.WriteLine("Creo update u");
+            
+
+            u.UpdateEntries.Add(new Update.UpdateEntry(new FileItem("File modificato", "path"), 0));
+            u.UpdateEntries.Add(new Update.UpdateEntry(new FileItem("Altro file modificato", "path"), 1));
+            Console.WriteLine("Aggiungo le update entries");
+
+            FolderList[0].Updates.Add(u);
+            Console.WriteLine("Aggiungo l'update a " + FolderList[0].Name);
 
             foldersButtonControl.ItemsSource = FolderList;
-            
         }
 
         /*

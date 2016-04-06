@@ -21,6 +21,14 @@ namespace ServicesProject
             get;
             set;
         }
+
+        [DataMember]
+        public ObservableCollection<Update> Updates
+        {
+            get;
+            set;
+        }
+
         static readonly string[] SizeSuffixes = { "bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
 
         [DataMember]
@@ -38,6 +46,7 @@ namespace ServicesProject
         public Folder(string name, string path)
         {
             this.Items = new ObservableCollection<Item>();
+            this.Updates = new ObservableCollection<Update>();
             this.Name = name;
             this.Path = path;
             this.dirInfo = new DirectoryInfo(path);

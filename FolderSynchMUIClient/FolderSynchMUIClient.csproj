@@ -68,6 +68,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -106,6 +107,11 @@
       <DependentUpon>TabOptionsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Service References\FolderSynchService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\StreamedTransferService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -168,7 +174,6 @@
     <Compile Include="Pages\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Page Include="Pages\TabBrowseWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -189,59 +194,64 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
-    <None Include="Properties\DataSources\FolderSynchService.User.datasource" />
-    <None Include="Service References\FolderSynchService\FolderSynchMUIClient.FolderSynchService.uploadFileResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\FolderSynchService\FolderSynchMUIClient.FolderSynchService.User.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\FolderSynchService\FolderSynchService.wsdl" />
+    <None Include="Properties\DataSources\ServicesProject.User.datasource" />
+    <None Include="Service References\FolderSynchService\FolderSynchImplementation.wsdl" />
     <None Include="Service References\FolderSynchService\item.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\FolderSynchService\item1.xsd">
       <SubType>Designer</SubType>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadataStorage Include="Service References\FolderSynchService\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\FolderSynchService\item.disco" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\FolderSynchService\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\FolderSynchService\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Service References\FolderSynchService\item2.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\FolderSynchService\item3.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\FolderSynchService\item4.xsd">
+    <None Include="Service References\StreamedTransferService\FolderSynchMUIClient.StreamedTransferService.uploadFileStreamedResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StreamedTransferService\item.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Service References\StreamedTransferService\item1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\StreamedTransferService\item2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\StreamedTransferService\StreamedTransferImplementation.wsdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Icons\folder_icon.png" />
+    <None Include="Service References\StreamedTransferService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\StreamedTransferService\configuration.svcinfo" />
+    <None Include="Service References\StreamedTransferService\configuration91.svcinfo" />
+    <None Include="Service References\StreamedTransferService\item.disco" />
     <None Include="Service References\FolderSynchService\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <None Include="Service References\FolderSynchService\configuration.svcinfo" />
+    <None Include="Service References\FolderSynchService\configuration91.svcinfo" />
+    <None Include="Service References\FolderSynchService\item.disco" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Icons\folder_icon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\FolderSynchService\FolderSynchService.csproj">
+    <ProjectReference Include="..\FolderSynchService\ServicesProject.csproj">
       <Project>{346a7ac7-9771-49af-9e8e-f151dbc9b065}</Project>
-      <Name>FolderSynchService</Name>
+      <Name>ServicesProject</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\FolderSynchService\" />
+    <WCFMetadataStorage Include="Service References\StreamedTransferService\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
