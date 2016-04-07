@@ -21,6 +21,9 @@ namespace ServicesProject
         [MessageHeader]
         public string username;
 
+        [MessageHeader]
+        public string transactionID;
+
         [MessageBodyMember]
         public Stream data;
 

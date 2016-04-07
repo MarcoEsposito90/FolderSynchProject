@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HostClasses\TransactionsHandler.cs" />
     <Compile Include="SharedTypes\FileItem.cs" />
     <Compile Include="Faults\FileTransferFault.cs" />
     <Compile Include="SharedTypes\Folder.cs" />
@@ -66,6 +67,7 @@
     <Compile Include="SharedTypes\Update.cs" />
     <Compile Include="SharedTypes\User.cs" />
     <Compile Include="HostClasses\UsersFileHandler.cs" />
+    <Compile Include="UpdateTransaction.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">

@@ -49,11 +49,23 @@
   <wsdl:message name="FolderSynchServiceContract_addNewSynchronizedFolder_MyBaseFaultFault_FaultMessage">
     <wsdl:part xmlns:q3="http://schemas.datacontract.org/2004/07/ServicesProject" name="detail" element="q3:MyBaseFault" />
   </wsdl:message>
+  <wsdl:message name="FolderSynchServiceContract_beginUpdate_InputMessage">
+    <wsdl:part name="parameters" element="tns:beginUpdate" />
+  </wsdl:message>
+  <wsdl:message name="FolderSynchServiceContract_beginUpdate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:beginUpdateResponse" />
+  </wsdl:message>
   <wsdl:message name="FolderSynchServiceContract_uploadFile_InputMessage">
     <wsdl:part name="parameters" element="tns:uploadFile" />
   </wsdl:message>
   <wsdl:message name="FolderSynchServiceContract_uploadFile_OutputMessage">
     <wsdl:part name="parameters" element="tns:uploadFileResponse" />
+  </wsdl:message>
+  <wsdl:message name="FolderSynchServiceContract_updateCommit_InputMessage">
+    <wsdl:part name="parameters" element="tns:updateCommit" />
+  </wsdl:message>
+  <wsdl:message name="FolderSynchServiceContract_updateCommit_OutputMessage">
+    <wsdl:part name="parameters" element="tns:updateCommitResponse" />
   </wsdl:message>
   <wsdl:portType msc:usingSession="true" name="FolderSynchServiceContract">
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="RegisterNewUser">
@@ -75,9 +87,17 @@
       <wsdl:output wsaw:Action="http://tempuri.org/FolderSynchServiceContract/addNewSynchronizedFolderResponse" message="tns:FolderSynchServiceContract_addNewSynchronizedFolder_OutputMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/FolderSynchServiceContract/addNewSynchronizedFolderMyBaseFaultFault" name="MyBaseFaultFault" message="tns:FolderSynchServiceContract_addNewSynchronizedFolder_MyBaseFaultFault_FaultMessage" />
     </wsdl:operation>
+    <wsdl:operation msc:isInitiating="false" msc:isTerminating="false" name="beginUpdate">
+      <wsdl:input wsaw:Action="http://tempuri.org/FolderSynchServiceContract/beginUpdate" message="tns:FolderSynchServiceContract_beginUpdate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/FolderSynchServiceContract/beginUpdateResponse" message="tns:FolderSynchServiceContract_beginUpdate_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation msc:isInitiating="false" msc:isTerminating="false" name="uploadFile">
       <wsdl:input wsaw:Action="http://tempuri.org/FolderSynchServiceContract/uploadFile" message="tns:FolderSynchServiceContract_uploadFile_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/FolderSynchServiceContract/uploadFileResponse" message="tns:FolderSynchServiceContract_uploadFile_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="false" msc:isTerminating="false" name="updateCommit">
+      <wsdl:input wsaw:Action="http://tempuri.org/FolderSynchServiceContract/updateCommit" message="tns:FolderSynchServiceContract_updateCommit_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/FolderSynchServiceContract/updateCommitResponse" message="tns:FolderSynchServiceContract_updateCommit_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="serviceTcpEndpoint" type="tns:FolderSynchServiceContract">
@@ -128,8 +148,26 @@
         <soap12:fault use="literal" name="MyBaseFaultFault" namespace="" />
       </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="beginUpdate">
+      <soap12:operation soapAction="http://tempuri.org/FolderSynchServiceContract/beginUpdate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="uploadFile">
       <soap12:operation soapAction="http://tempuri.org/FolderSynchServiceContract/uploadFile" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateCommit">
+      <soap12:operation soapAction="http://tempuri.org/FolderSynchServiceContract/updateCommit" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

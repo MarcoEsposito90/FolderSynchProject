@@ -10,5 +10,6 @@
   </xs:element>
   <xs:element name="baseFolder" nillable="true" type="xs:string" />
   <xs:element name="localPath" nillable="true" type="xs:string" />
+  <xs:element name="transactionID" nillable="true" type="xs:string" />
   <xs:element name="username" nillable="true" type="xs:string" />
 </xs:schema>

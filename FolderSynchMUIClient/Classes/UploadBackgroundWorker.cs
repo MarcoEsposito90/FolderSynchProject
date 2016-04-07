@@ -41,7 +41,11 @@ namespace FolderSynchMUIClient.Classes
             {
                 if (application.User != null)
                 {
+                    // 3) begin update transaction --------------------------------------
+                    DateTime timestamp = DateTime.Now;
+                    UpdateTransaction transaction = proxy.beginUpdate(folderName, timestamp);
 
+                    // 4) enumerating files and directiories ----------------------------
                     string[] files = Directory.GetFiles(folderPath);
                     int num = 0;
 
@@ -69,14 +73,14 @@ namespace FolderSynchMUIClient.Classes
                             if (fi.Length > App.MAX_BUFFERED_TRANSFER_FILE_SIZE)
                             {
                                 // ***** streamed transfer *****
-                                streamProxy.uploadFileStreamed(folderName, localPath, application.User.Username, uploadStream);
+                                streamProxy.uploadFileStreamed(folderName, localPath, transaction.TransactionID, application.User.Username, uploadStream);
                             }
                             else
                             {
                                 // ***** one-time transfer (buffered) *****
                                 byte[] buffer = new byte[App.MAX_BUFFERED_TRANSFER_FILE_SIZE];
                                 uploadStream.Read(buffer, 0, App.MAX_BUFFERED_TRANSFER_FILE_SIZE);
-                                proxy.uploadFile(folderName, localPath, buffer);
+                                proxy.uploadFile(transaction.TransactionID, folderName, localPath, buffer);
                             }
                         }
 
@@ -86,6 +90,8 @@ namespace FolderSynchMUIClient.Classes
                         Console.WriteLine("num = " + num + "; progress = " + progress);
                         worker.ReportProgress(progress);
                     }
+
+                    proxy.updateCommit(transaction);
 
                 }
 

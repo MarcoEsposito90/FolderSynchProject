@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.IO;
 using System.ServiceModel;
+using ServicesProject.HostClasses;
 
 namespace ServicesProject
 {
@@ -67,6 +68,13 @@ namespace ServicesProject
             private set;
         }
 
+        // updates --------------------------------------------------------------------
+
+        public Dictionary<string,UpdateTransaction> ActiveTransactions
+        {
+            get;
+            private set;
+        }
 
         /* ---------------------------------------------------------------- */
         /* ------------------ CONSTRUCTOR --------------------------------- */
@@ -112,6 +120,8 @@ namespace ServicesProject
             Users = new List<User>();
             UsersFileHandler.Instance.ReadUsersFromFile(Users);
 
+            // 3) initialize transactions data structures -------------------
+            TransactionsHandler.Instance.CheckLogFile();
 
             IsInitialized = true;
         }
@@ -233,9 +243,16 @@ namespace ServicesProject
         }
 
         /* ----------------------------------------------------------------------------------------------- */
-        /* ------------ FILE TRANSFER METHODS ------------------------------------------------------------ */
+        /* ------------ UPDATE METHODS ------------------------------------------------------------------- */
         /* ----------------------------------------------------------------------------------------------- */
-        public void addNewFileStreamed(string username, string baseFolder, string localPath, Stream uploadStream)
+
+        public void beginUpdate(UpdateTransaction transaction)
+        {
+            TransactionsHandler.Instance.AddTransaction(transaction);
+        }
+
+
+        public void uploadFileStreamed(string username, string transactionID, string baseFolder, string localPath, Stream uploadStream)
         {
             User user = null;
 
@@ -249,7 +266,13 @@ namespace ServicesProject
             if (!user.Folders.Contains(baseFolder))
                 throw new FaultException<FileTransferFault>(new FileTransferFault(FileTransferFault.UNKNOWN_BASE_FOLDER));
 
-            FileStream inputStream = new FileStream(RemoteFoldersPath + "\\" + user.Username + "\\" + baseFolder + "\\" + localPath, 
+            UpdateTransaction transaction = null;
+
+            if (!TransactionsHandler.Instance.ActiveTransactions.TryGetValue(transactionID, out transaction))
+                throw new FaultException(new FaultReason("no transaction active for this upload"));
+
+            string filePath = RemoteFoldersPath + "\\" + user.Username + "\\" + baseFolder + "\\" + localPath;
+            FileStream inputStream = new FileStream(filePath, 
                                                     FileMode.Create,
                                                     FileAccess.Write,
                                                     FileShare.None);
@@ -281,16 +304,25 @@ namespace ServicesProject
                 uploadStream.Close();
             }
 
+            TransactionsHandler.Instance.ActiveTransactions.TryGetValue(transactionID, out transaction);
+            TransactionsHandler.Instance.AddOperation(transaction, TransactionsHandler.Operations.NewFile, filePath);
         }
 
 
-        public void addNewFile(User user, string baseFolder, string localPath, byte[] data)
+        public void uploadFile(User user, UpdateTransaction transaction, string baseFolder, string localPath, byte[] data)
         {
 
+            // 1) check if everything ok
             if (!ConnectedUsers.Contains(user))
                 throw new FaultException(new FaultReason("this user is not connected"));
 
-            FileStream inputStream = new FileStream(RemoteFoldersPath + "\\" + user.Username + "\\" + baseFolder + "\\" + localPath,
+            if (!TransactionsHandler.Instance.ActiveTransactions.ContainsValue(transaction))
+                throw new FaultException(new FaultReason("no transaction active for this upload"));
+
+
+            // 2) write to file
+            string filePath = RemoteFoldersPath + "\\" + user.Username + "\\" + baseFolder + "\\" + localPath;
+            FileStream inputStream = new FileStream(filePath,
                                                     FileMode.Create,
                                                     FileAccess.Write,
                                                     FileShare.None);
@@ -300,6 +332,15 @@ namespace ServicesProject
                 inputStream.Write(data, 0, data.Length);
                 inputStream.Close();
             }
+
+            // 3) register to log
+            TransactionsHandler.Instance.AddOperation(transaction, TransactionsHandler.Operations.NewFile, filePath);
+        }
+
+
+        public void updateCommit(UpdateTransaction transaction)
+        {
+            TransactionsHandler.Instance.CommitTransaction(transaction);
         }
     }
 

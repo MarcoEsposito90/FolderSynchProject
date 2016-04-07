@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="7c1034ce-1900-4632-b054-ddcf645774c3" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="894b0389-045e-43b8-a493-cb52d70a3405" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -22,12 +22,12 @@
     <MetadataSource Address="http://localhost:8080/" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="item.xsd" MetadataType="Schema" ID="c1eefe3a-4b44-4b5c-a6ed-578a62e4549e" SourceId="1" SourceUrl="http://localhost:8080/?xsd=xsd2" />
-    <MetadataFile FileName="item.disco" MetadataType="Disco" ID="cae6bc3a-b748-4b09-99ad-8d045f9a8fd2" SourceId="1" SourceUrl="http://localhost:8080/?disco" />
-    <MetadataFile FileName="FolderSynchImplementation.wsdl" MetadataType="Wsdl" ID="afb49d88-1202-44fa-bdfc-cae6e18d7ceb" SourceId="1" SourceUrl="http://localhost:8080/?wsdl" />
-    <MetadataFile FileName="item1.xsd" MetadataType="Schema" ID="94ffe175-bd8f-4f48-9c8d-620dfa7a1ffc" SourceId="1" SourceUrl="http://localhost:8080/?xsd=xsd1" />
-    <MetadataFile FileName="item2.xsd" MetadataType="Schema" ID="59cd3f07-ed5f-402e-bfcc-132a779009cd" SourceId="1" SourceUrl="http://localhost:8080/?xsd=xsd3" />
-    <MetadataFile FileName="item3.xsd" MetadataType="Schema" ID="09373311-dbaf-4192-90cd-8d7551055142" SourceId="1" SourceUrl="http://localhost:8080/?xsd=xsd0" />
+    <MetadataFile FileName="item.xsd" MetadataType="Schema" ID="0b1cdf80-05e7-40c5-b647-08b8f5778a89" SourceId="1" SourceUrl="http://localhost:8080/?xsd=xsd2" />
+    <MetadataFile FileName="item.disco" MetadataType="Disco" ID="b669b8df-9c98-4a81-b469-f8222921d4a7" SourceId="1" SourceUrl="http://localhost:8080/?disco" />
+    <MetadataFile FileName="FolderSynchImplementation.wsdl" MetadataType="Wsdl" ID="c5463cce-ed45-487d-a8e0-309765ab318e" SourceId="1" SourceUrl="http://localhost:8080/?wsdl" />
+    <MetadataFile FileName="item2.xsd" MetadataType="Schema" ID="4588cefe-364e-4c60-9a1c-d10a07517ac2" SourceId="1" SourceUrl="http://localhost:8080/?xsd=xsd1" />
+    <MetadataFile FileName="item3.xsd" MetadataType="Schema" ID="cb19df93-e55e-4e9b-a891-26525b963f9b" SourceId="1" SourceUrl="http://localhost:8080/?xsd=xsd3" />
+    <MetadataFile FileName="item4.xsd" MetadataType="Schema" ID="58ad3ff9-5b7c-4e3d-938a-8211d3431625" SourceId="1" SourceUrl="http://localhost:8080/?xsd=xsd0" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

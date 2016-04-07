@@ -28,6 +28,12 @@ namespace ServicesProject
         void addNewSynchronizedFolder(string folderName);
 
         [OperationContract(IsInitiating = false, IsTerminating = false)]
-        void uploadFile(string baseFolder, string localPath, byte[] data);
+        UpdateTransaction beginUpdate(string baseFolder, DateTime timestamp);
+
+        [OperationContract(IsInitiating = false, IsTerminating = false)]
+        void uploadFile(string transactionID, string baseFolder, string localPath, byte[] data);
+
+        [OperationContract(IsInitiating = false, IsTerminating = false)]
+        void updateCommit(UpdateTransaction transaction);
     }
 }
