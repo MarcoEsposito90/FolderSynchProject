@@ -20,10 +20,14 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*"/>
                     </Grid.RowDefinitions>
-                    <ListBox Name="foldersButtonControl" SelectionChanged="foldersButtonControl_changed" Margin="0,10,10,0" Grid.Column="0" Grid.Row="0">
+                    <ListBox Name="foldersButtonControl" SelectionChanged="foldersButtonControl_changed" 
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="0,10,10,0" 
+                             Grid.Column="0" Grid.Row="0">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" TextAlignment="Left" Width="{Binding ActualWidth, ElementName=foldersButtonControl}"/>
+                                <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" 
+                                           TextAlignment="Left" 
+                                           Width="{Binding ActualWidth, ElementName=foldersButtonControl}"/>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>

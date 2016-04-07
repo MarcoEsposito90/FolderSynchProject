@@ -40,6 +40,10 @@ namespace ServicesProject
         [DataMember]
         public DirectoryInfo dirInfo { get; set; }
 
+        [DataMember]
+        public DateTime SynchDate { get; set; }
+
+
 
         /* -------------- CONSTRUCTORS -------------------------*/
 
@@ -54,6 +58,7 @@ namespace ServicesProject
             this.SizeInBytes = SizeSuffix(this.Size);
             this.ContainedFiles = Directory.GetFiles(path, "*", SearchOption.AllDirectories).Length;
             this.ContainedFolders = Directory.GetDirectories(path, "*", SearchOption.AllDirectories).Length;
+            this.SynchDate = DateTime.Now;
         }
 
         /* -------------- METHODS ---------------------------- */
