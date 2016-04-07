@@ -37,5 +37,15 @@ namespace FolderSynchMUIClient.Pages
             }*/
 
         }
+
+        private void downloadButton_Click(object sender, RoutedEventArgs e)
+        {
+            Console.WriteLine("Download button pressed!");
+        }
+
+        private void reloadButton_Click(object sender, RoutedEventArgs e)
+        {
+            Console.WriteLine("Reload button pressed!");
+        }
     }
 }
