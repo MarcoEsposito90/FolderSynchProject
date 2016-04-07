@@ -11,10 +11,12 @@
 
     <!-- Note: ModernDialog buttons are defined in the constructor of the code behind class -->
 
-    <StackPanel>
+    <StackPanel Orientation="Vertical">
         
         <TextBlock Name="responseTB"/>
-        <ProgressBar Name="UploadProgressBar"/>
+        <ProgressBar Name="UploadProgressBar"
+                     Minimum="0"
+                     Maximum="100"/>
 
     </StackPanel>
     

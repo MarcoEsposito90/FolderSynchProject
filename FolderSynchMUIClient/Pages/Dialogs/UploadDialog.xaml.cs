@@ -69,6 +69,8 @@ namespace FolderSynchMUIClient.Pages
 
         private void UploadWork_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
+            Console.WriteLine("progress changed handler called");
+            Console.WriteLine("progress = " + e.ProgressPercentage);
             UploadProgressBar.Value = e.ProgressPercentage;
         }
 

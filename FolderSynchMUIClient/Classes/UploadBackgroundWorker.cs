@@ -81,7 +81,10 @@ namespace FolderSynchMUIClient.Classes
                         }
 
                         // ***** report progress to main thread *****
-                        worker.ReportProgress((++num) / files.Length);
+
+                        int progress = (int)(((float)++num / files.Length)*100);
+                        Console.WriteLine("num = " + num + "; progress = " + progress);
+                        worker.ReportProgress(progress);
                     }
 
                 }
