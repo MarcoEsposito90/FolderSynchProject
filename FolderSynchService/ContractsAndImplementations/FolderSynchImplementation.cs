@@ -40,7 +40,7 @@ namespace ServicesProject
         public void uploadFile(string baseFolder, string localPath, byte[] data)
         {
             Console.WriteLine(currentUser.Username + "wants to add a new file");
-            //FolderSynchServer.Instance.addNewFile(currentUser, baseFolder, localPath, data);
+            FolderSynchServer.Instance.addNewFile(currentUser, baseFolder, localPath, data);
         }
 
 

@@ -87,6 +87,7 @@ namespace FolderSynchMUIClient.Pages.HomePages
                             }
                             else
                             {
+                                responseLabel.Content += "\nproceeding with buffered transfer";
                                 byte[] buffer = new byte[App.MAX_BUFFERED_TRANSFER_FILE_SIZE];
                                 uploadStream.Read(buffer, 0, App.MAX_BUFFERED_TRANSFER_FILE_SIZE);
                                 proxy.uploadFile(folderName, localPath, buffer);
@@ -105,7 +106,8 @@ namespace FolderSynchMUIClient.Pages.HomePages
             }
             catch(FaultException f)
             {
-                responseLabel.Content += "\nerror: " + f.Message;
+                //responseLabel.Content += "\nerror: " + f.Message;
+                Console.WriteLine("error: " + f.Reason);
             }
             
         }
