@@ -3,6 +3,7 @@ using FolderSynchMUIClient.FolderSynchService;
 using FolderSynchMUIClient.StreamedTransferService;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.ServiceModel;
@@ -17,6 +18,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using FolderSynchMUIClient.Classes;
 
 namespace FolderSynchMUIClient.Pages
 {
@@ -28,6 +30,10 @@ namespace FolderSynchMUIClient.Pages
 
         private string folderPath;
 
+        /* ------------------------------------------------------------------------------ */
+        /* ------------------ CONSTRUCTOR ----------------------------------------------- */
+        /* ------------------------------------------------------------------------------ */
+
         public UploadDialog(string folderPath)
         {
             InitializeComponent();
@@ -38,72 +44,49 @@ namespace FolderSynchMUIClient.Pages
             OkButton.IsEnabled = false;
         }
 
+
+        /* ------------------------------------------------------------------------------ */
+        /* ------------------ AT CONTENT RENDERED --------------------------------------- */
+        /* ------------------------------------------------------------------------------ */
+
         private void ModernDialog_ContentRendered(object sender, EventArgs e)
         {
 
-            App application = (App)Application.Current;
-            FolderSynchServiceContractClient proxy = application.FolderSynchProxy;
-            StreamedTransferContractClient streamProxy = application.StreamTransferProxy;
+            UploadBackgroundWorker bw = new UploadBackgroundWorker(folderPath);
+            bw.WorkerSupportsCancellation = false;
+            bw.WorkerReportsProgress = true;
 
-            string[] directories = folderPath.Split('\\');
-            string folderName = directories[directories.Length - 1];
+            bw.ProgressChanged += UploadWork_ProgressChanged;
+            bw.RunWorkerCompleted += UploadWork_Completed;
 
-            try
-            {
-                if (application.User != null)
-                {
-                    proxy.addNewSynchronizedFolder(folderName);
+            bw.RunWorkerAsync();
+        }
 
-                    string[] files = Directory.GetFiles(folderPath);
 
-                    foreach (string file in files)
-                    {
-                        responseTB.Text += "\ntrying to upload " + file;
-                        string[] path = file.Split('\\');
-                        string localPath = "";
+        /* ------------------------------------------------------------------------------ */
+        /* ------------------ UPLOAD PROGRESS ------------------------------------------- */
+        /* ------------------------------------------------------------------------------ */
 
-                        for (int i = path.Length - 1; i >= 0; i--)
-                        {
-                            if (path[i].Equals(folderName))
-                                break;
+        private void UploadWork_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            UploadProgressBar.Value = e.ProgressPercentage;
+        }
 
-                            localPath += path[i] + localPath;
-                        }
 
-                        using (Stream uploadStream = new FileStream(file, FileMode.Open, FileAccess.Read))
-                        {
-                            FileInfo fi = new FileInfo(file);
-                            responseTB.Text += "\nfile size = " + fi.Length;
 
-                            if (fi.Length > App.MAX_BUFFERED_TRANSFER_FILE_SIZE)
-                            {
-                                responseTB.Text += "\nproceeding with streamed transfer";
-                                streamProxy.uploadFileStreamed(folderName, localPath, application.User.Username, uploadStream);
-                            }
-                            else
-                            {
-                                responseTB.Text += "\nproceeding with buffered transfer";
-                                byte[] buffer = new byte[App.MAX_BUFFERED_TRANSFER_FILE_SIZE];
-                                uploadStream.Read(buffer, 0, App.MAX_BUFFERED_TRANSFER_FILE_SIZE);
-                                proxy.uploadFile(folderName, localPath, buffer);
-                            }
-                        }
+        /* ------------------------------------------------------------------------------ */
+        /* ------------------ UPLOAD COMPLETE ------------------------------------------- */
+        /* ------------------------------------------------------------------------------ */
 
-                        responseTB.Text += "\nuploaded";
-                    }
+        private void UploadWork_Completed(object sender, RunWorkerCompletedEventArgs e)
+        {
 
-                }
-                else
-                    responseTB.Text = "please login";
+            if (!(e.Error == null))
+                responseTB.Text = ("Error: " + e.Error.Message + " transfer not complete");
+            else
+                responseTB.Text = "Done!";
 
-            }
-            catch (FaultException f)
-            {
-                //responseLabel.Content += "\nerror: " + f.Message;
-                Console.WriteLine("error: " + f.Reason);
-            }
-
-            this.DialogResult = true;
+            OkButton.IsEnabled = true;
         }
     }
 }

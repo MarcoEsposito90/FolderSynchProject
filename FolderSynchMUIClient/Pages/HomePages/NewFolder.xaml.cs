@@ -55,6 +55,18 @@ namespace FolderSynchMUIClient.Pages.HomePages
 
             Console.WriteLine("adding new folder: " + choosedFolderPathEditor.Text);
 
+            // 1) get service references
+            App application = (App)Application.Current;
+            FolderSynchServiceContractClient proxy = application.FolderSynchProxy;
+
+            // 2) get folder name
+            string[] directories = choosedFolderPathEditor.Text.Split('\\');
+            string folderName = directories[directories.Length - 1];
+
+            // 3) add the new folder on the server
+            proxy.addNewSynchronizedFolder(folderName);
+
+            // 4) proceed to upload
             UploadDialog ud = new UploadDialog(choosedFolderPathEditor.Text);
             ud.ShowDialog();
 

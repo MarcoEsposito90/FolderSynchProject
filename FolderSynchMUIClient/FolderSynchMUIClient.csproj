@@ -68,6 +68,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Classes\UploadBackgroundWorker.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Pages\Dialogs\UploadDialog.xaml.cs">
       <DependentUpon>UploadDialog.xaml</DependentUpon>
     </Compile>
