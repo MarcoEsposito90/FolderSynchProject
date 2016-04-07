@@ -240,7 +240,16 @@
     <None Include="Service References\StreamedTransferService\StreamedTransferImplementation.wsdl" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Icons\folder_icon.png" />
+    <Content Include="Pages\Icons\download-icon.png" />
+    <Content Include="Pages\Icons\folder_icon.png" />
+    <Content Include="Pages\Icons\reload-icon.png" />
+    <None Include="Service References\StreamedTransferService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\StreamedTransferService\configuration.svcinfo" />
+    <None Include="Service References\StreamedTransferService\configuration91.svcinfo" />
+    <None Include="Service References\StreamedTransferService\item.disco" />
     <None Include="Service References\FolderSynchService\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
