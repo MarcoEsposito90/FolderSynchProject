@@ -68,6 +68,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Pages\Dialogs\UploadDialog.xaml.cs">
+      <DependentUpon>UploadDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
@@ -82,28 +85,28 @@
     <Compile Include="Pages\HomePages\NewFolder.xaml.cs">
       <DependentUpon>NewFolder.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\LoginPage.xaml.cs">
+    <Compile Include="Pages\UserPages\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\LogoutPage.xaml.cs">
+    <Compile Include="Pages\UserPages\LogoutPage.xaml.cs">
       <DependentUpon>LogoutPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\RegisterPage.xaml.cs">
+    <Compile Include="Pages\UserPages\RegisterPage.xaml.cs">
       <DependentUpon>RegisterPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\SecondWindow.xaml.cs">
       <DependentUpon>SecondWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\TabBrowseWindow.xaml.cs">
+    <Compile Include="Pages\FolderTabs\TabBrowseWindow.xaml.cs">
       <DependentUpon>TabBrowseWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\TabDetailsWindow.xaml.cs">
+    <Compile Include="Pages\FolderTabs\TabDetailsWindow.xaml.cs">
       <DependentUpon>TabDetailsWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\TabHistoryWindow.xaml.cs">
+    <Compile Include="Pages\FolderTabs\TabHistoryWindow.xaml.cs">
       <DependentUpon>TabHistoryWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\TabOptionsWindow.xaml.cs">
+    <Compile Include="Pages\FolderTabs\TabOptionsWindow.xaml.cs">
       <DependentUpon>TabOptionsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Service References\FolderSynchService\Reference.cs">
@@ -136,15 +139,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\LoginPage.xaml">
+    <Page Include="Pages\Dialogs\UploadDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\LogoutPage.xaml">
+    <Page Include="Pages\UserPages\LoginPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\RegisterPage.xaml">
+    <Page Include="Pages\UserPages\LogoutPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\UserPages\RegisterPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -174,19 +181,19 @@
     <Compile Include="Pages\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
-    <Page Include="Pages\TabBrowseWindow.xaml">
+    <Page Include="Pages\FolderTabs\TabBrowseWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\TabDetailsWindow.xaml">
+    <Page Include="Pages\FolderTabs\TabDetailsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\TabHistoryWindow.xaml">
+    <Page Include="Pages\FolderTabs\TabHistoryWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\TabOptionsWindow.xaml">
+    <Page Include="Pages\FolderTabs\TabOptionsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

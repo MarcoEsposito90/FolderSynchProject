@@ -24,6 +24,7 @@ namespace ServicesProject
 
         public void logoutUser(User user)
         {
+            Console.WriteLine(user.Username + "is logging out");
             FolderSynchServer.Instance.logoutUser(user);
             currentUser = null;
         }

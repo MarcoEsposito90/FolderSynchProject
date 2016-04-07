@@ -4,13 +4,13 @@
         xmlns:mui="http://firstfloorsoftware.com/ModernUI"
         Title="FolderSynch" IsTitleVisible="True"
         LogoData=""
-        ContentSource="/Pages/LoginPage.xaml">
+        ContentSource="/Pages/UserPages/LoginPage.xaml">
 
     <mui:ModernWindow.MenuLinkGroups>
         <mui:LinkGroup DisplayName="Login Page" GroupKey="login">
             <mui:LinkGroup.Links>
-                <mui:Link DisplayName="Login" Source="/Pages/LoginPage.xaml" />
-                <mui:Link DisplayName="Register" Source="/Pages/RegisterPage.xaml" />
+                <mui:Link DisplayName="Login" Source="/Pages/UserPages/LoginPage.xaml" />
+                <mui:Link DisplayName="Register" Source="/Pages/UserPages/RegisterPage.xaml" />
             </mui:LinkGroup.Links>
         </mui:LinkGroup>
     </mui:ModernWindow.MenuLinkGroups>

@@ -38,7 +38,8 @@ namespace FolderSynchMUIClient.Pages
 
                 SecondWindow sw = new SecondWindow();
                 sw.Show();
-                
+
+                Application.Current.MainWindow.Close();
                 //Console.WriteLine("fino a qui ok");
                 //NavigationService nav = NavigationService.GetNavigationService(this);
                 //nav.Navigate(new Uri("/Pages/LoginPage.xaml", UriKind.RelativeOrAbsolute));

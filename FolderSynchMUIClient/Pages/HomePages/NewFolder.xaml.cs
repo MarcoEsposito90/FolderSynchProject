@@ -17,6 +17,8 @@ using FolderSynchMUIClient.FolderSynchService;
 using FolderSynchMUIClient.StreamedTransferService;
 using System.ServiceModel;
 using System.IO;
+using System.ComponentModel;
+using FirstFloor.ModernUI.Windows.Controls;
 
 namespace FolderSynchMUIClient.Pages.HomePages
 {
@@ -30,6 +32,9 @@ namespace FolderSynchMUIClient.Pages.HomePages
             InitializeComponent();
         }
 
+
+        /*----------- BROWSE BUTTON ------------------------------------------------------------- */
+
         private void btnBrowseFolder_Click(object sender, RoutedEventArgs e)
         {
             var openFolderDialog = new CommonOpenFileDialog();
@@ -41,75 +46,19 @@ namespace FolderSynchMUIClient.Pages.HomePages
             }
         }
 
+
+
+        /*----------- SYNCH BUTTON ------------------------------------------------------------- */
+
         private void btnSynchFolder_Click(object sender, RoutedEventArgs e)
         {
 
-            App application = (App)Application.Current;
-            FolderSynchServiceContractClient proxy = application.FolderSynchProxy;
-            StreamedTransferContractClient streamProxy = application.StreamTransferProxy;
+            Console.WriteLine("adding new folder: " + choosedFolderPathEditor.Text);
 
-            string[] directories = choosedFolderPathEditor.Text.Split('\\');
-            string folderName = directories[directories.Length - 1];
+            UploadDialog ud = new UploadDialog(choosedFolderPathEditor.Text);
+            ud.ShowDialog();
 
-            Console.WriteLine("adding new folder: " + folderName);
-
-            try
-            {
-                if (application.User != null)
-                {
-                    proxy.addNewSynchronizedFolder(folderName);
-
-                    string[] files = Directory.GetFiles(choosedFolderPathEditor.Text);
-
-                    foreach(string file in files)
-                    {
-                        responseLabel.Content += "\ntrying to upload " + file;
-                        string[] path = file.Split('\\');
-                        string localPath = "";
-
-                        for (int i = path.Length - 1; i >= 0; i--)
-                        {
-                            if (path[i].Equals(folderName))
-                                break;
-
-                            localPath += path[i] + localPath;
-                        }
-
-                        using (Stream uploadStream = new FileStream(file, FileMode.Open, FileAccess.Read))
-                        {
-                            FileInfo fi = new FileInfo(file);
-                            responseLabel.Content += "\nfile size = " + fi.Length;
-
-                            if (fi.Length > App.MAX_BUFFERED_TRANSFER_FILE_SIZE)
-                            {
-                                responseLabel.Content += "\nproceeding with streamed transfer";
-                                streamProxy.uploadFileStreamed(folderName, localPath, application.User.Username, uploadStream);
-                            }
-                            else
-                            {
-                                responseLabel.Content += "\nproceeding with buffered transfer";
-                                byte[] buffer = new byte[App.MAX_BUFFERED_TRANSFER_FILE_SIZE];
-                                uploadStream.Read(buffer, 0, App.MAX_BUFFERED_TRANSFER_FILE_SIZE);
-                                proxy.uploadFile(folderName, localPath, buffer);
-                            }
-                        }
-
-                        responseLabel.Content += "\nuploaded";
-                    }
-                        
-                }
-                else
-                    responseLabel.Content = "please login";
-
-
-
-            }
-            catch(FaultException f)
-            {
-                //responseLabel.Content += "\nerror: " + f.Message;
-                Console.WriteLine("error: " + f.Reason);
-            }
-            
         }
+
     }
 }

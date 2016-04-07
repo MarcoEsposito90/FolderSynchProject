@@ -23,7 +23,7 @@
 
         <mui:LinkGroup DisplayName="Logout" GroupKey="logout">
             <mui:LinkGroup.Links>
-                <mui:Link DisplayName="Logout" Source="/Pages/LogoutPage.xaml" />
+                <mui:Link DisplayName="Logout" Source="/Pages/UserPages/LogoutPage.xaml" />
             </mui:LinkGroup.Links>
         </mui:LinkGroup>
 

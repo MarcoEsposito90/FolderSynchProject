@@ -42,16 +42,16 @@
                         <mui:ModernTab.Links>
                             
                             <mui:Link DisplayName="Details" 
-                                      Source="/Pages/TabDetailsWindow.xaml"/>
+                                      Source="/Pages/FolderTabs/TabDetailsWindow.xaml"/>
                             
                             <mui:Link DisplayName="Browse" 
-                                      Source="/Pages/TabBrowseWindow.xaml" />
+                                      Source="/Pages/FolderTabs/TabBrowseWindow.xaml" />
                             
                             <mui:Link DisplayName="History" 
-                                      Source="/Pages/TabHistoryWindow.xaml" />
+                                      Source="/Pages/FolderTabs/TabHistoryWindow.xaml" />
                             
                             <mui:Link DisplayName="Options" 
-                                      Source="/Pages/TabOptionsWindow.xaml" />
+                                      Source="/Pages/FolderTabs/TabOptionsWindow.xaml" />
                         </mui:ModernTab.Links>
                     </mui:ModernTab>
                 </Grid>
