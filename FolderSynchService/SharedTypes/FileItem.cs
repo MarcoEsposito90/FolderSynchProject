@@ -13,10 +13,13 @@ namespace ServicesProject
         [DataMember]
         public Folder parentFolder { get; set; }
 
-        public FileItem(string name, string path)
+        [DataMember]
+        public string RelativePath { get; private set; }
+
+        public FileItem(string name, string relativePath)
         {
             this.Name = name;
-            this.Path = path;
+            this.RelativePath = relativePath;
         }
     }
 }

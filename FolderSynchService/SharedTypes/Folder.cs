@@ -13,6 +13,9 @@ namespace ServicesProject
     public class Folder : Item
     {
 
+        public static readonly int DEFAULT_REFRESH_TIME_HOURS = 24;
+        public static readonly int DEFAULT_DELETE_TIME_DAYS = 14;
+
         /* -------------- PROPERTIES -------------------------*/
 
         [DataMember]
@@ -31,14 +34,15 @@ namespace ServicesProject
 
         static readonly string[] SizeSuffixes = { "bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
 
+
+        [DataMember]
+        public string Username { get; private set; }
+
         [DataMember]
         public int ContainedFiles { get; set; }
 
         [DataMember]
         public int ContainedFolders { get; set; }
-
-        [DataMember]
-        public DirectoryInfo dirInfo { get; set; }
 
         [DataMember]
         public DateTime SynchDate { get; set; }
@@ -51,28 +55,25 @@ namespace ServicesProject
 
         /* -------------- CONSTRUCTORS -------------------------*/
 
-        public Folder(string name, string path)
+        public Folder(string name, string username)
         {
             this.Items = new ObservableCollection<Item>();
             this.Updates = new ObservableCollection<Update>();
             this.Name = name;
-            this.Path = path;
-            this.dirInfo = new DirectoryInfo(path);
-            this.Size = CalculateSize(this.dirInfo);
-            this.SizeInBytes = SizeSuffix(this.Size);
-            this.ContainedFiles = Directory.GetFiles(path, "*", SearchOption.AllDirectories).Length;
-            this.ContainedFolders = Directory.GetDirectories(path, "*", SearchOption.AllDirectories).Length;
+            this.Username = username;
             this.SynchDate = DateTime.Now;
-
-            //default refresh time = 1 week (7 days). default delete time = 2 weeks (14 days)
-            this.AutoDeleteTime = 14;
-            this.AutoRefreshTime = 7;
+            this.AutoDeleteTime = DEFAULT_DELETE_TIME_DAYS;
+            this.AutoRefreshTime = DEFAULT_REFRESH_TIME_HOURS;
         }
 
         /* -------------- METHODS ---------------------------- */
 
-        public long CalculateSize(DirectoryInfo dirInfo)
+        public long CalculateProperties(string path)
         {
+
+            this.ContainedFiles = Directory.GetFiles(path, "*", SearchOption.AllDirectories).Length;
+            this.ContainedFolders = Directory.GetDirectories(path, "*", SearchOption.AllDirectories).Length;
+            DirectoryInfo dirInfo = new DirectoryInfo(path);
 
             long size = 0;
 
@@ -83,7 +84,7 @@ namespace ServicesProject
 
             foreach (var directory in dirInfo.GetDirectories())
             {
-                size += CalculateSize(new DirectoryInfo(directory.FullName));
+                size += CalculateProperties(directory.FullName);
             }
             Console.WriteLine("Chiamato metodo CalculateSize per " + dirInfo.Name + " " + size.ToString());
 

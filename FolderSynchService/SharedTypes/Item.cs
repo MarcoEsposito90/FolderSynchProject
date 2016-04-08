@@ -14,10 +14,7 @@ namespace ServicesProject
         public string Name { get; set; }
 
         [DataMember]
-        public string Path { get; set; }
-
-        [DataMember]
-        public long Size { get; set; }
+        public long CurrentSize { get; set; }
 
         [DataMember]
         public string SizeInBytes { get; set; }

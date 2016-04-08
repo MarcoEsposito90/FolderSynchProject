@@ -167,14 +167,14 @@ namespace ServicesProject
                         string[] tokens = line.Split(';');
 
                         // 2) if the entry is a committ or an abort, it is finished
-                        if (tokens[2].Equals(Operations.Commit) || tokens[2].Equals(Operations.Abort))
+                        if (tokens[1].Equals(Operations.Commit) || tokens[1].Equals(Operations.Abort))
                         {
 
                             // 3) remove all lines relative to that transaction
                             foreach (string s in lines)
                             {
                                 string[] tokens2 = s.Split(';');
-                                if (tokens2[1].Equals(tokens[1]))
+                                if (tokens2[0].Equals(tokens[0]))
                                     lines.Remove(s);
                             }
                         }
