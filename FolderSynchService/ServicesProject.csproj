@@ -67,6 +67,7 @@
     <Compile Include="SharedTypes\Update.cs" />
     <Compile Include="SharedTypes\User.cs" />
     <Compile Include="HostClasses\UsersFileHandler.cs" />
+    <Compile Include="HostClasses\UpdatesFileHandler.cs" />
     <Compile Include="UpdateTransaction.cs" />
   </ItemGroup>
   <ItemGroup>

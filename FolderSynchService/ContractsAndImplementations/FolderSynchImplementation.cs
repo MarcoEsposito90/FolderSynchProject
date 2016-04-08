@@ -77,6 +77,7 @@ namespace ServicesProject
 
         public void updateCommit(UpdateTransaction transaction)
         {
+            Console.WriteLine(currentUser.Username + "wants to commit an update");
             FolderSynchServer.Instance.updateCommit(transaction);
         }
 

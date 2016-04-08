@@ -24,7 +24,8 @@ namespace ServicesProject
             UpdateFile
         }
         private static string LOG_FILE_RELATIVE_PATH = "\\TransactionsLog.txt";
-
+        private static string LOG_CLEAN_START = "LOG_CLEAN_START";
+        private static string LOG_CLEAN_CLEAN_COMPLETE = "LOG_CLEAN_COMPLETE";
 
         /* ------------------------------------------------------------------------------ */
         /* ------------------------ PROPERTIES ------------------------------------------ */

@@ -11,7 +11,9 @@ namespace ServicesProject
     [DataContract]
     public class Update
     {
-
+        public string Username { get; private set; }
+        public string BaseFolder { get; private set; }
+        public string UpdateFolder { get; private set; }
         public DateTime Timestamp { get; set; }
         public ObservableCollection<UpdateEntry> UpdateEntries { get; set; }
         Folder folder;
