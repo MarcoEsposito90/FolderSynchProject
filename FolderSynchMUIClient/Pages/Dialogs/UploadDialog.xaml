@@ -10,15 +10,12 @@
                   ContentRendered="ModernDialog_ContentRendered">
 
     <!-- Note: ModernDialog buttons are defined in the constructor of the code behind class -->
-
-    <StackPanel Orientation="Vertical">
-        
-        <TextBlock Name="responseTB"/>
-        <ProgressBar Name="UploadProgressBar"
-                     Minimum="0"
-                     Maximum="100"/>
-
-    </StackPanel>
     
+    <Grid Margin="20">
+
+        <ProgressBar Minimum="0" Maximum="100" Name="UploadProgressBar" />
+        <TextBlock  Name="responseTB" Text="{Binding ElementName=UploadProgressBar, Path=Value, StringFormat={}{0:0}%}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+    </Grid>
+
 
 </mui:ModernDialog>

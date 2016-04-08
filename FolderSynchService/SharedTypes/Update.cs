@@ -28,7 +28,8 @@ namespace ServicesProject
         public class UpdateEntry
         {
             public Item Item { get; private set; }
-            public string ItemName { get; set; }
+            public string ItemName { get; private set; }
+            public DateTime EntryTimestamp { get; private set; }
 
             public int UpdateType { get; private set; }
 
@@ -41,6 +42,7 @@ namespace ServicesProject
                 this.Item = item;
                 this.ItemName = item.Name;
                 this.UpdateType = updateType;
+                this.EntryTimestamp = DateTime.Now;
 
             }
         }

@@ -19,6 +19,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using FolderSynchMUIClient.Classes;
+using System.Threading;
 
 namespace FolderSynchMUIClient.Pages
 {
@@ -62,7 +63,6 @@ namespace FolderSynchMUIClient.Pages
             bw.RunWorkerAsync();
         }
 
-
         /* ------------------------------------------------------------------------------ */
         /* ------------------ UPLOAD PROGRESS ------------------------------------------- */
         /* ------------------------------------------------------------------------------ */
@@ -72,6 +72,7 @@ namespace FolderSynchMUIClient.Pages
             Console.WriteLine("progress changed handler called");
             Console.WriteLine("progress = " + e.ProgressPercentage);
             UploadProgressBar.Value = e.ProgressPercentage;
+            responseTB.Text=(e.ProgressPercentage).ToString();
         }
 
 
