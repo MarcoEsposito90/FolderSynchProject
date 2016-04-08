@@ -9,6 +9,9 @@ namespace ServicesProject
     public class FileTransferFault : MyBaseFault
     {
         public static string UNKNOWN_BASE_FOLDER = "specified base folder does not exist";
+        public static string USER_NOT_CONNECTED = "This user is not connected or does not exist";
+        public static string NO_TRANSACTION_ACTIVE = "There is no transaction active for this update";
+
 
         public FileTransferFault(string message) : base(message) { }
     }

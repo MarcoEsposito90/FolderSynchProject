@@ -58,7 +58,7 @@ namespace ServicesProject
 
         }
 
-        public void ReadUsersFromFile(List<User> users)
+        public void ReadUsersFromFile(Dictionary<string, User> users)
         {
 
             lock (_instance)
@@ -76,7 +76,7 @@ namespace ServicesProject
                 {
                     Newtonsoft.Json.Linq.JObject jo = (Newtonsoft.Json.Linq.JObject)i;
                     User u = (User)jo.ToObject(typeof(User));
-                    users.Add(u);
+                    users.Add(u.Username, u);
                 }
             }
 

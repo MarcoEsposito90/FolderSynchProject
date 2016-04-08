@@ -7,7 +7,7 @@ using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ServicesProject.HostClasses
+namespace ServicesProject
 {
     class TransactionsHandler
     {
@@ -137,6 +137,108 @@ namespace ServicesProject.HostClasses
 
             }
             
+        }
+
+
+        /*******************************************************************************/
+        private void cleanLogFile()
+        {
+            lock (_instance)
+            {
+
+                List<String> lines = new List<string>();
+
+                // 0) open the file in read mode
+                FileStream fs = new FileStream(LogFilePath,
+                                                FileMode.Open,
+                                                FileAccess.Read);
+
+                StreamReader sr = new StreamReader(fs);
+
+                using (fs)
+                using (sr)
+                {
+                    // 1) start reading all log file
+                    string line;
+                    while ((line = sr.ReadLine()) != null)
+                    {
+
+                        string[] tokens = line.Split(';');
+
+                        // 2) if the entry is a committ or an abort, it is finished
+                        if (tokens[2].Equals(Operations.Commit) || tokens[2].Equals(Operations.Abort))
+                        {
+
+                            // 3) remove all lines relative to that transaction
+                            foreach (string s in lines)
+                            {
+                                string[] tokens2 = s.Split(';');
+                                if (tokens2[1].Equals(tokens[1]))
+                                    lines.Remove(s);
+                            }
+                        }
+                    }
+
+                    sr.Close();
+                    fs.Close();
+                }
+
+                // 4) open the file in write mode
+                fs = new FileStream(LogFilePath,
+                                    FileMode.Open,
+                                    FileAccess.Write);
+
+                StreamWriter sw = new StreamWriter(fs);
+
+                using (fs)
+                using (sw)
+                {
+                    // 5) writing log file
+                    foreach(string s in lines)
+                        sw.WriteLine(s);
+
+                    fs.Close();
+                    sw.Close();
+                }
+            }
+        }
+
+
+        /*************************************************************************/
+        private void checkForRecovery()
+        {
+
+            cleanLogFile();
+
+            lock (_instance)
+            {
+                // 0) open the file in read mode
+                FileStream fs = new FileStream(LogFilePath,
+                                                FileMode.Open,
+                                                FileAccess.Read);
+
+                StreamReader sr = new StreamReader(fs);
+
+                using (fs)
+                using (sr)
+                {
+                    // 1) start reading all log file
+                    string line;
+                    while ((line = sr.ReadLine()) != null)
+                    {
+
+                        string[] tokens = line.Split(';');
+                        
+                        /*  TODO: find a way to bind the transaction to the relative update.
+                            after finding the update, remove its folder completely, like it never
+                            happened. Next time, client will have to repeat it from beginning
+                        */
+                    }
+
+                    sr.Close();
+                    fs.Close();
+                }
+            }
         }
     }
 }

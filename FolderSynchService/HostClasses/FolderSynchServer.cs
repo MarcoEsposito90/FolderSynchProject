@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.IO;
 using System.ServiceModel;
-using ServicesProject.HostClasses;
 
 namespace ServicesProject
 {
@@ -55,14 +54,14 @@ namespace ServicesProject
 
 
         // users -----------------------------------------------------------------------
-        public List<User> Users
+        public Dictionary<string, User> Users
         {
             get;
             private set;
         }
 
 
-        public List<User> ConnectedUsers
+        public Dictionary<string, User> ConnectedUsers
         {
             get;
             private set;
@@ -70,7 +69,7 @@ namespace ServicesProject
 
         // updates --------------------------------------------------------------------
 
-        public Dictionary<string,UpdateTransaction> ActiveTransactions
+        public Dictionary<string, UpdateTransaction> ActiveTransactions
         {
             get;
             private set;
@@ -116,8 +115,8 @@ namespace ServicesProject
             UsersFileHandler.Instance.checkUsersFile();
 
             // 2) initialize users data structures --------------------------
-            ConnectedUsers = new List<User>();
-            Users = new List<User>();
+            ConnectedUsers = new Dictionary<string, User>();
+            Users = new Dictionary<string, User>();
             UsersFileHandler.Instance.ReadUsersFromFile(Users);
 
             // 3) initialize transactions data structures -------------------
@@ -146,27 +145,23 @@ namespace ServicesProject
                 if (Users.Count == 0)
                 {
                     newUser = new User(username, password);
-                    Users.Add(newUser);
-                    UsersFileHandler.Instance.WriteUsersList(Users);
+                    Users.Add(username, newUser);
+                    UsersFileHandler.Instance.WriteUsersList(new List<User>(Users.Values));
                     return newUser;
                 }
 
                 // check if username is still available ------------
-                foreach (User u in Users)
+
+                if (Users.ContainsKey(username))
                 {
-
-                    if (u.Username.Equals(username))
-                    {
-                        Console.WriteLine("registration failed; username not available: " + username);
-                        throw new FaultException<RegistrationFault>(new RegistrationFault(RegistrationFault.USERNAME_UNAVAILABLE));
-                    }
-
+                    Console.WriteLine("registration failed; username not available: " + username);
+                    throw new FaultException<RegistrationFault>(new RegistrationFault(RegistrationFault.USERNAME_UNAVAILABLE));
                 }
 
                 // add new user to list -----------------------------
                 newUser = new User(username, password);
-                Users.Add(newUser);
-                UsersFileHandler.Instance.WriteUsersList(Users);
+                Users.Add(username, newUser);
+                UsersFileHandler.Instance.WriteUsersList(new List<User>(Users.Values));
 
                 Directory.CreateDirectory(RemoteFoldersPath + "\\" + newUser.Username);
                 LoginUser(newUser);
@@ -181,21 +176,16 @@ namespace ServicesProject
         {
             lock (Users)
             {
-                foreach (User u in Users)
-                {
-                    if (u.Username.Equals(username))
-                    {
-                        if (u.Password.Equals(password))
-                        {
-                            LoginUser(u);
-                            return u;
-                        }
 
-                        throw new FaultException<LoginFault>(new LoginFault(LoginFault.WRONG_USERNAME_OR_PASSWORD));
-                    }
-                }
+                User u = null;
+                if (!Users.TryGetValue(username, out u))
+                    throw new FaultException(new FaultReason("no such user"));
 
-                throw new FaultException<LoginFault>(new LoginFault(LoginFault.WRONG_USERNAME_OR_PASSWORD));
+                if (!u.Password.Equals(password))
+                    throw new FaultException(new FaultReason(LoginFault.WRONG_USERNAME_OR_PASSWORD));
+
+                LoginUser(u);
+                return u;
             }
 
         }
@@ -206,10 +196,13 @@ namespace ServicesProject
         {
             lock (ConnectedUsers)
             {
-                if (ConnectedUsers.Contains(user))
-                    ConnectedUsers.Remove(user);
+                if (ConnectedUsers.ContainsKey(user.Username))
+                    ConnectedUsers.Remove(user.Username);
+                else
+                    throw new FaultException(new FaultReason(LogoutFault.NO_SUCH_USER));
+
             }
-            
+
         }
 
 
@@ -218,10 +211,10 @@ namespace ServicesProject
         {
             lock (ConnectedUsers)
             {
-                if (ConnectedUsers.Contains(u))
-                    throw new FaultException<LoginFault>(new LoginFault(LoginFault.USER_ALREADY_IN));
+                if (ConnectedUsers.ContainsKey(u.Username))
+                    throw new FaultException(new FaultReason(LoginFault.USER_ALREADY_IN));
 
-                ConnectedUsers.Add(u);
+                ConnectedUsers.Add(u.Username,u);
             }
         }
 
@@ -235,10 +228,10 @@ namespace ServicesProject
             if (Directory.Exists(RemoteFoldersPath + "\\" + user.Username + "\\" + folderName))
                 throw new FaultException<MyBaseFault>(new MyBaseFault("directory already on server"));
 
-            if(!user.Folders.Contains(folderName))
+            if (!user.Folders.Contains(folderName))
                 user.Folders.Add(folderName);
 
-            UsersFileHandler.Instance.WriteUsersList(Users);
+            UsersFileHandler.Instance.WriteUsersList(new List<User>(Users.Values));
             Directory.CreateDirectory(RemoteFoldersPath + "\\" + user.Username + "\\" + folderName);
         }
 
@@ -255,24 +248,21 @@ namespace ServicesProject
         public void uploadFileStreamed(string username, string transactionID, string baseFolder, string localPath, Stream uploadStream)
         {
             User user = null;
-
-            foreach (User u in ConnectedUsers)
-                if (u.Username.Equals(username))
-                    user = u;
+            ConnectedUsers.TryGetValue(username, out user);
 
             if (user == null)
-                throw new FaultException(new FaultReason("this user is not connected"));
+                throw new FaultException(new FaultReason(FileTransferFault.USER_NOT_CONNECTED));
 
             if (!user.Folders.Contains(baseFolder))
-                throw new FaultException<FileTransferFault>(new FileTransferFault(FileTransferFault.UNKNOWN_BASE_FOLDER));
+                throw new FaultException(new FaultReason(FileTransferFault.UNKNOWN_BASE_FOLDER));
 
             UpdateTransaction transaction = null;
 
             if (!TransactionsHandler.Instance.ActiveTransactions.TryGetValue(transactionID, out transaction))
-                throw new FaultException(new FaultReason("no transaction active for this upload"));
+                throw new FaultException(new FaultReason(FileTransferFault.NO_TRANSACTION_ACTIVE));
 
             string filePath = RemoteFoldersPath + "\\" + user.Username + "\\" + baseFolder + "\\" + localPath;
-            FileStream inputStream = new FileStream(filePath, 
+            FileStream inputStream = new FileStream(filePath,
                                                     FileMode.Create,
                                                     FileAccess.Write,
                                                     FileShare.None);
@@ -286,7 +276,7 @@ namespace ServicesProject
 
                 // read 1KB per iteration: first they are moved to the buffer, then to the destination file
                 int readBytesCount = 0;
-                while((readBytesCount = uploadStream.Read(buffer, 0, bufferSize)) > 0)
+                while ((readBytesCount = uploadStream.Read(buffer, 0, bufferSize)) > 0)
                 {
 
                     Console.WriteLine("copying... Press enter to go on");
@@ -313,11 +303,11 @@ namespace ServicesProject
         {
 
             // 1) check if everything ok
-            if (!ConnectedUsers.Contains(user))
-                throw new FaultException(new FaultReason("this user is not connected"));
+            if (!ConnectedUsers.ContainsKey(user.Username))
+                throw new FaultException(new FaultReason(FileTransferFault.USER_NOT_CONNECTED));
 
             if (!TransactionsHandler.Instance.ActiveTransactions.ContainsValue(transaction))
-                throw new FaultException(new FaultReason("no transaction active for this upload"));
+                throw new FaultException(new FaultReason(FileTransferFault.NO_TRANSACTION_ACTIVE));
 
 
             // 2) write to file
