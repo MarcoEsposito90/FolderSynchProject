@@ -8,10 +8,29 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid Style="{StaticResource ContentRoot}">
         <ScrollViewer>
-            <StackPanel MinWidth="200">
-                <TextBlock Text="OPTIONS" Style="{StaticResource Heading2}" />
-                <TextBlock Text="Ciao sono Visual Studio e faccio cagare, anche WPF fa cagare e mui ancora di più" />
-            </StackPanel>
+            <Grid Style="{StaticResource ContentRoot}"  ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                
+                <TextBlock Text="Auto refresh days: " HorizontalAlignment="Left" 
+                           Grid.Column="0" Grid.Row="0" 
+                           VerticalAlignment="Center" Margin="10,10,10,10"/>
+                <StackPanel Orientation="Horizontal"  Grid.Column="1" Grid.Row="0" >
+                    <TextBox x:Name="txtNum" Margin="5,5,0,5" Width="50" Text="0" TextChanged="txtNum_TextChanged" />
+                    <Button x:Name="cmdUp" Margin="5,5,0,5" Content="˄" Width="20" Click="cmdUp_Click" />
+                    <Button x:Name="cmdDown" Margin="0,5,0,5"  Content="˅" Width="20" Click="cmdDown_Click" />
+                </StackPanel>
+
+
+            </Grid>
         </ScrollViewer>
     </Grid>
 </UserControl>

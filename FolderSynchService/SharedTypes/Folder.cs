@@ -43,7 +43,11 @@ namespace ServicesProject
         [DataMember]
         public DateTime SynchDate { get; set; }
 
+        [DataMember]
+        public int AutoRefreshTime  { get; set; }
 
+        [DataMember]
+        public int AutoDeleteTime { get; set; }
 
         /* -------------- CONSTRUCTORS -------------------------*/
 
@@ -59,6 +63,10 @@ namespace ServicesProject
             this.ContainedFiles = Directory.GetFiles(path, "*", SearchOption.AllDirectories).Length;
             this.ContainedFolders = Directory.GetDirectories(path, "*", SearchOption.AllDirectories).Length;
             this.SynchDate = DateTime.Now;
+
+            //default refresh time = 1 week (7 days). default delete time = 2 weeks (14 days)
+            this.AutoDeleteTime = 14;
+            this.AutoRefreshTime = 7;
         }
 
         /* -------------- METHODS ---------------------------- */

@@ -18,7 +18,7 @@
     <Grid Style="{StaticResource ContentRoot}">
         <ScrollViewer>
             <StackPanel MinWidth="200">
-                <TextBlock Text="FOLDER HISTORY" Style="{StaticResource Heading2}" />
+                <TextBlock Text="UPDATES:" Style="{StaticResource Heading2}" />
                 <ItemsControl Name="folderEditDates" Margin="0,10,10,0" ItemsSource="{Binding Updates}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate >

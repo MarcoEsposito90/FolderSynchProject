@@ -24,5 +24,20 @@ namespace FolderSynchMUIClient.Pages
         {
             InitializeComponent();
         }
+
+        private void cmdUp_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void cmdDown_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void txtNum_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }

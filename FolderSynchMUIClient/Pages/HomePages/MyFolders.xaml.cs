@@ -44,6 +44,7 @@ namespace FolderSynchMUIClient.Pages.HomePages
             Console.WriteLine("Aggiungo l'update a " + FolderList[0].Name);
 
             foldersButtonControl.ItemsSource = FolderList;
+            foldersButtonControl.SelectedItem = FolderList[0];
         }
 
         /*
