@@ -38,7 +38,22 @@
                          IsEnabled="False" 
                          Foreground="Black" 
                          Margin="10,0,10,0"/>
-                
+
+                <StackPanel Orientation="Horizontal" Margin="10,10,10,0">
+                    <StackPanel Orientation="Vertical" >
+                        <TextBlock Text="Refresh automatically every " Margin="0,0,10,10"/>
+                        <TextBlock Text="Delete updates older than " Margin="0,0,10,0"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical">
+                        <ComboBox Name="RefreshComboBox"  Margin="10,0,10,0"/>
+                        <ComboBox Name="DeleteComboBox"  Margin="10,0,10,0"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="days " Margin="0,0,0,10"/>
+                        <TextBlock Text="days " Margin="0,0,0,0"/>
+                    </StackPanel>
+                </StackPanel>
+               
                 <WrapPanel HorizontalAlignment="Center"
                            DockPanel.Dock="Top">
 

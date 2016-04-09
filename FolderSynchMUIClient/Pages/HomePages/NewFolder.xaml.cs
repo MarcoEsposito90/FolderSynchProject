@@ -27,9 +27,17 @@ namespace FolderSynchMUIClient.Pages.HomePages
     /// </summary>
     public partial class NewFolder : UserControl
     {
+        private int[] daysArray = Enumerable.Range(1, 31).ToArray();
+
         public NewFolder()
         {
             InitializeComponent();
+
+            RefreshComboBox.ItemsSource = daysArray;
+            RefreshComboBox.SelectedIndex = 6;
+
+            DeleteComboBox.ItemsSource = daysArray;
+            DeleteComboBox.SelectedIndex = 6;
         }
 
 
@@ -59,7 +67,7 @@ namespace FolderSynchMUIClient.Pages.HomePages
             App application = (App)Application.Current;
             FolderSynchServiceContractClient proxy = application.FolderSynchProxy;
 
-            // 2) get folder name
+            // 2) get folder name 
             string[] directories = choosedFolderPathEditor.Text.Split('\\');
             string folderName = directories[directories.Length - 1];
 
