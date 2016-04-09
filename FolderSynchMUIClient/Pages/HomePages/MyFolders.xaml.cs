@@ -26,8 +26,11 @@ namespace FolderSynchMUIClient.Pages.HomePages
         public MyFolders()
         {
             InitializeComponent();
-            
+            App application = (App)Application.Current;
+
             ItemProvider itemProvider = new ItemProvider();
+            List<LocalFolder> localFolders = application.getLocalFolders(application.User);
+            Console.WriteLine("Elenco cartelle " + localFolders[0].FolderName + " " + localFolders[0].LocalPath);
             
             ObservableCollection<Folder> FolderList = itemProvider.GetFolders("C:\\Users\\Giulia Genta\\Desktop");
             Console.WriteLine("Prima cartella: " + FolderList[0].Name);         

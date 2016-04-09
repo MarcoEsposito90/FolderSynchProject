@@ -77,6 +77,10 @@ namespace FolderSynchMUIClient.Pages.HomePages
             // 4) proceed to upload
             UploadDialog ud = new UploadDialog(choosedFolderPathEditor.Text);
             ud.ShowDialog();
+            application.addLocalFolder(application.User.Username, folderName, choosedFolderPathEditor.Text);
+            Console.WriteLine("Username: " + application.User.Username + "folder: " + folderName + "path: " + choosedFolderPathEditor.Text);
+
+
 
         }
 
