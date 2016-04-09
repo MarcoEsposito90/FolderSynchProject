@@ -31,6 +31,8 @@ namespace FolderSynchMUIClient
         /* ---------------------------------------------------------------- */
         /* ------------ PROPERTIES ---------------------------------------- */
         /* ---------------------------------------------------------------- */
+
+        /*********************************************************************/
         public FolderSynchServiceContractClient FolderSynchProxy
         {
             get;
@@ -43,10 +45,21 @@ namespace FolderSynchMUIClient
             private set;
         }
 
+
+        /*********************************************************************/
+        private bool isUserInitialized = false;
+        private User _User;
         public User User
         {
-            get;
-            set;
+            get { return _User; }
+            set
+            {
+                _User = value;
+
+                // must inizialize local folders data structure
+                LocalFolders = getLocalFolders(value);
+                isUserInitialized = true;
+            }
         }
 
         public Folder Folder {
@@ -54,6 +67,8 @@ namespace FolderSynchMUIClient
             set;
         }
 
+
+        /*********************************************************************/
         public Dictionary<string, string> KnownUsers
         {
             get;
@@ -80,11 +95,9 @@ namespace FolderSynchMUIClient
             StreamTransferProxy = new StreamedTransferContractClient();
             Application.Current.Resources["ButtonBackgroundHover"] = Brushes.AliceBlue;
 
-
             // check for files
             UsersFileCheck();
             FoldersFileCheck();
-            
 
             MainWindow mw = new MainWindow();
             mw.Show();
@@ -202,6 +215,9 @@ namespace FolderSynchMUIClient
         /********************************************************************/
         public List<LocalFolder> getLocalFolders(User user)
         {
+            if (isUserInitialized)
+                return LocalFolders;
+
             LocalFolders = new List<LocalFolder>();
 
             FileStream fs = new FileStream("folders.txt", FileMode.Open, FileAccess.Read);
@@ -230,6 +246,9 @@ namespace FolderSynchMUIClient
         /********************************************************************/
         public void addLocalFolder(string username, string folderName, string path)
         {
+
+            if (!username.Equals(User.Username))
+                throw new Exception("You cannot add a folder for another user");
 
             FileStream fs = new FileStream("folders.txt", FileMode.Open, FileAccess.Write);
             StreamWriter sw = new StreamWriter(fs);
