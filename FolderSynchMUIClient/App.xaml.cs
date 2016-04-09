@@ -60,9 +60,18 @@ namespace FolderSynchMUIClient
             private set;
         }
 
+
+        public List<LocalFolder> LocalFolders
+        {
+            get;
+            private set;
+        }
+
         /* ---------------------------------------------------------------- */
         /* ------------ CALLBACKS ----------------------------------------- */
         /* ---------------------------------------------------------------- */
+
+        /********************************************************************/
         private void Application_Startup(object sender, StartupEventArgs e)
         {
 
@@ -74,13 +83,15 @@ namespace FolderSynchMUIClient
 
             // check for files
             UsersFileCheck();
-
+            FoldersFileCheck();
             
 
             MainWindow mw = new MainWindow();
             mw.Show();
         }
 
+
+        /********************************************************************/
         private void Application_Exit(object sender, ExitEventArgs e)
         {
 
@@ -92,6 +103,11 @@ namespace FolderSynchMUIClient
         }
 
 
+        /* ---------------------------------------------------------------- */
+        /* ------------ USERS FILE ---------------------------------------- */
+        /* ---------------------------------------------------------------- */
+
+        /********************************************************************/
         private void UsersFileCheck()
         {
             KnownUsers = new Dictionary<string, string>();
@@ -118,6 +134,7 @@ namespace FolderSynchMUIClient
             }
         }
 
+        /********************************************************************/
         public void AddKnownUser(string username, string password)
         {
             string pw;
@@ -163,6 +180,71 @@ namespace FolderSynchMUIClient
                 fs.Close();
                 sw.Close();
             }
+        }
+
+
+        /* ---------------------------------------------------------------- */
+        /* ------------ FOLDERS FILE -------------------------------------- */
+        /* ---------------------------------------------------------------- */
+
+        /********************************************************************/
+        private void FoldersFileCheck()
+        {
+
+            LocalFolders = new List<LocalFolder>();
+            FileStream fs = new FileStream("folders.txt", FileMode.Open, FileAccess.Read);
+
+            using (fs)
+                fs.Close();
+        }
+
+
+        /********************************************************************/
+        public List<LocalFolder> getLocalFolders(User user)
+        {
+            LocalFolders = new List<LocalFolder>();
+
+            FileStream fs = new FileStream("folders.txt", FileMode.Open, FileAccess.Read);
+            StreamReader sr = new StreamReader(fs);
+
+            using (fs)
+            using (sr)
+            {
+                string line;
+                while((line = sr.ReadLine()) != null)
+                {
+
+                    string[] tokens = line.Split(';');
+                    if (tokens[0].Equals(user.Username))
+                        LocalFolders.Add(new LocalFolder(tokens[0], tokens[1], tokens[2]));
+                }
+
+                fs.Close();
+                sr.Close();
+            }
+
+            return LocalFolders;
+        }
+
+
+        /********************************************************************/
+        public void addLocalFolder(string username, string folderName, string path)
+        {
+
+            FileStream fs = new FileStream("folders.txt", FileMode.Open, FileAccess.Write);
+            StreamWriter sw = new StreamWriter(fs);
+
+
+            using (fs)
+            using (sw)
+            {
+
+                sw.WriteLine(username + ";" + folderName + ";" + path);
+
+                fs.Close();
+                sw.Close();
+            }
+
         }
     }
 }
