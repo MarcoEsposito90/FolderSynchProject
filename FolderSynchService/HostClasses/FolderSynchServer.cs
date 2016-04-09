@@ -228,8 +228,7 @@ namespace ServicesProject
             if (Directory.Exists(RemoteFoldersPath + "\\" + user.Username + "\\" + folder.Name))
                 throw new FaultException<MyBaseFault>(new MyBaseFault("directory already on server"));
 
-            if (!user.Folders.ContainsKey(folder.Name))
-                user.Folders.Add(folder.Name, folder);
+            user.Folders.Add(folder);
 
             UsersFileHandler.Instance.WriteUsersList(new List<User>(Users.Values));
             Directory.CreateDirectory(RemoteFoldersPath + "\\" + user.Username + "\\" + folder.Name);
@@ -253,7 +252,15 @@ namespace ServicesProject
             if (user == null)
                 throw new FaultException(new FaultReason(FileTransferFault.USER_NOT_CONNECTED));
 
-            if (!user.Folders.ContainsKey(baseFolder))
+            bool exists = false;
+            foreach(Folder f in user.Folders)
+                if (f.Name.Equals(baseFolder))
+                {
+                    exists = true;
+                    break;
+                }
+
+            if (!exists)
                 throw new FaultException(new FaultReason(FileTransferFault.UNKNOWN_BASE_FOLDER));
 
             UpdateTransaction transaction = null;

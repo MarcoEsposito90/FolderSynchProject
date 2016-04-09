@@ -28,7 +28,7 @@ namespace ServicesProject
         }
 
         [DataMember]
-        public Dictionary<string,Folder> Folders
+        public List<Folder> Folders
         {
             get;
             private set;
@@ -42,7 +42,7 @@ namespace ServicesProject
 
             this.Username = username;
             this.Password = password;
-            Folders = new Dictionary<string, Folder>();
+            Folders = new List<Folder>();
         }
 
 
