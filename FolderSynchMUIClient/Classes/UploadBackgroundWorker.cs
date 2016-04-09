@@ -92,16 +92,42 @@ namespace FolderSynchMUIClient.Classes
                     }
 
                     proxy.updateCommit(transaction);
-
                 }
 
             }
             catch (FaultException f)
             {
                 Console.WriteLine("error: " + f.Reason);
+                e.Result = new UploadWorkerResponse(false, UploadWorkerResponse.ERROR_MESSAGE);
             }
 
+            e.Result = new UploadWorkerResponse(true, "");
         }
 
+
+        public class UploadWorkerResponse
+        {
+
+            public static readonly string ERROR_MESSAGE = "something went wrong";
+
+            public bool Success
+            {
+                get;
+                private set;
+            }
+
+            public String ErrorMessage
+            {
+                get;
+                private set;
+            }
+
+            public UploadWorkerResponse(bool success, string errorMessage)
+            {
+
+                Success = success;
+                ErrorMessage = errorMessage;
+            }
+        }
     }
 }

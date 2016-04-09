@@ -87,7 +87,14 @@ namespace FolderSynchMUIClient.Pages
             if (!(e.Error == null))
                 responseTB.Text = ("Error: " + e.Error.Message + " transfer not complete");
             else
-                responseTB.Text = "Done!";
+            {
+                UploadBackgroundWorker.UploadWorkerResponse result = (UploadBackgroundWorker.UploadWorkerResponse)e.Result;
+
+                if (result.Success)
+                    responseTB.Text = "Done!";
+                else
+                    responseTB.Text = result.ErrorMessage;
+            }
 
             OkButton.IsEnabled = true;
         }

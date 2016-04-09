@@ -13,7 +13,7 @@ namespace ServicesProject
     public class FolderSynchImplementation : FolderSynchServiceContract
     {
         User currentUser = null;
-        List<UpdateTransaction> ActiveTransactions = null;
+        Dictionary<string,UpdateTransaction> ActiveTransactions = null;
 
         /* ---------------------------------------------------------------------- */
         /* ------------------------ USER ---------------------------------------- */
@@ -22,7 +22,7 @@ namespace ServicesProject
         public User loginUser(string username, string password)
         {
             currentUser = FolderSynchServer.Instance.LoginUser(username, password);
-            ActiveTransactions = new List<UpdateTransaction>();
+            ActiveTransactions = new Dictionary<string, UpdateTransaction>();
             return currentUser;
         }
 
@@ -52,7 +52,7 @@ namespace ServicesProject
             Console.WriteLine("baseFodler = " + baseFolder);
             UpdateTransaction tr = new UpdateTransaction(currentUser, baseFolder, timestamp);
             FolderSynchServer.Instance.beginUpdate(tr);
-            ActiveTransactions.Add(tr);
+            ActiveTransactions.Add(tr.TransactionID,tr);
             return tr;
         }
 
@@ -60,14 +60,9 @@ namespace ServicesProject
         public void uploadFile(string transactionID, string baseFolder, string localPath, byte[] data)
         {
             UpdateTransaction transaction = null;
-            foreach(UpdateTransaction at in ActiveTransactions)
-                if (at.TransactionID.Equals(transactionID))
-                {
-                    transaction = at;
-                    break;
-                }
+            
 
-            if (transaction == null)
+            if (!ActiveTransactions.TryGetValue(transactionID, out transaction))
                 throw new FaultException(new FaultReason("This transaction is not active for the user"));
 
             Console.WriteLine(currentUser.Username + "wants to add a new file");
@@ -79,16 +74,17 @@ namespace ServicesProject
         {
             Console.WriteLine(currentUser.Username + "wants to commit an update");
             FolderSynchServer.Instance.updateCommit(transaction);
+            ActiveTransactions.Remove(transaction.TransactionID);
         }
 
         /* ------------------------------------------------------------------------------ */
         /* ------------------------ FOLDERS --------------------------------------------- */
         /* ------------------------------------------------------------------------------ */
 
-        public void addNewSynchronizedFolder(string folderName)
+        public void addNewSynchronizedFolder(Folder folder)
         {
-            Console.WriteLine(currentUser.Username + " wants to add a new folder: " + folderName);
-            FolderSynchServer.Instance.AddNewFolder(currentUser, folderName);
+            Console.WriteLine(currentUser.Username + " wants to add a new folder: " + folder.Name);
+            FolderSynchServer.Instance.AddNewFolder(currentUser, folder);
         }
 
         

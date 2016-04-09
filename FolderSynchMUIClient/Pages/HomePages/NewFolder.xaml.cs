@@ -72,13 +72,25 @@ namespace FolderSynchMUIClient.Pages.HomePages
             string folderName = directories[directories.Length - 1];
 
             // 3) add the new folder on the server
-            proxy.addNewSynchronizedFolder(folderName);
+            try
+            {
+                proxy.addNewSynchronizedFolder(folderName);
+                
+                // 4) proceed to upload
+                UploadDialog ud = new UploadDialog(choosedFolderPathEditor.Text);
+                ud.ShowDialog();
 
-            // 4) proceed to upload
-            UploadDialog ud = new UploadDialog(choosedFolderPathEditor.Text);
-            ud.ShowDialog();
-            application.addLocalFolder(application.User.Username, folderName, choosedFolderPathEditor.Text);
-            Console.WriteLine("Username: " + application.User.Username + "folder: " + folderName + "path: " + choosedFolderPathEditor.Text);
+                application.addLocalFolder(application.User.Username, folderName, choosedFolderPathEditor.Text);
+                Console.WriteLine("Username: " + application.User.Username + "folder: " + folderName + "path: " + choosedFolderPathEditor.Text);
+            }
+            catch (FaultException f)
+            {
+                Console.WriteLine("fault: " + f.Message);
+
+                // X Giulia: mostrare una dialog con il messaggio di errore
+                // consiglio: creare una classe apposita che estenda ModernDialog per mostrare gli errori in generale
+            }
+            
 
 
 

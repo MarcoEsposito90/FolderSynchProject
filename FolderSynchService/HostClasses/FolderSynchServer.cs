@@ -223,16 +223,16 @@ namespace ServicesProject
         /* ------------ FOLDERS METHODS ------------------------------------------------------------------ */
         /* ----------------------------------------------------------------------------------------------- */
 
-        public void AddNewFolder(User user, string folderName)
+        public void AddNewFolder(User user, Folder folder)
         {
-            if (Directory.Exists(RemoteFoldersPath + "\\" + user.Username + "\\" + folderName))
+            if (Directory.Exists(RemoteFoldersPath + "\\" + user.Username + "\\" + folder.Name))
                 throw new FaultException<MyBaseFault>(new MyBaseFault("directory already on server"));
 
-            if (!user.Folders.Contains(folderName))
-                user.Folders.Add(folderName);
+            if (!user.Folders.ContainsKey(folder.Name))
+                user.Folders.Add(folder.Name, folder);
 
             UsersFileHandler.Instance.WriteUsersList(new List<User>(Users.Values));
-            Directory.CreateDirectory(RemoteFoldersPath + "\\" + user.Username + "\\" + folderName);
+            Directory.CreateDirectory(RemoteFoldersPath + "\\" + user.Username + "\\" + folder.Name);
         }
 
         /* ----------------------------------------------------------------------------------------------- */

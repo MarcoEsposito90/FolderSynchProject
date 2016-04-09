@@ -105,10 +105,11 @@ namespace ServicesProject
         public void CommitTransaction(UpdateTransaction transaction)
         {
 
-            if(!ActiveTransactions.ContainsValue(transaction))
+            UpdateTransaction tr = null;
+            if(!ActiveTransactions.TryGetValue(transaction.TransactionID, out tr))
                 throw new FaultException(new FaultReason("no transaction active for this upload"));
 
-            WriteLogEntry(transaction, Operations.Commit, "");
+            WriteLogEntry(tr, Operations.Commit, "");
             ActiveTransactions.Remove(transaction.TransactionID);
         }
 

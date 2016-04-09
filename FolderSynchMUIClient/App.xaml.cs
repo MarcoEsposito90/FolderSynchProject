@@ -143,7 +143,6 @@ namespace FolderSynchMUIClient
                 }
 
                 fs.Close();
-                sr.Close();
             }
         }
 
@@ -191,7 +190,6 @@ namespace FolderSynchMUIClient
                 }
 
                 fs.Close();
-                sw.Close();
             }
         }
 
@@ -236,7 +234,6 @@ namespace FolderSynchMUIClient
                 }
 
                 fs.Close();
-                sr.Close();
             }
 
             return LocalFolders;
@@ -259,9 +256,8 @@ namespace FolderSynchMUIClient
             {
 
                 sw.WriteLine(username + ";" + folderName + ";" + path);
-
-                fs.Close();
                 sw.Close();
+                fs.Close();
             }
 
         }
