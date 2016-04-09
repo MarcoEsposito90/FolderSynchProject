@@ -160,7 +160,7 @@ namespace FolderSynchMUIClient
 
             FileStream fs = new FileStream( "users.txt",
                                             oldPassword == null ? FileMode.Append : FileMode.Open,
-                                            FileAccess.ReadWrite);
+                                            oldPassword == null ? FileAccess.Write : FileAccess.ReadWrite);
 
             StreamWriter sw = new StreamWriter(fs);
             
