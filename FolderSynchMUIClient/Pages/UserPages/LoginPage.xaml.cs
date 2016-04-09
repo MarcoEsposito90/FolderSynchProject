@@ -36,6 +36,9 @@ namespace FolderSynchMUIClient.Pages
                 application.User = proxy.loginUser(TBLoginUsername.Text.ToString(), TBLoginPassword.Password.ToString());
                 responseLabel.Content = "login successful";
 
+                if (CheckBoxRemember.IsChecked.Value)
+                    application.AddKnownUser(TBLoginUsername.Text, TBLoginPassword.Password);
+
                 SecondWindow sw = new SecondWindow();
                 sw.Show();
 

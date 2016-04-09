@@ -71,7 +71,7 @@
     <Compile Include="Classes\UploadBackgroundWorker.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="LocalFolder.cs" />
+    <Compile Include="Classes\LocalFolder.cs" />
     <Compile Include="Pages\Dialogs\UploadDialog.xaml.cs">
       <DependentUpon>UploadDialog.xaml</DependentUpon>
     </Compile>
