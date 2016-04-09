@@ -46,7 +46,7 @@
   <xs:element name="addNewSynchronizedFolder">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="folderName" nillable="true" type="xs:string" />
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/ServicesProject" minOccurs="0" name="folderName" nillable="true" type="q4:Folder" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -66,7 +66,7 @@
   <xs:element name="beginUpdateResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/ServicesProject" minOccurs="0" name="beginUpdateResult" nillable="true" type="q4:UpdateTransaction" />
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/ServicesProject" minOccurs="0" name="beginUpdateResult" nillable="true" type="q5:UpdateTransaction" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -88,7 +88,7 @@
   <xs:element name="updateCommit">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/ServicesProject" minOccurs="0" name="transaction" nillable="true" type="q5:UpdateTransaction" />
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/ServicesProject" minOccurs="0" name="transaction" nillable="true" type="q6:UpdateTransaction" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

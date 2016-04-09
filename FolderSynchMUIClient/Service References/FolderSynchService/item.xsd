@@ -1,14 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/ServicesProject" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/ServicesProject" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import schemaLocation="http://localhost:8080/?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
   <xs:complexType name="User">
     <xs:sequence>
-      <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Folders" nillable="true" type="q1:ArrayOfstring" />
+      <xs:element minOccurs="0" name="Folders" nillable="true" type="tns:ArrayOfFolder" />
       <xs:element minOccurs="0" name="Password" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="Username" nillable="true" type="xs:string" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="User" nillable="true" type="tns:User" />
+  <xs:complexType name="ArrayOfFolder">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Folder" nillable="true" type="tns:Folder" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfFolder" nillable="true" type="tns:ArrayOfFolder" />
+  <xs:complexType name="Folder">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:Item">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="AutoDeleteTime" type="xs:int" />
+          <xs:element minOccurs="0" name="AutoRefreshTime" type="xs:int" />
+          <xs:element minOccurs="0" name="ContainedFiles" type="xs:int" />
+          <xs:element minOccurs="0" name="ContainedFolders" type="xs:int" />
+          <xs:element minOccurs="0" name="Items" nillable="true" type="tns:ArrayOfItem" />
+          <xs:element minOccurs="0" name="SynchDate" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="Updates" nillable="true" type="tns:ArrayOfUpdate" />
+          <xs:element minOccurs="0" name="Username" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Folder" nillable="true" type="tns:Folder" />
+  <xs:complexType name="Item">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CurrentSize" type="xs:long" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SizeInBytes" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Item" nillable="true" type="tns:Item" />
+  <xs:complexType name="ArrayOfItem">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Item" nillable="true" type="tns:Item" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfItem" nillable="true" type="tns:ArrayOfItem" />
+  <xs:complexType name="ArrayOfUpdate">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Update" nillable="true" type="tns:Update" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfUpdate" nillable="true" type="tns:ArrayOfUpdate" />
+  <xs:complexType name="Update">
+    <xs:sequence />
+  </xs:complexType>
+  <xs:element name="Update" nillable="true" type="tns:Update" />
   <xs:complexType name="RegistrationFault">
     <xs:complexContent mixed="false">
       <xs:extension base="tns:MyBaseFault">

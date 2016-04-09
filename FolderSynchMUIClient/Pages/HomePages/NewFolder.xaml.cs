@@ -19,6 +19,7 @@ using System.ServiceModel;
 using System.IO;
 using System.ComponentModel;
 using FirstFloor.ModernUI.Windows.Controls;
+using ServicesProject;
 
 namespace FolderSynchMUIClient.Pages.HomePages
 {
@@ -74,8 +75,7 @@ namespace FolderSynchMUIClient.Pages.HomePages
             // 3) add the new folder on the server
             try
             {
-                proxy.addNewSynchronizedFolder(folderName);
-                
+                proxy.addNewSynchronizedFolder(new Folder(folderName, application.User.Username));
                 // 4) proceed to upload
                 UploadDialog ud = new UploadDialog(choosedFolderPathEditor.Text);
                 ud.ShowDialog();

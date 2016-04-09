@@ -211,19 +211,13 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
-    <None Include="Properties\DataSources\FolderSynchService.SharedTypes.UpdateTransaction.datasource" />
+    <None Include="Properties\DataSources\ServicesProject.UpdateTransaction.datasource" />
     <None Include="Properties\DataSources\ServicesProject.User.datasource" />
     <None Include="Service References\FolderSynchService\FolderSynchImplementation.wsdl" />
-    <None Include="Service References\FolderSynchService\FolderSynchMUIClient.FolderSynchService.UpdateTransaction.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
     <None Include="Service References\FolderSynchService\item.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\FolderSynchService\item2.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\FolderSynchService\item3.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\FolderSynchService\item4.xsd">

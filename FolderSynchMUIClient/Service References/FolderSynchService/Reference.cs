@@ -9,102 +9,7 @@
 //------------------------------------------------------------------------------
 
 namespace FolderSynchMUIClient.FolderSynchService {
-    using System.Runtime.Serialization;
-    using System;
     
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="UpdateTransaction", Namespace="http://schemas.datacontract.org/2004/07/ServicesProject")]
-    [System.SerializableAttribute()]
-    public partial class UpdateTransaction : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string FolderNameField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.DateTime TimestampField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string TransactionIDField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private ServicesProject.User UserField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string FolderName {
-            get {
-                return this.FolderNameField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.FolderNameField, value) != true)) {
-                    this.FolderNameField = value;
-                    this.RaisePropertyChanged("FolderName");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.DateTime Timestamp {
-            get {
-                return this.TimestampField;
-            }
-            set {
-                if ((this.TimestampField.Equals(value) != true)) {
-                    this.TimestampField = value;
-                    this.RaisePropertyChanged("Timestamp");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string TransactionID {
-            get {
-                return this.TransactionIDField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.TransactionIDField, value) != true)) {
-                    this.TransactionIDField = value;
-                    this.RaisePropertyChanged("TransactionID");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public ServicesProject.User User {
-            get {
-                return this.UserField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.UserField, value) != true)) {
-                    this.UserField = value;
-                    this.RaisePropertyChanged("User");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="FolderSynchService.FolderSynchServiceContract", SessionMode=System.ServiceModel.SessionMode.Required)]
@@ -134,16 +39,16 @@ namespace FolderSynchMUIClient.FolderSynchService {
         [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/addNewSynchronizedFolder", ReplyAction="http://tempuri.org/FolderSynchServiceContract/addNewSynchronizedFolderResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(ServicesProject.MyBaseFault), Action="http://tempuri.org/FolderSynchServiceContract/addNewSynchronizedFolderMyBaseFault" +
             "Fault", Name="MyBaseFault", Namespace="http://schemas.datacontract.org/2004/07/ServicesProject")]
-        void addNewSynchronizedFolder(string folderName);
+        void addNewSynchronizedFolder(ServicesProject.Folder folderName);
         
         [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/addNewSynchronizedFolder", ReplyAction="http://tempuri.org/FolderSynchServiceContract/addNewSynchronizedFolderResponse")]
-        System.Threading.Tasks.Task addNewSynchronizedFolderAsync(string folderName);
+        System.Threading.Tasks.Task addNewSynchronizedFolderAsync(ServicesProject.Folder folderName);
         
         [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/beginUpdate", ReplyAction="http://tempuri.org/FolderSynchServiceContract/beginUpdateResponse")]
-        FolderSynchMUIClient.FolderSynchService.UpdateTransaction beginUpdate(string baseFolder, System.DateTime timestamp);
+        ServicesProject.UpdateTransaction beginUpdate(string baseFolder, System.DateTime timestamp);
         
         [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/beginUpdate", ReplyAction="http://tempuri.org/FolderSynchServiceContract/beginUpdateResponse")]
-        System.Threading.Tasks.Task<FolderSynchMUIClient.FolderSynchService.UpdateTransaction> beginUpdateAsync(string baseFolder, System.DateTime timestamp);
+        System.Threading.Tasks.Task<ServicesProject.UpdateTransaction> beginUpdateAsync(string baseFolder, System.DateTime timestamp);
         
         [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/uploadFile", ReplyAction="http://tempuri.org/FolderSynchServiceContract/uploadFileResponse")]
         void uploadFile(string transactionID, string baseFolder, string localPath, byte[] data);
@@ -152,10 +57,10 @@ namespace FolderSynchMUIClient.FolderSynchService {
         System.Threading.Tasks.Task uploadFileAsync(string transactionID, string baseFolder, string localPath, byte[] data);
         
         [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/updateCommit", ReplyAction="http://tempuri.org/FolderSynchServiceContract/updateCommitResponse")]
-        void updateCommit(FolderSynchMUIClient.FolderSynchService.UpdateTransaction transaction);
+        void updateCommit(ServicesProject.UpdateTransaction transaction);
         
         [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/updateCommit", ReplyAction="http://tempuri.org/FolderSynchServiceContract/updateCommitResponse")]
-        System.Threading.Tasks.Task updateCommitAsync(FolderSynchMUIClient.FolderSynchService.UpdateTransaction transaction);
+        System.Threading.Tasks.Task updateCommitAsync(ServicesProject.UpdateTransaction transaction);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -209,19 +114,19 @@ namespace FolderSynchMUIClient.FolderSynchService {
             return base.Channel.logoutUserAsync(user);
         }
         
-        public void addNewSynchronizedFolder(string folderName) {
+        public void addNewSynchronizedFolder(ServicesProject.Folder folderName) {
             base.Channel.addNewSynchronizedFolder(folderName);
         }
         
-        public System.Threading.Tasks.Task addNewSynchronizedFolderAsync(string folderName) {
+        public System.Threading.Tasks.Task addNewSynchronizedFolderAsync(ServicesProject.Folder folderName) {
             return base.Channel.addNewSynchronizedFolderAsync(folderName);
         }
         
-        public FolderSynchMUIClient.FolderSynchService.UpdateTransaction beginUpdate(string baseFolder, System.DateTime timestamp) {
+        public ServicesProject.UpdateTransaction beginUpdate(string baseFolder, System.DateTime timestamp) {
             return base.Channel.beginUpdate(baseFolder, timestamp);
         }
         
-        public System.Threading.Tasks.Task<FolderSynchMUIClient.FolderSynchService.UpdateTransaction> beginUpdateAsync(string baseFolder, System.DateTime timestamp) {
+        public System.Threading.Tasks.Task<ServicesProject.UpdateTransaction> beginUpdateAsync(string baseFolder, System.DateTime timestamp) {
             return base.Channel.beginUpdateAsync(baseFolder, timestamp);
         }
         
@@ -233,11 +138,11 @@ namespace FolderSynchMUIClient.FolderSynchService {
             return base.Channel.uploadFileAsync(transactionID, baseFolder, localPath, data);
         }
         
-        public void updateCommit(FolderSynchMUIClient.FolderSynchService.UpdateTransaction transaction) {
+        public void updateCommit(ServicesProject.UpdateTransaction transaction) {
             base.Channel.updateCommit(transaction);
         }
         
-        public System.Threading.Tasks.Task updateCommitAsync(FolderSynchMUIClient.FolderSynchService.UpdateTransaction transaction) {
+        public System.Threading.Tasks.Task updateCommitAsync(ServicesProject.UpdateTransaction transaction) {
             return base.Channel.updateCommitAsync(transaction);
         }
     }
