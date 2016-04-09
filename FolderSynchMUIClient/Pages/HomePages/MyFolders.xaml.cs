@@ -30,7 +30,7 @@ namespace FolderSynchMUIClient.Pages.HomePages
             ObservableCollection<Folder> FolderList = new ObservableCollection<Folder>();
             App application = (App)Application.Current;
 
-            List<Folder> userFolders = application.User.Folders;
+            List<Folder> userFolders = new List<Folder>(application.User.Folders.Values);
             List<LocalFolder> localFolders = application.getLocalFolders(application.User);
             foreach(Folder f in userFolders)
             {
