@@ -142,6 +142,7 @@ namespace FolderSynchMUIClient
                     KnownUsers.Add(tokens[0], tokens[1]);
                 }
 
+                sr.Close();
                 fs.Close();
             }
         }
@@ -189,6 +190,7 @@ namespace FolderSynchMUIClient
 
                 }
 
+                sw.Close();
                 fs.Close();
             }
         }
@@ -233,6 +235,7 @@ namespace FolderSynchMUIClient
                         LocalFolders.Add(new LocalFolder(tokens[0], tokens[1], tokens[2]));
                 }
 
+                sr.Close();
                 fs.Close();
             }
 
