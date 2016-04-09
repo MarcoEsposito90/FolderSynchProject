@@ -253,7 +253,7 @@ namespace ServicesProject
             if (user == null)
                 throw new FaultException(new FaultReason(FileTransferFault.USER_NOT_CONNECTED));
 
-            if (!user.Folders.Contains(baseFolder))
+            if (!user.Folders.ContainsKey(baseFolder))
                 throw new FaultException(new FaultReason(FileTransferFault.UNKNOWN_BASE_FOLDER));
 
             UpdateTransaction transaction = null;

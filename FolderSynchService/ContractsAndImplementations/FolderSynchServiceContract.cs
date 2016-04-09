@@ -25,7 +25,7 @@ namespace ServicesProject
 
         [OperationContract(IsInitiating = false, IsTerminating = false)]
         [FaultContract(typeof(MyBaseFault))]
-        void addNewSynchronizedFolder(string folderName);
+        void addNewSynchronizedFolder(Folder folderName);
 
         [OperationContract(IsInitiating = false, IsTerminating = false)]
         UpdateTransaction beginUpdate(string baseFolder, DateTime timestamp);
