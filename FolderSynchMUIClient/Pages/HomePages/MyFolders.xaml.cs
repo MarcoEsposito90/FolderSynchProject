@@ -26,15 +26,32 @@ namespace FolderSynchMUIClient.Pages.HomePages
         public MyFolders()
         {
             InitializeComponent();
+
+            ObservableCollection<Folder> FolderList = new ObservableCollection<Folder>();
             App application = (App)Application.Current;
 
-            ItemProvider itemProvider = new ItemProvider();
+            List<Folder> userFolders = application.User.Folders;
             List<LocalFolder> localFolders = application.getLocalFolders(application.User);
-            Console.WriteLine("Elenco cartelle " + localFolders[0].FolderName + " " + localFolders[0].LocalPath);
+            foreach(Folder f in userFolders)
+            {
+                int found = localFolders.FindIndex(item => item.FolderName.Equals(f.Name));
+                if (found >= 0)
+                {
+                    Console.WriteLine("Folder " + f.Name + " ok.");
+                    FolderList.Add(f);
+                    //mettersti in ascolto ??????
+                }
+                else {
+                    Console.WriteLine("Folder " + f.Name + " not found.");
+                    //chiedere se la vuole scaricare
+                }
+            }
+
+            /*ItemProvider itemProvider = new ItemProvider();
             
             ObservableCollection<Folder> FolderList = itemProvider.GetFolders("C:\\Users\\Giulia Genta\\Desktop");
             Console.WriteLine("Prima cartella: " + FolderList[0].Name);         
-
+            */
             Update u = new Update(FolderList[0], DateTime.Now);
             Console.WriteLine("Creo update u");
             
