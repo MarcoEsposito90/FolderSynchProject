@@ -91,6 +91,9 @@ namespace FolderSynchMUIClient.Pages.HomePages
             {
                 Console.WriteLine("fault: " + f.Message);
 
+                ErrorDialog errDialog = new ErrorDialog();
+                errDialog.txtFaultReason.Text = f.Message;
+                errDialog.ShowDialog();
                 // X Giulia: mostrare una dialog con il messaggio di errore
                 // consiglio: creare una classe apposita che estenda ModernDialog per mostrare gli errori in generale
             }

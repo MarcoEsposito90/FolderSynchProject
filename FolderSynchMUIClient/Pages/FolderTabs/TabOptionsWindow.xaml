@@ -11,7 +11,9 @@
             <Grid Style="{StaticResource ContentRoot}"  ScrollViewer.HorizontalScrollBarVisibility="Auto">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="0.4*"/>
+                    <ColumnDefinition Width="0.3*"/>
+                    <ColumnDefinition Width="0.4*"/>
                 </Grid.ColumnDefinitions>
 
                 <Grid.RowDefinitions>
@@ -19,16 +21,50 @@
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
-                
-                <TextBlock Text="Auto refresh days: " HorizontalAlignment="Left" 
+
+                <TextBlock Text="Auto refresh hours: " HorizontalAlignment="Left" 
                            Grid.Column="0" Grid.Row="0" 
                            VerticalAlignment="Center" Margin="10,10,10,10"/>
-                <StackPanel Orientation="Horizontal"  Grid.Column="1" Grid.Row="0" >
-                    <TextBox x:Name="txtNum" Margin="5,5,0,5" Width="50" Text="{Binding Path=service:Folder, ElementName=AutoRefreshTime}" TextChanged="txtNum_TextChanged" />
-                    <Button x:Name="cmdUp" Margin="5,5,0,5" Content="˄" Width="20" Click="cmdUp_Click" />
-                    <Button x:Name="cmdDown" Margin="0,5,0,5"  Content="˅" Width="20" Click="cmdDown_Click" />
-                </StackPanel>
+                <Button x:Name="autoRefreshUp"  
+                        Grid.Column="1" Grid.Row="0"
+                        Content="˄" Click="autoRefreshUp_Click" 
+                        Margin="5,10,5,10"/>
+                <TextBlock x:Name="txtAutoRefresh" 
+                           Grid.Column="2" Grid.Row="0"
+                           Text="{Binding AutoRefreshTime}" 
+                           Background="White"
+                           TextAlignment="Center"
+                           Margin="5,10,5,10"/>
+                <Button x:Name="autoRefreshDown" 
+                        Grid.Column="3" Grid.Row="0"
+                        Content="˅" Click="autoRefreshDown_Click"
+                        Margin="5,10,5,10"/>
 
+                <TextBlock Text="Auto delete days: " HorizontalAlignment="Left" 
+                           Grid.Column="0" Grid.Row="1" 
+                           VerticalAlignment="Center" Margin="10,10,10,10"/>
+                <Button x:Name="autoDeleteUp"  
+                        Grid.Column="1" Grid.Row="1"
+                        Content="˄" Click="autoDeleteUp_Click" 
+                        Margin="5,10,5,10"/>
+                <TextBlock x:Name="txtAutoDelete" 
+                           Grid.Column="2" Grid.Row="1"
+                           Text="{Binding AutoDeleteTime}" 
+                           Background="White"
+                           TextAlignment="Center"
+                           Margin="5,10,5,10"/>
+                <Button x:Name="autoDeleteDown" 
+                        Grid.Column="3" Grid.Row="1"
+                        Content="˅" Click="autoDeleteDown_Click"
+                        Margin="5,10,5,10"/>
+
+                <Button Name="btnSaveChanges"
+                        Grid.Row="2" Grid.ColumnSpan="4"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Content="Save changes"
+                        Click="btnSaveChanges_Click"
+                        />
 
             </Grid>
         </ScrollViewer>
