@@ -75,6 +75,12 @@ namespace ServicesProject
             private set;
         }
 
+        public Dictionary<string, UpdatesFileHandler> UpdateHandlers
+        {
+            get;
+            private set;
+        }
+
         /* ---------------------------------------------------------------- */
         /* ------------------ CONSTRUCTOR --------------------------------- */
         /* ---------------------------------------------------------------- */
@@ -226,7 +232,7 @@ namespace ServicesProject
         public void AddNewFolder(User user, Folder folder)
         {
             if (Directory.Exists(RemoteFoldersPath + "\\" + user.Username + "\\" + folder.Name))
-                throw new FaultException<MyBaseFault>(new MyBaseFault("directory already on server"));
+                throw new FaultException(new FaultReason("directory already on server"));
 
             user.Folders.Add(folder);
 
@@ -240,14 +246,35 @@ namespace ServicesProject
 
         public void beginUpdate(UpdateTransaction transaction)
         {
+
+            UpdatesFileHandler handler = null;
+
+            if (!UpdateHandlers.TryGetValue(transaction.User.Username+transaction.FolderName, out handler))
+            {
+                foreach (Folder f in transaction.User.Folders)
+                    if (f.Name.Equals(transaction.FolderName))
+                    {
+                        handler = new UpdatesFileHandler(transaction.User, f.Name);
+                        break;
+                    }
+
+                if (handler == null)
+                    throw new FaultException(new FaultReason("This user has no folder named " + transaction.FolderName));
+
+                UpdateHandlers.Add(handler.User.Username + handler.BaseFolder, handler);
+            }
+
+            
             TransactionsHandler.Instance.AddTransaction(transaction);
+            handler.createNewUpdate(transaction);
         }
 
 
         public void uploadFileStreamed(string username, string transactionID, string baseFolder, string localPath, Stream uploadStream)
         {
+            // 1) check if everything ok ---------------------------------------------------
             User user = null;
-            ConnectedUsers.TryGetValue(username, out user);
+            ConnectedUsers.TryGetValue(username+baseFolder, out user);
 
             if (user == null)
                 throw new FaultException(new FaultReason(FileTransferFault.USER_NOT_CONNECTED));
@@ -264,45 +291,20 @@ namespace ServicesProject
                 throw new FaultException(new FaultReason(FileTransferFault.UNKNOWN_BASE_FOLDER));
 
             UpdateTransaction transaction = null;
-
             if (!TransactionsHandler.Instance.ActiveTransactions.TryGetValue(transactionID, out transaction))
                 throw new FaultException(new FaultReason(FileTransferFault.NO_TRANSACTION_ACTIVE));
 
-            string filePath = RemoteFoldersPath + "\\" + user.Username + "\\" + baseFolder + "\\" + localPath;
-            FileStream inputStream = new FileStream(filePath,
-                                                    FileMode.Create,
-                                                    FileAccess.Write,
-                                                    FileShare.None);
+            UpdatesFileHandler handler = null;
+            if(!UpdateHandlers.TryGetValue(user.Username, out handler))
+                throw new FaultException(new FaultReason("Transaction handler not found"));
 
-            using (inputStream)
-            {
-                // allocate a 1 KB buffer
-                const int bufferSize = 1024;
-                byte[] buffer = new byte[bufferSize];
-                Console.WriteLine("Buffer allocated");
+            // 2) write to file ------------------------------------------------------------
+            handler.AddFileStreamed(transaction, localPath, uploadStream);
 
-                // read 1KB per iteration: first they are moved to the buffer, then to the destination file
-                int readBytesCount = 0;
-                while ((readBytesCount = uploadStream.Read(buffer, 0, bufferSize)) > 0)
-                {
 
-                    Console.WriteLine("copying... Press enter to go on");
-                    //string command = Console.ReadLine();
-
-                    //if (command.Equals("stop"))
-                    //{
-                    //    throw new FaultException("server no more available");
-                    //}
-
-                    inputStream.Write(buffer, 0, readBytesCount);
-                }
-
-                inputStream.Close();
-                uploadStream.Close();
-            }
-
+            // 3) register transaction -----------------------------------------------------
             TransactionsHandler.Instance.ActiveTransactions.TryGetValue(transactionID, out transaction);
-            TransactionsHandler.Instance.AddOperation(transaction, TransactionsHandler.Operations.NewFile, filePath);
+            TransactionsHandler.Instance.AddOperation(transaction, TransactionsHandler.Operations.NewFile, localPath);
         }
 
 
@@ -316,27 +318,27 @@ namespace ServicesProject
             if (!TransactionsHandler.Instance.ActiveTransactions.ContainsValue(transaction))
                 throw new FaultException(new FaultReason(FileTransferFault.NO_TRANSACTION_ACTIVE));
 
+            UpdatesFileHandler handler = null;
+            UpdateHandlers.TryGetValue(user.Username+baseFolder, out handler);
+
+            if(handler == null)
+                throw new FaultException(new FaultReason("Transaction handler not found"));
 
             // 2) write to file
-            string filePath = RemoteFoldersPath + "\\" + user.Username + "\\" + baseFolder + "\\" + localPath;
-            FileStream inputStream = new FileStream(filePath,
-                                                    FileMode.Create,
-                                                    FileAccess.Write,
-                                                    FileShare.None);
-
-            using (inputStream)
-            {
-                inputStream.Write(data, 0, data.Length);
-                inputStream.Close();
-            }
+            handler.AddFile(transaction, localPath, data);
 
             // 3) register to log
-            TransactionsHandler.Instance.AddOperation(transaction, TransactionsHandler.Operations.NewFile, filePath);
+            TransactionsHandler.Instance.AddOperation(transaction, TransactionsHandler.Operations.NewFile, localPath);
         }
 
 
         public void updateCommit(UpdateTransaction transaction)
         {
+            UpdatesFileHandler handler = null;
+            if (!UpdateHandlers.TryGetValue(transaction.User.Username+transaction.FolderName, out handler))
+                throw new FaultException(new FaultReason("Transaction handler not found"));
+
+            handler.commit(transaction);
             TransactionsHandler.Instance.CommitTransaction(transaction);
         }
     }

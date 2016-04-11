@@ -14,22 +14,24 @@ namespace ServicesProject
         public string Username { get; private set; }
         public string BaseFolder { get; private set; }
         public string UpdateFolder { get; private set; }
+        public int Number { get; private set; }
+        public string TransactionID { get; private set; }
         public DateTime Timestamp { get; set; }
         public ObservableCollection<UpdateEntry> UpdateEntries { get; set; }
-        Folder folder;
 
-        public Update(Folder folder, DateTime timestamp)
+        public Update(string baseFolder, DateTime timestamp, int number, string transactionID)
         {
-            this.folder = folder;
+            this.BaseFolder = baseFolder;
+            this.UpdateFolder = baseFolder + "_" + number;
             this.Timestamp = timestamp;
+            this.Number = number;
+            this.TransactionID = transactionID;
             this.UpdateEntries = new ObservableCollection<UpdateEntry>();
-
         }
 
         [DataContract]
         public class UpdateEntry
         {
-            public Item Item { get; private set; }
             public string ItemName { get; private set; }
             public DateTime EntryTimestamp { get; private set; }
 
@@ -39,10 +41,9 @@ namespace ServicesProject
             public static int NEW = 1;
             public static int MODIFIED = 2;
 
-            public UpdateEntry(Item item, int updateType)
+            public UpdateEntry(string itemName, int updateType)
             {
-                this.Item = item;
-                this.ItemName = item.Name;
+                this.ItemName = itemName;
                 this.UpdateType = updateType;
                 this.EntryTimestamp = DateTime.Now;
 

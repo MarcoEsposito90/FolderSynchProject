@@ -48,7 +48,7 @@ namespace ServicesProject
         public TransactionState State
         {
             get;
-            private set;
+            set;
         }
 
         /* ------------------------------------------------------------------------------ */
