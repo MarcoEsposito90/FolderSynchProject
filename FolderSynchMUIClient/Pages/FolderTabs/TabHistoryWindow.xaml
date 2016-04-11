@@ -13,45 +13,48 @@
         <Image x:Key="DownloadImage" 
                Source="C:\\Users\\Giulia Genta\\Documents\\GitHub\\FolderSynchProject\\FolderSynchMUIClient\\Pages\\Icons\\download-icon.png"/>
     </UserControl.Resources>
-    
 
-    <Grid Style="{StaticResource ContentRoot}">
-        <ScrollViewer>
-            <StackPanel MinWidth="200">
-                <TextBlock Text="UPDATES:" Style="{StaticResource Heading2}" />
-                <ItemsControl Name="folderEditDates" Margin="0,10,10,0" ItemsSource="{Binding Updates}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate >
-                            <StackPanel Orientation="Horizontal">
-                                <Expander Margin="0,10,0,10">
-                                    <Expander.Header>
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="{Binding Timestamp}"/>
-                                            <Button Width="15" Height="15" Content="{StaticResource DownloadImage}"/>
-                                        </StackPanel>
-                                    </Expander.Header>
-                                    <ItemsControl Name="folderEditDates" ItemsSource="{Binding UpdateEntries}">
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <StackPanel Orientation="Horizontal" Margin="20,10,10,10">
-                                                    <TextBlock Text="{Binding ItemName}"/>
-                                                    <Button Name="downloadButton" Click="downloadButton_Click" 
+    <ScrollViewer>
+        <StackPanel MinWidth="200">
+                <TextBlock Text="Updates " HorizontalAlignment="Left" 
+                           Style="{StaticResource Title}"
+                           VerticalAlignment="Center" Margin="10,10,0,0"  
+                           FontSize="26.667"
+                           Foreground="{DynamicResource ItemBackgroundSelected}" 
+                            />
+
+            <ItemsControl Name="folderEditDates" Margin="20,10,10,0" ItemsSource="{Binding Updates}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate >
+                        <StackPanel Orientation="Horizontal">
+                            <Expander Margin="0,10,0,10">
+                                <Expander.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Timestamp}"/>
+                                        <Button Width="15" Height="15" Content="{StaticResource DownloadImage}"/>
+                                    </StackPanel>
+                                </Expander.Header>
+                                <ItemsControl Name="folderEditDates" ItemsSource="{Binding UpdateEntries}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal" Margin="20,10,10,10">
+                                                <TextBlock Text="{Binding ItemName}"/>
+                                                <Button Name="downloadButton" Click="downloadButton_Click" 
                                                             Height="15" Width="15" Content="{StaticResource DownloadImage}"
                                                             Margin="10,0,0,0"/>
-                                                </StackPanel>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
-                                </Expander>
-                                <!--
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </Expander>
+                            <!--
                                 <Button Name="reloadButton" Click="reloadButton_Click" 
                                         Height="15" Width="15" Content="{StaticResource ReloadImage}"
                                         VerticalAlignment="Top" Margin="10,0,0,0"/>-->
-                            </StackPanel>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </StackPanel>
-        </ScrollViewer>
-    </Grid>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+    </ScrollViewer>
 </UserControl>

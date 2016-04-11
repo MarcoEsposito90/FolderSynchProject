@@ -14,12 +14,12 @@
 
                 <TextBlock 
                     Text="REGISTER PAGE" 
-                    Style="{StaticResource Heading2}" 
+                    Style="{StaticResource Heading1}" 
                     Margin="10"/>
 
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="2.5*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
@@ -29,41 +29,44 @@
 
                     </Grid.RowDefinitions>
                     <TextBlock Text="Username: " 
-                               Style="{StaticResource ModernWindowTitle}" 
-                               Grid.Column="0" Grid.Row="0" 
+                               Grid.Column="0" Grid.Row="0"
+                              Foreground="{DynamicResource {x:Static SystemColors.HotTrackBrushKey}}"
                                VerticalAlignment="Center" 
-                               Margin="30,10,10,10"/>
+                               Margin="30,10,10,10" FontSize="16" />
 
                     <TextBox Name="TBRegisterUsername" 
                              Grid.Column="1" 
                              Grid.Row="0" 
+                             FontSize="13.333" FontFamily="Segoe UI Light"
                              VerticalAlignment="Center" 
                              Margin="0,10,30,10"/>
 
                     <TextBlock Text="Password: " 
-                               Style="{StaticResource ModernWindowTitle}" 
-                               Grid.Column="0" Grid.Row="1" 
+                               Grid.Column="0" Grid.Row="1"
+                              Foreground="{DynamicResource {x:Static SystemColors.HotTrackBrushKey}}"
                                VerticalAlignment="Center" 
-                               Margin="30,10,10,10"/>
+                               Margin="30,10,10,10" FontSize="16"/>
 
                     <PasswordBox Name="TBRegisterPassword" 
                                  PasswordChar="*"
                              Grid.Column="1" 
                              Grid.Row="1" 
                              VerticalAlignment="Center" 
+                             FontSize="13.333" FontFamily="Segoe UI Light"
                              Margin="0,10,30,10"/>
 
                     <TextBlock Text="Confirm password: " 
-                               Style="{StaticResource ModernWindowTitle}" 
-                               Grid.Column="0" Grid.Row="2" 
+                               Grid.Column="0" Grid.Row="2"
+                              Foreground="{DynamicResource {x:Static SystemColors.HotTrackBrushKey}}"
                                VerticalAlignment="Center" 
-                               Margin="30,10,10,10"/>
+                               Margin="30,10,10,10" FontSize="16"/>
 
                     <PasswordBox Name="TBRegisterConfirmPassword" 
                                  PasswordChar="*"
                                 Grid.Column="1" 
                                 Grid.Row="2" 
                                 VerticalAlignment="Center" 
+                                 FontSize="13.333" FontFamily="Segoe UI Light"
                                 Margin="0,10,30,10"/>
 
 
@@ -72,7 +75,7 @@
 
                 <Button Name="ButtonRegister" 
                         Margin="30,10,30,10" 
-                        Content="Register" 
+                        Content="REGISTER NOW!" 
                         Style="{StaticResource BaseButtonStyle}"
                         Click="ButtonRegister_Click"/>
 

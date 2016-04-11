@@ -6,67 +6,176 @@
              xmlns:mui="http://firstfloorsoftware.com/ModernUI"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid Style="{StaticResource ContentRoot}">
-        <ScrollViewer>
-            <Grid Style="{StaticResource ContentRoot}"  ScrollViewer.HorizontalScrollBarVisibility="Auto">
+    <ScrollViewer>
+        <StackPanel>
+
+            <TextBlock Text="Options " HorizontalAlignment="Left" 
+                           Style="{StaticResource Title}"
+                           VerticalAlignment="Center" Margin="10,10,0,0"  
+                           FontSize="26.667"
+                           Foreground="{DynamicResource ItemBackgroundSelected}" 
+                            />
+
+            <Grid ScrollViewer.HorizontalScrollBarVisibility="Auto" Margin="10">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="0.4*"/>
-                    <ColumnDefinition Width="0.3*"/>
-                    <ColumnDefinition Width="0.4*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
                 <TextBlock Text="Auto refresh hours: " HorizontalAlignment="Left" 
                            Grid.Column="0" Grid.Row="0" 
-                           VerticalAlignment="Center" Margin="10,10,10,10"/>
+                           VerticalAlignment="Center" Margin="10" FontSize="14.667" FontFamily="Segoe UI Semilight"/>
                 <Button x:Name="autoRefreshUp"  
                         Grid.Column="1" Grid.Row="0"
                         Content="˄" Click="autoRefreshUp_Click" 
-                        Margin="5,10,5,10"/>
+                        Background="White"
+                        Foreground="Black"
+                        Margin="5,10,5,10">
+                    <Button.Style>
+                        <Style>
+                            <Style.Triggers>
+                                <DataTrigger 
+                                     Binding ="{Binding ElementName=txtAutoRefresh, Path=Text}" 
+                                     Value="48">
+                                    <Setter Property="Button.IsEnabled" Value="false"/>
+                                </DataTrigger>
+                                <Trigger Property="Button.IsMouseOver" Value="True">
+                                    <Setter Property="Button.Background" Value="{DynamicResource SystemButtonBackgroundOnMoseOver}" />
+                                    <Setter Property="Button.Foreground" Value="{DynamicResource SystemButtonForegroundOnMoseOver}"/>
+                                </Trigger>
+                                <Trigger Property="Button.IsPressed" Value="True">
+                                    <Setter Property="Button.Background" Value="{DynamicResource SystemButtonBackgroundIsPressed}" />
+                                    <Setter Property="Button.Foreground" Value="{DynamicResource SystemButtonForegroundIsPressed}" />
+                                </Trigger>
+                                <Trigger Property="Button.IsEnabled" Value="false">
+                                    <Setter Property="Button.Foreground" Value="{DynamicResource ButtonTextDisabled}" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
                 <TextBlock x:Name="txtAutoRefresh" 
                            Grid.Column="2" Grid.Row="0"
-                           Text="{Binding AutoRefreshTime}" 
+                           Text="{Binding AutoRefreshTime, Mode=TwoWay}" 
                            Background="White"
+                           Foreground="Black"
                            TextAlignment="Center"
-                           Margin="5,10,5,10"/>
+                           Margin="5,10,5,10" />
                 <Button x:Name="autoRefreshDown" 
                         Grid.Column="3" Grid.Row="0"
+                        Background="White"
+                        Foreground="Black"
                         Content="˅" Click="autoRefreshDown_Click"
-                        Margin="5,10,5,10"/>
+                        Margin="5,10,5,10">
+                    <Button.Style>
+                        <Style>
+                            <Style.Triggers>
+                                <DataTrigger 
+                                     Binding ="{Binding ElementName=txtAutoRefresh, Path=Text}" 
+                                     Value="1">
+                                    <Setter Property="Button.IsEnabled" Value="false"/>
+                                </DataTrigger>
+                                <Trigger Property="Button.IsMouseOver" Value="True">
+                                    <Setter Property="Button.Background" Value="{DynamicResource SystemButtonBackgroundOnMoseOver}" />
+                                    <Setter Property="Button.Foreground" Value="{DynamicResource SystemButtonForegroundOnMoseOver}"/>
+                                </Trigger>
+                                <Trigger Property="Button.IsPressed" Value="True">
+                                    <Setter Property="Button.Background" Value="{DynamicResource SystemButtonBackgroundIsPressed}" />
+                                    <Setter Property="Button.Foreground" Value="{DynamicResource SystemButtonForegroundIsPressed}" />
+                                </Trigger>
+                                <Trigger Property="Button.IsEnabled" Value="false">
+                                    <Setter Property="Button.Foreground" Value="{DynamicResource ButtonTextDisabled}" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
 
                 <TextBlock Text="Auto delete days: " HorizontalAlignment="Left" 
                            Grid.Column="0" Grid.Row="1" 
-                           VerticalAlignment="Center" Margin="10,10,10,10"/>
+                           VerticalAlignment="Center" Margin="10" FontSize="14.667" FontFamily="Segoe UI Semilight"/>
                 <Button x:Name="autoDeleteUp"  
                         Grid.Column="1" Grid.Row="1"
                         Content="˄" Click="autoDeleteUp_Click" 
-                        Margin="5,10,5,10"/>
+                        Background="White"
+                        Foreground="Black"
+                        Margin="5,10,5,10">
+                    <Button.Style>
+                        <Style>
+                            <Style.Triggers>
+                                <DataTrigger 
+                                     Binding ="{Binding ElementName=txtAutoDelete, Path=Text}" 
+                                     Value="31">
+                                    <Setter Property="Button.IsEnabled" Value="false"/>
+                                </DataTrigger>
+                                <Trigger Property="Button.IsMouseOver" Value="True">
+                                    <Setter Property="Button.Background" Value="{DynamicResource SystemButtonBackgroundOnMoseOver}" />
+                                    <Setter Property="Button.Foreground" Value="{DynamicResource SystemButtonForegroundOnMoseOver}"/>
+                                </Trigger>
+                                <Trigger Property="Button.IsPressed" Value="True">
+                                    <Setter Property="Button.Background" Value="{DynamicResource SystemButtonBackgroundIsPressed}" />
+                                    <Setter Property="Button.Foreground" Value="{DynamicResource SystemButtonForegroundIsPressed}" />
+                                </Trigger>
+                                <Trigger Property="Button.IsEnabled" Value="false">
+                                    <Setter Property="Button.Foreground" Value="{DynamicResource ButtonTextDisabled}" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
                 <TextBlock x:Name="txtAutoDelete" 
                            Grid.Column="2" Grid.Row="1"
-                           Text="{Binding AutoDeleteTime}" 
+                           Text="{Binding AutoDeleteTime, Mode=TwoWay}" 
                            Background="White"
+                           Foreground="Black"
                            TextAlignment="Center"
                            Margin="5,10,5,10"/>
                 <Button x:Name="autoDeleteDown" 
                         Grid.Column="3" Grid.Row="1"
                         Content="˅" Click="autoDeleteDown_Click"
-                        Margin="5,10,5,10"/>
+                        Background="White"
+                        Foreground="Black"
+                        Margin="5,10,5,10">
+                    <Button.Style>
+                        <Style>
+                            <Style.Triggers>
+                                <DataTrigger 
+                                     Binding ="{Binding ElementName=txtAutoDelete, Path=Text}" 
+                                     Value="1">
+                                    <Setter Property="Button.IsEnabled" Value="false"/>
+                                </DataTrigger>
+                                <Trigger Property="Button.IsMouseOver" Value="True">
+                                    <Setter Property="Button.Background" Value="{DynamicResource SystemButtonBackgroundOnMoseOver}" />
+                                    <Setter Property="Button.Foreground" Value="{DynamicResource SystemButtonForegroundOnMoseOver}"/>
+                                </Trigger>
+                                <Trigger Property="Button.IsPressed" Value="True">
+                                    <Setter Property="Button.Background" Value="{DynamicResource SystemButtonBackgroundIsPressed}" />
+                                    <Setter Property="Button.Foreground" Value="{DynamicResource SystemButtonForegroundIsPressed}" />
+                                </Trigger>
+                                <Trigger Property="Button.IsEnabled" Value="false">
+                                    <Setter Property="Button.Foreground" Value="{DynamicResource ButtonTextDisabled}" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
 
-                <Button Name="btnSaveChanges"
+                <!-- <Button Name="btnSaveChanges"
                         Grid.Row="2" Grid.ColumnSpan="4"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Content="Save changes"
                         Click="btnSaveChanges_Click"
-                        />
+                        />-->
 
             </Grid>
-        </ScrollViewer>
-    </Grid>
+        </StackPanel>
+    </ScrollViewer>
 </UserControl>
