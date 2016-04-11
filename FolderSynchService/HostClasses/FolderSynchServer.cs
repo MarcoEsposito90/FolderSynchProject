@@ -127,6 +127,7 @@ namespace ServicesProject
 
             // 3) initialize transactions data structures -------------------
             TransactionsHandler.Instance.CheckLogFile();
+            UpdateHandlers = new Dictionary<string, UpdatesFileHandler>();
 
             IsInitialized = true;
         }

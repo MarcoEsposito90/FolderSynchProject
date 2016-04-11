@@ -11,12 +11,25 @@ namespace ServicesProject
     [DataContract]
     public class Update
     {
+        [DataMember]
         public string Username { get; private set; }
+
+        [DataMember]
         public string BaseFolder { get; private set; }
+
+        [DataMember]
         public string UpdateFolder { get; private set; }
+
+        [DataMember]
         public int Number { get; private set; }
+
+        [DataMember]
         public string TransactionID { get; private set; }
+
+        [DataMember]
         public DateTime Timestamp { get; set; }
+
+        [DataMember]
         public ObservableCollection<UpdateEntry> UpdateEntries { get; set; }
 
         public Update(string baseFolder, DateTime timestamp, int number, string transactionID)
@@ -32,14 +45,18 @@ namespace ServicesProject
         [DataContract]
         public class UpdateEntry
         {
+            [DataMember]
             public string ItemName { get; private set; }
+
+            [DataMember]
             public DateTime EntryTimestamp { get; private set; }
 
+            [DataMember]
             public int UpdateType { get; private set; }
 
-            public static int DELETE = 0;
-            public static int NEW = 1;
-            public static int MODIFIED = 2;
+            public static readonly int DELETE = 0;
+            public static readonly int NEW = 1;
+            public static readonly int MODIFIED = 2;
 
             public UpdateEntry(string itemName, int updateType)
             {

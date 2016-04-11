@@ -71,15 +71,18 @@ namespace ServicesProject
         /******************************************************************************/
         public void createNewUpdate(UpdateTransaction transaction)
         {
-            int number = Updates.ElementAt(Updates.Count-1).Number + 1;
+            int number = 0;
+            if(Updates.Count > 0)
+                number = Updates.ElementAt(Updates.Count-1).Number + 1;
+
+            Update u = new Update(BaseFolder, transaction.Timestamp, number, transaction.TransactionID);
 
             // create the update folder
             Directory.CreateDirectory(  FolderSynchServer.Instance.RemoteFoldersPath + "\\" + 
                                         User.Username + "\\" + 
                                         BaseFolder + "\\" + 
-                                        BaseFolder + "_" + number);
+                                        u.UpdateFolder);
 
-            Update u = new Update(BaseFolder, transaction.Timestamp, number, transaction.TransactionID);
             Updates.Add(u);
             writeToFile(Updates);
         }
@@ -227,7 +230,7 @@ namespace ServicesProject
         /**********************************************************************************/
         private void writeToFile(List<Update> updates)
         {
-            FileStream fs = new FileStream(UpdatesFilePath, FileMode.CreateNew, FileAccess.Write);
+            FileStream fs = new FileStream(UpdatesFilePath, FileMode.OpenOrCreate, FileAccess.Write);
             StreamWriter sw = new StreamWriter(fs);
 
             using (fs)
