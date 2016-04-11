@@ -34,6 +34,9 @@ namespace ServicesProject
         void uploadFile(string transactionID, string baseFolder, string localPath, byte[] data);
 
         [OperationContract(IsInitiating = false, IsTerminating = false)]
+        void addSubDirectory(string transactionID, string baseFolder, string localPath);
+
+        [OperationContract(IsInitiating = false, IsTerminating = false)]
         void updateCommit(UpdateTransaction transaction);
     }
 }

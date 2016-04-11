@@ -68,7 +68,18 @@ namespace ServicesProject
             Console.WriteLine(currentUser.Username + "wants to add a new file");
             FolderSynchServer.Instance.uploadFile(currentUser, transaction, baseFolder, localPath, data);
         }
-        
+
+        public void addSubDirectory(string transactionID, string baseFolder, string localPath)
+        {
+            UpdateTransaction transaction = null;
+
+            if (!ActiveTransactions.TryGetValue(transactionID, out transaction))
+                throw new FaultException(new FaultReason("This transaction is not active for the user"));
+
+            Console.WriteLine(currentUser.Username + "wants to add a subDirectory");
+            FolderSynchServer.Instance.addSubDirectory(currentUser, transaction, baseFolder, localPath);
+        }
+
 
         public void updateCommit(UpdateTransaction transaction)
         {

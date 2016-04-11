@@ -60,6 +60,12 @@
   <wsdl:message name="FolderSynchServiceContract_uploadFile_OutputMessage">
     <wsdl:part name="parameters" element="tns:uploadFileResponse" />
   </wsdl:message>
+  <wsdl:message name="FolderSynchServiceContract_addSubDirectory_InputMessage">
+    <wsdl:part name="parameters" element="tns:addSubDirectory" />
+  </wsdl:message>
+  <wsdl:message name="FolderSynchServiceContract_addSubDirectory_OutputMessage">
+    <wsdl:part name="parameters" element="tns:addSubDirectoryResponse" />
+  </wsdl:message>
   <wsdl:message name="FolderSynchServiceContract_updateCommit_InputMessage">
     <wsdl:part name="parameters" element="tns:updateCommit" />
   </wsdl:message>
@@ -93,6 +99,10 @@
     <wsdl:operation msc:isInitiating="false" msc:isTerminating="false" name="uploadFile">
       <wsdl:input wsaw:Action="http://tempuri.org/FolderSynchServiceContract/uploadFile" message="tns:FolderSynchServiceContract_uploadFile_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/FolderSynchServiceContract/uploadFileResponse" message="tns:FolderSynchServiceContract_uploadFile_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="false" msc:isTerminating="false" name="addSubDirectory">
+      <wsdl:input wsaw:Action="http://tempuri.org/FolderSynchServiceContract/addSubDirectory" message="tns:FolderSynchServiceContract_addSubDirectory_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/FolderSynchServiceContract/addSubDirectoryResponse" message="tns:FolderSynchServiceContract_addSubDirectory_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation msc:isInitiating="false" msc:isTerminating="false" name="updateCommit">
       <wsdl:input wsaw:Action="http://tempuri.org/FolderSynchServiceContract/updateCommit" message="tns:FolderSynchServiceContract_updateCommit_InputMessage" />
@@ -158,6 +168,15 @@
     </wsdl:operation>
     <wsdl:operation name="uploadFile">
       <soap12:operation soapAction="http://tempuri.org/FolderSynchServiceContract/uploadFile" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addSubDirectory">
+      <soap12:operation soapAction="http://tempuri.org/FolderSynchServiceContract/addSubDirectory" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

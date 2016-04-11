@@ -56,6 +56,12 @@ namespace FolderSynchMUIClient.FolderSynchService {
         [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/uploadFile", ReplyAction="http://tempuri.org/FolderSynchServiceContract/uploadFileResponse")]
         System.Threading.Tasks.Task uploadFileAsync(string transactionID, string baseFolder, string localPath, byte[] data);
         
+        [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/addSubDirectory", ReplyAction="http://tempuri.org/FolderSynchServiceContract/addSubDirectoryResponse")]
+        void addSubDirectory(string transactionID, string baseFolder, string localPath);
+        
+        [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/addSubDirectory", ReplyAction="http://tempuri.org/FolderSynchServiceContract/addSubDirectoryResponse")]
+        System.Threading.Tasks.Task addSubDirectoryAsync(string transactionID, string baseFolder, string localPath);
+        
         [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/updateCommit", ReplyAction="http://tempuri.org/FolderSynchServiceContract/updateCommitResponse")]
         void updateCommit(ServicesProject.UpdateTransaction transaction);
         
@@ -136,6 +142,14 @@ namespace FolderSynchMUIClient.FolderSynchService {
         
         public System.Threading.Tasks.Task uploadFileAsync(string transactionID, string baseFolder, string localPath, byte[] data) {
             return base.Channel.uploadFileAsync(transactionID, baseFolder, localPath, data);
+        }
+        
+        public void addSubDirectory(string transactionID, string baseFolder, string localPath) {
+            base.Channel.addSubDirectory(transactionID, baseFolder, localPath);
+        }
+        
+        public System.Threading.Tasks.Task addSubDirectoryAsync(string transactionID, string baseFolder, string localPath) {
+            return base.Channel.addSubDirectoryAsync(transactionID, baseFolder, localPath);
         }
         
         public void updateCommit(ServicesProject.UpdateTransaction transaction) {

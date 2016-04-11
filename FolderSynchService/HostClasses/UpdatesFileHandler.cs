@@ -166,6 +166,33 @@ namespace ServicesProject
                 inputStream.Close();
                 stream.Close();
             }
+
+            update.UpdateEntries.Add(new Update.UpdateEntry(localPath, Update.UpdateEntry.NEW));
+        }
+
+        /**********************************************************************************/
+        public void addSubDirectory(UpdateTransaction transaction, string localPath)
+        {
+
+            Update update = null;
+            foreach (Update u in Updates)
+                if (u.TransactionID.Equals(transaction.TransactionID))
+                {
+                    update = u;
+                    break;
+                }
+
+            if (update == null)
+                throw new FaultException(new FaultReason("Update object not found"));
+
+            string path =   FolderSynchServer.Instance.RemoteFoldersPath + "\\" +
+                            User.Username + "\\" +
+                            update.BaseFolder + "\\" +
+                            update.UpdateFolder + "\\" +
+                            localPath;
+
+            Directory.CreateDirectory(path);
+            update.UpdateEntries.Add(new Update.UpdateEntry(localPath, Update.UpdateEntry.NEW));
         }
 
 

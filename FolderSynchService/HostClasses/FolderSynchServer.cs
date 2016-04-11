@@ -333,6 +333,27 @@ namespace ServicesProject
         }
 
 
+        public void addSubDirectory(User user, UpdateTransaction transaction, string baseFolder, string localPath)
+        {
+
+            // 1) check if everything ok
+            if (!ConnectedUsers.ContainsKey(user.Username))
+                throw new FaultException(new FaultReason(FileTransferFault.USER_NOT_CONNECTED));
+
+            if (!TransactionsHandler.Instance.ActiveTransactions.ContainsValue(transaction))
+                throw new FaultException(new FaultReason(FileTransferFault.NO_TRANSACTION_ACTIVE));
+
+            UpdatesFileHandler handler = null;
+            UpdateHandlers.TryGetValue(user.Username + baseFolder, out handler);
+
+            if (handler == null)
+                throw new FaultException(new FaultReason("Transaction handler not found"));
+
+            handler.addSubDirectory(transaction, localPath);
+            TransactionsHandler.Instance.AddOperation(transaction, TransactionsHandler.Operations.NewFolder, localPath);
+        }
+
+
         public void updateCommit(UpdateTransaction transaction)
         {
             UpdatesFileHandler handler = null;

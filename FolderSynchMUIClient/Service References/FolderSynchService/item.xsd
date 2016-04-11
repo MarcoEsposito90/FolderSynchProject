@@ -52,9 +52,31 @@
   </xs:complexType>
   <xs:element name="ArrayOfUpdate" nillable="true" type="tns:ArrayOfUpdate" />
   <xs:complexType name="Update">
-    <xs:sequence />
+    <xs:sequence>
+      <xs:element minOccurs="0" name="BaseFolder" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Number" type="xs:int" />
+      <xs:element minOccurs="0" name="Timestamp" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="TransactionID" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UpdateEntries" nillable="true" type="tns:ArrayOfUpdate.UpdateEntry" />
+      <xs:element minOccurs="0" name="UpdateFolder" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Username" nillable="true" type="xs:string" />
+    </xs:sequence>
   </xs:complexType>
   <xs:element name="Update" nillable="true" type="tns:Update" />
+  <xs:complexType name="ArrayOfUpdate.UpdateEntry">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Update.UpdateEntry" nillable="true" type="tns:Update.UpdateEntry" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfUpdate.UpdateEntry" nillable="true" type="tns:ArrayOfUpdate.UpdateEntry" />
+  <xs:complexType name="Update.UpdateEntry">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="EntryTimestamp" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="ItemName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UpdateType" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Update.UpdateEntry" nillable="true" type="tns:Update.UpdateEntry" />
   <xs:complexType name="RegistrationFault">
     <xs:complexContent mixed="false">
       <xs:extension base="tns:MyBaseFault">
