@@ -30,14 +30,25 @@ namespace FolderSynchMUIClient.Pages.HomePages
             ObservableCollection<Folder> FolderList = new ObservableCollection<Folder>();
             App application = (App)Application.Current;
 
-            List<Folder> userFolders = new List<Folder>(application.User.Folders.Values);
+            List<Folder> userFolders = application.User.Folders;
+            Console.WriteLine("Ho trovato " + userFolders.Count + "cartelle sul server");
+
             List<LocalFolder> localFolders = application.getLocalFolders(application.User);
-            foreach(Folder f in userFolders)
+            Console.WriteLine("Ho trovato " + localFolders.Count + "cartelle in locale");
+            ItemProvider itemProvider = new ItemProvider();
+
+            foreach (Folder f in userFolders)
             {
                 int found = localFolders.FindIndex(item => item.FolderName.Equals(f.Name));
+                Console.WriteLine("Found = " + found);
                 if (found >= 0)
                 {
                     Console.WriteLine("Folder " + f.Name + " ok.");
+
+                    f.Items = itemProvider.GetItems(localFolders[found].LocalPath);
+                    f.CalculateProperties(localFolders[found].LocalPath);
+                    long currSize = f.CalculateSize(localFolders[found].LocalPath);
+                    f.SizeInBytes = f.SizeSuffix(currSize); 
                     FolderList.Add(f);
                     //mettersti in ascolto ??????
                 }
@@ -52,6 +63,7 @@ namespace FolderSynchMUIClient.Pages.HomePages
             ObservableCollection<Folder> FolderList = itemProvider.GetFolders("C:\\Users\\Giulia Genta\\Desktop");
             Console.WriteLine("Prima cartella: " + FolderList[0].Name);         
             */
+            /*
             Update u = new Update(FolderList[0], DateTime.Now);
             Console.WriteLine("Creo update u");
             
@@ -62,20 +74,10 @@ namespace FolderSynchMUIClient.Pages.HomePages
 
             FolderList[0].Updates.Add(u);
             Console.WriteLine("Aggiungo l'update a " + FolderList[0].Name);
-
+            */
             foldersButtonControl.ItemsSource = FolderList;
             foldersButtonControl.SelectedItem = FolderList[0];
         }
-
-        /*
-        private void folderNameButton_Click(object sender, RoutedEventArgs e)
-        {
-            App application = (App)Application.Current;
-            application.Folder = (Folder)(sender as Button).DataContext;
-            Console.WriteLine("Selected folder: " + application.Folder.Name + ", path: " + application.Folder.Path);
-            Console.WriteLine("Selected folder: " + application.Folder.Name + ", size: " + application.Folder.Size);
-        }
-        */
 
         private void foldersButtonControl_changed(object sender, SelectionChangedEventArgs e)
         {

@@ -29,13 +29,14 @@ namespace FolderSynchMUIClient.Pages.HomePages
     public partial class NewFolder : UserControl
     {
         private int[] daysArray = Enumerable.Range(1, 31).ToArray();
+        private int[] hoursArray = Enumerable.Range(1, 48).ToArray();
 
         public NewFolder()
         {
             InitializeComponent();
 
-            RefreshComboBox.ItemsSource = daysArray;
-            RefreshComboBox.SelectedIndex = 6;
+            RefreshComboBox.ItemsSource = hoursArray;
+            RefreshComboBox.SelectedIndex = 23;
 
             DeleteComboBox.ItemsSource = daysArray;
             DeleteComboBox.SelectedIndex = 6;
@@ -75,13 +76,16 @@ namespace FolderSynchMUIClient.Pages.HomePages
             // 3) add the new folder on the server
             try
             {
-                proxy.addNewSynchronizedFolder(new Folder(folderName, application.User.Username));
+                Folder newFold = new Folder(folderName, application.User.Username);
+                newFold.AutoRefreshTime = int.Parse(RefreshComboBox.SelectedItem.ToString());
+                newFold.AutoDeleteTime = int.Parse(DeleteComboBox.SelectedItem.ToString());
+                proxy.addNewSynchronizedFolder(newFold);
                 // 4) proceed to upload
                 UploadDialog ud = new UploadDialog(choosedFolderPathEditor.Text);
                 ud.ShowDialog();
 
                 application.addLocalFolder(application.User.Username, folderName, choosedFolderPathEditor.Text);
-                Console.WriteLine("Username: " + application.User.Username + "folder: " + folderName + "path: " + choosedFolderPathEditor.Text);
+                Console.WriteLine("Username: " + application.User.Username + " folder: " + folderName + " path: " + choosedFolderPathEditor.Text);
             }
             catch (FaultException f)
             {
