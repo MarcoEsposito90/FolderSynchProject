@@ -1,4 +1,5 @@
 ﻿using FolderSynchMUIClient.FolderSynchService;
+using ServicesProject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +32,7 @@ namespace FolderSynchMUIClient.Pages
         {
             try
             {
+                // perform login ---------------------------------------------------------------------------
                 App application = (App)Application.Current;
                 FolderSynchServiceContractClient proxy = application.FolderSynchProxy;
                 application.User = proxy.loginUser(TBLoginUsername.Text.ToString(), TBLoginPassword.Password.ToString());
@@ -39,13 +41,36 @@ namespace FolderSynchMUIClient.Pages
                 if (CheckBoxRemember.IsChecked.Value)
                     application.AddKnownUser(TBLoginUsername.Text, TBLoginPassword.Password);
 
+                // change window ---------------------------------------------------------------------------
                 SecondWindow sw = new SecondWindow();
                 sw.Show();
 
                 Application.Current.MainWindow.Close();
-                //Console.WriteLine("fino a qui ok");
-                //NavigationService nav = NavigationService.GetNavigationService(this);
-                //nav.Navigate(new Uri("/Pages/LoginPage.xaml", UriKind.RelativeOrAbsolute));
+
+                // check if some synced folder is missing on this device -----------------------------------
+                List<LocalFolder> localFolders = application.getLocalFolders();
+                List<Folder> missingFolders = new List<Folder>();
+                foreach(Folder f in application.User.Folders)
+                {
+                    bool missing = true;
+                    foreach (LocalFolder lf in localFolders)
+                        if (lf.FolderName.Equals(f.Name))
+                        {
+                            missing = false;
+                            break;
+                        }
+
+                    if (missing)
+                        missingFolders.Add(f);
+                }
+                
+                if(missingFolders.Count > 0)
+                {
+                    LocalFoldersWarningDialog dialog = new LocalFoldersWarningDialog(missingFolders);
+                    dialog.ShowDialog();
+                }
+
+
             }
             catch (FaultException f)
             {

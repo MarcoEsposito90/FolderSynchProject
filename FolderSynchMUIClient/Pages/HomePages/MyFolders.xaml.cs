@@ -33,7 +33,7 @@ namespace FolderSynchMUIClient.Pages.HomePages
             List<Folder> userFolders = application.User.Folders;
             Console.WriteLine("Ho trovato " + userFolders.Count + "cartelle sul server");
 
-            List<LocalFolder> localFolders = application.getLocalFolders(application.User);
+            List<LocalFolder> localFolders = application.getLocalFolders();
             Console.WriteLine("Ho trovato " + localFolders.Count + "cartelle in locale");
             ItemProvider itemProvider = new ItemProvider();
 

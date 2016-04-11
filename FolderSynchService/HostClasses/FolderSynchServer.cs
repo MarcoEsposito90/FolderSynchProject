@@ -290,31 +290,14 @@ namespace ServicesProject
             if (user == null)
                 throw new FaultException(new FaultReason(FileTransferFault.USER_NOT_CONNECTED));
 
-            bool exists = false;
-            foreach(Folder f in user.Folders)
-                if (f.Name.Equals(baseFolder))
-                {
-                    exists = true;
-                    break;
-                }
-
-            if (!exists)
-                throw new FaultException(new FaultReason(FileTransferFault.UNKNOWN_BASE_FOLDER));
-
             UpdateTransaction transaction = null;
-            if (!TransactionsHandler.Instance.ActiveTransactions.TryGetValue(transactionID, out transaction))
-                throw new FaultException(new FaultReason(FileTransferFault.NO_TRANSACTION_ACTIVE));
-
             UpdatesFileHandler handler = null;
-            if(!UpdateHandlers.TryGetValue(user.Username, out handler))
-                throw new FaultException(new FaultReason("Transaction handler not found"));
+            fileTransferChecks(user, baseFolder, transactionID, out transaction, out handler);
 
             // 2) write to file ------------------------------------------------------------
             handler.AddFileStreamed(transaction, localPath, uploadStream);
 
-
             // 3) register transaction -----------------------------------------------------
-            TransactionsHandler.Instance.ActiveTransactions.TryGetValue(transactionID, out transaction);
             TransactionsHandler.Instance.AddOperation(transaction, TransactionsHandler.Operations.NewFile, localPath);
         }
 
@@ -328,20 +311,15 @@ namespace ServicesProject
             if (!ConnectedUsers.ContainsKey(user.Username))
                 throw new FaultException(new FaultReason(FileTransferFault.USER_NOT_CONNECTED));
 
-            if (!TransactionsHandler.Instance.ActiveTransactions.ContainsValue(transaction))
-                throw new FaultException(new FaultReason(FileTransferFault.NO_TRANSACTION_ACTIVE));
-
+            UpdateTransaction tr = null;
             UpdatesFileHandler handler = null;
-            UpdateHandlers.TryGetValue(user.Username+baseFolder, out handler);
-
-            if(handler == null)
-                throw new FaultException(new FaultReason("Transaction handler not found"));
+            fileTransferChecks(user, baseFolder, transaction.TransactionID, out tr, out handler);
 
             // 2) write to file
-            handler.AddFile(transaction, localPath, data);
+            handler.AddFile(tr, localPath, data);
 
             // 3) register to log
-            TransactionsHandler.Instance.AddOperation(transaction, TransactionsHandler.Operations.NewFile, localPath);
+            TransactionsHandler.Instance.AddOperation(tr, TransactionsHandler.Operations.NewFile, localPath);
         }
 
 
@@ -354,17 +332,12 @@ namespace ServicesProject
             if (!ConnectedUsers.ContainsKey(user.Username))
                 throw new FaultException(new FaultReason(FileTransferFault.USER_NOT_CONNECTED));
 
-            if (!TransactionsHandler.Instance.ActiveTransactions.ContainsValue(transaction))
-                throw new FaultException(new FaultReason(FileTransferFault.NO_TRANSACTION_ACTIVE));
-
+            UpdateTransaction tr = null;
             UpdatesFileHandler handler = null;
-            UpdateHandlers.TryGetValue(user.Username + baseFolder, out handler);
+            fileTransferChecks(user, baseFolder, transaction.TransactionID, out tr, out handler);
 
-            if (handler == null)
-                throw new FaultException(new FaultReason("Transaction handler not found"));
-
-            handler.addSubDirectory(transaction, localPath);
-            TransactionsHandler.Instance.AddOperation(transaction, TransactionsHandler.Operations.NewFolder, localPath);
+            handler.addSubDirectory(tr, localPath);
+            TransactionsHandler.Instance.AddOperation(tr, TransactionsHandler.Operations.NewFolder, localPath);
         }
 
 
@@ -402,6 +375,34 @@ namespace ServicesProject
         /* ------------ AUXILIARY METHODS ---------------------------------------------------------------- */
         /* ----------------------------------------------------------------------------------------------- */
 
+        private void fileTransferChecks(User user, 
+                                        string baseFolder, 
+                                        string transactionID,
+                                        out UpdateTransaction transaction, 
+                                        out UpdatesFileHandler handler)
+        {
+
+            bool exists = false;
+            foreach (Folder f in user.Folders)
+                if (f.Name.Equals(baseFolder))
+                {
+                    exists = true;
+                    break;
+                }
+
+            if (!exists)
+                throw new FaultException(new FaultReason(FileTransferFault.UNKNOWN_BASE_FOLDER));
+
+            if (!TransactionsHandler.Instance.ActiveTransactions.TryGetValue(transactionID, out transaction))
+                throw new FaultException(new FaultReason(FileTransferFault.NO_TRANSACTION_ACTIVE));
+
+            if (!UpdateHandlers.TryGetValue(user.Username + baseFolder, out handler))
+                throw new FaultException(new FaultReason("Transaction handler not found"));
+
+        }
+
+
+        /**************************************************************************************************/
         private UpdatesFileHandler getUpdateFileHandler(User user, string baseFolder)
         {
             UpdatesFileHandler handler = null;

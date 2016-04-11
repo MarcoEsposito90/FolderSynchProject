@@ -80,11 +80,12 @@ namespace FolderSynchMUIClient.Pages.HomePages
                 newFold.AutoRefreshTime = int.Parse(RefreshComboBox.SelectedItem.ToString());
                 newFold.AutoDeleteTime = int.Parse(DeleteComboBox.SelectedItem.ToString());
                 proxy.addNewSynchronizedFolder(newFold);
+                
                 // 4) proceed to upload
                 UploadDialog ud = new UploadDialog(choosedFolderPathEditor.Text);
                 ud.ShowDialog();
 
-                application.addLocalFolder(application.User.Username, folderName, choosedFolderPathEditor.Text);
+                application.addLocalFolder(folderName, choosedFolderPathEditor.Text);
                 Console.WriteLine("Username: " + application.User.Username + " folder: " + folderName + " path: " + choosedFolderPathEditor.Text);
             }
             catch (FaultException f)

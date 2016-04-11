@@ -57,7 +57,7 @@ namespace FolderSynchMUIClient
                 _User = value;
 
                 // must inizialize local folders data structure
-                LocalFolders = getLocalFolders(value);
+                LocalFolders = getLocalFolders();
                 isUserInitialized = true;
             }
         }
@@ -213,7 +213,7 @@ namespace FolderSynchMUIClient
 
 
         /********************************************************************/
-        public List<LocalFolder> getLocalFolders(User user)
+        public List<LocalFolder> getLocalFolders()
         {
             if (isUserInitialized)
                 return LocalFolders;
@@ -231,7 +231,7 @@ namespace FolderSynchMUIClient
                 {
 
                     string[] tokens = line.Split(';');
-                    if (tokens[0].Equals(user.Username))
+                    if (tokens[0].Equals(User.Username))
                         LocalFolders.Add(new LocalFolder(tokens[0], tokens[1], tokens[2]));
                 }
 
@@ -244,11 +244,9 @@ namespace FolderSynchMUIClient
 
 
         /********************************************************************/
-        public void addLocalFolder(string username, string folderName, string path)
+        public void addLocalFolder(string folderName, string path)
         {
 
-            if (!username.Equals(User.Username))
-                throw new Exception("You cannot add a folder for another user");
 
             FileStream fs = new FileStream("folders.txt", FileMode.Append, FileAccess.Write);
             StreamWriter sw = new StreamWriter(fs);
@@ -258,11 +256,11 @@ namespace FolderSynchMUIClient
             using (sw)
             {
 
-                sw.WriteLine(username + ";" + folderName + ";" + path);
+                sw.WriteLine(User.Username + ";" + folderName + ";" + path);
                 sw.Close();
                 fs.Close();
             }
-            LocalFolders.Add(new LocalFolder(username, folderName, path));
+            LocalFolders.Add(new LocalFolder(User.Username, folderName, path));
 
         }
     }
