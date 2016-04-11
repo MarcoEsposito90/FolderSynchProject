@@ -24,7 +24,7 @@
                            Grid.Column="0" Grid.Row="0" 
                            VerticalAlignment="Center" Margin="10,10,10,10"/>
                 <StackPanel Orientation="Horizontal"  Grid.Column="1" Grid.Row="0" >
-                    <TextBox x:Name="txtNum" Margin="5,5,0,5" Width="50" Text="0" TextChanged="txtNum_TextChanged" />
+                    <TextBox x:Name="txtNum" Margin="5,5,0,5" Width="50" Text="{Binding Path=service:Folder, ElementName=AutoRefreshTime}" TextChanged="txtNum_TextChanged" />
                     <Button x:Name="cmdUp" Margin="5,5,0,5" Content="˄" Width="20" Click="cmdUp_Click" />
                     <Button x:Name="cmdDown" Margin="0,5,0,5"  Content="˅" Width="20" Click="cmdDown_Click" />
                 </StackPanel>

@@ -250,7 +250,7 @@ namespace FolderSynchMUIClient
             if (!username.Equals(User.Username))
                 throw new Exception("You cannot add a folder for another user");
 
-            FileStream fs = new FileStream("folders.txt", FileMode.Open, FileAccess.Write);
+            FileStream fs = new FileStream("folders.txt", FileMode.Append, FileAccess.Write);
             StreamWriter sw = new StreamWriter(fs);
 
 
@@ -262,6 +262,7 @@ namespace FolderSynchMUIClient
                 sw.Close();
                 fs.Close();
             }
+            LocalFolders.Add(new LocalFolder(username, folderName, path));
 
         }
     }

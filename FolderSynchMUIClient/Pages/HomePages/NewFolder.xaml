@@ -49,7 +49,7 @@
                         <ComboBox Name="DeleteComboBox"  Margin="10,0,10,0"/>
                     </StackPanel>
                     <StackPanel Orientation="Vertical">
-                        <TextBlock Text="days " Margin="0,0,0,10"/>
+                        <TextBlock Text="hours " Margin="0,0,0,10"/>
                         <TextBlock Text="days " Margin="0,0,0,0"/>
                     </StackPanel>
                 </StackPanel>

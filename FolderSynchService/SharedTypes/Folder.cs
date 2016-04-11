@@ -52,6 +52,9 @@ namespace ServicesProject
 
         [DataMember]
         public int AutoDeleteTime { get; set; }
+        
+
+
 
         /* -------------- CONSTRUCTORS -------------------------*/
 
@@ -68,11 +71,16 @@ namespace ServicesProject
 
         /* -------------- METHODS ---------------------------- */
 
-        public long CalculateProperties(string path)
+        public void CalculateProperties(string path)
         {
 
             this.ContainedFiles = Directory.GetFiles(path, "*", SearchOption.AllDirectories).Length;
             this.ContainedFolders = Directory.GetDirectories(path, "*", SearchOption.AllDirectories).Length;
+           
+        }
+
+        public long CalculateSize(string path)
+        {
             DirectoryInfo dirInfo = new DirectoryInfo(path);
 
             long size = 0;
@@ -84,14 +92,14 @@ namespace ServicesProject
 
             foreach (var directory in dirInfo.GetDirectories())
             {
-                size += CalculateProperties(directory.FullName);
+                size += CalculateSize(directory.FullName);
             }
             Console.WriteLine("Chiamato metodo CalculateSize per " + dirInfo.Name + " " + size.ToString());
 
             return size;
         }
 
-        static string SizeSuffix(long value)
+        public string SizeSuffix(long value)
         {
             if (value < 0) { return "-" + SizeSuffix(-value); }
             if (value == 0) { return "0.0 bytes"; }

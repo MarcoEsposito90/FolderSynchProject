@@ -238,15 +238,11 @@
     <None Include="Service References\StreamedTransferService\StreamedTransferImplementation.wsdl" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="folders.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="folders.txt" />
     <Content Include="Pages\Icons\download-icon.png" />
     <Content Include="Pages\Icons\folder_icon.png" />
     <Content Include="Pages\Icons\reload-icon.png" />
-    <Content Include="users.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="users.txt" />
     <None Include="Service References\StreamedTransferService\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>

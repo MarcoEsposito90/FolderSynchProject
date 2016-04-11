@@ -18,7 +18,6 @@
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
 
             <TextBlock Name="TBFolderName" Text="{Binding Name}" HorizontalAlignment="Left" 
@@ -26,28 +25,28 @@
                            VerticalAlignment="Center" Margin="0,10,10,10"  
                            Style="{StaticResource Heading2}" />
 
-            <TextBlock Text="Path: " HorizontalAlignment="Left" 
+            <!--<TextBlock Text="Path: " HorizontalAlignment="Left" 
                            Grid.Column="0" Grid.Row="1" 
                            VerticalAlignment="Center" Margin="10,10,10,10"/>
 
             <TextBlock Name="TBFolderDetails_Path" Text="{Binding Path}" 
                            Grid.Column="1" Grid.Row="1" 
-                           VerticalAlignment="Center" Margin="0,10,30,10"/>
+                           VerticalAlignment="Center" Margin="0,10,30,10"/>-->
 
             <TextBlock Text="Synched at: " HorizontalAlignment="Left" 
-                           Grid.Column="0" Grid.Row="2" 
+                           Grid.Column="0" Grid.Row="1" 
                            VerticalAlignment="Center" Margin="10,10,10,10"/>
 
             <TextBlock Name="TBFolderDetails_SynchDate" Text="{Binding SynchDate}" 
-                           Grid.Column="1" Grid.Row="2" 
+                           Grid.Column="1" Grid.Row="1" 
                            VerticalAlignment="Center" Margin="0,10,30,10"/>
 
             <TextBlock Text="Contains: " HorizontalAlignment="Left"
-                           Grid.Column="0" Grid.Row="3" 
+                           Grid.Column="0" Grid.Row="2" 
                            VerticalAlignment="Center" Margin="10,10,10,10"/>
 
             <TextBlock Name="TBFolderDetails_NumFiles" 
-                           Grid.Column="1" Grid.Row="3"
+                           Grid.Column="1" Grid.Row="2"
                            VerticalAlignment="Center" Margin="0,10,30,10">
                 <TextBlock.Text>
                     <MultiBinding StringFormat="{}{0} files, {1} folders" >
@@ -58,11 +57,11 @@
             </TextBlock>
 
             <TextBlock Text="Size on disk: " HorizontalAlignment="Left" 
-                           Grid.Column="0" Grid.Row="4" 
+                           Grid.Column="0" Grid.Row="3" 
                            VerticalAlignment="Center" Margin="10,10,10,10"/>
 
             <TextBlock Name="TBFolderDetails_Size" Text="{Binding SizeInBytes}" 
-                           Grid.Column="1" Grid.Row="4" 
+                           Grid.Column="1" Grid.Row="3" 
                            VerticalAlignment="Center" Margin="0,10,30,10"/>
         </Grid>
     </ScrollViewer>
