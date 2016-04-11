@@ -57,7 +57,7 @@ namespace ServicesProject
 
         public UpdateTransaction(User user, string folderName, DateTime timestamp)
         {
-            this.TransactionID = user.Username + folderName + timestamp.ToString();
+            this.TransactionID = user.Username  + "|" + folderName + "|" + timestamp.ToString();
             this.User = user;
             this.FolderName = folderName;
             this.Timestamp = timestamp;

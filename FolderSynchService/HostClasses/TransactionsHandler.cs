@@ -179,6 +179,8 @@ namespace ServicesProject
                                     lines.Remove(s);
                             }
                         }
+                        else
+                            lines.Add(line);
                     }
 
                     sr.Close();
@@ -186,20 +188,13 @@ namespace ServicesProject
                 }
 
                 // 4) open the file in write mode
-                fs = new FileStream(LogFilePath,
-                                    FileMode.Open,
-                                    FileAccess.Write);
-
-                StreamWriter sw = new StreamWriter(fs);
-
-                using (fs)
+                StreamWriter sw = new StreamWriter(LogFilePath, false);
                 using (sw)
                 {
                     // 5) writing log file
                     foreach(string s in lines)
                         sw.WriteLine(s);
 
-                    fs.Close();
                     sw.Close();
                 }
             }
@@ -207,10 +202,61 @@ namespace ServicesProject
 
 
         /*************************************************************************/
-        private void checkForRecovery()
+        public void cleanLogFile(string transactionID)
+        {
+            lock (_instance)
+            {
+
+                List<String> lines = new List<string>();
+
+                // 0) open the file in read mode
+                FileStream fs = new FileStream(LogFilePath,
+                                                FileMode.Open,
+                                                FileAccess.Read);
+
+                StreamReader sr = new StreamReader(fs);
+
+                using (fs)
+                using (sr)
+                {
+                    // 1) start reading all log file
+                    string line;
+                    while ((line = sr.ReadLine()) != null)
+                    {
+
+                        string[] tokens = line.Split(';');
+
+                        // 2) save only if transaction ID doesn't matches...
+                        if (!tokens[0].Equals(transactionID))
+                            lines.Add(line);
+                    }
+
+                    sr.Close();
+                    fs.Close();
+                }
+
+                // 4) open the file in write mode
+                StreamWriter sw = new StreamWriter(LogFilePath,false);
+
+                using (sw)
+                {
+                    // 5) writing log file
+                    foreach (string s in lines)
+                        sw.WriteLine(s);
+
+                    sw.Close();
+                }
+            }
+        }
+
+
+        /*************************************************************************/
+        public List<string> checkForRecovery()
         {
 
             cleanLogFile();
+
+            List<string> transactionIDs = new List<string>();
 
             lock (_instance)
             {
@@ -230,17 +276,16 @@ namespace ServicesProject
                     {
 
                         string[] tokens = line.Split(';');
-                        
-                        /*  TODO: find a way to bind the transaction to the relative update.
-                            after finding the update, remove its folder completely, like it never
-                            happened. Next time, client will have to repeat it from beginning
-                        */
+                        if (!transactionIDs.Contains(tokens[0]))
+                            transactionIDs.Add(tokens[0]);
                     }
 
                     sr.Close();
                     fs.Close();
                 }
             }
+
+            return transactionIDs;
         }
     }
 }

@@ -100,11 +100,10 @@ namespace ServicesProject
         private FolderSynchServer() { }
 
 
-        /* ----------------------------------------------------------------------------------------------- */
-        /* ------------ USER METHODS --------------------------------------------------------------------- */
-        /* ----------------------------------------------------------------------------------------------- */
 
-        /*******************************************************************************************************/
+        /* ----------------------------------------------------------------------------------------------- */
+        /* ------------------------------- BOOT PROCEDURE ------------------------------------------------ */
+        /* ----------------------------------------------------------------------------------------------- */
         public void Startup()
         {
 
@@ -129,10 +128,49 @@ namespace ServicesProject
             TransactionsHandler.Instance.CheckLogFile();
             UpdateHandlers = new Dictionary<string, UpdatesFileHandler>();
 
+            // 4) check if some rollback is necessary ----------------------
+            checkForRollbacks();
+
             IsInitialized = true;
         }
 
+        /*****************************************************************************************/
+        private void checkForRollbacks()
+        {
+            foreach (string id in TransactionsHandler.Instance.checkForRecovery())
+            {
+                string[] tokens = id.Split('|');
 
+                Console.WriteLine("uncommitted transaction: " + id + ". User: " + tokens[0] + "; folder: " + tokens[1]);
+                UpdatesFileHandler handler = null;
+
+                if (!UpdateHandlers.TryGetValue(tokens[0] + tokens[1], out handler))
+                {
+                    User u = null;
+                    if (!Users.TryGetValue(tokens[0], out u))
+                        throw new Exception("User does not exist");
+
+                    foreach (Folder f in u.Folders)
+                        if (f.Name.Equals(tokens[1]))
+                        {
+                            handler = new UpdatesFileHandler(u, f.Name);
+                            break;
+                        }
+
+                    if (handler == null)
+                        throw new Exception("This user has no folder named " + tokens[1]);
+
+                    UpdateHandlers.Add(handler.User.Username + handler.BaseFolder, handler);
+                }
+
+                handler.rollBack(id);
+                TransactionsHandler.Instance.cleanLogFile(id);
+            }
+        }
+
+        /* ----------------------------------------------------------------------------------------------- */
+        /* ------------ USER METHODS --------------------------------------------------------------------- */
+        /* ----------------------------------------------------------------------------------------------- */
 
         /******************************************************************************************************/
         public User registerNewUser(string username, string password)
@@ -245,6 +283,8 @@ namespace ServicesProject
         /* ------------ UPDATE METHODS ------------------------------------------------------------------- */
         /* ----------------------------------------------------------------------------------------------- */
 
+
+        /**************************************************************************************************/
         public void beginUpdate(UpdateTransaction transaction)
         {
 
@@ -271,6 +311,7 @@ namespace ServicesProject
         }
 
 
+        /**************************************************************************************************/
         public void uploadFileStreamed(string username, string transactionID, string baseFolder, string localPath, Stream uploadStream)
         {
             // 1) check if everything ok ---------------------------------------------------
@@ -308,7 +349,9 @@ namespace ServicesProject
             TransactionsHandler.Instance.AddOperation(transaction, TransactionsHandler.Operations.NewFile, localPath);
         }
 
-
+        
+        
+        /**************************************************************************************************/
         public void uploadFile(User user, UpdateTransaction transaction, string baseFolder, string localPath, byte[] data)
         {
 
@@ -333,6 +376,8 @@ namespace ServicesProject
         }
 
 
+
+        /**************************************************************************************************/
         public void addSubDirectory(User user, UpdateTransaction transaction, string baseFolder, string localPath)
         {
 
@@ -354,6 +399,8 @@ namespace ServicesProject
         }
 
 
+
+        /**************************************************************************************************/
         public void updateCommit(UpdateTransaction transaction)
         {
             UpdatesFileHandler handler = null;

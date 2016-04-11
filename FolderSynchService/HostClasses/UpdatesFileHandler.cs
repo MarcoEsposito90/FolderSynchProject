@@ -57,7 +57,7 @@ namespace ServicesProject
 
 
         /* ------------------------------------------------------------------------------ */
-        /* ------------------------ METHODS --------------------------------------------- */
+        /* ------------------------ UPDATE METHODS -------------------------------------- */
         /* ------------------------------------------------------------------------------ */
         private void initialize()
         {
@@ -213,6 +213,57 @@ namespace ServicesProject
             writeToFile(Updates);
         }
 
+
+        /* ------------------------------------------------------------------------------ */
+        /* ------------------------ ROLLBACK METHODS ------------------------------------ */
+        /* ------------------------------------------------------------------------------ */
+
+        public void rollBack(string transactionID)
+        {
+
+            // 1) read updates file and find which update is related to this transaction
+            Update targetUpdate = null;
+
+            foreach(Update u in Updates)
+            {
+                if (u.TransactionID.Equals(transactionID))
+                {
+                    targetUpdate = u;
+                    break;
+                }
+            }
+
+            if (targetUpdate == null)
+                throw new Exception("PANIC: uncommitted update not found");
+
+            // 2) proceed to delete whole update folder
+            deleteDirectory(    FolderSynchServer.Instance.RemoteFoldersPath + "\\" +
+                                User.Username + "\\" +
+                                BaseFolder + "\\" +
+                                targetUpdate.UpdateFolder);
+
+            // 3) remove update object from list
+            Updates.Remove(targetUpdate);
+            writeToFile(Updates);
+        }
+
+
+        /*********************************************************************************/
+        private void deleteDirectory(string path)
+        {
+
+            string[] files = Directory.GetFiles(path);
+
+            foreach (string file in files)
+                File.Delete(file);
+
+            string[] subFolders = Directory.GetDirectories(path);
+            foreach (string dir in subFolders)
+                deleteDirectory(dir);
+
+            Directory.Delete(path);
+        }
+
         /* ------------------------------------------------------------------------------ */
         /* ------------------------ FILE METHODS ---------------------------------------- */
         /* ------------------------------------------------------------------------------ */
@@ -257,17 +308,13 @@ namespace ServicesProject
         /**********************************************************************************/
         private void writeToFile(List<Update> updates)
         {
-            FileStream fs = new FileStream(UpdatesFilePath, FileMode.OpenOrCreate, FileAccess.Write);
-            StreamWriter sw = new StreamWriter(fs);
-
-            using (fs)
+            StreamWriter sw = new StreamWriter(UpdatesFilePath, false);
             using (sw)
             {
                 string output = JsonConvert.SerializeObject(updates);
                 sw.WriteLine(output);
 
                 sw.Close();
-                fs.Close();
             }
         }
     }
