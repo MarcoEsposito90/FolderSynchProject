@@ -142,28 +142,14 @@ namespace ServicesProject
                 string[] tokens = id.Split('|');
 
                 Console.WriteLine("uncommitted transaction: " + id + ". User: " + tokens[0] + "; folder: " + tokens[1]);
-                UpdatesFileHandler handler = null;
 
-                if (!UpdateHandlers.TryGetValue(tokens[0] + tokens[1], out handler))
-                {
-                    User u = null;
-                    if (!Users.TryGetValue(tokens[0], out u))
-                        throw new Exception("User does not exist");
+                User u = null;
+                if (!Users.TryGetValue(tokens[0], out u))
+                    throw new Exception("User does not exist");
 
-                    foreach (Folder f in u.Folders)
-                        if (f.Name.Equals(tokens[1]))
-                        {
-                            handler = new UpdatesFileHandler(u, f.Name);
-                            break;
-                        }
-
-                    if (handler == null)
-                        throw new Exception("This user has no folder named " + tokens[1]);
-
-                    UpdateHandlers.Add(handler.User.Username + handler.BaseFolder, handler);
-                }
-
+                UpdatesFileHandler handler = getUpdateFileHandler(u, tokens[1]);
                 handler.rollBack(id);
+
                 TransactionsHandler.Instance.cleanLogFile(id);
             }
         }
@@ -288,24 +274,7 @@ namespace ServicesProject
         public void beginUpdate(UpdateTransaction transaction)
         {
 
-            UpdatesFileHandler handler = null;
-
-            if (!UpdateHandlers.TryGetValue(transaction.User.Username+transaction.FolderName, out handler))
-            {
-                foreach (Folder f in transaction.User.Folders)
-                    if (f.Name.Equals(transaction.FolderName))
-                    {
-                        handler = new UpdatesFileHandler(transaction.User, f.Name);
-                        break;
-                    }
-
-                if (handler == null)
-                    throw new FaultException(new FaultReason("This user has no folder named " + transaction.FolderName));
-
-                UpdateHandlers.Add(handler.User.Username + handler.BaseFolder, handler);
-            }
-
-            
+            UpdatesFileHandler handler = getUpdateFileHandler(transaction.User, transaction.FolderName);
             TransactionsHandler.Instance.AddTransaction(transaction);
             handler.createNewUpdate(transaction);
         }
@@ -410,6 +379,51 @@ namespace ServicesProject
             handler.commit(transaction);
             TransactionsHandler.Instance.CommitTransaction(transaction);
         }
+
+
+        /* ----------------------------------------------------------------------------------------------- */
+        /* ------------ HISTORY METHODS ------------------------------------------------------------------ */
+        /* ----------------------------------------------------------------------------------------------- */
+
+        public List<Update> getHistory(User user, string baseFolder)
+        {
+            return getUpdateFileHandler(user, baseFolder).getHistory();
+        }
+
+
+        /*****************************************************************************************************/
+        public List<Update.UpdateEntry> getFileHistory(User user, string baseFolder, string localPath)
+        {
+            return getUpdateFileHandler(user,baseFolder).getFileHistory(localPath);
+        }
+
+
+        /* ----------------------------------------------------------------------------------------------- */
+        /* ------------ AUXILIARY METHODS ---------------------------------------------------------------- */
+        /* ----------------------------------------------------------------------------------------------- */
+
+        private UpdatesFileHandler getUpdateFileHandler(User user, string baseFolder)
+        {
+            UpdatesFileHandler handler = null;
+
+            if (!UpdateHandlers.TryGetValue(user.Username + baseFolder, out handler))
+            {
+                foreach (Folder f in user.Folders)
+                    if (f.Name.Equals(baseFolder))
+                    {
+                        handler = new UpdatesFileHandler(user, f.Name);
+                        break;
+                    }
+
+                if (handler == null)
+                    throw new FaultException(new FaultReason("This user has no folder named " + baseFolder));
+
+                UpdateHandlers.Add(handler.User.Username + handler.BaseFolder, handler);
+            }
+
+            return handler;
+        }
+
     }
 
 

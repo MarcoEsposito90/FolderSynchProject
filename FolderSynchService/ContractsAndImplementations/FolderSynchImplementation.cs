@@ -98,6 +98,21 @@ namespace ServicesProject
             FolderSynchServer.Instance.AddNewFolder(currentUser, folder);
         }
 
-        
+
+        /* ------------------------------------------------------------------------------ */
+        /* ------------------------ HISTORY --------------------------------------------- */
+        /* ------------------------------------------------------------------------------ */
+
+        public List<Update.UpdateEntry> getFileHistory(string baseFolder, string localPath)
+        {
+            Console.WriteLine(currentUser.Username + " wants file history: " + baseFolder + "\\" + localPath);
+            return FolderSynchServer.Instance.getFileHistory(currentUser, baseFolder, localPath);
+        }
+
+        public List<Update> getHistory(string baseFolder)
+        {
+            Console.WriteLine(currentUser.Username + " wants history of: " + baseFolder);
+            return FolderSynchServer.Instance.getHistory(currentUser, baseFolder);
+        }
     }
 }

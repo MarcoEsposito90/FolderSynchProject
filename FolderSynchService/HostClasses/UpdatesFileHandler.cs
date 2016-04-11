@@ -248,6 +248,36 @@ namespace ServicesProject
         }
 
 
+        /* ------------------------------------------------------------------------------ */
+        /* ------------------------ HISTORY METHODS ------------------------------------- */
+        /* ------------------------------------------------------------------------------ */
+        public List<Update> getHistory()
+        {
+            return Updates;
+        }
+
+
+        public List<Update.UpdateEntry> getFileHistory(string localPath)
+        {
+
+            List<Update.UpdateEntry> entries = new List<Update.UpdateEntry>();
+            foreach(Update u in Updates)
+            {
+                foreach(Update.UpdateEntry entry in u.UpdateEntries)
+                {
+                    if (entry.ItemName.Equals(localPath))
+                    {
+                        entries.Add(entry);
+                        break;
+                    }
+                }
+            }
+
+            return entries;
+        }
+
+
+
         /*********************************************************************************/
         private void deleteDirectory(string path)
         {

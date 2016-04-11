@@ -67,6 +67,18 @@ namespace FolderSynchMUIClient.FolderSynchService {
         
         [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/updateCommit", ReplyAction="http://tempuri.org/FolderSynchServiceContract/updateCommitResponse")]
         System.Threading.Tasks.Task updateCommitAsync(ServicesProject.UpdateTransaction transaction);
+        
+        [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/getFileHistory", ReplyAction="http://tempuri.org/FolderSynchServiceContract/getFileHistoryResponse")]
+        ServicesProject.Update.UpdateEntry[] getFileHistory(string baseFolder, string localPath);
+        
+        [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/getFileHistory", ReplyAction="http://tempuri.org/FolderSynchServiceContract/getFileHistoryResponse")]
+        System.Threading.Tasks.Task<ServicesProject.Update.UpdateEntry[]> getFileHistoryAsync(string baseFolder, string localPath);
+        
+        [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/getHistory", ReplyAction="http://tempuri.org/FolderSynchServiceContract/getHistoryResponse")]
+        ServicesProject.Update[] getHistory(string baseFolder);
+        
+        [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/getHistory", ReplyAction="http://tempuri.org/FolderSynchServiceContract/getHistoryResponse")]
+        System.Threading.Tasks.Task<ServicesProject.Update[]> getHistoryAsync(string baseFolder);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -158,6 +170,22 @@ namespace FolderSynchMUIClient.FolderSynchService {
         
         public System.Threading.Tasks.Task updateCommitAsync(ServicesProject.UpdateTransaction transaction) {
             return base.Channel.updateCommitAsync(transaction);
+        }
+        
+        public ServicesProject.Update.UpdateEntry[] getFileHistory(string baseFolder, string localPath) {
+            return base.Channel.getFileHistory(baseFolder, localPath);
+        }
+        
+        public System.Threading.Tasks.Task<ServicesProject.Update.UpdateEntry[]> getFileHistoryAsync(string baseFolder, string localPath) {
+            return base.Channel.getFileHistoryAsync(baseFolder, localPath);
+        }
+        
+        public ServicesProject.Update[] getHistory(string baseFolder) {
+            return base.Channel.getHistory(baseFolder);
+        }
+        
+        public System.Threading.Tasks.Task<ServicesProject.Update[]> getHistoryAsync(string baseFolder) {
+            return base.Channel.getHistoryAsync(baseFolder);
         }
     }
 }

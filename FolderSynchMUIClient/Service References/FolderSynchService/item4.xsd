@@ -111,4 +111,33 @@
       <xs:sequence />
     </xs:complexType>
   </xs:element>
+  <xs:element name="getFileHistory">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="baseFolder" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="localPath" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="getFileHistoryResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/ServicesProject" minOccurs="0" name="getFileHistoryResult" nillable="true" type="q7:ArrayOfUpdate.UpdateEntry" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="getHistory">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="baseFolder" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="getHistoryResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/ServicesProject" minOccurs="0" name="getHistoryResult" nillable="true" type="q8:ArrayOfUpdate" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
 </xs:schema>

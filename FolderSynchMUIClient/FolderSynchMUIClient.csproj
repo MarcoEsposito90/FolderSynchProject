@@ -219,6 +219,7 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\ServicesProject.Update.datasource" />
     <None Include="Properties\DataSources\ServicesProject.UpdateTransaction.datasource" />
     <None Include="Properties\DataSources\ServicesProject.User.datasource" />
     <None Include="Service References\FolderSynchService\FolderSynchImplementation.wsdl" />

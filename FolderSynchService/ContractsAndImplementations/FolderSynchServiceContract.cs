@@ -12,6 +12,7 @@ namespace ServicesProject
     [ServiceContract (SessionMode = SessionMode.Required)]
     public interface FolderSynchServiceContract
     {
+        /**********************************************************************************************************/
         [OperationContract(IsInitiating = true, IsTerminating = false)]
         [FaultContract(typeof(RegistrationFault))]
         User RegisterNewUser(string username, string password);
@@ -23,6 +24,7 @@ namespace ServicesProject
         [OperationContract(IsInitiating = false, IsTerminating = true)]
         void logoutUser(User user);
 
+        /**********************************************************************************************************/
         [OperationContract(IsInitiating = false, IsTerminating = false)]
         [FaultContract(typeof(MyBaseFault))]
         void addNewSynchronizedFolder(Folder folderName);
@@ -38,5 +40,12 @@ namespace ServicesProject
 
         [OperationContract(IsInitiating = false, IsTerminating = false)]
         void updateCommit(UpdateTransaction transaction);
+
+        /**********************************************************************************************************/
+        [OperationContract(IsInitiating = false, IsTerminating = false)]
+        List<Update.UpdateEntry> getFileHistory(string baseFolder, string localPath);
+
+        [OperationContract(IsInitiating = false, IsTerminating = false)]
+        List<Update> getHistory(string baseFolder);
     }
 }

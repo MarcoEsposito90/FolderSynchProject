@@ -72,6 +72,18 @@
   <wsdl:message name="FolderSynchServiceContract_updateCommit_OutputMessage">
     <wsdl:part name="parameters" element="tns:updateCommitResponse" />
   </wsdl:message>
+  <wsdl:message name="FolderSynchServiceContract_getFileHistory_InputMessage">
+    <wsdl:part name="parameters" element="tns:getFileHistory" />
+  </wsdl:message>
+  <wsdl:message name="FolderSynchServiceContract_getFileHistory_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getFileHistoryResponse" />
+  </wsdl:message>
+  <wsdl:message name="FolderSynchServiceContract_getHistory_InputMessage">
+    <wsdl:part name="parameters" element="tns:getHistory" />
+  </wsdl:message>
+  <wsdl:message name="FolderSynchServiceContract_getHistory_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getHistoryResponse" />
+  </wsdl:message>
   <wsdl:portType msc:usingSession="true" name="FolderSynchServiceContract">
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="RegisterNewUser">
       <wsdl:input wsaw:Action="http://tempuri.org/FolderSynchServiceContract/RegisterNewUser" message="tns:FolderSynchServiceContract_RegisterNewUser_InputMessage" />
@@ -107,6 +119,14 @@
     <wsdl:operation msc:isInitiating="false" msc:isTerminating="false" name="updateCommit">
       <wsdl:input wsaw:Action="http://tempuri.org/FolderSynchServiceContract/updateCommit" message="tns:FolderSynchServiceContract_updateCommit_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/FolderSynchServiceContract/updateCommitResponse" message="tns:FolderSynchServiceContract_updateCommit_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="false" msc:isTerminating="false" name="getFileHistory">
+      <wsdl:input wsaw:Action="http://tempuri.org/FolderSynchServiceContract/getFileHistory" message="tns:FolderSynchServiceContract_getFileHistory_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/FolderSynchServiceContract/getFileHistoryResponse" message="tns:FolderSynchServiceContract_getFileHistory_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="false" msc:isTerminating="false" name="getHistory">
+      <wsdl:input wsaw:Action="http://tempuri.org/FolderSynchServiceContract/getHistory" message="tns:FolderSynchServiceContract_getHistory_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/FolderSynchServiceContract/getHistoryResponse" message="tns:FolderSynchServiceContract_getHistory_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="serviceTcpEndpoint" type="tns:FolderSynchServiceContract">
@@ -186,6 +206,24 @@
     </wsdl:operation>
     <wsdl:operation name="updateCommit">
       <soap12:operation soapAction="http://tempuri.org/FolderSynchServiceContract/updateCommit" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getFileHistory">
+      <soap12:operation soapAction="http://tempuri.org/FolderSynchServiceContract/getFileHistory" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getHistory">
+      <soap12:operation soapAction="http://tempuri.org/FolderSynchServiceContract/getHistory" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
