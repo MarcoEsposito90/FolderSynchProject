@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.ServiceModel;
 using System.Text;
@@ -13,5 +14,8 @@ namespace ServicesProject
 
         [OperationContract]
         void uploadFileStreamed(FileStreamMessage message);
+
+        [OperationContract]
+        Stream downloadFileStreamed(string username, string baseFolder, string localPath, int updateNumber);
     }
 }

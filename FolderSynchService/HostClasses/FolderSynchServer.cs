@@ -374,13 +374,42 @@ namespace ServicesProject
         /* ----------------------------------------------------------------------------------------------- */
         /* ------------ DOWNLOAD METHODS ----------------------------------------------------------------- */
         /* ----------------------------------------------------------------------------------------------- */
+
         public byte[] downloadFile(User user, string baseFolder, string localPath, int updateNumber)
         {
+            bool exists = false;
+            foreach (Folder f in user.Folders)
+                if (f.Name.Equals(baseFolder))
+                {
+                    exists = true;
+                    break;
+                }
+
+            if (!exists)
+                throw new FaultException(new FaultReason(FileTransferFault.UNKNOWN_BASE_FOLDER));
 
             return getUpdateFileHandler(user, baseFolder).getFile(localPath, updateNumber);
         }
 
+        public Stream downloadFileStreamed(string username, string baseFolder, string localPath, int updateNumber)
+        {
+            User user = null;
+            if (!ConnectedUsers.TryGetValue(username, out user))
+                throw new FaultException(new FaultReason(FileTransferFault.USER_NOT_CONNECTED));
 
+            bool exists = false;
+            foreach (Folder f in user.Folders)
+                if (f.Name.Equals(baseFolder))
+                {
+                    exists = true;
+                    break;
+                }
+
+            if (!exists)
+                throw new FaultException(new FaultReason(FileTransferFault.UNKNOWN_BASE_FOLDER));
+
+            return getUpdateFileHandler(user, baseFolder).getFileStreamed(localPath, updateNumber);
+        }
 
         /* ----------------------------------------------------------------------------------------------- */
         /* ------------ AUXILIARY METHODS ---------------------------------------------------------------- */

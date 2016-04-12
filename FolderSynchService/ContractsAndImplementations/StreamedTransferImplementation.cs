@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,5 +20,11 @@ namespace ServicesProject
                                                             message.localPath, 
                                                             message.data);
         }
+
+        public Stream downloadFileStreamed(string username, string baseFolder, string localPath, int updateNumber)
+        {
+            Console.WriteLine(username + " wants to download " + baseFolder + "\\" + localPath + " in streamed mode. (update " + updateNumber + ")");
+            return FolderSynchServer.Instance.downloadFileStreamed(username, baseFolder, localPath, updateNumber);
+        } 
     }
 }

@@ -307,27 +307,7 @@ namespace ServicesProject
                 throw new FaultException(new FaultReason("No update available for this folder"));
 
             // 1) discover right update folder -----------------------------------
-            string updateFolder = null;
-
-            if (updateNumber == LATEST_UPDATE)
-            {
-                updateFolder = Updates.ElementAt(Updates.Count - 1).UpdateFolder;
-            }
-            else
-            {
-                foreach (Update u in Updates)
-                {
-                    if (u.Number == updateNumber)
-                    {
-                        updateFolder = u.UpdateFolder;
-                        break;
-                    }
-                }
-            }
-            
-
-            if (updateFolder == null)
-                throw new FaultException(new FaultReason("Uknown or deleted update"));
+            string updateFolder = getUpdateFolder(updateNumber);
 
             // 2) verify file path ---------------------------------------------
             string path = FolderSynchServer.Instance.RemoteFoldersPath + "\\" +
@@ -355,6 +335,60 @@ namespace ServicesProject
             return file;
         }
 
+
+        /***********************************************************************************/
+        public Stream getFileStreamed(string localPath, int updateNumber)
+        {
+            if (Updates.Count == 0)
+                throw new FaultException(new FaultReason("No update available for this folder"));
+
+            // 1) discover right update folder -----------------------------------
+            string updateFolder = getUpdateFolder(updateNumber);
+
+
+            // 2) verify file path ---------------------------------------------
+            string path = FolderSynchServer.Instance.RemoteFoldersPath + "\\" +
+                            User.Username + "\\" +
+                            BaseFolder + "\\" +
+                            updateFolder + "\\" +
+                            localPath;
+
+            if (!File.Exists(path))
+                throw new FaultException(new FaultReason("No such file for this update"));
+
+            Stream fs = new FileStream(path, FileMode.Open, FileAccess.Read);
+            return fs;
+        }
+
+
+        /***********************************************************************************/
+        private string getUpdateFolder(int updateNumber)
+        {
+
+            string updateFolder = null;
+
+            if (updateNumber == LATEST_UPDATE)
+            {
+                updateFolder = Updates.ElementAt(Updates.Count - 1).UpdateFolder;
+            }
+            else
+            {
+                foreach (Update u in Updates)
+                {
+                    if (u.Number == updateNumber)
+                    {
+                        updateFolder = u.UpdateFolder;
+                        break;
+                    }
+                }
+            }
+
+
+            if (updateFolder == null)
+                throw new FaultException(new FaultReason("Uknown or deleted update"));
+
+            return updateFolder;
+        }
 
         /* ------------------------------------------------------------------------------ */
         /* ------------------------ FILE METHODS ---------------------------------------- */
