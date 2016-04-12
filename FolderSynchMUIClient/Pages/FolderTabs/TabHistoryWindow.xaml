@@ -9,14 +9,14 @@
 
     <UserControl.Resources>
         <Image x:Key="ReloadImage" 
-               Source="C:\\Users\\Giulia Genta\\Documents\\GitHub\\FolderSynchProject\\FolderSynchMUIClient\\Pages\\Icons\\reload-icon.png"/>
+               Source="/Icons/MyReload_Icon.png"/>
         <Image x:Key="DownloadImage" 
-               Source="C:\\Users\\Giulia Genta\\Documents\\GitHub\\FolderSynchProject\\FolderSynchMUIClient\\Pages\\Icons\\download-icon.png"/>
+               Source="/Icons/MyDownload_Icon.png"/>
     </UserControl.Resources>
 
     <ScrollViewer>
         <StackPanel MinWidth="200">
-                <TextBlock Text="Updates " HorizontalAlignment="Left" 
+                <TextBlock Text="Updates History" HorizontalAlignment="Left" 
                            Style="{StaticResource Title}"
                            VerticalAlignment="Center" Margin="10,10,0,0"  
                            FontSize="26.667"

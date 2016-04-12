@@ -15,7 +15,7 @@
             <Image
                 HorizontalAlignment="Center" VerticalAlignment="Center"
                 Height="50" Width="50" Margin="20,0,10,10"
-                Source="C:\\Users\\Giulia Genta\\Documents\\GitHub\\FolderSynchProject\\FolderSynchMUIClient\\Pages\\Icons\\error-icon.png"/>
+                Source="/Icons/error-icon.png"/>
 
             <TextBlock 
                 Text="Error!" 

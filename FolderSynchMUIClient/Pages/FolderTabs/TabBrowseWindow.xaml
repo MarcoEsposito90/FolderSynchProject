@@ -23,25 +23,34 @@
                     <HierarchicalDataTemplate DataType="{x:Type service:Folder}" ItemsSource="{Binding Items}">
                         <StackPanel Orientation="Horizontal">
                             <Image Width="20" Height="20" 
-                                   Margin="3"
-                                   Source="C:\\Users\\Giulia Genta\\Documents\\GitHub\\FolderSynchProject\\FolderSynchMUIClient\\Pages\\Icons\\folder-icon-gray.png"/>
+                                   Margin="3">
+                                <Image.Style>
+                                    <Style TargetType="Image">
+                                        <Setter Property="Source" Value="/Icons/MYFolder_Icon.png"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=TreeViewItem}, Path=IsExpanded}" Value="True">
+                                                <Setter Property="Source" Value="/Icons/MYOpenFolder_Icon.png"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Image.Style>
+                            </Image>
                             <TextBlock Text="{Binding Name}" 
-                                       FontSize="14.667" 
-                                       FontFamily="Segoe UI Semilight"
+                                      FontSize="14.667" 
+                                      VerticalAlignment="Center"
+                                      FontFamily="Segoe UI Semilight"
                                            />
-                            <!--<TextBlock Text=" [" Foreground="Blue" />
-                            <TextBlock Text="{Binding Path}" Foreground="Blue" />
-                            <TextBlock Text="]" Foreground="Blue" />-->
                         </StackPanel>
                     </HierarchicalDataTemplate>
                     <DataTemplate DataType="{x:Type service:FileItem}">
                         <StackPanel Orientation="Horizontal">
                             <Image Width="20" Height="20" 
                                    Margin="3"
-                                   Source="C:\\Users\\Giulia Genta\\Documents\\GitHub\\FolderSynchProject\\FolderSynchMUIClient\\Pages\\Icons\\file-icon.png"/>
+                                   Source="/Icons/MyFile_Icon.png"/>
 
                             <TextBlock Text="{Binding Name}" 
-                                           FontSize="13.333" 
+                                       FontSize="13.333" 
+                                       VerticalAlignment="Center"
                                        FontFamily="Segoe UI Semilight" />
                             <!--<TextBlock Text=" (" Foreground="Green" />
                             <TextBlock Text="{Binding Path}" Foreground="Green" />
