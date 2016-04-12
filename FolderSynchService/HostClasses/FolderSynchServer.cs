@@ -343,14 +343,15 @@ namespace ServicesProject
 
 
         /**************************************************************************************************/
-        public void updateCommit(UpdateTransaction transaction)
+        public Update updateCommit(UpdateTransaction transaction)
         {
             UpdatesFileHandler handler = null;
             if (!UpdateHandlers.TryGetValue(transaction.User.Username+transaction.FolderName, out handler))
                 throw new FaultException(new FaultReason("Transaction handler not found"));
 
-            handler.commit(transaction);
+            Update result = handler.commit(transaction);
             TransactionsHandler.Instance.CommitTransaction(transaction);
+            return result;
         }
 
 

@@ -199,7 +199,7 @@ namespace ServicesProject
 
 
         /**********************************************************************************/
-        public void commit(UpdateTransaction transaction)
+        public Update commit(UpdateTransaction transaction)
         {
             Update update = null;
             foreach (Update u in Updates)
@@ -213,6 +213,7 @@ namespace ServicesProject
                 throw new FaultException(new FaultReason("Update object not found"));
 
             writeToFile(Updates);
+            return update;
         }
 
 

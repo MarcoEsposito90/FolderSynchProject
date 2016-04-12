@@ -81,11 +81,12 @@ namespace ServicesProject
         }
 
 
-        public void updateCommit(UpdateTransaction transaction)
+        public Update updateCommit(UpdateTransaction transaction)
         {
             Console.WriteLine(currentUser.Username + "wants to commit an update");
-            FolderSynchServer.Instance.updateCommit(transaction);
+            Update result = FolderSynchServer.Instance.updateCommit(transaction);
             ActiveTransactions.Remove(transaction.TransactionID);
+            return result;
         }
 
         /* ------------------------------------------------------------------------------ */

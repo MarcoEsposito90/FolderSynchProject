@@ -63,10 +63,10 @@ namespace FolderSynchMUIClient.FolderSynchService {
         System.Threading.Tasks.Task addSubDirectoryAsync(string transactionID, string baseFolder, string localPath);
         
         [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/updateCommit", ReplyAction="http://tempuri.org/FolderSynchServiceContract/updateCommitResponse")]
-        void updateCommit(ServicesProject.UpdateTransaction transaction);
+        ServicesProject.Update updateCommit(ServicesProject.UpdateTransaction transaction);
         
         [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/updateCommit", ReplyAction="http://tempuri.org/FolderSynchServiceContract/updateCommitResponse")]
-        System.Threading.Tasks.Task updateCommitAsync(ServicesProject.UpdateTransaction transaction);
+        System.Threading.Tasks.Task<ServicesProject.Update> updateCommitAsync(ServicesProject.UpdateTransaction transaction);
         
         [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/getFileHistory", ReplyAction="http://tempuri.org/FolderSynchServiceContract/getFileHistoryResponse")]
         ServicesProject.Update.UpdateEntry[] getFileHistory(string baseFolder, string localPath);
@@ -170,11 +170,11 @@ namespace FolderSynchMUIClient.FolderSynchService {
             return base.Channel.addSubDirectoryAsync(transactionID, baseFolder, localPath);
         }
         
-        public void updateCommit(ServicesProject.UpdateTransaction transaction) {
-            base.Channel.updateCommit(transaction);
+        public ServicesProject.Update updateCommit(ServicesProject.UpdateTransaction transaction) {
+            return base.Channel.updateCommit(transaction);
         }
         
-        public System.Threading.Tasks.Task updateCommitAsync(ServicesProject.UpdateTransaction transaction) {
+        public System.Threading.Tasks.Task<ServicesProject.Update> updateCommitAsync(ServicesProject.UpdateTransaction transaction) {
             return base.Channel.updateCommitAsync(transaction);
         }
         

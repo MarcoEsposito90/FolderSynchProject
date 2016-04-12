@@ -20,6 +20,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using FolderSynchMUIClient.Classes;
 using System.Threading;
+using ServicesProject;
 
 namespace FolderSynchMUIClient.Pages
 {
@@ -31,6 +32,12 @@ namespace FolderSynchMUIClient.Pages
 
         private string folderPath;
 
+        public Update Update
+        {
+            get;
+            private set;
+        }
+
         /* ------------------------------------------------------------------------------ */
         /* ------------------ CONSTRUCTOR ----------------------------------------------- */
         /* ------------------------------------------------------------------------------ */
@@ -40,6 +47,7 @@ namespace FolderSynchMUIClient.Pages
             InitializeComponent();
 
             this.folderPath = folderPath;
+            Update = null;
             // define the dialog buttons
             this.Buttons = new Button[] { this.OkButton };
             OkButton.IsEnabled = false;
@@ -93,7 +101,10 @@ namespace FolderSynchMUIClient.Pages
                 UploadBackgroundWorker.UploadWorkerResponse result = (UploadBackgroundWorker.UploadWorkerResponse)e.Result;
 
                 if (result.Success)
+                {
                     responseTB.Text = "Done!";
+                    Update = result.Update;
+                }
                 else
                     responseTB.Text = result.ErrorMessage;
             }

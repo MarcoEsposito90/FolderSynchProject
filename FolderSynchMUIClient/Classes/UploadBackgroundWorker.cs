@@ -55,6 +55,7 @@ namespace FolderSynchMUIClient.Classes
         {
             BackgroundWorker worker = sender as BackgroundWorker;
             worker.ReportProgress(0, State.Computing);
+            Update newUpdate = null;
 
             // 2) compute size -----------------------------------------------------
             filesNumber = computeSize(folderPath);
@@ -69,17 +70,17 @@ namespace FolderSynchMUIClient.Classes
                     UpdateTransaction transaction = proxy.beginUpdate(folderName, timestamp);
 
                     uploadDirectory(folderPath, transaction, worker);
-                    proxy.updateCommit(transaction);
+                    newUpdate = proxy.updateCommit(transaction);
                 }
 
             }
             catch (FaultException f)
             {
                 Console.WriteLine("error: " + f.Reason);
-                e.Result = new UploadWorkerResponse(false, UploadWorkerResponse.ERROR_MESSAGE);
+                e.Result = new UploadWorkerResponse(false, UploadWorkerResponse.ERROR_MESSAGE, null);
             }
 
-            e.Result = new UploadWorkerResponse(true, "");
+            e.Result = new UploadWorkerResponse(true, "", newUpdate);
         }
 
 
@@ -178,11 +179,18 @@ namespace FolderSynchMUIClient.Classes
                 private set;
             }
 
-            public UploadWorkerResponse(bool success, string errorMessage)
+            public Update Update
+            {
+                get;
+                private set;
+            }
+
+            public UploadWorkerResponse(bool success, string errorMessage, Update update)
             {
 
                 Success = success;
                 ErrorMessage = errorMessage;
+                Update = update;
             }
         }
     }

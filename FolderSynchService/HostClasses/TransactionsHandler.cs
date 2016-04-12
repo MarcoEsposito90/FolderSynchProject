@@ -147,7 +147,7 @@ namespace ServicesProject
         {
             lock (_instance)
             {
-
+                
                 List<String> lines = new List<string>();
 
                 // 0) open the file in read mode

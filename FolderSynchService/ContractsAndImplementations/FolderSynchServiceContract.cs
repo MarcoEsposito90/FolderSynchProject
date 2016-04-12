@@ -39,7 +39,7 @@ namespace ServicesProject
         void addSubDirectory(string transactionID, string baseFolder, string localPath);
 
         [OperationContract(IsInitiating = false, IsTerminating = false)]
-        void updateCommit(UpdateTransaction transaction);
+        Update updateCommit(UpdateTransaction transaction);
 
         /**********************************************************************************************************/
         [OperationContract(IsInitiating = false, IsTerminating = false)]

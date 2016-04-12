@@ -85,8 +85,14 @@ namespace FolderSynchMUIClient.Pages.HomePages
                 UploadDialog ud = new UploadDialog(choosedFolderPathEditor.Text);
                 ud.ShowDialog();
 
-                application.addLocalFolder(newFold, choosedFolderPathEditor.Text);
-                Console.WriteLine("Username: " + application.User.Username + " folder: " + folderName + " path: " + choosedFolderPathEditor.Text);
+                if(ud.Update != null)
+                {
+                    // update succeeded
+                    LocalFolder lf = new LocalFolder(application.User.Username, newFold.Name, choosedFolderPathEditor.Text);
+                    lf.LastUpdate = ud.Update;
+                    application.addLocalFolder(newFold, lf);
+                }
+
             }
             catch (FaultException f)
             {
