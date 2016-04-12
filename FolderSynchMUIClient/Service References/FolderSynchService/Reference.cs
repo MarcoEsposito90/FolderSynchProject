@@ -79,6 +79,12 @@ namespace FolderSynchMUIClient.FolderSynchService {
         
         [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/getHistory", ReplyAction="http://tempuri.org/FolderSynchServiceContract/getHistoryResponse")]
         System.Threading.Tasks.Task<ServicesProject.Update[]> getHistoryAsync(string baseFolder);
+        
+        [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/downloadFile", ReplyAction="http://tempuri.org/FolderSynchServiceContract/downloadFileResponse")]
+        byte[] downloadFile(string baseFolder, string localPath, int updateNumber);
+        
+        [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/downloadFile", ReplyAction="http://tempuri.org/FolderSynchServiceContract/downloadFileResponse")]
+        System.Threading.Tasks.Task<byte[]> downloadFileAsync(string baseFolder, string localPath, int updateNumber);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -186,6 +192,14 @@ namespace FolderSynchMUIClient.FolderSynchService {
         
         public System.Threading.Tasks.Task<ServicesProject.Update[]> getHistoryAsync(string baseFolder) {
             return base.Channel.getHistoryAsync(baseFolder);
+        }
+        
+        public byte[] downloadFile(string baseFolder, string localPath, int updateNumber) {
+            return base.Channel.downloadFile(baseFolder, localPath, updateNumber);
+        }
+        
+        public System.Threading.Tasks.Task<byte[]> downloadFileAsync(string baseFolder, string localPath, int updateNumber) {
+            return base.Channel.downloadFileAsync(baseFolder, localPath, updateNumber);
         }
     }
 }

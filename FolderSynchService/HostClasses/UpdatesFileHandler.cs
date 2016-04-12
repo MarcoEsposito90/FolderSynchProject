@@ -13,6 +13,8 @@ namespace ServicesProject
     public class UpdatesFileHandler
     {
 
+        public static readonly int LATEST_UPDATE = -1;
+
         /* ------------------------------------------------------------------------------ */
         /* ------------------------ PROPERTIES ------------------------------------------ */
         /* ------------------------------------------------------------------------------ */
@@ -294,6 +296,66 @@ namespace ServicesProject
             Directory.Delete(path);
         }
 
+
+        /* ------------------------------------------------------------------------------ */
+        /* ------------------------ DOWNLOAD METHODS ------------------------------------ */
+        /* ------------------------------------------------------------------------------ */
+        public byte[] getFile(string localPath, int updateNumber)
+        {
+
+            if (Updates.Count == 0)
+                throw new FaultException(new FaultReason("No update available for this folder"));
+
+            // 1) discover right update folder -----------------------------------
+            string updateFolder = null;
+
+            if (updateNumber == LATEST_UPDATE)
+            {
+                updateFolder = Updates.ElementAt(Updates.Count - 1).UpdateFolder;
+            }
+            else
+            {
+                foreach (Update u in Updates)
+                {
+                    if (u.Number == updateNumber)
+                    {
+                        updateFolder = u.UpdateFolder;
+                        break;
+                    }
+                }
+            }
+            
+
+            if (updateFolder == null)
+                throw new FaultException(new FaultReason("Uknown or deleted update"));
+
+            // 2) verify file path ---------------------------------------------
+            string path = FolderSynchServer.Instance.RemoteFoldersPath + "\\" +
+                            User.Username + "\\" +
+                            BaseFolder + "\\" +
+                            updateFolder + "\\" +
+                            localPath;
+
+            if (!File.Exists(path))
+                throw new FaultException(new FaultReason("No such file for this update"));
+
+
+            // 2) copy file to a buffer ----------------------------------------
+            FileInfo fi = new FileInfo(path);
+            byte[] file = new byte[fi.Length];
+
+            FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read);
+
+            using (fs)
+            {
+                fs.Read(file, 0, (int)fi.Length);
+                fs.Close();
+            }
+
+            return file;
+        }
+
+
         /* ------------------------------------------------------------------------------ */
         /* ------------------------ FILE METHODS ---------------------------------------- */
         /* ------------------------------------------------------------------------------ */
@@ -338,13 +400,16 @@ namespace ServicesProject
         /**********************************************************************************/
         private void writeToFile(List<Update> updates)
         {
-            StreamWriter sw = new StreamWriter(UpdatesFilePath, false);
-            using (sw)
+            lock (this)
             {
-                string output = JsonConvert.SerializeObject(updates);
-                sw.WriteLine(output);
+                StreamWriter sw = new StreamWriter(UpdatesFilePath, false);
+                using (sw)
+                {
+                    string output = JsonConvert.SerializeObject(updates);
+                    sw.WriteLine(output);
 
-                sw.Close();
+                    sw.Close();
+                }
             }
         }
     }

@@ -114,5 +114,16 @@ namespace ServicesProject
             Console.WriteLine(currentUser.Username + " wants history of: " + baseFolder);
             return FolderSynchServer.Instance.getHistory(currentUser, baseFolder);
         }
+
+
+        /* ------------------------------------------------------------------------------ */
+        /* ------------------------ DOWNLOAD -------------------------------------------- */
+        /* ------------------------------------------------------------------------------ */
+
+        public byte[] downloadFile(string baseFolder, string localPath, int updateNumber)
+        {
+            Console.WriteLine(currentUser.Username + " wants to download: " + baseFolder + "\\" + localPath + "; (update " + updateNumber + ")");
+            return FolderSynchServer.Instance.downloadFile(currentUser, baseFolder, localPath, updateNumber);
+        }
     }
 }

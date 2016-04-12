@@ -47,5 +47,9 @@ namespace ServicesProject
 
         [OperationContract(IsInitiating = false, IsTerminating = false)]
         List<Update> getHistory(string baseFolder);
+
+        /**********************************************************************************************************/
+        [OperationContract(IsInitiating = false, IsTerminating = false)]
+        byte[] downloadFile(string baseFolder, string localPath, int updateNumber);
     }
 }
