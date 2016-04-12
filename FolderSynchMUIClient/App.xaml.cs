@@ -144,7 +144,7 @@ namespace FolderSynchMUIClient
                 int index = LocalFolders.FindIndex(item => item.FolderName.Equals(f.Name));
                 if(index >= 0)
                 {
-                    FolderWatcher fw = new FolderWatcher(f, LocalFolders.ElementAt(index).LocalPath);
+                    FolderWatcher fw = new FolderWatcher(f, LocalFolders.ElementAt(index));
                     FolderWatchers.Add(fw);
                     fw.watch();
                 }
@@ -291,24 +291,25 @@ namespace FolderSynchMUIClient
 
 
         /********************************************************************/
-        public void addLocalFolder(string folderName, string path)
+        public void addLocalFolder(Folder folder, string path)
         {
-
-
             FileStream fs = new FileStream("folders.txt", FileMode.Append, FileAccess.Write);
             StreamWriter sw = new StreamWriter(fs);
-
 
             using (fs)
             using (sw)
             {
 
-                sw.WriteLine(User.Username + ";" + folderName + ";" + path);
+                sw.WriteLine(User.Username + ";" + folder.Name + ";" + path);
                 sw.Close();
                 fs.Close();
             }
-            LocalFolders.Add(new LocalFolder(User.Username, folderName, path));
 
+            LocalFolder lf = new LocalFolder(User.Username, folder.Name, path);
+            LocalFolders.Add(lf);
+            FolderWatcher fw = new FolderWatcher(folder, lf);
+            FolderWatchers.Add(fw);
+            fw.watch();
         }
     }
 }
