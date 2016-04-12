@@ -39,7 +39,7 @@
                     <TextBox Name="TBLoginUsername" 
                              Grid.Column="1" Grid.Row="0" 
                              VerticalAlignment="Center" 
-                             Margin="0,10,30,10" FontSize="13.333" FontFamily="Segoe UI Semilight"/>
+                             Margin="0,10,30,10" FontSize="13.333" />
                     
 
                     <TextBlock Text="Password: " 
@@ -52,7 +52,7 @@
                                  PasswordChar="*" 
                                  Grid.Column="1" Grid.Row="1"
                                  VerticalAlignment="Center" 
-                                 Margin="0,10,30,10" FontSize="13.333" FontFamily="Segoe UI Semilight"/>
+                                 Margin="0,10,30,10" FontSize="13.333"/>
 
                 </Grid>
 

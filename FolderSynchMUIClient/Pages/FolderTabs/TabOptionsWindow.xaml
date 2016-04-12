@@ -34,7 +34,7 @@
                            VerticalAlignment="Center" Margin="10" FontSize="14.667" FontFamily="Segoe UI Semilight"/>
                 <Button x:Name="autoRefreshUp"  
                         Grid.Column="1" Grid.Row="0"
-                        Content="˄" Click="autoRefreshUp_Click" 
+                        Content=" ˄ " Click="autoRefreshUp_Click" 
                         Background="White"
                         Foreground="Black"
                         Margin="5,10,5,10">
@@ -66,13 +66,14 @@
                            Text="{Binding AutoRefreshTime, Mode=TwoWay}" 
                            Background="White"
                            Foreground="Black"
+                           Padding="4"
                            TextAlignment="Center"
                            Margin="5,10,5,10" />
                 <Button x:Name="autoRefreshDown" 
                         Grid.Column="3" Grid.Row="0"
                         Background="White"
                         Foreground="Black"
-                        Content="˅" Click="autoRefreshDown_Click"
+                        Content=" ˅ " Click="autoRefreshDown_Click"
                         Margin="5,10,5,10">
                     <Button.Style>
                         <Style>
@@ -103,7 +104,7 @@
                            VerticalAlignment="Center" Margin="10" FontSize="14.667" FontFamily="Segoe UI Semilight"/>
                 <Button x:Name="autoDeleteUp"  
                         Grid.Column="1" Grid.Row="1"
-                        Content="˄" Click="autoDeleteUp_Click" 
+                        Content=" ˄ " Click="autoDeleteUp_Click" 
                         Background="White"
                         Foreground="Black"
                         Margin="5,10,5,10">
@@ -135,11 +136,12 @@
                            Text="{Binding AutoDeleteTime, Mode=TwoWay}" 
                            Background="White"
                            Foreground="Black"
+                           Padding="4"
                            TextAlignment="Center"
                            Margin="5,10,5,10"/>
                 <Button x:Name="autoDeleteDown" 
                         Grid.Column="3" Grid.Row="1"
-                        Content="˅" Click="autoDeleteDown_Click"
+                        Content=" ˅ " Click="autoDeleteDown_Click"
                         Background="White"
                         Foreground="Black"
                         Margin="5,10,5,10">

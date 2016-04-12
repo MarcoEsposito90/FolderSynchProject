@@ -22,10 +22,12 @@
                 <TreeView.Resources>
                     <HierarchicalDataTemplate DataType="{x:Type service:Folder}" ItemsSource="{Binding Items}">
                         <StackPanel Orientation="Horizontal">
+                            <Image Width="20" Height="20" 
+                                   Margin="3"
+                                   Source="C:\\Users\\Giulia Genta\\Documents\\GitHub\\FolderSynchProject\\FolderSynchMUIClient\\Pages\\Icons\\folder-icon-gray.png"/>
                             <TextBlock Text="{Binding Name}" 
                                        FontSize="14.667" 
-                                       FontFamily="Segoe UI Light"
-                                       Foreground="Black"
+                                       FontFamily="Segoe UI Semilight"
                                            />
                             <!--<TextBlock Text=" [" Foreground="Blue" />
                             <TextBlock Text="{Binding Path}" Foreground="Blue" />
@@ -34,9 +36,13 @@
                     </HierarchicalDataTemplate>
                     <DataTemplate DataType="{x:Type service:FileItem}">
                         <StackPanel Orientation="Horizontal">
+                            <Image Width="20" Height="20" 
+                                   Margin="3"
+                                   Source="C:\\Users\\Giulia Genta\\Documents\\GitHub\\FolderSynchProject\\FolderSynchMUIClient\\Pages\\Icons\\file-icon.png"/>
+
                             <TextBlock Text="{Binding Name}" 
                                            FontSize="13.333" 
-                                       FontFamily="Segoe UI Light" Foreground="Black"/>
+                                       FontFamily="Segoe UI Semilight" />
                             <!--<TextBlock Text=" (" Foreground="Green" />
                             <TextBlock Text="{Binding Path}" Foreground="Green" />
                             <TextBlock Text=")" Foreground="Green" />-->
