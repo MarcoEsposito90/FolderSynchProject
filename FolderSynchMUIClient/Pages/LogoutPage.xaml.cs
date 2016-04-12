@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FolderSynchMUIClient.FolderSynchService;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,5 +25,18 @@ namespace FolderSynchMUIClient.Pages
         {
             InitializeComponent();
         }
+
+        private void btnConfirmLogout_Click(object sender, RoutedEventArgs e)
+        {
+            App application = (App)Application.Current;
+            if (application.User != null)
+            {
+                FolderSynchServiceContractClient proxy = application.FolderSynchProxy;
+                proxy.logoutUser(application.User);
+                application.User = null;
+            }
+        }
+
+       
     }
 }

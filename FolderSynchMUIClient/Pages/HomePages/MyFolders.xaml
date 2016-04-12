@@ -8,6 +8,7 @@
              xmlns:localPages="clr-namespace:FolderSynchMUIClient.Pages"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    
     <Grid Style="{StaticResource ContentRoot}">
         <ScrollViewer>
             <StackPanel MinWidth="200">

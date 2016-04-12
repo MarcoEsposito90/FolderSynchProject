@@ -13,7 +13,7 @@
             <StackPanel MinWidth="200">
 
                 <TextBlock 
-                    Text="REGISTER PAGE" 
+                    Text="REGISTER" 
                     Style="{StaticResource Heading1}" 
                     Margin="10"/>
 

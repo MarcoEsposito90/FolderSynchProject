@@ -10,7 +10,7 @@
     <Grid Style="{StaticResource ContentRoot}">
         <ScrollViewer>
             <StackPanel MinWidth="200">
-                <TextBlock Text="LOGIN PAGE" Style="{StaticResource Heading1}" Margin="10"/>
+                <TextBlock Text="LOGIN" Style="{StaticResource Heading1}" Margin="10"/>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -39,7 +39,7 @@
                     <TextBox Name="TBLoginUsername" 
                              Grid.Column="1" Grid.Row="0" 
                              VerticalAlignment="Center" 
-                             Margin="0,10,30,10" FontSize="13.333" FontFamily="Segoe UI Light"/>
+                             Margin="0,10,30,10" FontSize="13.333" FontFamily="Segoe UI Semilight"/>
                     
 
                     <TextBlock Text="Password: " 
@@ -52,14 +52,14 @@
                                  PasswordChar="*" 
                                  Grid.Column="1" Grid.Row="1"
                                  VerticalAlignment="Center" 
-                                 Margin="0,10,30,10" FontSize="13.333" FontFamily="Segoe UI Light"/>
+                                 Margin="0,10,30,10" FontSize="13.333" FontFamily="Segoe UI Semilight"/>
 
                 </Grid>
 
                 <WrapPanel HorizontalAlignment="Right" Margin="0,10,30,10">
                     <TextBlock Text="Remember me? "  VerticalAlignment="Center" 
                                Foreground="{DynamicResource {x:Static SystemColors.HotTrackBrushKey}}"
-                               FontSize="13.333" FontFamily="Segoe UI Light"/>
+                               FontSize="13.333"/>
                     <CheckBox x:Name="CheckBoxRemember" />
                 </WrapPanel>
 

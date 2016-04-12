@@ -94,7 +94,7 @@ namespace ServicesProject
             {
                 size += CalculateSize(directory.FullName);
             }
-            Console.WriteLine("Chiamato metodo CalculateSize per " + dirInfo.Name + " " + size.ToString());
+            //Console.WriteLine("Chiamato metodo CalculateSize per " + dirInfo.Name + " " + size.ToString());
 
             return size;
         }
