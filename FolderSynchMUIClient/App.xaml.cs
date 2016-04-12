@@ -56,13 +56,23 @@ namespace FolderSynchMUIClient
             {
                 _User = value;
 
-                // must inizialize local folders data structure
-                LocalFolders = getLocalFolders();
-                isUserInitialized = true;
+                if (_User != null)
+                {
+                    LocalFolders = getLocalFolders();
+                    Application_Login();
+                    isUserInitialized = true;
+                }
+                else
+                {
+                    Application_Logout();
+                    isUserInitialized = false;
+                }
+
             }
         }
 
-        public Folder Folder {
+        public Folder Folder
+        {
             get;
             set;
         }
@@ -81,6 +91,15 @@ namespace FolderSynchMUIClient
             get;
             private set;
         }
+
+
+        /*********************************************************************/
+        public List<FolderWatcher> FolderWatchers
+        {
+            get;
+            private set;
+        }
+
 
         /* ---------------------------------------------------------------- */
         /* ------------ CALLBACKS ----------------------------------------- */
@@ -108,13 +127,41 @@ namespace FolderSynchMUIClient
         private void Application_Exit(object sender, ExitEventArgs e)
         {
 
-            if(User != null)
+            if (User != null)
             {
                 FolderSynchProxy.logoutUser(User);
                 User = null;
             }
         }
 
+
+        /********************************************************************/
+        private void Application_Login()
+        {
+            // start watching user's folders
+            foreach (Folder f in User.Folders)
+            {
+                int index = LocalFolders.FindIndex(item => item.FolderName.Equals(f.Name));
+                if(index >= 0)
+                {
+                    FolderWatcher fw = new FolderWatcher(f, LocalFolders.ElementAt(index).LocalPath);
+                    FolderWatchers.Add(fw);
+                    fw.watch();
+                }
+            }
+        }
+
+
+        /********************************************************************/
+        private void Application_Logout()
+        {
+
+            foreach(FolderWatcher fw in FolderWatchers)
+                fw.stopWatching();
+
+            LocalFolders.Clear();
+            FolderWatchers.Clear();
+        }
 
         /* ---------------------------------------------------------------- */
         /* ------------ USERS FILE ---------------------------------------- */
@@ -135,7 +182,7 @@ namespace FolderSynchMUIClient
             using (sr)
             {
                 string line;
-                while((line = sr.ReadLine()) != null)
+                while ((line = sr.ReadLine()) != null)
                 {
 
                     string[] tokens = line.Split(';');
@@ -158,12 +205,12 @@ namespace FolderSynchMUIClient
             string oldPassword = null;
             KnownUsers.TryGetValue(username, out oldPassword);
 
-            FileStream fs = new FileStream( "users.txt",
+            FileStream fs = new FileStream("users.txt",
                                             oldPassword == null ? FileMode.Append : FileMode.Open,
                                             oldPassword == null ? FileAccess.Write : FileAccess.ReadWrite);
 
             StreamWriter sw = new StreamWriter(fs);
-            
+
 
             using (fs)
             using (sw)
@@ -227,7 +274,7 @@ namespace FolderSynchMUIClient
             using (sr)
             {
                 string line;
-                while((line = sr.ReadLine()) != null)
+                while ((line = sr.ReadLine()) != null)
                 {
 
                     string[] tokens = line.Split(';');

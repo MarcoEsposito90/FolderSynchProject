@@ -51,10 +51,6 @@ namespace FolderSynchMUIClient.Pages.HomePages
                     f.SizeInBytes = f.SizeSuffix(currSize); 
                     FolderList.Add(f);
 
-                    Console.WriteLine("Creating watcher for folder path " + localFolders[found].LocalPath);
-                    Classes.FolderWatcher folderWater = new Classes.FolderWatcher();
-                    folderWater.watch(localFolders[found].LocalPath);
-
                 }
                 else {
                     Console.WriteLine("Folder " + f.Name + " not found.");
