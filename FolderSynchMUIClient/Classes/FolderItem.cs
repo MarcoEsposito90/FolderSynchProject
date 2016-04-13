@@ -74,9 +74,65 @@ namespace FolderSynchMUIClient
 
 
         /********************************************************************/
-        public List<Change> DetectChanges()
+        public List<Change> DetectChanges(DateTime lastUpdateTime)
         {
-            throw new NotImplementedException();
+            Console.WriteLine("scanning directory: " + this.Path);
+            List<Change> changes = new List<Change>();
+            List<String> files = new List<string>(Directory.GetFiles(this.Path));
+
+
+            foreach(FileItem f in LatestUpdateFileItems)
+            {
+                Console.WriteLine("checking file :" + f.Path);
+                int found = files.FindIndex(item => item.Equals(f.Path));
+
+                if(found == -1)
+                {
+                    Console.WriteLine("this file was canceled");
+                    changes.Add(new Change(Change.DELETED_FILE, f.Path));
+                }
+                else
+                {
+                    FileInfo fi = new FileInfo(files[found]);
+                    if (fi.LastWriteTime > lastUpdateTime)
+                    {
+                        Console.WriteLine("The file changed");
+                        changes.Add(new Change(Change.CHANGED_FILE, f.Path));
+                    }
+
+                    files.RemoveAt(found);
+                }
+            }
+
+            foreach(string file in files)
+            {
+                Console.WriteLine(file + " is a new file");
+                changes.Add(new Change(Change.NEW_FILE, file));
+            }
+
+            List<string> subFolders = new List<string>(Directory.GetDirectories(this.Path));
+            
+            foreach(FolderItem fi in LatestUpdateFolderItems)
+            {
+                Console.WriteLine("Checking subFolder: " + fi.Path);
+                int found = subFolders.FindIndex(item => item.Equals(fi.Path));
+
+                if (found == -1)
+                {
+                    Console.WriteLine("this directory was canceled");
+                    
+                    foreach(Item i in fi.getAllLatestSubItems())
+                    {
+                        Console.WriteLine(i.Path + "canceled with upper directory: " + fi.Path);
+                        int type = i.GetType().Equals(typeof(FileItem)) ? Change.DELETED_FILE : Change.DELETED_DIRECTORY;
+                        changes.Add(new Change(type, i.Path));
+                    }
+                }
+                else
+                    changes.Concat(fi.DetectChanges(lastUpdateTime));
+            } 
+
+            return changes;
         }
 
 
@@ -125,6 +181,20 @@ namespace FolderSynchMUIClient
             return items;
         }
 
+
+        /************************************************************************/
+        protected List<Item> getAllLatestSubItems()
+        {
+            List<Item> items = new List<Item>();
+
+            items.Concat(LatestUpdateFileItems);
+            items.Concat(LatestUpdateFolderItems);
+
+            foreach (FolderItem fi in LatestUpdateFolderItems)
+                items.Concat(fi.getAllLatestSubItems());
+
+            return items;
+        }
 
         /************************************************************************/
         public void setLatestUpdateItems()

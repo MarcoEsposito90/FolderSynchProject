@@ -90,12 +90,12 @@ namespace FolderSynchMUIClient
             public static readonly int DELETED_DIRECTORY = 4;
 
             public int Type { get; private set; }
-            public Item Item { get; private set; }
+            public string Path { get; private set; }
 
-            public Change(int type, Item item)
+            public Change(int type, string path)
             {
                 Type = type;
-                Item = item;
+                Path = path;
             }
         }
     }

@@ -142,17 +142,20 @@ namespace FolderSynchMUIClient
         /********************************************************************/
         private void Application_Login()
         {
-            // start watching user's folders
+            Console.WriteLine("Application_Login called");
 
             foreach (Folder f in User.Folders)
             {
+                Console.WriteLine("Checking for folder: " + f.Name);
                 int index = LocalFolders.ToList().FindIndex(item => item.Name.Equals(f.Name));
-                if (index >= 0)
+                if (index != -1)
                 {
                     FolderWatcher fw = new FolderWatcher(f, LocalFolders.ElementAt(index));
                     FolderWatchers.Add(fw);
                     fw.watch();
                 }
+                else
+                    Console.WriteLine("No local Folder");
             }
         }
 
@@ -163,6 +166,8 @@ namespace FolderSynchMUIClient
 
             foreach (FolderWatcher fw in FolderWatchers)
                 fw.stopWatching();
+
+            // TODO: should write to file localfolders...
 
             LocalFolders.Clear();
             FolderWatchers.Clear();
