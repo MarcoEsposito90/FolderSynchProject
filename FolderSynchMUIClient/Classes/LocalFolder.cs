@@ -22,9 +22,8 @@ namespace FolderSynchMUIClient
         public string Username { get; private set; }
         
         private Update _LatestUpdate;
-
         [DataMember]
-        public Update LastUpdate {
+        public new Update LastUpdate {
             get
             {
                 return _LatestUpdate;
@@ -35,6 +34,7 @@ namespace FolderSynchMUIClient
                 setLatestUpdateItems();
             }
         }
+        public string FolderName { get; private set; }
 
         [DataMember]
         public int AutoRefreshTime { get; set; }
@@ -42,8 +42,6 @@ namespace FolderSynchMUIClient
         [DataMember]
         public int AutoDeleteTime { get; set; }
 
-        [DataMember]
-        public DateTime SynchDate { get; set; }
 
 
         /* ---------------------------------------------------------------- */
@@ -81,23 +79,6 @@ namespace FolderSynchMUIClient
         {
             this.Updates = new ObservableCollection<Update>();
             this.Username = username;
-        }
-
-        
-        /* ---------------------------------------------------------------- */
-        /* ------------ OVERRIDE METHODS ---------------------------------- */
-        /* ---------------------------------------------------------------- */
-
-        public override long CalculateSize()
-        {
-            DirectoryInfo dirInfo = new DirectoryInfo(Path);
-
-            long size = 0;
-
-            foreach (Item i in Items)
-                size += i.CalculateSize();
-
-            return size;
         }
 
     }

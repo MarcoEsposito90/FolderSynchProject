@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FolderSynchMUIClient.FolderSynchService;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,9 +12,9 @@ namespace FolderSynchMUIClient
     [DataContract]
     public class FileItem : Item
     {
-        [DataMember]
-        public LocalFolder parentFolder { get; set; }
-        
+        /* ---------------------------------------------------------------- */
+        /* ------------ CONSTRUCTOR --------------------------------------- */
+        /* ---------------------------------------------------------------- */
 
         public FileItem(string name, string relativePath)
         {
@@ -21,15 +22,16 @@ namespace FolderSynchMUIClient
             this.Path = relativePath;
         }
 
+
+        /* ---------------------------------------------------------------- */
+        /* ------------ OVERRIDE METHODS ---------------------------------- */
+        /* ---------------------------------------------------------------- */
+
         public override long CalculateSize()
         {
             FileInfo fi = new FileInfo(Path);
             return fi.Length;
         }
 
-        public override List<Change> DetectChanges()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

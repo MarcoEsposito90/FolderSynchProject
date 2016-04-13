@@ -73,7 +73,7 @@ namespace FolderSynchMUIClient
 
 
         /********************************************************************/
-        public override List<Change> DetectChanges()
+        public List<Change> DetectChanges()
         {
             throw new NotImplementedException();
         }

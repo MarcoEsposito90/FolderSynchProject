@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FolderSynchMUIClient.FolderSynchService;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -24,10 +25,16 @@ namespace FolderSynchMUIClient
         [DataMember]
         public string Path { get; set; }
 
+        [DataMember]
+        public Update LastUpdate { get; set; }
+
 
         /* ---------------------------------------------------------------- */
         /* ------------ TEMPORARY PROPERTIES ------------------------------ */
         /* ---------------------------------------------------------------- */
+
+        [DataMember]
+        public DateTime SynchDate { get; set; }
 
         public long CurrentSize
         {
@@ -51,8 +58,6 @@ namespace FolderSynchMUIClient
         /* ---------------------------------------------------------------- */
 
         public abstract long CalculateSize();
-        public abstract List<Change> DetectChanges();
-
 
 
         /* ---------------------------------------------------------------- */
