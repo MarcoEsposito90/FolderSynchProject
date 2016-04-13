@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace ServicesProject
 {
     [DataContract]
-    public class Folder : Item
+    public class Folder
     {
 
         public static readonly int DEFAULT_REFRESH_TIME_HOURS = 24;
@@ -18,12 +18,12 @@ namespace ServicesProject
 
         /* -------------- PROPERTIES -------------------------*/
 
-        [DataMember]
+        /*[DataMember]
         public ObservableCollection<Item> Items
         {
             get;
             set;
-        }
+        }*/
 
         [DataMember]
         public ObservableCollection<Update> Updates
@@ -34,6 +34,14 @@ namespace ServicesProject
 
         static readonly string[] SizeSuffixes = { "bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
 
+        [DataMember]
+        public string Name { get; set; }
+
+        [DataMember]
+        public long CurrentSize { get; set; }
+
+        [DataMember]
+        public string SizeInBytes { get; set; }
 
         [DataMember]
         public string Username { get; private set; }
@@ -48,11 +56,11 @@ namespace ServicesProject
         public DateTime SynchDate { get; set; }
 
         [DataMember]
-        public int AutoRefreshTime  { get; set; }
+        public int AutoRefreshTime { get; set; }
 
         [DataMember]
         public int AutoDeleteTime { get; set; }
-        
+
 
 
 
@@ -60,7 +68,7 @@ namespace ServicesProject
 
         public Folder(string name, string username)
         {
-            this.Items = new ObservableCollection<Item>();
+            //this.Items = new ObservableCollection<Item>();
             this.Updates = new ObservableCollection<Update>();
             this.Name = name;
             this.Username = username;
@@ -70,13 +78,13 @@ namespace ServicesProject
         }
 
         /* -------------- METHODS ---------------------------- */
-        
+
         public void CalculateProperties(string path)
         {
 
             this.ContainedFiles = Directory.GetFiles(path, "*", SearchOption.AllDirectories).Length;
             this.ContainedFolders = Directory.GetDirectories(path, "*", SearchOption.AllDirectories).Length;
-           
+
         }
 
         public long CalculateSize(string path)

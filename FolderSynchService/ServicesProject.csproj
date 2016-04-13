@@ -47,16 +47,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SharedTypes\FolderItem.cs" />
     <Compile Include="HostClasses\TransactionsHandler.cs" />
-    <Compile Include="SharedTypes\FileItem.cs" />
     <Compile Include="Faults\FileTransferFault.cs" />
     <Compile Include="SharedTypes\Folder.cs" />
     <Compile Include="HostClasses\FolderSynchServer.cs" />
     <Compile Include="ContractsAndImplementations\FolderSynchServiceContract.cs" />
     <Compile Include="ContractsAndImplementations\FolderSynchImplementation.cs" />
-    <Compile Include="SharedTypes\Item.cs" />
-    <Compile Include="SharedTypes\ItemProvider.cs" />
     <Compile Include="Faults\LoginFault.cs" />
     <Compile Include="Faults\LogoutFault.cs" />
     <Compile Include="Faults\MyBaseFault.cs" />

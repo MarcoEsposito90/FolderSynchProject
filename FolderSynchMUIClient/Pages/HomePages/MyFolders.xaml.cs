@@ -27,7 +27,7 @@ namespace FolderSynchMUIClient.Pages.HomePages
         {
             InitializeComponent();
 
-            ObservableCollection<Folder> FolderList = new ObservableCollection<Folder>();
+            ObservableCollection<LocalFolder> FolderList = new ObservableCollection<LocalFolder>();
             App application = (App)Application.Current;
 
             List<Folder> userFolders = new List<Folder>(application.User.Folders);
@@ -35,7 +35,6 @@ namespace FolderSynchMUIClient.Pages.HomePages
 
             List<LocalFolder> localFolders = application.getLocalFolders();
             Console.WriteLine("Ho trovato " + localFolders.Count + "cartelle in locale");
-            ItemProvider itemProvider = new ItemProvider();
 
             foreach (Folder f in userFolders)
             {
@@ -45,11 +44,11 @@ namespace FolderSynchMUIClient.Pages.HomePages
                 {
                     Console.WriteLine("Folder " + f.Name + " ok.");
 
-                    f.Items = itemProvider.GetItems(localFolders[found].LocalPath);
-                    f.CalculateProperties(localFolders[found].LocalPath);
-                    long currSize = f.CalculateSize(localFolders[found].LocalPath);
-                    f.SizeInBytes = f.SizeSuffix(currSize); 
-                    FolderList.Add(f);
+                    localFolders[found].Items = localFolders[found].GetItems(localFolders[found].LocalPath);
+                    localFolders[found].CalculateProperties(localFolders[found].LocalPath);
+                    long currSize = localFolders[found].CalculateSize(localFolders[found].LocalPath);
+                    f.SizeInBytes = localFolders[found].SizeSuffix(currSize); 
+                    FolderList.Add(localFolders[found]);
 
                 }
                 else {
@@ -84,7 +83,7 @@ namespace FolderSynchMUIClient.Pages.HomePages
             if (foldersButtonControl.SelectedItem != null)
             {
                 App application = (App)Application.Current;
-                application.Folder = (Folder)foldersButtonControl.SelectedItem;
+                application.Folder = (LocalFolder)foldersButtonControl.SelectedItem;
                 Console.WriteLine("item type: " + foldersButtonControl.SelectedItem.GetType()) ;
                 //Console.WriteLine("Selected folder: " + application.Folder.Name + ", path: " + application.Folder.Path);
 

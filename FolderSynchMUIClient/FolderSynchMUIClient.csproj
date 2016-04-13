@@ -77,6 +77,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Classes\LocalFolder.cs" />
+    <Compile Include="Classes\FileItem.cs" />
+    <Compile Include="Classes\FolderItem.cs" />
+    <Compile Include="Classes\Item.cs" />
     <Compile Include="Pages\Dialogs\ErrorDialog.xaml.cs">
       <DependentUpon>ErrorDialog.xaml</DependentUpon>
     </Compile>

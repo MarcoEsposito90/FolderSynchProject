@@ -71,7 +71,7 @@ namespace FolderSynchMUIClient
             }
         }
 
-        public Folder Folder
+        public LocalFolder Folder
         {
             get;
             set;

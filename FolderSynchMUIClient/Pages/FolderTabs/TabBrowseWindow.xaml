@@ -20,7 +20,7 @@
 
             <TreeView Name="trvFolders" ItemsSource="{Binding Items}" Margin="10,10,10,10">
                 <TreeView.Resources>
-                    <HierarchicalDataTemplate DataType="{x:Type service:Folder}" ItemsSource="{Binding Items}">
+                    <HierarchicalDataTemplate DataType="{x:Type local:FolderItem}" ItemsSource="{Binding Items}">
                         <StackPanel Orientation="Horizontal">
                             <Image Width="20" Height="20" 
                                    Margin="3">
@@ -42,7 +42,7 @@
                                            />
                         </StackPanel>
                     </HierarchicalDataTemplate>
-                    <DataTemplate DataType="{x:Type service:Item}">
+                    <DataTemplate DataType="{x:Type local:Item}">
                         <StackPanel Orientation="Horizontal">
                             <Image Width="20" Height="20" 
                                    Margin="3"

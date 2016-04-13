@@ -24,27 +24,6 @@ namespace FolderSynchMUIClient.Pages
         public TabBrowseWindow()
         {
             InitializeComponent();
-
-            /*
-            ItemProvider itemProvider = new ItemProvider();
-
-            App application = (App)Application.Current;
-            List<LocalFolder> localFolders = application.getLocalFolders(application.User);
-
-            if (application.Folder != null) {
-                int found = localFolders.FindIndex(item => item.FolderName.Equals(application.Folder.Name));
-                if (found >= 0)
-                {
-                   ObservableCollection<Item> ItemsList = itemProvider.GetItems(localFolders[found].LocalPath);
-                   trvFolders.ItemsSource = ItemsList;
-                }
-                else
-                {
-                    Console.WriteLine("Folder not found.");
-                }
-              
-                
-            } */ 
         }
     }
 }

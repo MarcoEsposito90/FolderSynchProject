@@ -5,13 +5,13 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ServicesProject
+namespace FolderSynchMUIClient
 {
     [DataContract]
     public class FileItem : Item
     {
         [DataMember]
-        public Folder parentFolder { get; set; }
+        public LocalFolder parentFolder { get; set; }
 
         [DataMember]
         public string RelativePath { get; private set; }
