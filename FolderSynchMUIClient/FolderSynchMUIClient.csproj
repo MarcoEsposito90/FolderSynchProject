@@ -80,6 +80,9 @@
     <Compile Include="Classes\FileItem.cs" />
     <Compile Include="Classes\FolderItem.cs" />
     <Compile Include="Classes\Item.cs" />
+    <Compile Include="DetailsDialog.xaml.cs">
+      <DependentUpon>DetailsDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Dialogs\ErrorDialog.xaml.cs">
       <DependentUpon>ErrorDialog.xaml</DependentUpon>
     </Compile>
@@ -137,6 +140,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Page Include="DetailsDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -12,14 +13,18 @@ namespace FolderSynchMUIClient
     {
         [DataMember]
         public LocalFolder parentFolder { get; set; }
-
-        [DataMember]
-        public string RelativePath { get; private set; }
+        
 
         public FileItem(string name, string relativePath)
         {
             this.Name = name;
-            this.RelativePath = relativePath;
+            this.LocalPath = relativePath;
+        }
+
+        public override long CalculateSize(string path)
+        {
+            FileInfo fi = new FileInfo(path);
+            return fi.Length;
         }
     }
 }

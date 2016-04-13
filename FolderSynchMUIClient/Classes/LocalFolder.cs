@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace FolderSynchMUIClient
 {
     [DataContract]
-    public class LocalFolder
+    public class LocalFolder : Item
     {
 
         /* -------------- PROPERTIES -------------------------*/
@@ -28,9 +28,6 @@ namespace FolderSynchMUIClient
 
         [DataMember]
         public string FolderName { get; private set; }
-
-        [DataMember]
-        public string LocalPath { get; private set; }
 
         [DataMember]
         public List<Item> LatestUpdateItems { get; private set; }
@@ -82,22 +79,6 @@ namespace FolderSynchMUIClient
             }
         }
         
-        public long CurrentSize
-        {
-            get
-            {
-                return CalculateSize(this.LocalPath);
-            }
-        }
-        
-        public string SizeInBytes
-        {
-            get
-            {
-                return SizeSuffix(CalculateSize(this.LocalPath));
-            }
-        }
-
 
         /* ---------------------------------------------------------------- */
         /* ------------ CONSTRUCTORS -------------------------------------- */
@@ -118,7 +99,7 @@ namespace FolderSynchMUIClient
         /* ---------------------------------------------------------------- */
 
         /*********************************************************************/
-        public long CalculateSize(string path)
+        public override long CalculateSize(string path)
         {
             DirectoryInfo dirInfo = new DirectoryInfo(path);
 
@@ -137,20 +118,6 @@ namespace FolderSynchMUIClient
 
             return size;
         }
-
-
-        /*********************************************************************/
-        public string SizeSuffix(long value)
-        {
-            if (value < 0) { return "-" + SizeSuffix(-value); }
-            if (value == 0) { return "0.0 bytes"; }
-
-            int mag = (int)Math.Log(value, 1024);
-            decimal adjustedSize = (decimal)value / (1L << (mag * 10));
-
-            return string.Format("{0:n1} {1}", adjustedSize, SizeSuffixes[mag]);
-        }
-
 
 
         /*********************************************************************/
