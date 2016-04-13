@@ -81,7 +81,6 @@
                 </Grid>
 
                 <StackPanel Orientation="Horizontal" Margin="10,20,10,0">
-                    <StackPanel Orientation=""></StackPanel>
                     <StackPanel Orientation="Vertical" >
                         <TextBlock Text="Refresh automatically every " Margin="0,0,10,10"/>
                         <TextBlock Text="Delete updates older than " Margin="0,0,10,0"/>
