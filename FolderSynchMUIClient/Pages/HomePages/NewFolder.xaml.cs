@@ -19,7 +19,6 @@ using System.ServiceModel;
 using System.IO;
 using System.ComponentModel;
 using FirstFloor.ModernUI.Windows.Controls;
-using ServicesProject;
 
 namespace FolderSynchMUIClient.Pages.HomePages
 {
@@ -76,7 +75,9 @@ namespace FolderSynchMUIClient.Pages.HomePages
             // 3) add the new folder on the server
             try
             {
-                Folder newFold = new Folder(folderName, application.User.Username);
+                Folder newFold = new Folder();
+                newFold.Name = folderName;
+                newFold.Username = application.User.Username;
                 newFold.AutoRefreshTime = int.Parse(RefreshComboBox.SelectedItem.ToString());
                 newFold.AutoDeleteTime = int.Parse(DeleteComboBox.SelectedItem.ToString());
                 proxy.addNewSynchronizedFolder(newFold);

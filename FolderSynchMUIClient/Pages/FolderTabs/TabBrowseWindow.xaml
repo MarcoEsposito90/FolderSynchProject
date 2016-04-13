@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:mui="http://firstfloorsoftware.com/ModernUI"
              xmlns:local="clr-namespace:FolderSynchMUIClient"
-             xmlns:service="clr-namespace:ServicesProject;assembly=FolderSynchService"
+             xmlns:service="clr-namespace:FolderSynchMUIClient.FolderSynchService"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
@@ -42,7 +42,7 @@
                                            />
                         </StackPanel>
                     </HierarchicalDataTemplate>
-                    <DataTemplate DataType="{x:Type service:FileItem}">
+                    <DataTemplate DataType="{x:Type service:Item}">
                         <StackPanel Orientation="Horizontal">
                             <Image Width="20" Height="20" 
                                    Margin="3"

@@ -70,7 +70,7 @@ namespace ServicesProject
         }
 
         /* -------------- METHODS ---------------------------- */
-
+        
         public void CalculateProperties(string path)
         {
 

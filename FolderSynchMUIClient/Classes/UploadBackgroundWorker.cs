@@ -9,7 +9,6 @@ using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using ServicesProject;
 
 namespace FolderSynchMUIClient.Classes
 {

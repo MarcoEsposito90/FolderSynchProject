@@ -35,7 +35,6 @@
       <HintPath>..\packages\ModernUI.WPF.1.0.9\lib\net45\FirstFloor.ModernUI.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="FolderSynchService, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\WindowsAPICodePack-Core.1.1.1\lib\Microsoft.WindowsAPICodePack.dll</HintPath>
       <Private>True</Private>
@@ -231,6 +230,15 @@
     <None Include="Properties\DataSources\ServicesProject.UpdateTransaction.datasource" />
     <None Include="Properties\DataSources\ServicesProject.User.datasource" />
     <None Include="Service References\FolderSynchService\FolderSynchImplementation.wsdl" />
+    <None Include="Service References\FolderSynchService\FolderSynchMUIClient.FolderSynchService.Update.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\FolderSynchService\FolderSynchMUIClient.FolderSynchService.UpdateTransaction.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\FolderSynchService\FolderSynchMUIClient.FolderSynchService.User.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Service References\FolderSynchService\item.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -305,11 +313,12 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <None Include="Service References\StreamedTransferService\configuration.svcinfo" />
-    <None Include="Service References\StreamedTransferService\configuration91.svcinfo" />
-    <None Include="Service References\StreamedTransferService\item.disco" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FolderSynchService\ServicesProject.csproj">
+      <Project>{346a7ac7-9771-49af-9e8e-f151dbc9b065}</Project>
+      <Name>ServicesProject</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FolderSynchService\ServicesProject.csproj">
       <Project>{346a7ac7-9771-49af-9e8e-f151dbc9b065}</Project>
       <Name>ServicesProject</Name>

@@ -13,8 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using ServicesProject;
 using FirstFloor.ModernUI.Presentation;
+using FolderSynchMUIClient.FolderSynchService;
 
 namespace FolderSynchMUIClient.Pages.HomePages
 {
@@ -30,7 +30,7 @@ namespace FolderSynchMUIClient.Pages.HomePages
             ObservableCollection<Folder> FolderList = new ObservableCollection<Folder>();
             App application = (App)Application.Current;
 
-            List<Folder> userFolders = application.User.Folders;
+            List<Folder> userFolders = new List<Folder>(application.User.Folders);
             Console.WriteLine("Ho trovato " + userFolders.Count + "cartelle sul server");
 
             List<LocalFolder> localFolders = application.getLocalFolders();

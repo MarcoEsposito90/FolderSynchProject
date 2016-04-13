@@ -7,7 +7,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
-using ServicesProject;
 using FolderSynchMUIClient.FolderSynchService;
 using FolderSynchMUIClient.StreamedTransferService;
 using System.IO;

@@ -20,7 +20,6 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using FolderSynchMUIClient.Classes;
 using System.Threading;
-using ServicesProject;
 
 namespace FolderSynchMUIClient.Pages
 {

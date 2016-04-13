@@ -7,8 +7,8 @@
     <ProjectGuid>{346A7AC7-9771-49AF-9E8E-F151DBC9B065}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FolderSynchService</RootNamespace>
-    <AssemblyName>FolderSynchService</AssemblyName>
+    <RootNamespace>ServicesProject</RootNamespace>
+    <AssemblyName>ServicesProject</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SharedTypes\FolderItem.cs" />
     <Compile Include="HostClasses\TransactionsHandler.cs" />
     <Compile Include="SharedTypes\FileItem.cs" />
     <Compile Include="Faults\FileTransferFault.cs" />
