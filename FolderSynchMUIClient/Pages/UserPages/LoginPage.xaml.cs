@@ -25,6 +25,8 @@ namespace FolderSynchMUIClient.Pages
         public LoginPage()
         {
             InitializeComponent();
+            App application = (App)Application.Current;
+            TBLoginUsername.ItemsSource = application.KnownUsers.Keys;
         }
 
         private void ButtonLogin_Click(object sender, RoutedEventArgs e)
@@ -34,6 +36,7 @@ namespace FolderSynchMUIClient.Pages
                 // perform login ---------------------------------------------------------------------------
                 App application = (App)Application.Current;
                 FolderSynchServiceContractClient proxy = application.FolderSynchProxy;
+
                 application.User = proxy.loginUser(TBLoginUsername.Text.ToString(), TBLoginPassword.Password.ToString());
                 responseLabel.Content = "login successful";
 
@@ -81,6 +84,16 @@ namespace FolderSynchMUIClient.Pages
             FolderSynchServiceContractClient proxy = application.FolderSynchProxy;
             proxy.logoutUser(application.User);
             application.User = null;
+        }
+
+        private void TBLoginUsername_TextChanged(object sender, RoutedEventArgs e)
+        {
+            App application = (App)Application.Current;
+            if (application.KnownUsers.ContainsKey(TBLoginUsername.Text))
+                TBLoginPassword.Password = application.KnownUsers[TBLoginUsername.Text];
+            else
+                TBLoginPassword.Password = "";
+            
         }
     }
 }

@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
              xmlns:mui="http://firstfloorsoftware.com/ModernUI"
              xmlns:wpf ="http://wpfcontrols.com/"
              mc:Ignorable="d" 
@@ -36,10 +37,13 @@
                     
                     -->
 
-                    <TextBox Name="TBLoginUsername" 
+                    <toolkit:AutoCompleteBox Name="TBLoginUsername" 
                              Grid.Column="1" Grid.Row="0" 
+                                             Background="White"
                              VerticalAlignment="Center" 
-                             Margin="0,10,30,10" FontSize="13.333" />
+                                             AllowDrop="True"
+                                             
+                             Margin="0,10,30,10" FontSize="13.333" TextChanged="TBLoginUsername_TextChanged" />
                     
 
                     <TextBlock Text="Password: " 

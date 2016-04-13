@@ -32,8 +32,14 @@ namespace FolderSynchMUIClient.Pages.HomePages
 
             foldersButtonControl.ItemsSource = application.LocalFolders;
 
-            if (application.LocalFolders.Count > 0)
+            if (application.LocalFolders.Count > 0) { 
                 foldersButtonControl.SelectedItem = application.LocalFolders[0];
+                foreach (LocalFolder lf in FolderList)
+                {
+                    //lf.Updates = new ObservableCollection<Update>(application.FolderSynchProxy.getHistory(lf.Name));
+                    
+                }
+            }
         }
 
         private void foldersButtonControl_changed(object sender, SelectionChangedEventArgs e)
