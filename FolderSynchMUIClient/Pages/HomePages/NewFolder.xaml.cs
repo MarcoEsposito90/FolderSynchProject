@@ -80,6 +80,10 @@ namespace FolderSynchMUIClient.Pages.HomePages
                 newFold.Username = application.User.Username;
                 newFold.AutoRefreshTime = int.Parse(RefreshComboBox.SelectedItem.ToString());
                 newFold.AutoDeleteTime = int.Parse(DeleteComboBox.SelectedItem.ToString());
+
+                DateTime synchDate = DateTime.Now;
+                newFold.SynchDate = synchDate;
+
                 proxy.addNewSynchronizedFolder(newFold);
                 
                 // 4) proceed to upload
@@ -102,8 +106,6 @@ namespace FolderSynchMUIClient.Pages.HomePages
                 ErrorDialog errDialog = new ErrorDialog();
                 errDialog.txtFaultReason.Text = f.Message;
                 errDialog.ShowDialog();
-                // X Giulia: mostrare una dialog con il messaggio di errore
-                // consiglio: creare una classe apposita che estenda ModernDialog per mostrare gli errori in generale
             }
             
 

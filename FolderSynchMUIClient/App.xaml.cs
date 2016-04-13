@@ -11,6 +11,7 @@ using FolderSynchMUIClient.FolderSynchService;
 using FolderSynchMUIClient.StreamedTransferService;
 using System.IO;
 using Newtonsoft.Json;
+using System.Collections.ObjectModel;
 
 namespace FolderSynchMUIClient
 {
@@ -85,8 +86,7 @@ namespace FolderSynchMUIClient
             private set;
         }
 
-
-        public List<LocalFolder> LocalFolders
+        public ObservableCollection<LocalFolder> LocalFolders
         {
             get;
             private set;
@@ -141,9 +141,11 @@ namespace FolderSynchMUIClient
         private void Application_Login()
         {
             // start watching user's folders
+            List<LocalFolder> list = LocalFolders.ToList();
+
             foreach (Folder f in User.Folders)
             {
-                int index = LocalFolders.FindIndex(item => item.FolderName.Equals(f.Name));
+                int index = list.FindIndex(item => item.FolderName.Equals(f.Name));
                 if (index >= 0)
                 {
                     FolderWatcher fw = new FolderWatcher(f, LocalFolders.ElementAt(index));
@@ -253,7 +255,7 @@ namespace FolderSynchMUIClient
         private void FoldersFileCheck()
         {
 
-            LocalFolders = new List<LocalFolder>();
+            LocalFolders = new ObservableCollection<LocalFolder>();
             FileStream fs = new FileStream("folders.txt", FileMode.Open, FileAccess.Read);
 
             using (fs)
@@ -262,25 +264,17 @@ namespace FolderSynchMUIClient
 
 
         /********************************************************************/
-        public List<LocalFolder> getLocalFolders()
+        public ObservableCollection<LocalFolder> getLocalFolders()
         {
-            Console.WriteLine("Current local folders: ");
-            foreach (LocalFolder i in LocalFolders)
-                Console.WriteLine("localfolder: " + i.FolderName);
-
             if (isUserInitialized)
                 return LocalFolders;
 
-            LocalFolders = new List<LocalFolder>();
+            LocalFolders = new ObservableCollection<LocalFolder>();
             List<LocalFolder> allLocalFolders = getAllLocalFolders();
 
             foreach (LocalFolder lf in allLocalFolders)
                 if (lf.Username.Equals(User.Username))
                     LocalFolders.Add(lf);
-
-            Console.WriteLine("Current local folders: ");
-            foreach (LocalFolder i in LocalFolders)
-                Console.WriteLine("localfolder: " + i.FolderName);
 
             return LocalFolders;
         }
@@ -290,7 +284,6 @@ namespace FolderSynchMUIClient
         public void addLocalFolder(Folder folder, string path)
         {
 
-            Console.WriteLine("Adding local folder");
             List<LocalFolder> allLocalFolders = getAllLocalFolders();
             LocalFolder lf = new LocalFolder(User.Username, folder.Name, path);
             allLocalFolders.Add(lf);
@@ -305,10 +298,6 @@ namespace FolderSynchMUIClient
 
             LocalFolders.Add(lf);
 
-            Console.WriteLine("Current local folders: ");
-            foreach (LocalFolder i in LocalFolders)
-                Console.WriteLine("localfolder: " + i.FolderName);
-
             FolderWatcher fw = new FolderWatcher(folder, lf);
             FolderWatchers.Add(fw);
             fw.watch();
@@ -318,8 +307,6 @@ namespace FolderSynchMUIClient
         /*****************************************************************/
         public void addLocalFolder(Folder folder, LocalFolder lf)
         {
-
-            Console.WriteLine("Adding local folder");
 
             List<LocalFolder> allLocalFolders = getAllLocalFolders();
             allLocalFolders.Add(lf);
@@ -333,10 +320,6 @@ namespace FolderSynchMUIClient
             }
 
             LocalFolders.Add(lf);
-
-            Console.WriteLine("Current local folders: ");
-            foreach (LocalFolder i in LocalFolders)
-                Console.WriteLine("localfolder: " + i.FolderName);
 
             FolderWatcher fw = new FolderWatcher(folder, lf);
             FolderWatchers.Add(fw);

@@ -29,13 +29,10 @@ namespace FolderSynchMUIClient.Pages.HomePages
             App application = (App)Application.Current;
             ObservableCollection<LocalFolder> FolderList = new ObservableCollection<LocalFolder>(application.getLocalFolders());
 
-            foldersButtonControl.ItemsSource = FolderList;
+            foldersButtonControl.ItemsSource = application.LocalFolders;
 
-            foreach (LocalFolder lf in FolderList)
-                Console.WriteLine("showing folder " + lf.FolderName);
-
-            if (FolderList.Count > 0)
-                foldersButtonControl.SelectedItem = FolderList[0];
+            if (application.LocalFolders.Count > 0)
+                foldersButtonControl.SelectedItem = application.LocalFolders[0];
         }
 
         private void foldersButtonControl_changed(object sender, SelectionChangedEventArgs e)
