@@ -65,8 +65,8 @@ namespace FolderSynchMUIClient
                 }
                 else
                 {
-                    Application_Logout();
                     FolderSynchProxy.logoutUser(_User);
+                    Application_Logout();
                     _User = value;
                     isUserInitialized = false;
                 }
@@ -166,6 +166,7 @@ namespace FolderSynchMUIClient
 
             LocalFolders.Clear();
             FolderWatchers.Clear();
+            FolderSynchProxy = new FolderSynchServiceContractClient();
         }
 
         /* ---------------------------------------------------------------- */
