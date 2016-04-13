@@ -12,28 +12,29 @@ using System.Threading.Tasks;
 namespace FolderSynchMUIClient
 {
     [DataContract]
-    public class LocalFolder : Item
+    public class LocalFolder : FolderItem
     {
-
-        /* -------------- PROPERTIES -------------------------*/
-
-        static readonly string[] SizeSuffixes = { "bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
-
         /* ---------------------------------------------------------------- */
         /* ------------ SERIALIZABLE PROPERTIES --------------------------- */
         /* ---------------------------------------------------------------- */
 
         [DataMember]
         public string Username { get; private set; }
+        
+        private Update _LatestUpdate;
 
         [DataMember]
-        public string FolderName { get; private set; }
-
-        [DataMember]
-        public List<Item> LatestUpdateItems { get; private set; }
-
-        [DataMember]
-        public Update LastUpdate { get; set; }
+        public Update LastUpdate {
+            get
+            {
+                return _LatestUpdate;
+            }
+            set
+            {
+                _LatestUpdate = value;
+                setLatestUpdateItems();
+            }
+        }
 
         [DataMember]
         public int AutoRefreshTime { get; set; }
@@ -46,16 +47,8 @@ namespace FolderSynchMUIClient
 
 
         /* ---------------------------------------------------------------- */
-        /* ------------ TEMPORARY PROPERTIES ------------------------------ */
+        /* ------------ READONLY PROPERTIES ------------------------------- */
         /* ---------------------------------------------------------------- */
-
-        public ObservableCollection<Item> Items
-        {
-            get
-            {
-                return GetItems(LocalPath);
-            }
-        }
 
         public ObservableCollection<Update> Updates
         {
@@ -67,7 +60,7 @@ namespace FolderSynchMUIClient
         {
             get
             {
-                return Directory.GetFiles(this.LocalPath, "*", SearchOption.AllDirectories).Length;
+                return Directory.GetFiles(this.Path, "*", SearchOption.AllDirectories).Length;
             }
         }
 
@@ -75,7 +68,7 @@ namespace FolderSynchMUIClient
         {
             get
             {
-                return Directory.GetDirectories(this.LocalPath, "*", SearchOption.AllDirectories).Length;
+                return Directory.GetDirectories(this.Path, "*", SearchOption.AllDirectories).Length;
             }
         }
         
@@ -84,98 +77,28 @@ namespace FolderSynchMUIClient
         /* ------------ CONSTRUCTORS -------------------------------------- */
         /* ---------------------------------------------------------------- */
 
-        public LocalFolder(string username, string folderName, string localPath)
+        public LocalFolder(string username, string folderName, string localPath) : base(folderName, localPath)
         {
-
             this.Updates = new ObservableCollection<Update>();
             this.Username = username;
-            this.FolderName = folderName;
-            this.LocalPath = localPath;
-
         }
 
+        
         /* ---------------------------------------------------------------- */
-        /* ------------ PROPERTY COMPUTING -------------------------------- */
+        /* ------------ OVERRIDE METHODS ---------------------------------- */
         /* ---------------------------------------------------------------- */
 
-        /*********************************************************************/
-        public override long CalculateSize(string path)
+        public override long CalculateSize()
         {
-            DirectoryInfo dirInfo = new DirectoryInfo(path);
+            DirectoryInfo dirInfo = new DirectoryInfo(Path);
 
             long size = 0;
 
-            foreach (var file in dirInfo.GetFiles())
-            {
-                size += file.Length;
-            }
-
-            foreach (var directory in dirInfo.GetDirectories())
-            {
-                size += CalculateSize(directory.FullName);
-            }
-            //Console.WriteLine("Chiamato metodo CalculateSize per " + dirInfo.Name + " " + size.ToString());
+            foreach (Item i in Items)
+                size += i.CalculateSize();
 
             return size;
         }
-
-
-        /*********************************************************************/
-        private ObservableCollection<Item> GetItems(string path)
-        {
-            ObservableCollection<Item> items = new ObservableCollection<Item>();
-
-            DirectoryInfo dirInfo = new DirectoryInfo(path);
-
-            foreach (var directory in dirInfo.GetDirectories())
-            {
-                var item = new FolderItem(directory.Name, directory.FullName)
-                {
-                    Items = GetItems(directory.FullName)
-
-                };
-
-                items.Add(item);
-            }
-
-            foreach (var file in dirInfo.GetFiles())
-            {
-                var item = new FileItem(file.Name, file.FullName);
-
-                items.Add(item);
-            }
-
-            return items;
-        }
-
-
-        /*********************************************************************/
-        private ObservableCollection<FolderItem> GetFolders(string path)
-        {
-            ObservableCollection<FolderItem> folders = new ObservableCollection<FolderItem>();
-            DirectoryInfo dirInfo = new DirectoryInfo(path);
-
-            foreach (var directory in dirInfo.GetDirectories())
-            {
-                FolderItem f = new FolderItem(directory.Name, directory.FullName)
-                {
-                    Items = GetItems(directory.FullName)
-                };
-
-                folders.Add(f);
-            }
-            return folders;
-        }
-
-
-        /* ---------------------------------------------------------------- */
-        /* ------------ SCANNING ------------------------------------------ */
-        /* ---------------------------------------------------------------- */
-        public void scanForChanges()
-        {
-
-        }
-
 
     }
 }

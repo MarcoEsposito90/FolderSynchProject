@@ -27,7 +27,7 @@ namespace FolderSynchMUIClient
         public FolderWatcher(Folder folder, LocalFolder localFolder)
         {
             // attribute setting ---------------------------------------
-            Console.WriteLine("Watcher created for path " + localFolder.LocalPath);
+            Console.WriteLine("Watcher created for path " + localFolder.Path);
             this.folder = folder;
             this.localFolder = localFolder;
 
@@ -39,7 +39,7 @@ namespace FolderSynchMUIClient
             deletedSubDirectories = new List<string>();
 
             // creating watcher ----------------------------------------
-            watcher = new FileSystemWatcher(localFolder.LocalPath);
+            watcher = new FileSystemWatcher(localFolder.Path);
             watcher.IncludeSubdirectories = true;
             watcher.NotifyFilter =  NotifyFilters.Attributes | 
                                     NotifyFilters.DirectoryName | 
@@ -63,7 +63,7 @@ namespace FolderSynchMUIClient
             // 1)   must detect if update is immediately necessary (for instance,
             //      the client may have been closed for days)
             double minutes = (DateTime.Now - localFolder.LastUpdate.Timestamp).TotalMinutes;
-            Console.WriteLine("folder: " + localFolder.FolderName + " is not being updated for " + minutes + " minutes");
+            Console.WriteLine("folder: " + localFolder.Name + " is not being updated for " + minutes + " minutes");
             
 
             // 2) setting timer

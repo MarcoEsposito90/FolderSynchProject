@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -11,14 +12,28 @@ namespace FolderSynchMUIClient
     [DataContract]
     public abstract class Item
     {
+        static readonly string[] SizeSuffixes = { "bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
+
+        /* ---------------------------------------------------------------- */
+        /* ------------ SERIALIZABLE PROPERTIES --------------------------- */
+        /* ---------------------------------------------------------------- */
+
         [DataMember]
         public string Name { get; set; }
+
+        [DataMember]
+        public string Path { get; set; }
+
+
+        /* ---------------------------------------------------------------- */
+        /* ------------ TEMPORARY PROPERTIES ------------------------------ */
+        /* ---------------------------------------------------------------- */
 
         public long CurrentSize
         {
             get
             {
-                return CalculateSize(this.LocalPath);
+                return CalculateSize();
             }
         }
 
@@ -26,20 +41,24 @@ namespace FolderSynchMUIClient
         {
             get
             {
-                return SizeSuffix(CalculateSize(this.LocalPath));
+                return SizeSuffix(CalculateSize());
             }
         }
 
-        [DataMember]
-        public string LocalPath { get; set; }
-        
-        
-        static readonly string[] SizeSuffixes = { "bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
 
-        public abstract long CalculateSize(string path);
+        /* ---------------------------------------------------------------- */
+        /* ------------ ABSTRACT METHODS ---------------------------------- */
+        /* ---------------------------------------------------------------- */
+
+        public abstract long CalculateSize();
+        public abstract List<Change> DetectChanges();
 
 
-        /*********************************************************************/
+
+        /* ---------------------------------------------------------------- */
+        /* ------------ METHODS ------------------------------------------- */
+        /* ---------------------------------------------------------------- */
+
         public string SizeSuffix(long value)
         {
             if (value < 0) { return "-" + SizeSuffix(-value); }
@@ -49,6 +68,30 @@ namespace FolderSynchMUIClient
             decimal adjustedSize = (decimal)value / (1L << (mag * 10));
 
             return string.Format("{0:n1} {1}", adjustedSize, SizeSuffixes[mag]);
+        }
+
+
+
+        /* ---------------------------------------------------------------- */
+        /* ------------ CHANGE OBJECT ------------------------------------- */
+        /* ---------------------------------------------------------------- */
+
+        public class Change
+        {
+            public static readonly int NEW_FILE = 0;
+            public static readonly int CHANGED_FILE = 1;
+            public static readonly int DELETED_FILE = 2;
+            public static readonly int NEW_DIRECTORY = 3;
+            public static readonly int DELETED_DIRECTORY = 4;
+
+            public int Type { get; private set; }
+            public Item Item { get; private set; }
+
+            public Change(int type, Item item)
+            {
+                Type = type;
+                Item = item;
+            }
         }
     }
 

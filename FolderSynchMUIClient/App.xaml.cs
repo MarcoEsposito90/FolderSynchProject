@@ -146,7 +146,7 @@ namespace FolderSynchMUIClient
 
             foreach (Folder f in User.Folders)
             {
-                int index = LocalFolders.ToList().FindIndex(item => item.FolderName.Equals(f.Name));
+                int index = LocalFolders.ToList().FindIndex(item => item.Name.Equals(f.Name));
                 if (index >= 0)
                 {
                     FolderWatcher fw = new FolderWatcher(f, LocalFolders.ElementAt(index));

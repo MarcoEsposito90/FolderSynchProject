@@ -12,42 +12,101 @@ namespace FolderSynchMUIClient
     [DataContract]
     public class FolderItem : Item
     {
-        [DataMember]
-        public LocalFolder parentFolder { get; set; }
-        
+        /* ---------------------------------------------------------------- */
+        /* ------------ SERIALIZABLE PROPERTIES --------------------------- */
+        /* ---------------------------------------------------------------- */
 
+        private List<Item> _LatestUpdateItems;
         [DataMember]
+        public List<Item> LatestUpdateItems
+        {
+            get
+            {
+                return _LatestUpdateItems;
+            }
+            private set
+            {
+                _LatestUpdateItems = value;
+                foreach(Item i in _LatestUpdateItems)
+                {
+                    if (i.GetType().Equals(typeof(FolderItem)))
+                    {
+                        FolderItem f = (FolderItem)i;
+                        f.setLatestUpdateItems();
+                    }
+                }
+            }
+        }
+
+
         public ObservableCollection<Item> Items
         {
-            get;
-            set;
+            get
+            {
+                return GetItems();
+            }
         }
 
-        public FolderItem(string name, string relativePath)
+        /* ---------------------------------------------------------------- */
+        /* ------------ CONSTRUCTORS -------------------------------------- */
+        /* ---------------------------------------------------------------- */
+
+        public FolderItem(string name, string path)
         {
             this.Name = name;
-            this.LocalPath = relativePath;
-            this.Items = new ObservableCollection<Item>();
+            this.Path = path;
         }
 
-        public override long CalculateSize(string path)
-        {
-            DirectoryInfo dirInfo = new DirectoryInfo(path);
+        /* ---------------------------------------------------------------- */
+        /* ------------ OVERRIDE METHODS ---------------------------------- */
+        /* ---------------------------------------------------------------- */
 
+        public override long CalculateSize()
+        {
             long size = 0;
 
-            foreach (var file in dirInfo.GetFiles())
-            {
-                size += file.Length;
-            }
-
-            foreach (var directory in dirInfo.GetDirectories())
-            {
-                size += CalculateSize(directory.FullName);
-            }
-            //Console.WriteLine("Chiamato metodo CalculateSize per " + dirInfo.Name + " " + size.ToString());
+            foreach (Item i in Items)
+                size += i.CalculateSize();
 
             return size;
+        }
+
+
+        /********************************************************************/
+        public override List<Change> DetectChanges()
+        {
+            throw new NotImplementedException();
+        }
+
+
+        /* ---------------------------------------------------------------- */
+        /* ------------ METHODS ------------------------------------------- */
+        /* ---------------------------------------------------------------- */
+
+        protected ObservableCollection<Item> GetItems()
+        {
+            ObservableCollection<Item> items = new ObservableCollection<Item>();
+            DirectoryInfo dirInfo = new DirectoryInfo(Path);
+
+            foreach (DirectoryInfo directory in dirInfo.GetDirectories())
+            {
+                FolderItem item = new FolderItem(directory.Name, directory.FullName);
+                items.Add(item);
+            }
+
+            foreach (FileInfo file in dirInfo.GetFiles())
+            {
+                FileItem item = new FileItem(file.Name, file.FullName);
+                items.Add(item);
+            }
+
+            return items;
+        }
+
+        /************************************************************************/
+        protected void setLatestUpdateItems()
+        {
+            LatestUpdateItems = new List<Item>(GetItems());
         }
     }
 }

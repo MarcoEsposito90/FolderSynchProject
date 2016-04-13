@@ -18,13 +18,18 @@ namespace FolderSynchMUIClient
         public FileItem(string name, string relativePath)
         {
             this.Name = name;
-            this.LocalPath = relativePath;
+            this.Path = relativePath;
         }
 
-        public override long CalculateSize(string path)
+        public override long CalculateSize()
         {
-            FileInfo fi = new FileInfo(path);
+            FileInfo fi = new FileInfo(Path);
             return fi.Length;
+        }
+
+        public override List<Change> DetectChanges()
+        {
+            throw new NotImplementedException();
         }
     }
 }

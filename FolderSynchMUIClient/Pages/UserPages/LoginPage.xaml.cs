@@ -51,7 +51,7 @@ namespace FolderSynchMUIClient.Pages
                 List<Folder> missingFolders = new List<Folder>();
                 foreach(Folder f in application.User.Folders)
                 {
-                    int found = localFolders.FindIndex(item => item.FolderName.Equals(f.Name));
+                    int found = localFolders.FindIndex(item => item.Name.Equals(f.Name));
 
                     if (found == -1)
                         missingFolders.Add(f);
