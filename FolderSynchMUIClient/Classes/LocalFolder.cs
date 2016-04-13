@@ -18,15 +18,22 @@ namespace FolderSynchMUIClient
         /* -------------- PROPERTIES -------------------------*/
 
         static readonly string[] SizeSuffixes = { "bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
-
+        
         [DataMember]
-        public ObservableCollection<Item> Items
+        public List<Item> LatestUpdateItems
         {
             get;
-            set;
+            private set;
         }
 
-        [DataMember]
+        public ObservableCollection<Item> Items
+        {
+            get
+            {
+                return GetItems(LocalPath);
+            }
+        }
+
         public ObservableCollection<Update> Updates
         {
             get;
@@ -83,7 +90,7 @@ namespace FolderSynchMUIClient
 
         public LocalFolder(string username, string folderName, string localPath)
         {
-            this.Items = new ObservableCollection<Item>();
+
             this.Updates = new ObservableCollection<Update>();
             this.Username = username;
             this.FolderName = folderName;
@@ -121,6 +128,8 @@ namespace FolderSynchMUIClient
             return size;
         }
 
+
+
         public string SizeSuffix(long value)
         {
             if (value < 0) { return "-" + SizeSuffix(-value); }
@@ -132,7 +141,10 @@ namespace FolderSynchMUIClient
             return string.Format("{0:n1} {1}", adjustedSize, SizeSuffixes[mag]);
         }
 
-        public ObservableCollection<Item> GetItems(string path)
+
+
+
+        private ObservableCollection<Item> GetItems(string path)
         {
             ObservableCollection<Item> items = new ObservableCollection<Item>();
 
@@ -159,7 +171,8 @@ namespace FolderSynchMUIClient
             return items;
         }
 
-        public ObservableCollection<FolderItem> GetFolders(string path)
+
+        private ObservableCollection<FolderItem> GetFolders(string path)
         {
             ObservableCollection<FolderItem> folders = new ObservableCollection<FolderItem>();
             DirectoryInfo dirInfo = new DirectoryInfo(path);

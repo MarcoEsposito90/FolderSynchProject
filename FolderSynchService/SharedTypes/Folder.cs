@@ -18,15 +18,8 @@ namespace ServicesProject
 
         /* -------------- PROPERTIES -------------------------*/
 
-        /*[DataMember]
-        public ObservableCollection<Item> Items
-        {
-            get;
-            set;
-        }*/
-
         [DataMember]
-        public ObservableCollection<Update> Updates
+        public List<Update> Updates
         {
             get;
             set;
@@ -69,7 +62,7 @@ namespace ServicesProject
         public Folder(string name, string username)
         {
             //this.Items = new ObservableCollection<Item>();
-            this.Updates = new ObservableCollection<Update>();
+            this.Updates = new List<Update>();
             this.Name = name;
             this.Username = username;
             this.SynchDate = DateTime.Now;
