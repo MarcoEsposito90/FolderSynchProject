@@ -69,23 +69,46 @@ namespace FolderSynchMUIClient
             set;
         }
 
-        [DataMember]
-        public int ContainedFiles { get; set; }
+        public int ContainedFiles
+        {
+            get
+            {
+                return Directory.GetFiles(this.LocalPath, "*", SearchOption.AllDirectories).Length;
+            }
+        }
 
-        [DataMember]
-        public int ContainedFolders { get; set; }
-
-        [DataMember]
-        public long CurrentSize { get; set; }
-
-        [DataMember]
-        public string SizeInBytes { get; set; }
+        public int ContainedFolders
+        {
+            get
+            {
+                return Directory.GetDirectories(this.LocalPath, "*", SearchOption.AllDirectories).Length;
+            }
+        }
+        
+        public long CurrentSize
+        {
+            get
+            {
+                return CalculateSize(this.LocalPath);
+            }
+        }
+        
+        public string SizeInBytes
+        {
+            get
+            {
+                return SizeSuffix(CalculateSize(this.LocalPath));
+            }
+        }
 
         [DataMember]
         public int AutoRefreshTime { get; set; }
 
         [DataMember]
         public int AutoDeleteTime { get; set; }
+
+        [DataMember]
+        public DateTime SynchDate { get; set; }
 
 
         public LocalFolder(string username, string folderName, string localPath)
@@ -99,14 +122,6 @@ namespace FolderSynchMUIClient
         }
 
         /* -------------- METHODS ---------------------------- */
-
-        public void CalculateProperties(string path)
-        {
-
-            this.ContainedFiles = Directory.GetFiles(path, "*", SearchOption.AllDirectories).Length;
-            this.ContainedFolders = Directory.GetDirectories(path, "*", SearchOption.AllDirectories).Length;
-
-        }
 
         public long CalculateSize(string path)
         {

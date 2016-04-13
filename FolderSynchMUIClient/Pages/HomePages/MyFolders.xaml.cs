@@ -28,6 +28,7 @@ namespace FolderSynchMUIClient.Pages.HomePages
             InitializeComponent();
             App application = (App)Application.Current;
             ObservableCollection<LocalFolder> FolderList = new ObservableCollection<LocalFolder>(application.getLocalFolders());
+            Console.WriteLine("FolderList created, contains {0} elements", FolderList.Count);
 
             foldersButtonControl.ItemsSource = application.LocalFolders;
 
