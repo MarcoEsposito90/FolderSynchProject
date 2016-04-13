@@ -264,6 +264,10 @@ namespace FolderSynchMUIClient
         /********************************************************************/
         public List<LocalFolder> getLocalFolders()
         {
+            Console.WriteLine("Current local folders: ");
+            foreach (LocalFolder i in LocalFolders)
+                Console.WriteLine("localfolder: " + i.FolderName);
+
             if (isUserInitialized)
                 return LocalFolders;
 
@@ -274,6 +278,10 @@ namespace FolderSynchMUIClient
                 if (lf.Username.Equals(User.Username))
                     LocalFolders.Add(lf);
 
+            Console.WriteLine("Current local folders: ");
+            foreach (LocalFolder i in LocalFolders)
+                Console.WriteLine("localfolder: " + i.FolderName);
+
             return LocalFolders;
         }
 
@@ -281,6 +289,8 @@ namespace FolderSynchMUIClient
         /********************************************************************/
         public void addLocalFolder(Folder folder, string path)
         {
+
+            Console.WriteLine("Adding local folder");
             List<LocalFolder> allLocalFolders = getAllLocalFolders();
             LocalFolder lf = new LocalFolder(User.Username, folder.Name, path);
             allLocalFolders.Add(lf);
@@ -294,6 +304,11 @@ namespace FolderSynchMUIClient
             }
 
             LocalFolders.Add(lf);
+
+            Console.WriteLine("Current local folders: ");
+            foreach (LocalFolder i in LocalFolders)
+                Console.WriteLine("localfolder: " + i.FolderName);
+
             FolderWatcher fw = new FolderWatcher(folder, lf);
             FolderWatchers.Add(fw);
             fw.watch();
@@ -303,6 +318,8 @@ namespace FolderSynchMUIClient
         /*****************************************************************/
         public void addLocalFolder(Folder folder, LocalFolder lf)
         {
+
+            Console.WriteLine("Adding local folder");
 
             List<LocalFolder> allLocalFolders = getAllLocalFolders();
             allLocalFolders.Add(lf);
@@ -316,6 +333,11 @@ namespace FolderSynchMUIClient
             }
 
             LocalFolders.Add(lf);
+
+            Console.WriteLine("Current local folders: ");
+            foreach (LocalFolder i in LocalFolders)
+                Console.WriteLine("localfolder: " + i.FolderName);
+
             FolderWatcher fw = new FolderWatcher(folder, lf);
             FolderWatchers.Add(fw);
             fw.watch();

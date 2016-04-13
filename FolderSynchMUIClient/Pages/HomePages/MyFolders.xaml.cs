@@ -26,56 +26,16 @@ namespace FolderSynchMUIClient.Pages.HomePages
         public MyFolders()
         {
             InitializeComponent();
-
-            ObservableCollection<LocalFolder> FolderList = new ObservableCollection<LocalFolder>();
             App application = (App)Application.Current;
+            ObservableCollection<LocalFolder> FolderList = new ObservableCollection<LocalFolder>(application.getLocalFolders());
 
-            List<Folder> userFolders = new List<Folder>(application.User.Folders);
-            Console.WriteLine("Ho trovato " + userFolders.Count + "cartelle sul server");
-
-            List<LocalFolder> localFolders = application.getLocalFolders();
-            Console.WriteLine("Ho trovato " + localFolders.Count + "cartelle in locale");
-
-            foreach (Folder f in userFolders)
-            {
-                int found = localFolders.FindIndex(item => item.FolderName.Equals(f.Name));
-                Console.WriteLine("Found = " + found);
-                if (found >= 0)
-                {
-                    Console.WriteLine("Folder " + f.Name + " ok.");
-
-                    localFolders[found].Items = localFolders[found].GetItems(localFolders[found].LocalPath);
-                    localFolders[found].CalculateProperties(localFolders[found].LocalPath);
-                    long currSize = localFolders[found].CalculateSize(localFolders[found].LocalPath);
-                    f.SizeInBytes = localFolders[found].SizeSuffix(currSize); 
-                    FolderList.Add(localFolders[found]);
-
-                }
-                else {
-                    Console.WriteLine("Folder " + f.Name + " not found.");
-                    //chiedere se la vuole scaricare
-                }
-            }
-
-            /*ItemProvider itemProvider = new ItemProvider();
-            
-            ObservableCollection<Folder> FolderList = itemProvider.GetFolders("C:\\Users\\Giulia Genta\\Desktop");
-            Console.WriteLine("Prima cartella: " + FolderList[0].Name);         
-            */
-            /*
-            Update u = new Update(FolderList[0], DateTime.Now);
-            Console.WriteLine("Creo update u");
-            
-
-            u.UpdateEntries.Add(new Update.UpdateEntry(new FileItem("File modificato", "path"), 0));
-            u.UpdateEntries.Add(new Update.UpdateEntry(new FileItem("Altro file modificato", "path"), 1));
-            Console.WriteLine("Aggiungo le update entries");
-
-            FolderList[0].Updates.Add(u);
-            Console.WriteLine("Aggiungo l'update a " + FolderList[0].Name);
-            */
             foldersButtonControl.ItemsSource = FolderList;
-            foldersButtonControl.SelectedItem = FolderList[0];
+
+            foreach (LocalFolder lf in FolderList)
+                Console.WriteLine("showing folder " + lf.FolderName);
+
+            if (FolderList.Count > 0)
+                foldersButtonControl.SelectedItem = FolderList[0];
         }
 
         private void foldersButtonControl_changed(object sender, SelectionChangedEventArgs e)
@@ -83,6 +43,7 @@ namespace FolderSynchMUIClient.Pages.HomePages
             if (foldersButtonControl.SelectedItem != null)
             {
                 App application = (App)Application.Current;
+                
                 application.Folder = (LocalFolder)foldersButtonControl.SelectedItem;
                 Console.WriteLine("item type: " + foldersButtonControl.SelectedItem.GetType()) ;
                 //Console.WriteLine("Selected folder: " + application.Folder.Name + ", path: " + application.Folder.Path);

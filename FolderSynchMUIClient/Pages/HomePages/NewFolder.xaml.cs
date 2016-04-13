@@ -88,7 +88,7 @@ namespace FolderSynchMUIClient.Pages.HomePages
 
                 if(ud.Update != null)
                 {
-                    // update succeeded
+                    Console.WriteLine("update succeeded");
                     LocalFolder lf = new LocalFolder(application.User.Username, newFold.Name, choosedFolderPathEditor.Text);
                     lf.LastUpdate = ud.Update;
                     application.addLocalFolder(newFold, lf);
