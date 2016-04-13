@@ -34,6 +34,13 @@ namespace FolderSynchMUIClient.Pages
                 FolderSynchServiceContractClient proxy = application.FolderSynchProxy;
                 proxy.logoutUser(application.User);
                 application.User = null;
+
+                // change window ---------------------------------------------------------------------------
+                MainWindow mw = new MainWindow();
+                mw.Show();
+
+                Application.Current.Windows[0].Close();
+
             }
         }
 
