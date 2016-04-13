@@ -85,16 +85,17 @@ namespace FolderSynchMUIClient.Pages.HomePages
                 newFold.SynchDate = synchDate;
 
                 proxy.addNewSynchronizedFolder(newFold);
-                
+
                 // 4) proceed to upload
-                UploadDialog ud = new UploadDialog(choosedFolderPathEditor.Text);
+                LocalFolder lf = new LocalFolder(application.User.Username, newFold.Name, choosedFolderPathEditor.Text);
+
+                UploadDialog ud = new UploadDialog(lf);
                 ud.ShowDialog();
 
-                if(ud.Update != null)
+                if(ud.success)
                 {
                     Console.WriteLine("update succeeded");
-                    LocalFolder lf = new LocalFolder(application.User.Username, newFold.Name, choosedFolderPathEditor.Text);
-                    lf.LastUpdate = ud.Update;
+                    lf.SynchDate = synchDate;
                     application.addLocalFolder(newFold, lf);
                 }
 
@@ -107,9 +108,6 @@ namespace FolderSynchMUIClient.Pages.HomePages
                 errDialog.txtFaultReason.Text = f.Message;
                 errDialog.ShowDialog();
             }
-            
-
-
 
         }
 

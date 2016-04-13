@@ -347,7 +347,6 @@ namespace FolderSynchMUIClient
             Object o = JsonConvert.DeserializeObject(fileContent);
             Newtonsoft.Json.Linq.JArray array = (Newtonsoft.Json.Linq.JArray)o;
 
-            // add users to list
             foreach (Object i in array)
             {
                 Newtonsoft.Json.Linq.JObject jo = (Newtonsoft.Json.Linq.JObject)i;

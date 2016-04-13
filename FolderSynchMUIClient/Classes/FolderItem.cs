@@ -16,26 +16,27 @@ namespace FolderSynchMUIClient
         /* ------------ SERIALIZABLE PROPERTIES --------------------------- */
         /* ---------------------------------------------------------------- */
 
-        private List<Item> _LatestUpdateItems;
+        private List<FolderItem> _LatestUpdateFolderItems;
         [DataMember]
-        public List<Item> LatestUpdateItems
+        public List<FolderItem> LatestUpdateFolderItems
         {
             get
             {
-                return _LatestUpdateItems;
+                return _LatestUpdateFolderItems;
             }
             private set
             {
-                _LatestUpdateItems = value;
-                foreach(Item i in _LatestUpdateItems)
-                {
-                    if (i.GetType().Equals(typeof(FolderItem)))
-                    {
-                        FolderItem f = (FolderItem)i;
+                _LatestUpdateFolderItems = value;
+                foreach(FolderItem f in _LatestUpdateFolderItems)
                         f.setLatestUpdateItems();
-                    }
-                }
             }
+        }
+
+        [DataMember]
+        public List<FileItem> LatestUpdateFileItems
+        {
+            get;
+            private set;
         }
 
 
@@ -86,6 +87,17 @@ namespace FolderSynchMUIClient
         protected ObservableCollection<Item> GetItems()
         {
             ObservableCollection<Item> items = new ObservableCollection<Item>();
+
+            items.Concat(getFolderItems());
+            items.Concat(getFileItems());
+
+            return items;
+        }
+
+        /************************************************************************/
+        protected List<FolderItem> getFolderItems()
+        {
+            List<FolderItem> items = new List<FolderItem>();
             DirectoryInfo dirInfo = new DirectoryInfo(Path);
 
             foreach (DirectoryInfo directory in dirInfo.GetDirectories())
@@ -93,6 +105,16 @@ namespace FolderSynchMUIClient
                 FolderItem item = new FolderItem(directory.Name, directory.FullName);
                 items.Add(item);
             }
+
+            return items;
+        }
+
+
+        /************************************************************************/
+        protected List<FileItem> getFileItems()
+        {
+            List<FileItem> items = new List<FileItem>();
+            DirectoryInfo dirInfo = new DirectoryInfo(Path);
 
             foreach (FileInfo file in dirInfo.GetFiles())
             {
@@ -103,10 +125,12 @@ namespace FolderSynchMUIClient
             return items;
         }
 
+
         /************************************************************************/
-        protected void setLatestUpdateItems()
+        public void setLatestUpdateItems()
         {
-            LatestUpdateItems = new List<Item>(GetItems());
+            LatestUpdateFolderItems = getFolderItems();
+            LatestUpdateFileItems = getFileItems();
         }
     }
 }

@@ -21,19 +21,6 @@ namespace FolderSynchMUIClient
         [DataMember]
         public string Username { get; private set; }
         
-        private Update _LatestUpdate;
-        [DataMember]
-        public new Update LastUpdate {
-            get
-            {
-                return _LatestUpdate;
-            }
-            set
-            {
-                _LatestUpdate = value;
-                setLatestUpdateItems();
-            }
-        }
         public string FolderName { get; private set; }
 
         [DataMember]

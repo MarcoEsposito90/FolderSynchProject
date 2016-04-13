@@ -29,25 +29,20 @@ namespace FolderSynchMUIClient.Pages
     public partial class UploadDialog : ModernDialog
     {
 
-        private string folderPath;
-
-        public Update Update
-        {
-            get;
-            private set;
-        }
+        private LocalFolder localFolder;
+        public bool success;
 
         /* ------------------------------------------------------------------------------ */
         /* ------------------ CONSTRUCTOR ----------------------------------------------- */
         /* ------------------------------------------------------------------------------ */
 
-        public UploadDialog(string folderPath)
+        public UploadDialog(LocalFolder localFolder)
         {
             InitializeComponent();
 
-            this.folderPath = folderPath;
-            Update = null;
-            // define the dialog buttons
+            this.localFolder = localFolder;
+            success = false;
+
             this.Buttons = new Button[] { this.OkButton };
             OkButton.IsEnabled = false;
         }
@@ -60,7 +55,7 @@ namespace FolderSynchMUIClient.Pages
         private void ModernDialog_ContentRendered(object sender, EventArgs e)
         {
 
-            UploadBackgroundWorker bw = new UploadBackgroundWorker(folderPath);
+            UploadBackgroundWorker bw = new UploadBackgroundWorker(localFolder);
             bw.WorkerSupportsCancellation = false;
             bw.WorkerReportsProgress = true;
 
@@ -102,7 +97,7 @@ namespace FolderSynchMUIClient.Pages
                 if (result.Success)
                 {
                     responseTB.Text = "Done!";
-                    Update = result.Update;
+                    success = true;
                 }
                 else
                     responseTB.Text = result.ErrorMessage;
