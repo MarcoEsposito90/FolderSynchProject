@@ -23,7 +23,10 @@
                 <WrapPanel HorizontalAlignment="left" 
                            DockPanel.Dock="Top" 
                            Margin="10,10,0,10">
-                    
+
+                    <Image Width="30" Height="30" VerticalAlignment="Center"
+                           Margin="0,0,5,0" Source="/Icons/MyAddFolder_Icon.png"/>
+
                     <TextBlock Text="Select a folder: " 
                                VerticalAlignment="Center"/>
 
@@ -40,14 +43,48 @@
                          Foreground="Black" 
                          Margin="10,0,10,0"/>
 
+                <Grid Margin="10,20,10,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Image Width="30" Height="30" VerticalAlignment="Center"
+                           Grid.Column="0" Grid.Row="0"
+                           Margin="0,0,5,0" Source="/Icons/MySyncTime_Icon.png"/>
+
+                    <Image Width="30" Height="30" VerticalAlignment="Center"
+                           Grid.Column="0" Grid.Row="1"
+                           Margin="0,0,5,0" Source="/Icons/MyDelete_Icon.png"/>
+
+                    <TextBlock Text="Refresh automatically every " Grid.Column="1" Grid.Row="0"
+                               Margin="0,5,5,5" VerticalAlignment="Center"/>
+                    <TextBlock Text="Delete updates older than " Grid.Column="1" Grid.Row="1"
+                               Margin="0,5,5,0" VerticalAlignment="Center"/>
+                    
+                    <ComboBox Name="RefreshComboBox"  Margin="10,0,10,0"
+                              Grid.Column="2" Grid.Row="0" VerticalAlignment="Center"/>
+                    <ComboBox Name="DeleteComboBox"  Margin="10,0,10,0"
+                              Grid.Column="2" Grid.Row="1" VerticalAlignment="Center"/>
+
+                    <TextBlock Text="hours " Margin="0,0,0,10"
+                              Grid.Column="3" Grid.Row="0" VerticalAlignment="Center"/>
+                    <TextBlock Text="days " Margin="0,0,0,0"
+                              Grid.Column="3" Grid.Row="1" VerticalAlignment="Center"/>
+
+                </Grid>
+
                 <StackPanel Orientation="Horizontal" Margin="10,20,10,0">
+                    <StackPanel Orientation=""></StackPanel>
                     <StackPanel Orientation="Vertical" >
                         <TextBlock Text="Refresh automatically every " Margin="0,0,10,10"/>
                         <TextBlock Text="Delete updates older than " Margin="0,0,10,0"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Vertical">
-                        <ComboBox Name="RefreshComboBox"  Margin="10,0,10,0"/>
-                        <ComboBox Name="DeleteComboBox"  Margin="10,0,10,0"/>
                     </StackPanel>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="hours " Margin="0,0,0,10"/>
