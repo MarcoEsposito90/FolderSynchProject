@@ -55,9 +55,8 @@ namespace FolderSynchMUIClient
             get { return _User; }
             set
             {
-                _User = value;
 
-                if (_User != null)
+                if (value != null)
                 {
                     LocalFolders = getLocalFolders();
                     Application_Login();
@@ -66,8 +65,11 @@ namespace FolderSynchMUIClient
                 else
                 {
                     Application_Logout();
+                    FolderSynchProxy.logoutUser(_User);
                     isUserInitialized = false;
                 }
+
+                _User = value;
 
             }
         }
@@ -131,7 +133,6 @@ namespace FolderSynchMUIClient
 
             if (User != null)
             {
-                FolderSynchProxy.logoutUser(User);
                 User = null;
             }
         }
