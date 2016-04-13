@@ -25,5 +25,13 @@ namespace FolderSynchMUIClient.Pages
         {
             InitializeComponent();
         }
+
+        private void treeViewItem_Click(object sender, RoutedEventArgs e)
+        {
+            DetailsDialog detailsDialog = new DetailsDialog();
+            detailsDialog.DataContext = trvFolders.SelectedItem as Item;
+            detailsDialog.ShowDialog();
+
+        }
     }
 }

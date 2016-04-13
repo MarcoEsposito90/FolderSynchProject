@@ -26,7 +26,7 @@ namespace FolderSynchMUIClient
             InitializeComponent();
 
             // define the dialog buttons
-            this.Buttons = new Button[] { this.OkButton, this.CancelButton };
+            this.Buttons = new Button[] { this.OkButton};
         }
     }
 }

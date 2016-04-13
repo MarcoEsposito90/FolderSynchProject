@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FolderSynchMUIClient.FolderSynchService;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -13,6 +14,12 @@ namespace FolderSynchMUIClient
     {
         [DataMember]
         public string Name { get; set; }
+
+        [DataMember]
+        public Update LastUpdate { get; set; }
+
+        [DataMember]
+        public DateTime SynchDate { get; set; }
 
         public long CurrentSize
         {

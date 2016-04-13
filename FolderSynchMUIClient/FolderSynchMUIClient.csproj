@@ -80,7 +80,7 @@
     <Compile Include="Classes\FileItem.cs" />
     <Compile Include="Classes\FolderItem.cs" />
     <Compile Include="Classes\Item.cs" />
-    <Compile Include="DetailsDialog.xaml.cs">
+    <Compile Include="Pages\Dialogs\DetailsDialog.xaml.cs">
       <DependentUpon>DetailsDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Dialogs\ErrorDialog.xaml.cs">
@@ -140,7 +140,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-    <Page Include="DetailsDialog.xaml">
+    <Page Include="Pages\Dialogs\DetailsDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -305,6 +305,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Icons\MySyncTime_Icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\MySync_Icon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="users.txt" />

@@ -32,8 +32,6 @@ namespace FolderSynchMUIClient
         [DataMember]
         public List<Item> LatestUpdateItems { get; private set; }
 
-        [DataMember]
-        public Update LastUpdate { get; set; }
 
         [DataMember]
         public int AutoRefreshTime { get; set; }
@@ -41,8 +39,6 @@ namespace FolderSynchMUIClient
         [DataMember]
         public int AutoDeleteTime { get; set; }
 
-        [DataMember]
-        public DateTime SynchDate { get; set; }
 
 
         /* ---------------------------------------------------------------- */

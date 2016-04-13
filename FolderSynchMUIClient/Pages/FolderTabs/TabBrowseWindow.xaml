@@ -18,7 +18,7 @@
                            Foreground="{DynamicResource ItemBackgroundSelected}" 
                             />
 
-            <TreeView Name="trvFolders" ItemsSource="{Binding Items}" Margin="10,10,10,10">
+            <TreeView Name="trvFolders" ItemsSource="{Binding Items}" Margin="10,10,10,10" MouseLeftButtonUp="treeViewItem_Click">
                 <TreeView.Resources>
                     <HierarchicalDataTemplate DataType="{x:Type local:FolderItem}" ItemsSource="{Binding Items}">
                         <StackPanel Orientation="Horizontal">
