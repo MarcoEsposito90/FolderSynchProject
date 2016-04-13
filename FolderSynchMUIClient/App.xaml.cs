@@ -58,6 +58,7 @@ namespace FolderSynchMUIClient
 
                 if (value != null)
                 {
+                    _User = value;
                     LocalFolders = getLocalFolders();
                     Application_Login();
                     isUserInitialized = true;
@@ -66,10 +67,10 @@ namespace FolderSynchMUIClient
                 {
                     Application_Logout();
                     FolderSynchProxy.logoutUser(_User);
+                    _User = value;
                     isUserInitialized = false;
                 }
 
-                _User = value;
 
             }
         }
@@ -142,11 +143,10 @@ namespace FolderSynchMUIClient
         private void Application_Login()
         {
             // start watching user's folders
-            List<LocalFolder> list = LocalFolders.ToList();
 
             foreach (Folder f in User.Folders)
             {
-                int index = list.FindIndex(item => item.FolderName.Equals(f.Name));
+                int index = LocalFolders.ToList().FindIndex(item => item.FolderName.Equals(f.Name));
                 if (index >= 0)
                 {
                     FolderWatcher fw = new FolderWatcher(f, LocalFolders.ElementAt(index));
@@ -267,7 +267,7 @@ namespace FolderSynchMUIClient
         /********************************************************************/
         public ObservableCollection<LocalFolder> getLocalFolders()
         {
-            if (isUserInitialized)
+            if (isUserInitialized && LocalFolders != null)
                 return LocalFolders;
 
             LocalFolders = new ObservableCollection<LocalFolder>();

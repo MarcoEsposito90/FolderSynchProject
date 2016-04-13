@@ -18,13 +18,39 @@ namespace FolderSynchMUIClient
         /* -------------- PROPERTIES -------------------------*/
 
         static readonly string[] SizeSuffixes = { "bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
-        
+
+        /* ---------------------------------------------------------------- */
+        /* ------------ SERIALIZABLE PROPERTIES --------------------------- */
+        /* ---------------------------------------------------------------- */
+
         [DataMember]
-        public List<Item> LatestUpdateItems
-        {
-            get;
-            private set;
-        }
+        public string Username { get; private set; }
+
+        [DataMember]
+        public string FolderName { get; private set; }
+
+        [DataMember]
+        public string LocalPath { get; private set; }
+
+        [DataMember]
+        public List<Item> LatestUpdateItems { get; private set; }
+
+        [DataMember]
+        public Update LastUpdate { get; set; }
+
+        [DataMember]
+        public int AutoRefreshTime { get; set; }
+
+        [DataMember]
+        public int AutoDeleteTime { get; set; }
+
+        [DataMember]
+        public DateTime SynchDate { get; set; }
+
+
+        /* ---------------------------------------------------------------- */
+        /* ------------ TEMPORARY PROPERTIES ------------------------------ */
+        /* ---------------------------------------------------------------- */
 
         public ObservableCollection<Item> Items
         {
@@ -35,35 +61,6 @@ namespace FolderSynchMUIClient
         }
 
         public ObservableCollection<Update> Updates
-        {
-            get;
-            set;
-        }
-
-        [DataMember]
-        public string Username
-        {
-            get;
-            private set;
-        }
-
-
-        [DataMember]
-        public string FolderName
-        {
-            get;
-            private set;
-        }
-
-        [DataMember]
-        public string LocalPath
-        {
-            get;
-            private set;
-        }
-
-        [DataMember]
-        public Update LastUpdate
         {
             get;
             set;
@@ -101,15 +98,10 @@ namespace FolderSynchMUIClient
             }
         }
 
-        [DataMember]
-        public int AutoRefreshTime { get; set; }
 
-        [DataMember]
-        public int AutoDeleteTime { get; set; }
-
-        [DataMember]
-        public DateTime SynchDate { get; set; }
-
+        /* ---------------------------------------------------------------- */
+        /* ------------ CONSTRUCTORS -------------------------------------- */
+        /* ---------------------------------------------------------------- */
 
         public LocalFolder(string username, string folderName, string localPath)
         {
@@ -121,8 +113,11 @@ namespace FolderSynchMUIClient
 
         }
 
-        /* -------------- METHODS ---------------------------- */
+        /* ---------------------------------------------------------------- */
+        /* ------------ PROPERTY COMPUTING -------------------------------- */
+        /* ---------------------------------------------------------------- */
 
+        /*********************************************************************/
         public long CalculateSize(string path)
         {
             DirectoryInfo dirInfo = new DirectoryInfo(path);
@@ -144,7 +139,7 @@ namespace FolderSynchMUIClient
         }
 
 
-
+        /*********************************************************************/
         public string SizeSuffix(long value)
         {
             if (value < 0) { return "-" + SizeSuffix(-value); }
@@ -158,7 +153,7 @@ namespace FolderSynchMUIClient
 
 
 
-
+        /*********************************************************************/
         private ObservableCollection<Item> GetItems(string path)
         {
             ObservableCollection<Item> items = new ObservableCollection<Item>();
@@ -187,6 +182,7 @@ namespace FolderSynchMUIClient
         }
 
 
+        /*********************************************************************/
         private ObservableCollection<FolderItem> GetFolders(string path)
         {
             ObservableCollection<FolderItem> folders = new ObservableCollection<FolderItem>();
@@ -204,6 +200,14 @@ namespace FolderSynchMUIClient
             return folders;
         }
 
+
+        /* ---------------------------------------------------------------- */
+        /* ------------ SCANNING ------------------------------------------ */
+        /* ---------------------------------------------------------------- */
+        public void scanForChanges()
+        {
+
+        }
 
 
     }
