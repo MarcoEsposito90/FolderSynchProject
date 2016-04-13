@@ -1,0 +1,6 @@
+mi serve che:
+1) Folder abbia al suo interno una proprietà/attributo che descriva tutta la sua struttura interna di file 
+   e sottocartelle (es:FolderStructure). Deve essere di un tipo/classe a se
+2) Che le sottocartelle siano di una classe a se stante e diversa da Folder pur estendendo Item (es: SubFolder), per evitare di 
+   memorizzare una pletora di dati inutili che non servono per le sottocartelle (es: refreshTime, autoDelete, ecc...)
+3) vedi se si può fare senza cambiare la navigazione in BrowseFolder

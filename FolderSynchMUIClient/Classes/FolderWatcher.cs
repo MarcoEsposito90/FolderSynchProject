@@ -22,6 +22,7 @@ namespace FolderSynchMUIClient
         List<string> deletedFiles;
         List<string> newSubDirectories;
         List<string> deletedSubDirectories;
+        
 
         public FolderWatcher(Folder folder, LocalFolder localFolder)
         {
@@ -37,7 +38,7 @@ namespace FolderSynchMUIClient
             newSubDirectories = new List<string>();
             deletedSubDirectories = new List<string>();
 
-            // creating watcher ---------------------------------------
+            // creating watcher ----------------------------------------
             watcher = new FileSystemWatcher(localFolder.LocalPath);
             watcher.IncludeSubdirectories = true;
             watcher.NotifyFilter =  NotifyFilters.Attributes | 
@@ -59,8 +60,17 @@ namespace FolderSynchMUIClient
         {
             Console.WriteLine("Start watching");
 
-            // setting timer
-            timer = new Timer(performUpdate, null, TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(10));
+            // 1)   must detect if update is immediately necessary (for instance,
+            //      the client may have been closed for days)
+            double minutes = (DateTime.Now - localFolder.LastUpdate.Timestamp).TotalMinutes;
+            Console.WriteLine("folder: " + localFolder.FolderName + " is not being updated for " + minutes + " minutes");
+            
+
+            // 2) setting timer
+            timer = new Timer(  performUpdate, 
+                                null, 
+                                minutes > 1 ? TimeSpan.FromSeconds(2) : TimeSpan.FromMinutes(1),    // first time span is for next fire
+                                TimeSpan.FromMinutes(1));                                           // second is for subsequent
         }
 
         public void stopWatching()
@@ -74,7 +84,10 @@ namespace FolderSynchMUIClient
             //capire qui come gestire la creazione degli update 
             
             WatcherChangeTypes wct = e.ChangeType;
-            changedFiles.Add(e.FullPath);
+
+            if(!changedFiles.Contains(e.FullPath))
+                changedFiles.Add(e.FullPath);
+
             Console.WriteLine("File {0} {1}", e.FullPath, wct.ToString());
             Console.WriteLine("changedFiles size = {0}", changedFiles.Count);
         }
