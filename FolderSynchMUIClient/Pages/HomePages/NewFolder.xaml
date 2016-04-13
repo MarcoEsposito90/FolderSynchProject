@@ -18,32 +18,44 @@
                 <TextBlock Margin="10" 
                            TextWrapping="Wrap" 
                            Text="Would you like to synchronize a new folder? By selecting a folder in your filesystem, a remote version of it will be created." 
-                           FontFamily="Segoe UI Light" />
+                           FontSize="13.333" />
+
+                <TextBlock Text="Select a folder: "
+                           FontSize="21.333" Margin="10,0,10,10"
+                           Style="{StaticResource Title}"
+                           VerticalAlignment="Center" 
+                           Foreground="{DynamicResource ItemBackgroundSelected}" />
                 
-                <WrapPanel HorizontalAlignment="left" 
-                           DockPanel.Dock="Top" 
-                           Margin="10,10,0,10">
+                <StackPanel HorizontalAlignment="left" 
+                            Orientation="Horizontal"
+                           Margin="10,0,0,10">
 
-                    <Image Width="30" Height="30" VerticalAlignment="Center"
+                    <Image Width="50" Height="50" VerticalAlignment="Center"
                            Margin="0,0,5,0" Source="/Icons/MyAddFolder_Icon.png"/>
-
-                    <TextBlock Text="Select a folder: " 
-                               VerticalAlignment="Center"/>
 
                     <Button Name="btnBrowseFolder" 
                             Content="Browse"
+                            VerticalAlignment="Center"
+                           FontSize="13.333" 
                             Click="btnBrowseFolder_Click" 
                             Margin="10,0,0,0" 
                             Style="{StaticResource BaseButtonStyle}"/>
-                    
-                </WrapPanel>
+                  
+                </StackPanel>
                 
-                <TextBox Name="choosedFolderPathEditor" 
-                         IsEnabled="False" 
-                         Foreground="Black" 
-                         Margin="10,0,10,0"/>
+               <TextBox Name="choosedFolderPathEditor" 
+                             IsEnabled="False" 
+                             VerticalAlignment="Center"
+                             Foreground="Black" 
+                             Margin="10,0,10,0"/>
 
-                <Grid Margin="10,20,10,0">
+                <TextBlock Text="Set folder options: "
+                           FontSize="21.333" Margin="10,10,10,0"
+                           Style="{StaticResource Title}"
+                           VerticalAlignment="Center" 
+                           Foreground="{DynamicResource ItemBackgroundSelected}" />
+
+                <Grid Margin="10,10,10,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
@@ -55,27 +67,33 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <Image Width="30" Height="30" VerticalAlignment="Center"
+                    <Image Width="50" Height="50" VerticalAlignment="Center"
                            Grid.Column="0" Grid.Row="0"
-                           Margin="0,0,5,0" Source="/Icons/MySyncTime_Icon.png"/>
+                           Margin="0,0,10,0" Source="/Icons/MySyncTime_Icon.png"/>
 
-                    <Image Width="30" Height="30" VerticalAlignment="Center"
+                    <Image Width="50" Height="50" VerticalAlignment="Center"
                            Grid.Column="0" Grid.Row="1"
-                           Margin="0,0,5,0" Source="/Icons/MyDelete_Icon.png"/>
+                           Margin="0,0,10,0" Source="/Icons/MyDelete_Icon.png"/>
 
                     <TextBlock Text="Refresh automatically every " Grid.Column="1" Grid.Row="0"
+                           FontSize="13.333" 
                                Margin="0,5,5,5" VerticalAlignment="Center"/>
                     <TextBlock Text="Delete updates older than " Grid.Column="1" Grid.Row="1"
+                           FontSize="13.333" 
                                Margin="0,5,5,0" VerticalAlignment="Center"/>
-                    
+
                     <ComboBox Name="RefreshComboBox"  Margin="10,0,10,0"
+                           FontSize="13.333" 
                               Grid.Column="2" Grid.Row="0" VerticalAlignment="Center"/>
                     <ComboBox Name="DeleteComboBox"  Margin="10,0,10,0"
+                           FontSize="13.333" 
                               Grid.Column="2" Grid.Row="1" VerticalAlignment="Center"/>
 
                     <TextBlock Text="hours " Margin="0,0,0,10"
+                           FontSize="13.333" 
                               Grid.Column="3" Grid.Row="0" VerticalAlignment="Center"/>
                     <TextBlock Text="days " Margin="0,0,0,0"
+                           FontSize="13.333" 
                               Grid.Column="3" Grid.Row="1" VerticalAlignment="Center"/>
 
                 </Grid>
@@ -87,6 +105,7 @@
                             Content="Synchronize this folder"
                             Click="btnSynchFolder_Click" 
                             Margin="20"  
+                            FontSize="14.667" 
                             Style="{StaticResource BaseButtonStyle}"/>
                     
                 </WrapPanel>
