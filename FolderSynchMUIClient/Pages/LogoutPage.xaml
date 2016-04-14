@@ -15,7 +15,7 @@
                     Margin="10"/>
 
                 <TextBlock Text="Do you really want to logout?"
-                           Foreground="{DynamicResource {x:Static SystemColors.HotTrackBrushKey}}"
+                           Foreground="{DynamicResource ItemBackgroundSelected}" 
                                VerticalAlignment="Center" HorizontalAlignment="Center"
                                Margin="20,10,20,10" FontSize="16"/>
 

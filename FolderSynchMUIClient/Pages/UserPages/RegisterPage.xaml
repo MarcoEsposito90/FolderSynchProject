@@ -30,7 +30,7 @@
                     </Grid.RowDefinitions>
                     <TextBlock Text="Username: " 
                                Grid.Column="0" Grid.Row="0"
-                              Foreground="{DynamicResource {x:Static SystemColors.HotTrackBrushKey}}"
+                           Foreground="{DynamicResource ItemBackgroundSelected}" 
                                VerticalAlignment="Center" 
                                Margin="30,10,10,10" FontSize="16" />
 
@@ -43,7 +43,7 @@
 
                     <TextBlock Text="Password: " 
                                Grid.Column="0" Grid.Row="1"
-                              Foreground="{DynamicResource {x:Static SystemColors.HotTrackBrushKey}}"
+                           Foreground="{DynamicResource ItemBackgroundSelected}" 
                                VerticalAlignment="Center" 
                                Margin="30,10,10,10" FontSize="16"/>
 
@@ -57,7 +57,7 @@
 
                     <TextBlock Text="Confirm password: " 
                                Grid.Column="0" Grid.Row="2"
-                              Foreground="{DynamicResource {x:Static SystemColors.HotTrackBrushKey}}"
+                           Foreground="{DynamicResource ItemBackgroundSelected}" 
                                VerticalAlignment="Center" 
                                Margin="30,10,10,10" FontSize="16"/>
 

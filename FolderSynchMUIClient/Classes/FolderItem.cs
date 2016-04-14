@@ -66,7 +66,6 @@ namespace FolderSynchMUIClient
 
             foreach (Item i in Items) {
                 size += i.CalculateSize();
-                Console.WriteLine("Size: " + size);
                 }
             return size;
         }
@@ -142,8 +141,6 @@ namespace FolderSynchMUIClient
 
             foreach (FileItem fi in fileItem)
                 items.Add(fi);
-            
-            Console.WriteLine("Items: " + items.Count);
 
             return items;
         }
