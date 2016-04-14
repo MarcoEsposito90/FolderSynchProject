@@ -50,7 +50,8 @@ namespace FolderSynchMUIClient.Pages.HomePages
                 
                 application.Folder = (LocalFolder)foldersButtonControl.SelectedItem;
                 Console.WriteLine("item type: " + foldersButtonControl.SelectedItem.GetType()) ;
-                //Console.WriteLine("Selected folder: " + application.Folder.Name + ", path: " + application.Folder.Path);
+                Console.WriteLine("Selected folder: " + application.Folder.Name + ", path: " + application.Folder.Path + ", size: " + application.Folder.SizeInBytes);
+                Console.WriteLine("Contained Items: " + application.Folder.Items.Count);
 
                 FolderTab.DataContext = application.Folder;
             }

@@ -28,7 +28,7 @@
                             
                             <ListBox.ItemTemplate>
                                 <DataTemplate >
-                                    <TextBlock Text="{Binding FolderName}" TextTrimming="CharacterEllipsis" 
+                                    <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" 
                                                TextAlignment="Left" 
                                                Margin="0,0,0,5"
                                                Width="{Binding ActualWidth, ElementName=foldersButtonControl}"/>

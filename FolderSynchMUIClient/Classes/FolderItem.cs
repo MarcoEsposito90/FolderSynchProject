@@ -66,9 +66,10 @@ namespace FolderSynchMUIClient
         {
             long size = 0;
 
-            foreach (Item i in Items)
+            foreach (Item i in Items) {
                 size += i.CalculateSize();
-
+                Console.WriteLine("Size: " + size);
+                }
             return size;
         }
 
@@ -144,8 +145,16 @@ namespace FolderSynchMUIClient
         {
             ObservableCollection<Item> items = new ObservableCollection<Item>();
 
-            items.Concat(getFolderItems());
-            items.Concat(getFileItems());
+            List<FileItem> fileItem = getFileItems();
+            List<FolderItem> folderItem = getFolderItems();
+
+            foreach (FileItem fi in fileItem)
+                Items.Add(fi);
+
+            foreach (FolderItem ff in folderItem)
+                Items.Add(ff);
+
+            Console.WriteLine("Items: " + Items.Count);
 
             return items;
         }
