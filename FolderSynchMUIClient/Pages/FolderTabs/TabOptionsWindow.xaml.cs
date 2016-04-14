@@ -21,7 +21,7 @@ namespace FolderSynchMUIClient.Pages
     /// </summary>
     public partial class TabOptionsWindow : UserControl
     {
-        public Folder f;
+        public LocalFolder f;
 
         public TabOptionsWindow()
         {
@@ -30,32 +30,36 @@ namespace FolderSynchMUIClient.Pages
 
         private void autoRefreshUp_Click(object sender, RoutedEventArgs e)
         {
-            f = (Folder)(this.DataContext);
+            f = (LocalFolder)(this.DataContext);
             txtAutoRefresh.Text = (f.AutoRefreshTime + 1).ToString();
            
         }
         
         private void autoRefreshDown_Click(object sender, RoutedEventArgs e)
         {
-            f = (Folder)(this.DataContext);
+            f = (LocalFolder)(this.DataContext);
             txtAutoRefresh.Text = (f.AutoRefreshTime - 1).ToString();
             
         }
 
         private void autoDeleteUp_Click(object sender, RoutedEventArgs e)
         {
-            f = (Folder)(this.DataContext);
+            f = (LocalFolder)(this.DataContext);
             txtAutoDelete.Text = (f.AutoDeleteTime + 1).ToString();
             
         }
 
         private void autoDeleteDown_Click(object sender, RoutedEventArgs e)
         {
-            f = (Folder)(this.DataContext);
+            f = (LocalFolder)(this.DataContext);
             txtAutoDelete.Text = (f.AutoDeleteTime - 1).ToString();
             
         }
 
-        
+        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            //TODO
+        }
+
     }
 }
