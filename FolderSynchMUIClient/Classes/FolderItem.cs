@@ -77,7 +77,7 @@ namespace FolderSynchMUIClient
             List<Change> changes = new List<Change>();
             List<String> files = new List<string>(Directory.GetFiles(this.Path));
 
-
+            // 1) see if old files are still there -----------------------------------------
             foreach(FileItem f in LatestUpdateFileItems)
             {
                 int found = files.FindIndex(item => item.Equals(f.Path));
@@ -94,12 +94,14 @@ namespace FolderSynchMUIClient
                         changes.Add(new Change(Change.CHANGED_FILE, f.Path));
                     }
 
+                    Console.WriteLine("now removing " + files[found]);
                     files.RemoveAt(found);
                 }
             }
 
             foreach(string file in files)
             {
+                Console.WriteLine("new file: " + file);
                 changes.Add(new Change(Change.NEW_FILE, file));
             }
 
@@ -118,7 +120,11 @@ namespace FolderSynchMUIClient
                     }
                 }
                 else
-                    changes.Concat(fi.DetectChanges(lastUpdateTime));
+                {
+                    List<Change> subCHanges = fi.DetectChanges(lastUpdateTime);
+                    foreach (Change sc in subCHanges)
+                        changes.Add(sc);
+                }
             } 
 
             return changes;
@@ -182,11 +188,16 @@ namespace FolderSynchMUIClient
         {
             List<Item> items = new List<Item>();
 
-            items.Concat(LatestUpdateFileItems);
-            items.Concat(LatestUpdateFolderItems);
+            foreach (FileItem i in LatestUpdateFileItems)
+                items.Add(i);
 
             foreach (FolderItem fi in LatestUpdateFolderItems)
-                items.Concat(fi.getAllLatestSubItems());
+            {
+                items.Add(fi);
+                List<Item> subItems = fi.getAllLatestSubItems();
+                foreach (Item si in subItems)
+                    items.Add(si);
+            }
 
             return items;
         }
