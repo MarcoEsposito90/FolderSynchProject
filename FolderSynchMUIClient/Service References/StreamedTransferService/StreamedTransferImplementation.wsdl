@@ -26,10 +26,20 @@
     <wsdl:part name="username" element="tns:username" />
   </wsdl:message>
   <wsdl:message name="StreamedTransferContract_uploadFileStreamed_OutputMessage" />
+  <wsdl:message name="StreamedTransferContract_downloadFileStreamed_InputMessage">
+    <wsdl:part name="parameters" element="tns:downloadFileStreamed" />
+  </wsdl:message>
+  <wsdl:message name="StreamedTransferContract_downloadFileStreamed_OutputMessage">
+    <wsdl:part name="parameters" element="tns:downloadFileStreamedResponse" />
+  </wsdl:message>
   <wsdl:portType name="StreamedTransferContract">
     <wsdl:operation name="uploadFileStreamed">
       <wsdl:input wsaw:Action="http://tempuri.org/StreamedTransferContract/uploadFileStreamed" name="FileStreamMessage" message="tns:FileStreamMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/StreamedTransferContract/uploadFileStreamedResponse" message="tns:StreamedTransferContract_uploadFileStreamed_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="downloadFileStreamed">
+      <wsdl:input wsaw:Action="http://tempuri.org/StreamedTransferContract/downloadFileStreamed" message="tns:StreamedTransferContract_downloadFileStreamed_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/StreamedTransferContract/downloadFileStreamedResponse" message="tns:StreamedTransferContract_downloadFileStreamed_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="serviceStreamEndpoint" type="tns:StreamedTransferContract">
@@ -42,6 +52,15 @@
         <soap12:header message="tns:FileStreamMessage_Headers" part="localPath" use="literal" />
         <soap12:header message="tns:FileStreamMessage_Headers" part="transactionID" use="literal" />
         <soap12:header message="tns:FileStreamMessage_Headers" part="username" use="literal" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="downloadFileStreamed">
+      <soap12:operation soapAction="http://tempuri.org/StreamedTransferContract/downloadFileStreamed" style="document" />
+      <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
       <wsdl:output>

@@ -30,7 +30,7 @@ namespace FolderSynchMUIClient.Pages
 
             TBMessage.Text = "The folders you are missing on this device:\n";
             foreach (Folder f in folders)
-                TBMessage.Text += f.Name + "\n";
+                TBMessage.Text += f.FolderName + "\n";
 
             // define the dialog buttons
             this.Buttons = new Button[] { this.OkButton };

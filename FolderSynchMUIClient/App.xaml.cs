@@ -55,7 +55,6 @@ namespace FolderSynchMUIClient
             get { return _User; }
             set
             {
-
                 if (value != null)
                 {
                     _User = value;
@@ -146,8 +145,8 @@ namespace FolderSynchMUIClient
 
             foreach (Folder f in User.Folders)
             {
-                Console.WriteLine("Checking for folder: " + f.Name);
-                int index = LocalFolders.ToList().FindIndex(item => item.Name.Equals(f.Name));
+                Console.WriteLine("Checking for folder: " + f.FolderName);
+                int index = LocalFolders.ToList().FindIndex(item => item.Name.Equals(f.FolderName));
                 if (index != -1)
                 {
                     FolderWatcher fw = new FolderWatcher(f, LocalFolders.ElementAt(index));
@@ -295,7 +294,7 @@ namespace FolderSynchMUIClient
         {
 
             List<LocalFolder> allLocalFolders = getAllLocalFolders();
-            LocalFolder lf = new LocalFolder(User.Username, folder.Name, path);
+            LocalFolder lf = new LocalFolder(User.Username, folder.FolderName, path);
             allLocalFolders.Add(lf);
 
             StreamWriter sw = new StreamWriter("folders.txt", false);

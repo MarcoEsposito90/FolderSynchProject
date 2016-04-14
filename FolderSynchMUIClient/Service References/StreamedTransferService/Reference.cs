@@ -21,6 +21,12 @@ namespace FolderSynchMUIClient.StreamedTransferService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/StreamedTransferContract/uploadFileStreamed", ReplyAction="http://tempuri.org/StreamedTransferContract/uploadFileStreamedResponse")]
         System.Threading.Tasks.Task<FolderSynchMUIClient.StreamedTransferService.uploadFileStreamedResponse> uploadFileStreamedAsync(FolderSynchMUIClient.StreamedTransferService.FileStreamMessage request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/StreamedTransferContract/downloadFileStreamed", ReplyAction="http://tempuri.org/StreamedTransferContract/downloadFileStreamedResponse")]
+        System.IO.Stream downloadFileStreamed(string username, string baseFolder, string localPath, int updateNumber);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/StreamedTransferContract/downloadFileStreamed", ReplyAction="http://tempuri.org/StreamedTransferContract/downloadFileStreamedResponse")]
+        System.Threading.Tasks.Task<System.IO.Stream> downloadFileStreamedAsync(string username, string baseFolder, string localPath, int updateNumber);
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -121,6 +127,14 @@ namespace FolderSynchMUIClient.StreamedTransferService {
             inValue.username = username;
             inValue.data = data;
             return ((FolderSynchMUIClient.StreamedTransferService.StreamedTransferContract)(this)).uploadFileStreamedAsync(inValue);
+        }
+        
+        public System.IO.Stream downloadFileStreamed(string username, string baseFolder, string localPath, int updateNumber) {
+            return base.Channel.downloadFileStreamed(username, baseFolder, localPath, updateNumber);
+        }
+        
+        public System.Threading.Tasks.Task<System.IO.Stream> downloadFileStreamedAsync(string username, string baseFolder, string localPath, int updateNumber) {
+            return base.Channel.downloadFileStreamedAsync(username, baseFolder, localPath, updateNumber);
         }
     }
 }

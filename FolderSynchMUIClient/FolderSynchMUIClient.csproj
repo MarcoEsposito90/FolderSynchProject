@@ -264,10 +264,10 @@
     <None Include="Service References\FolderSynchService\item.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\FolderSynchService\item2.xsd">
+    <None Include="Service References\FolderSynchService\item1.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\FolderSynchService\item4.xsd">
+    <None Include="Service References\FolderSynchService\item2.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\StreamedTransferService\FolderSynchMUIClient.StreamedTransferService.uploadFileStreamedResponse.datasource">
@@ -325,37 +325,28 @@
     <Content Include="Icons\MySync_Icon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="users.txt" />
-    <None Include="Service References\StreamedTransferService\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-    <None Include="Service References\StreamedTransferService\configuration.svcinfo" />
-    <None Include="Service References\StreamedTransferService\configuration91.svcinfo" />
-    <None Include="Service References\StreamedTransferService\item.disco" />
+    <None Include="Service References\FolderSynchService\item.disco" />
+    <None Include="Service References\FolderSynchService\configuration91.svcinfo" />
+    <None Include="Service References\FolderSynchService\configuration.svcinfo" />
     <None Include="Service References\FolderSynchService\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <None Include="Service References\FolderSynchService\configuration.svcinfo" />
-    <None Include="Service References\FolderSynchService\configuration91.svcinfo" />
-    <None Include="Service References\FolderSynchService\item.disco" />
+    <None Include="Service References\StreamedTransferService\item.disco" />
+    <None Include="Service References\StreamedTransferService\configuration91.svcinfo" />
+    <None Include="Service References\StreamedTransferService\configuration.svcinfo" />
     <None Include="Service References\StreamedTransferService\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <Content Include="users.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FolderSynchService\ServicesProject.csproj">
       <Project>{346a7ac7-9771-49af-9e8e-f151dbc9b065}</Project>
       <Name>ServicesProject</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FolderSynchService\ServicesProject.csproj">
-      <Project>{346a7ac7-9771-49af-9e8e-f151dbc9b065}</Project>
-      <Name>ServicesProject</Name>
-    </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>

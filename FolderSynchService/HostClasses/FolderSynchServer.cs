@@ -256,13 +256,13 @@ namespace ServicesProject
 
         public void AddNewFolder(User user, Folder folder)
         {
-            if (Directory.Exists(RemoteFoldersPath + "\\" + user.Username + "\\" + folder.Name))
+            if (Directory.Exists(RemoteFoldersPath + "\\" + user.Username + "\\" + folder.FolderName))
                 throw new FaultException(new FaultReason("directory already on server"));
 
             user.Folders.Add(folder);
 
             UsersFileHandler.Instance.WriteUsersList(new List<User>(Users.Values));
-            Directory.CreateDirectory(RemoteFoldersPath + "\\" + user.Username + "\\" + folder.Name);
+            Directory.CreateDirectory(RemoteFoldersPath + "\\" + user.Username + "\\" + folder.FolderName);
         }
 
         /* ----------------------------------------------------------------------------------------------- */
@@ -380,7 +380,7 @@ namespace ServicesProject
         {
             bool exists = false;
             foreach (Folder f in user.Folders)
-                if (f.Name.Equals(baseFolder))
+                if (f.FolderName.Equals(baseFolder))
                 {
                     exists = true;
                     break;
@@ -400,7 +400,7 @@ namespace ServicesProject
 
             bool exists = false;
             foreach (Folder f in user.Folders)
-                if (f.Name.Equals(baseFolder))
+                if (f.FolderName.Equals(baseFolder))
                 {
                     exists = true;
                     break;
@@ -425,7 +425,7 @@ namespace ServicesProject
 
             bool exists = false;
             foreach (Folder f in user.Folders)
-                if (f.Name.Equals(baseFolder))
+                if (f.FolderName.Equals(baseFolder))
                 {
                     exists = true;
                     break;
@@ -451,9 +451,9 @@ namespace ServicesProject
             if (!UpdateHandlers.TryGetValue(user.Username + baseFolder, out handler))
             {
                 foreach (Folder f in user.Folders)
-                    if (f.Name.Equals(baseFolder))
+                    if (f.FolderName.Equals(baseFolder))
                     {
-                        handler = new UpdatesFileHandler(user, f.Name);
+                        handler = new UpdatesFileHandler(user, f.FolderName);
                         break;
                     }
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="bb0cd53e-8559-4ece-b86f-a35ab8422a1c" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="3652d4d5-af5b-42ea-89e0-200f2fa3cf4e" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -22,11 +22,11 @@
     <MetadataSource Address="http://localhost:8081/" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="item.xsd" MetadataType="Schema" ID="d61fcb83-a79b-434b-8b0e-987dd82fe690" SourceId="1" SourceUrl="http://localhost:8081/?xsd=xsd2" />
-    <MetadataFile FileName="item1.xsd" MetadataType="Schema" ID="9ffba12d-dc39-4abf-8225-c0bd03978543" SourceId="1" SourceUrl="http://localhost:8081/?xsd=xsd0" />
-    <MetadataFile FileName="item2.xsd" MetadataType="Schema" ID="357be3d6-45fe-476a-bdc7-516f7cf7eb15" SourceId="1" SourceUrl="http://localhost:8081/?xsd=xsd1" />
-    <MetadataFile FileName="item.disco" MetadataType="Disco" ID="6b2f302a-34c1-4b50-af83-ef4bdc3f3b08" SourceId="1" SourceUrl="http://localhost:8081/?disco" />
-    <MetadataFile FileName="StreamedTransferImplementation.wsdl" MetadataType="Wsdl" ID="73abe071-4f5b-4182-959c-2104640895b4" SourceId="1" SourceUrl="http://localhost:8081/?wsdl" />
+    <MetadataFile FileName="item.xsd" MetadataType="Schema" ID="6f5438e9-a7e7-4976-8f3e-7541bb4500af" SourceId="1" SourceUrl="http://localhost:8081/?xsd=xsd2" />
+    <MetadataFile FileName="item1.xsd" MetadataType="Schema" ID="01f6aba8-7d0e-4aeb-a0f1-0d230cc38914" SourceId="1" SourceUrl="http://localhost:8081/?xsd=xsd0" />
+    <MetadataFile FileName="item2.xsd" MetadataType="Schema" ID="6e160865-0080-4a1c-85aa-d93f05dc2668" SourceId="1" SourceUrl="http://localhost:8081/?xsd=xsd1" />
+    <MetadataFile FileName="item.disco" MetadataType="Disco" ID="dfedac30-34b3-4be1-87ff-a9fd6c69d6e3" SourceId="1" SourceUrl="http://localhost:8081/?disco" />
+    <MetadataFile FileName="StreamedTransferImplementation.wsdl" MetadataType="Wsdl" ID="017873af-74da-4e27-8b17-c0bf0dafc2eb" SourceId="1" SourceUrl="http://localhost:8081/?wsdl" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

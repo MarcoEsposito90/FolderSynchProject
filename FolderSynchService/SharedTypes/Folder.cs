@@ -19,7 +19,7 @@ namespace ServicesProject
         /* -------------- PROPERTIES -------------------------*/
 
         [DataMember]
-        public string Name { get; set; }
+        public string FolderName { get; set; }
 
         [DataMember]
         public string Username { get; private set; }
@@ -36,9 +36,10 @@ namespace ServicesProject
 
         /* -------------- CONSTRUCTORS -------------------------*/
 
-        public Folder()
+        public Folder(string Name, string Username)
         {
-
+            this.FolderName = Name;
+            this.Username = Username;
         }
 
 

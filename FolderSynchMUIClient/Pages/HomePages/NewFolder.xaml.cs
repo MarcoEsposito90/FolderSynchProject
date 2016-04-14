@@ -77,7 +77,7 @@ namespace FolderSynchMUIClient.Pages.HomePages
             try
             {
                 Folder newFold = new Folder();
-                newFold.Name = folderName;
+                newFold.FolderName = folderName;
                 newFold.Username = application.User.Username;
                 newFold.AutoRefreshTime = int.Parse(RefreshComboBox.SelectedItem.ToString());
                 newFold.AutoDeleteTime = int.Parse(DeleteComboBox.SelectedItem.ToString());
@@ -88,7 +88,7 @@ namespace FolderSynchMUIClient.Pages.HomePages
                 proxy.addNewSynchronizedFolder(newFold);
 
                 // 4) proceed to upload
-                LocalFolder lf = new LocalFolder(application.User.Username, newFold.Name, choosedFolderPathEditor.Text);
+                LocalFolder lf = new LocalFolder(application.User.Username, newFold.FolderName, choosedFolderPathEditor.Text);
                 lf.AutoRefreshTime = int.Parse(RefreshComboBox.SelectedItem.ToString());
                 lf.AutoDeleteTime = int.Parse(DeleteComboBox.SelectedItem.ToString());
 

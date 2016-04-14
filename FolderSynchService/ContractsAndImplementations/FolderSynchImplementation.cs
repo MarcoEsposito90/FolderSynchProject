@@ -23,6 +23,12 @@ namespace ServicesProject
         {
             currentUser = FolderSynchServer.Instance.LoginUser(username, password);
             ActiveTransactions = new Dictionary<string, UpdateTransaction>();
+
+            Console.WriteLine(currentUser.Username + " wants to login");
+            Console.WriteLine(currentUser.Username + " Folders list: ");
+            foreach (Folder f in currentUser.Folders)
+                Console.WriteLine(f.FolderName);
+
             return currentUser;
         }
 
@@ -95,7 +101,7 @@ namespace ServicesProject
 
         public void addNewSynchronizedFolder(Folder folder)
         {
-            Console.WriteLine(currentUser.Username + " wants to add a new folder: " + folder.Name);
+            Console.WriteLine(currentUser.Username + " wants to add a new folder: " + folder.FolderName);
             FolderSynchServer.Instance.AddNewFolder(currentUser, folder);
         }
 

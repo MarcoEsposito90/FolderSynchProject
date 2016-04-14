@@ -38,7 +38,10 @@ namespace FolderSynchMUIClient.Pages
                 FolderSynchServiceContractClient proxy = application.FolderSynchProxy;
 
                 application.User = proxy.loginUser(TBLoginUsername.Text.ToString(), TBLoginPassword.Password.ToString());
-                responseLabel.Content = "login successful";
+                Console.WriteLine("user object obtained. FOlders list: ");
+
+                foreach (Folder f in application.User.Folders)
+                    Console.WriteLine(f.FolderName + "; synched at: " + f.SynchDate);
 
                 if (CheckBoxRemember.IsChecked.Value)
                     application.AddKnownUser(TBLoginUsername.Text, TBLoginPassword.Password);
@@ -54,7 +57,7 @@ namespace FolderSynchMUIClient.Pages
                 List<Folder> missingFolders = new List<Folder>();
                 foreach(Folder f in application.User.Folders)
                 {
-                    int found = localFolders.FindIndex(item => item.Name.Equals(f.Name));
+                    int found = localFolders.FindIndex(item => item.Name.Equals(f.FolderName));
 
                     if (found == -1)
                         missingFolders.Add(f);
