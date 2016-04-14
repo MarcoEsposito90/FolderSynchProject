@@ -27,11 +27,12 @@ namespace FolderSynchMUIClient.Pages.HomePages
         {
             InitializeComponent();
             App application = (App)Application.Current;
-            ObservableCollection<LocalFolder> FolderList = new ObservableCollection<LocalFolder>(application.getLocalFolders());
-            Console.WriteLine("FolderList created, contains {0} elements", FolderList.Count);
 
+            //1. Retrieving user's local folders
+            ObservableCollection<LocalFolder> FolderList = new ObservableCollection<LocalFolder>(application.getLocalFolders());
             foldersButtonControl.ItemsSource = application.LocalFolders;
 
+            //2. Retrieving folders updates
             if (application.LocalFolders.Count > 0) { 
                 foldersButtonControl.SelectedItem = application.LocalFolders[0];
                 foreach (LocalFolder lf in FolderList)
@@ -44,6 +45,7 @@ namespace FolderSynchMUIClient.Pages.HomePages
 
         private void foldersButtonControl_changed(object sender, SelectionChangedEventArgs e)
         {
+            //Change the context of the tabs 
             if (foldersButtonControl.SelectedItem != null)
             {
                 App application = (App)Application.Current;

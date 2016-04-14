@@ -12,7 +12,11 @@
     <Grid Style="{StaticResource ContentRoot}">
         <ScrollViewer>
             <StackPanel MinWidth="200">
+
+                <!-- TITLE -->
                 <TextBlock Text="MY FOLDERS" Style="{StaticResource Heading1}" />
+                <!-- END TITLE -->
+
                 <Grid Margin="0,10,0,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*"/>
@@ -21,11 +25,13 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*"/>
                     </Grid.RowDefinitions>
+
+                    <!-- FOLDERS LIST -->
                     <Border BorderThickness="0,0,1,0" BorderBrush="LightGray" Margin="0,10,0,0">
                         <ListBox Name="foldersButtonControl" SelectionChanged="foldersButtonControl_changed" 
                                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="0,10,5,0" 
                                  Grid.Column="0" Grid.Row="0">
-                            
+
                             <ListBox.ItemTemplate>
                                 <DataTemplate >
                                     <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" 
@@ -34,21 +40,13 @@
                                                Width="{Binding ActualWidth, ElementName=foldersButtonControl}"/>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
-                        </ListBox> 
+                        </ListBox>
                     </Border>
-                    <!--
-                    <ItemsControl Name="foldersButtonControl" Margin="0,10,10,0" Grid.Column="0" Grid.Row="0">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Button x:Name="folderNameButton" Click="folderNameButton_Click" HorizontalContentAlignment="Left" Width="{Binding ActualWidth, ElementName=foldersButtonControl}">
-                                    <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" TextAlignment="Left"/>
-                                </Button>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                    -->
+                    <!-- FOLDERS LIST -->
+
+                    <!-- TAB CONTAINER -->
                     <mui:ModernTab Name="FolderTab" Margin="10,30,10,10" Grid.Column="1" Grid.Row="0" 
-                                    SelectedSource="/Pages/FolderTabs/TabDetailsWindow.xaml">
+                                   SelectedSource="/Pages/FolderTabs/TabDetailsWindow.xaml">
                         <mui:ModernTab.Links>
                             
                             <mui:Link DisplayName="Details" 
@@ -64,6 +62,8 @@
                                       Source="/Pages/FolderTabs/TabOptionsWindow.xaml" />
                         </mui:ModernTab.Links>
                     </mui:ModernTab>
+                    <!-- END TAB CONTAINER -->
+                    
                 </Grid>
             </StackPanel>
         </ScrollViewer>

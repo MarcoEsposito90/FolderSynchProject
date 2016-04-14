@@ -8,12 +8,7 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <ScrollViewer>
-            <TabControl>
-                <TabItem Header="He" Width="50"/>
-                <TabItem Header="Was" Width="50"/>
-                <TabItem Header="A" Width="50"/>
-                <TabItem Header="Walker" Width="50"/>
-            </TabControl>
+            
             
         </ScrollViewer>
     </Grid>

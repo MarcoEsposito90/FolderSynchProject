@@ -6,18 +6,16 @@
              xmlns:mui="http://firstfloorsoftware.com/ModernUI"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid Style="{StaticResource ContentRoot}">
-
+    
+    <Grid>
         <ScrollViewer>
-
             <StackPanel MinWidth="200">
-
                 <TextBlock 
                     Text="REGISTER" 
                     Style="{StaticResource Heading1}" 
-                    Margin="10"/>
+                    Margin="10,10,10,0"/>
 
-                <Grid>
+                <!--<Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="2.5*"/>
@@ -27,25 +25,26 @@
                         <RowDefinition Height="1*"/>
                         <RowDefinition Height="1*"/>
 
-                    </Grid.RowDefinitions>
-                    <TextBlock Text="Username: " 
-                               Grid.Column="0" Grid.Row="0"
-                           Foreground="{DynamicResource ItemBackgroundSelected}" 
-                               VerticalAlignment="Center" 
-                               Margin="30,10,10,10" FontSize="16" />
+                    </Grid.RowDefinitions>-->
 
-                    <TextBox Name="TBRegisterUsername" 
+                <TextBlock Text="Username: " 
+                           Foreground="{DynamicResource ItemBackgroundSelected}" 
+                               Grid.Column="0" Grid.Row="0" 
+                               VerticalAlignment="Center" 
+                               Margin="10,10,10,0" FontSize="16"/>
+
+                <TextBox Name="TBRegisterUsername" 
                              Grid.Column="1" 
                              Grid.Row="0" 
                              FontSize="13.333" 
                              VerticalAlignment="Center" 
-                             Margin="0,10,30,10"/>
+                             Margin="10,5,20,10" />
 
                     <TextBlock Text="Password: " 
                                Grid.Column="0" Grid.Row="1"
                            Foreground="{DynamicResource ItemBackgroundSelected}" 
-                               VerticalAlignment="Center" 
-                               Margin="30,10,10,10" FontSize="16"/>
+                              VerticalAlignment="Center" 
+                               Margin="10,10,10,0" FontSize="16"/>
 
                     <PasswordBox Name="TBRegisterPassword" 
                                  PasswordChar="*"
@@ -53,28 +52,28 @@
                              Grid.Row="1" 
                              VerticalAlignment="Center" 
                              FontSize="13.333" 
-                             Margin="0,10,30,10"/>
+                             Margin="10,5,20,10" />
 
-                    <TextBlock Text="Confirm password: " 
+                <TextBlock Text="Confirm password: " 
                                Grid.Column="0" Grid.Row="2"
                            Foreground="{DynamicResource ItemBackgroundSelected}" 
                                VerticalAlignment="Center" 
-                               Margin="30,10,10,10" FontSize="16"/>
+                               Margin="10,10,10,0" FontSize="16"/>
 
-                    <PasswordBox Name="TBRegisterConfirmPassword" 
+                <PasswordBox Name="TBRegisterConfirmPassword" 
                                  PasswordChar="*"
                                 Grid.Column="1" 
                                 Grid.Row="2" 
                                 VerticalAlignment="Center" 
-                                 FontSize="13.333" 
-                                Margin="0,10,30,10"/>
+                                 FontSize="13.333"
+                             Margin="10,5,20,10" />
 
 
-                </Grid>
+                <!--</Grid>-->
 
 
                 <Button Name="ButtonRegister" 
-                        Margin="30,10,30,10" 
+                        Margin="10,20,20,10" 
                         Content="REGISTER NOW!" 
                         Style="{StaticResource BaseButtonStyle}"
                         Click="ButtonRegister_Click"/>

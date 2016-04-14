@@ -46,6 +46,7 @@ namespace FolderSynchMUIClient.Pages.HomePages
 
         private void btnBrowseFolder_Click(object sender, RoutedEventArgs e)
         {
+            //Showing folder picker dialog
             var openFolderDialog = new CommonOpenFileDialog();
             openFolderDialog.IsFolderPicker = true;
 

@@ -30,6 +30,7 @@ namespace FolderSynchMUIClient.Pages
 
         private void autoRefreshUp_Click(object sender, RoutedEventArgs e)
         {
+            //Increasing auto-refresh time
             f = (LocalFolder)(this.DataContext);
             txtAutoRefresh.Text = (f.AutoRefreshTime + 1).ToString();
            
@@ -37,6 +38,7 @@ namespace FolderSynchMUIClient.Pages
         
         private void autoRefreshDown_Click(object sender, RoutedEventArgs e)
         {
+            //Decreasing auto-refresh time
             f = (LocalFolder)(this.DataContext);
             txtAutoRefresh.Text = (f.AutoRefreshTime - 1).ToString();
             
@@ -44,6 +46,7 @@ namespace FolderSynchMUIClient.Pages
 
         private void autoDeleteUp_Click(object sender, RoutedEventArgs e)
         {
+            //Increasing auto-delete time
             f = (LocalFolder)(this.DataContext);
             txtAutoDelete.Text = (f.AutoDeleteTime + 1).ToString();
             
@@ -51,6 +54,7 @@ namespace FolderSynchMUIClient.Pages
 
         private void autoDeleteDown_Click(object sender, RoutedEventArgs e)
         {
+            //Decreasing auto-delete time
             f = (LocalFolder)(this.DataContext);
             txtAutoDelete.Text = (f.AutoDeleteTime - 1).ToString();
             
@@ -58,7 +62,8 @@ namespace FolderSynchMUIClient.Pages
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
-            //TODO
+            //TODO: metodo per eliminare la cartella sincronizzata
+            //VERIFICARE SE NECESSARIO E SE FATTIBILE.
         }
 
     }

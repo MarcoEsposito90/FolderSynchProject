@@ -5,60 +5,66 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:mui="http://firstfloorsoftware.com/ModernUI"
              xmlns:local="clr-namespace:FolderSynchMUIClient"
-             xmlns:service="clr-namespace:FolderSynchMUIClient.FolderSynchService"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             xmlns:service="clr-namespace:FolderSynchMUIClient.FolderSynchService">
 
     <ScrollViewer>
         <StackPanel>
-            <TextBlock Text="Browse folder " HorizontalAlignment="Left" 
-                           Style="{StaticResource Title}"
-                           VerticalAlignment="Center" Margin="10,10,0,0"  
-                           FontSize="26.667"
-                           Foreground="{DynamicResource ItemBackgroundSelected}" 
-                            />
 
-            <TreeView Name="trvFolders" ItemsSource="{Binding Items}" Margin="10,10,10,10" MouseLeftButtonUp="treeViewItem_Click">
+            <!-- TITLE -->
+            <TextBlock Text="Browse folder " HorizontalAlignment="Left" 
+                       Style="{StaticResource Title}" FontSize="26.667"
+                       VerticalAlignment="Center" Margin="10,10,0,0"  
+                       Foreground="{DynamicResource ItemBackgroundSelected}"/>
+            <!-- END TITLE -->
+
+            <!-- FOLDERS TREEVIEW -->
+            <TreeView Name="trvFolders" ItemsSource="{Binding Items}" 
+                      Margin="10,10,10,10" MouseLeftButtonUp="treeViewItem_Click">
+                
                 <TreeView.Resources>
-                    <HierarchicalDataTemplate DataType="{x:Type local:FolderItem}" ItemsSource="{Binding Items}">
+                    <!-- FOLDER ELEMENT -->
+                    <HierarchicalDataTemplate DataType="{x:Type local:FolderItem}" 
+                                              ItemsSource="{Binding Items}">
+                        
                         <StackPanel Orientation="Horizontal">
-                            <Image Width="20" Height="20" 
-                                   Margin="3">
+                            
+                            <Image Width="20" Height="20" Margin="3">
                                 <Image.Style>
                                     <Style TargetType="Image">
                                         <Setter Property="Source" Value="/Icons/MYFolder_Icon.png"/>
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=TreeViewItem}, Path=IsExpanded}" Value="True">
+                                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=TreeViewItem}, Path=IsExpanded}" 
+                                                         Value="True">
                                                 <Setter Property="Source" Value="/Icons/MYOpenFolder_Icon.png"/>
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
                                 </Image.Style>
                             </Image>
-                            <TextBlock Text="{Binding Name}" 
-                                      FontSize="14.667" 
-                                      VerticalAlignment="Center"
-                                      FontFamily="Segoe UI Semilight"
-                                           />
+                            
+                            <TextBlock Text="{Binding Name}" FontSize="14.667" 
+                                       VerticalAlignment="Center" FontFamily="Segoe UI Semilight"/>
+                            
                         </StackPanel>
                     </HierarchicalDataTemplate>
+                    <!-- END FOLDER ELEMENT -->
+
+                    <!-- FILE ELEMENT -->
                     <DataTemplate DataType="{x:Type local:Item}">
                         <StackPanel Orientation="Horizontal">
-                            <Image Width="20" Height="20" 
-                                   Margin="3"
-                                   Source="/Icons/MyFile_Icon.png"/>
-
-                            <TextBlock Text="{Binding Name}" 
-                                       FontSize="13.333" 
-                                       VerticalAlignment="Center"
-                                       FontFamily="Segoe UI Semilight" />
-                            <!--<TextBlock Text=" (" Foreground="Green" />
-                            <TextBlock Text="{Binding Path}" Foreground="Green" />
-                            <TextBlock Text=")" Foreground="Green" />-->
+                            
+                            <Image Width="20" Height="20"  Margin="3" Source="/Icons/MyFile_Icon.png"/>
+                            
+                            <TextBlock Text="{Binding Name}" FontSize="13.333" 
+                                       VerticalAlignment="Center" FontFamily="Segoe UI Semilight" />
+                           
                         </StackPanel>
                     </DataTemplate>
+                    <!-- END FILE ELEMENT -->
+                    
                 </TreeView.Resources>
             </TreeView>
+            <!-- END FOLDERS TREEVIEW -->
         </StackPanel>
     </ScrollViewer>
 

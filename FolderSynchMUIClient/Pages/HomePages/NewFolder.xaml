@@ -11,51 +11,45 @@
         
         <ScrollViewer>
             <StackPanel MinWidth="200">
-                
-                <TextBlock Text="NEW FOLDER" 
-                           Style="{StaticResource Heading1}" />
-                
-                <TextBlock Margin="10" 
-                           TextWrapping="Wrap" 
-                           Text="Would you like to synchronize a new folder? By selecting a folder in your filesystem, a remote version of it will be created." 
-                           FontSize="13.333" />
 
-                <TextBlock Text="Select a folder: "
-                           FontSize="21.333" Margin="10,0,10,10"
-                           Style="{StaticResource Title}"
-                           VerticalAlignment="Center" 
+                <!-- TITLE -->
+                <TextBlock Text="NEW FOLDER" Style="{StaticResource Heading1}" />
+                <!-- END TITLE -->
+
+                <!-- QUESTION -->
+                <TextBlock Margin="10" TextWrapping="Wrap" FontSize="13.333" 
+                           Text="Would you like to synchronize a new folder? By selecting a folder in your filesystem, a remote version of it will be created."/>
+                <!-- END QUESTION -->
+
+                <!-- FOLDER SELECTION SECTION -->
+                <TextBlock Text="Select a folder: " Style="{StaticResource Title}"
+                           FontSize="21.333" Margin="10,0,10,10" VerticalAlignment="Center" 
                            Foreground="{DynamicResource ItemBackgroundSelected}" />
                 
-                <StackPanel HorizontalAlignment="left" 
-                            Orientation="Horizontal"
-                           Margin="10,0,0,10">
+                <StackPanel HorizontalAlignment="left" Orientation="Horizontal"
+                            Margin="10,0,0,10">
 
                     <Image Width="50" Height="50" VerticalAlignment="Center"
                            Margin="0,0,5,0" Source="/Icons/MyAddFolder_Icon.png"/>
 
-                    <Button Name="btnBrowseFolder" 
-                            Content="Browse"
-                            VerticalAlignment="Center"
-                           FontSize="13.333" 
-                            Click="btnBrowseFolder_Click" 
-                            Margin="10,0,0,0" 
+                    <Button Name="btnBrowseFolder" Content="Browse"
+                            VerticalAlignment="Center" FontSize="13.333" 
+                            Click="btnBrowseFolder_Click" Margin="10,0,0,0" 
                             Style="{StaticResource BaseButtonStyle}"/>
-                  
-                </StackPanel>
+                 </StackPanel>
                 
-               <TextBox Name="choosedFolderPathEditor" 
-                             IsEnabled="False" 
-                             VerticalAlignment="Center"
-                             Foreground="Black" 
-                             Margin="10,0,10,0"/>
+               <TextBox Name="choosedFolderPathEditor" IsEnabled="False" 
+                        VerticalAlignment="Center" Foreground="Black" 
+                        Margin="10,0,10,0"/>
+                <!-- END FOLDER SELECTION SECTION -->
 
-                <TextBlock Text="Set folder options: "
-                           FontSize="21.333" Margin="10,10,10,0"
-                           Style="{StaticResource Title}"
-                           VerticalAlignment="Center" 
+                <!-- FOLDER OPTIONS SECTION -->
+                <TextBlock Text="Set folder options: " Style="{StaticResource Title}"
+                           FontSize="21.333" Margin="10,10,10,0" VerticalAlignment="Center" 
                            Foreground="{DynamicResource ItemBackgroundSelected}" />
 
                 <Grid Margin="10,10,10,0">
+                    
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
@@ -67,50 +61,55 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
+                    <!-- AUTO-REFRESH -->
                     <Image Width="50" Height="50" VerticalAlignment="Center"
-                           Grid.Column="0" Grid.Row="0"
-                           Margin="0,0,10,0" Source="/Icons/MySyncTime_Icon.png"/>
-
-                    <Image Width="50" Height="50" VerticalAlignment="Center"
-                           Grid.Column="0" Grid.Row="1"
-                           Margin="0,0,10,0" Source="/Icons/MyDelete_Icon.png"/>
-
+                           Grid.Column="0" Grid.Row="0" Margin="0,0,10,0" 
+                           Source="/Icons/MySyncTime_Icon.png"/>
+                    
                     <TextBlock Text="Refresh automatically every " Grid.Column="1" Grid.Row="0"
-                           FontSize="13.333" 
-                               Margin="0,5,5,5" VerticalAlignment="Center"/>
-                    <TextBlock Text="Delete updates older than " Grid.Column="1" Grid.Row="1"
-                           FontSize="13.333" 
-                               Margin="0,5,5,0" VerticalAlignment="Center"/>
-
+                               FontSize="13.333" Margin="0,5,5,5" VerticalAlignment="Center"/>  
+                    
                     <ComboBox Name="RefreshComboBox"  Margin="10,0,10,0"
-                           FontSize="13.333" 
-                              Grid.Column="2" Grid.Row="0" VerticalAlignment="Center"/>
+                              FontSize="13.333" Grid.Column="2" Grid.Row="0" 
+                              VerticalAlignment="Center"/>
+                    
+                     <TextBlock Text="hours " Margin="0,0,0,10"
+                               FontSize="13.333" Grid.Column="3" Grid.Row="0" 
+                               VerticalAlignment="Center"/>
+                    <!-- END AUTO-REFRESH -->
+
+                    <!-- AUTO-DELETE -->
+                    <Image Width="50" Height="50" VerticalAlignment="Center"
+                           Grid.Column="0" Grid.Row="1" Margin="0,0,10,0" 
+                           Source="/Icons/MyDelete_Icon.png"/>
+
+                    <TextBlock Text="Delete updates older than " Grid.Column="1" Grid.Row="1"
+                               FontSize="13.333" Margin="0,5,5,0" VerticalAlignment="Center"/>
+
                     <ComboBox Name="DeleteComboBox"  Margin="10,0,10,0"
-                           FontSize="13.333" 
-                              Grid.Column="2" Grid.Row="1" VerticalAlignment="Center"/>
+                              FontSize="13.333" Grid.Column="2" Grid.Row="1" 
+                              VerticalAlignment="Center"/>
 
-                    <TextBlock Text="hours " Margin="0,0,0,10"
-                           FontSize="13.333" 
-                              Grid.Column="3" Grid.Row="0" VerticalAlignment="Center"/>
                     <TextBlock Text="days " Margin="0,0,0,0"
-                           FontSize="13.333" 
-                              Grid.Column="3" Grid.Row="1" VerticalAlignment="Center"/>
-
+                               FontSize="13.333" Grid.Column="3" Grid.Row="1" 
+                               VerticalAlignment="Center"/>
+                    <!-- END AUTO-DELETE -->
+                    
                 </Grid>
+                <!-- END FOLDER OPTION SECTION -->
 
+                <!-- CONFIRM SYNC -->
                 <WrapPanel HorizontalAlignment="Center"
                            DockPanel.Dock="Top">
 
-                    <Button Name="btnSynchFolder" 
-                            Content="Synchronize this folder"
-                            Click="btnSynchFolder_Click" 
-                            Margin="20"  
-                            FontSize="14.667" 
-                            Style="{StaticResource BaseButtonStyle}"/>
+                    <Button Name="btnSynchFolder" Content="Synchronize this folder"
+                            Click="btnSynchFolder_Click" Margin="20"  
+                            FontSize="14.667" Style="{StaticResource BaseButtonStyle}"/>
                     
                 </WrapPanel>
 
                 <Label Name="responseLabel"/>
+                <!-- END CONFIRM SYNC -->
                 
             </StackPanel>
         </ScrollViewer>

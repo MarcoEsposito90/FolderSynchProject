@@ -6,20 +6,24 @@
              xmlns:mui="http://firstfloorsoftware.com/ModernUI"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    
     <Grid Style="{StaticResource ContentRoot}">
+        
         <ScrollViewer>
+            
             <StackPanel MinWidth="200">
+                
                 <TextBlock 
-                    Text="LOGOUT" 
-                    Style="{StaticResource Heading1}" 
+                    Text="LOGOUT" Style="{StaticResource Heading1}" 
                     Margin="10"/>
 
                 <TextBlock Text="Do you really want to logout?"
                            Foreground="{DynamicResource ItemBackgroundSelected}" 
-                               VerticalAlignment="Center" HorizontalAlignment="Center"
-                               Margin="20,10,20,10" FontSize="16"/>
+                           VerticalAlignment="Center" HorizontalAlignment="Center"
+                           Margin="20,10,20,10" FontSize="16"/>
 
                 <Grid HorizontalAlignment="Center">
+                    
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
@@ -28,25 +32,19 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     
-                     <Button Name="btnConfirmLogout" 
-                             Margin="30,10,30,10" 
-                             Grid.Row="0" Grid.Column="0"
-                             Content="YES" 
+                     <Button Name="btnConfirmLogout" Margin="30,10,30,10" 
+                             Grid.Row="0" Grid.Column="0" Content="YES" 
                              Style="{StaticResource BaseButtonStyle}"
                              Click="btnConfirmLogout_Click"/>
 
-                    <Button  Name="btnCancelLogout" 
-                             Margin="30,10,30,10" 
-                             Grid.Row="0" Grid.Column="1"
-                             Content="NO" 
+                    <Button  Name="btnCancelLogout" Margin="30,10,30,10" 
+                             Grid.Row="0" Grid.Column="1" Content="NO" 
                              Style="{StaticResource BaseButtonStyle}"
-                            Command="{x:Static NavigationCommands.BrowseBack}" 
-                            IsEnabled="True"/>
+                             Command="{x:Static NavigationCommands.BrowseBack}" 
+                             IsEnabled="True"/>
 
                 </Grid>
                 
-               
-
             </StackPanel>
         </ScrollViewer>
     </Grid>

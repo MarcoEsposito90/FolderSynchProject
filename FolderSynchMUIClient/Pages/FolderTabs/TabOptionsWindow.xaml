@@ -9,12 +9,13 @@
     <ScrollViewer>
         <StackPanel>
 
+            <!-- TITLE -->
             <TextBlock Text="Options " HorizontalAlignment="Left" 
-                           Style="{StaticResource Title}"
-                           VerticalAlignment="Center" Margin="10,10,0,0"  
-                           FontSize="26.667"
-                           Foreground="{DynamicResource ItemBackgroundSelected}" 
-                            />
+                       Style="{StaticResource Title}" FontSize="26.667"
+                       VerticalAlignment="Center" Margin="10,10,0,0"  
+                       Foreground="{DynamicResource ItemBackgroundSelected}"/>
+            <!-- END TITLE -->
+
             <Grid ScrollViewer.HorizontalScrollBarVisibility="Auto" Margin="10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -30,19 +31,23 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
+                <!-- AUTO-REFRESH SECTION -->
                 <Image Width="50" Height="50" VerticalAlignment="Center"
-                           Grid.Column="0" Grid.Row="0"
-                           Margin="10,0,0,0" Source="/Icons/MySyncTime_Icon.png"/>
+                       Grid.Column="0" Grid.Row="0" Margin="10,5,5,5" 
+                       Source="/Icons/MySyncTime_Icon.png"/>
 
                 <TextBlock Text="Auto refresh hours: " HorizontalAlignment="Left" 
                            Grid.Column="1" Grid.Row="0" 
-                           VerticalAlignment="Center" Margin="10" FontSize="14.667" FontFamily="Segoe UI Semilight"/>
+                           VerticalAlignment="Center" Margin="10" 
+                           FontSize="14.667" FontFamily="Segoe UI Semilight"/>
+                
                 <Button x:Name="autoRefreshUp"  
-                        Grid.Column="2" Grid.Row="0"
+                        Grid.Column="2" Grid.Row="0" 
+                        FontSize="14.667" 
                         Content=" ˄ " Click="autoRefreshUp_Click" 
                         Background="White"
                         Foreground="Black"
-                        Margin="5,10,5,10">
+                        Margin="5,15,5,15">
                     <Button.Style>
                         <Style>
                             <Style.Triggers>
@@ -66,25 +71,25 @@
                         </Style>
                     </Button.Style>
                 </Button>
+                <!-- END AUTO-REFRESH SECTION -->
 
-
+                <!-- AUTO-DELETE SECTION -->
                 <Image Width="50" Height="50" VerticalAlignment="Center"
-                           Grid.Column="0" Grid.Row="1"
-                           Margin="10,0,0,0" Source="/Icons/MyDelete_Icon.png"/>
+                       Grid.Column="0" Grid.Row="1" Margin="10,5,5,5" 
+                       Source="/Icons/MyDelete_Icon.png"/>
+                
                 <TextBlock x:Name="txtAutoRefresh" 
                            Grid.Column="3" Grid.Row="0"
                            Text="{Binding AutoRefreshTime, Mode=TwoWay}" 
-                           Background="White"
-                           Foreground="Black"
-                           Padding="4"
-                           TextAlignment="Center"
-                           Margin="5,10,5,10" />
+                           Background="White" Foreground="Black"
+                           Padding="4" FontSize="14.667" Margin="5,15,5,15" 
+                           VerticalAlignment="Center" TextAlignment="Center"/>
+                
                 <Button x:Name="autoRefreshDown" 
                         Grid.Column="4" Grid.Row="0"
-                        Background="White"
-                        Foreground="Black"
-                        Content=" ˅ " Click="autoRefreshDown_Click"
-                        Margin="5,10,5,10">
+                        Background="White"  Foreground="Black"
+                        FontSize="14.667" Margin="5,15,5,15"
+                        Content=" ˅ " Click="autoRefreshDown_Click">
                     <Button.Style>
                         <Style>
                             <Style.Triggers>
@@ -110,14 +115,14 @@
                 </Button>
 
                 <TextBlock Text="Auto delete days: " HorizontalAlignment="Left" 
-                           Grid.Column="1" Grid.Row="1" 
-                           VerticalAlignment="Center" Margin="10" FontSize="14.667" FontFamily="Segoe UI Semilight"/>
+                           Grid.Column="1" Grid.Row="1" Margin="10" FontSize="14.667" 
+                           VerticalAlignment="Center" FontFamily="Segoe UI Semilight"/>
+                
                 <Button x:Name="autoDeleteUp"  
                         Grid.Column="2" Grid.Row="1"
                         Content=" ˄ " Click="autoDeleteUp_Click" 
-                        Background="White"
-                        Foreground="Black"
-                        Margin="5,10,5,10">
+                        Background="White" Foreground="Black" 
+                        FontSize="14.667" Margin="5,15,5,15">
                     <Button.Style>
                         <Style>
                             <Style.Triggers>
@@ -144,17 +149,15 @@
                 <TextBlock x:Name="txtAutoDelete" 
                            Grid.Column="3" Grid.Row="1"
                            Text="{Binding AutoDeleteTime, Mode=TwoWay}" 
-                           Background="White"
-                           Foreground="Black"
-                           Padding="4"
-                           TextAlignment="Center"
-                           Margin="5,10,5,10"/>
+                           Background="White" Foreground="Black"
+                           Padding="4" FontSize="14.667" 
+                           TextAlignment="Center" Margin="5,15,5,15"/>
+                
                 <Button x:Name="autoDeleteDown" 
                         Grid.Column="4" Grid.Row="1"
                         Content=" ˅ " Click="autoDeleteDown_Click"
-                        Background="White"
-                        Foreground="Black"
-                        Margin="5,10,5,10">
+                        Background="White" Foreground="Black" 
+                        FontSize="14.667" Margin="5,15,5,15">
                     <Button.Style>
                         <Style>
                             <Style.Triggers>
@@ -178,18 +181,21 @@
                         </Style>
                     </Button.Style>
                 </Button>
+                <!-- END AUTO-DELETE SECTION -->
 
+                <!-- DELETE FOLDER SECTION -->
                 <Image Width="30" Height="50" VerticalAlignment="Center"
                        HorizontalAlignment="Center"
-                           Grid.Column="0" Grid.Row="2"
-                           Margin="10,0,0,0" Source="/Icons/MyDustbin_Icon.png"/>
+                       Grid.Column="0" Grid.Row="2"
+                       Margin="10,5,5,5" Source="/Icons/MyDustbin_Icon.png"/>
 
                 <Button Name="btnDeleteFolder_Click"
-                        Grid.Row="2" Grid.Column="1"
+                        Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="4"
                         Margin="10" VerticalAlignment="Center"
                         Content="Delete this folder"
                         FontSize="14.667" FontFamily="Segoe UI Semilight"
                         Click="btnDelete_Click"/>
+                <!-- END DELETE FOLDER SECTION -->
 
                 <!-- <Button Name="btnSaveChanges"
                         Grid.Row="2" Grid.ColumnSpan="4"

@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mui="http://firstfloorsoftware.com/ModernUI"
         Title="FolderSynch" IsTitleVisible="True"
-             Height="768" Width="1024"
+             Height="700" Width="450"
         LogoData=""
         ContentSource="/Pages/UserPages/LoginPage.xaml"
         >
