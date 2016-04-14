@@ -68,5 +68,7 @@ namespace FolderSynchMUIClient
             this.Username = username;
         }
 
+
+        
     }
 }

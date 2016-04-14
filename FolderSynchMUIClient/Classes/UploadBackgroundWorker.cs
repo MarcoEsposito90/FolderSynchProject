@@ -1,5 +1,6 @@
 ﻿using FolderSynchMUIClient.FolderSynchService;
 using FolderSynchMUIClient.StreamedTransferService;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,19 +23,45 @@ namespace FolderSynchMUIClient.Classes
 
 
         private LocalFolder LocalFolder;
+        private List<Item.Change> Changes;
+
         private int filesNumber;
         private int filesUploaded;
         private App application;
         private FolderSynchServiceContractClient proxy;
         private StreamedTransferContractClient streamProxy;
 
+
+        /* ------------------------------------------------------------------------------ */
+        /* ------------------------ CONTRUCTORS ----------------------------------------- */
+        /* ------------------------------------------------------------------------------ */
+
+        // whole folder uploader
         public UploadBackgroundWorker(LocalFolder localFolder) : base()
         {
             this.LocalFolder = localFolder;
+            Changes = null;
+
             filesNumber = 0;
             filesUploaded = 0;
 
             DoWork += Upload_BackgroundWork;
+
+            application = (App)Application.Current;
+            proxy = application.FolderSynchProxy;
+            streamProxy = application.StreamTransferProxy;
+        }
+
+
+        // incremental uploader
+        public UploadBackgroundWorker(LocalFolder localFolder, List<Item.Change> changes) : base()
+        {
+            this.LocalFolder = localFolder;
+            this.Changes = changes;
+            filesNumber = 0;
+            filesUploaded = 0;
+
+            DoWork += Upload_BackgroundWork_Incremental;
 
             application = (App)Application.Current;
             proxy = application.FolderSynchProxy;
@@ -53,8 +80,13 @@ namespace FolderSynchMUIClient.Classes
             worker.ReportProgress(0, State.Computing);
             Update newUpdate = null;
 
+            // 1) temporary save the object ---------------------------------------------
+            string localFolderSerialized = JsonConvert.SerializeObject(LocalFolder);
+            LocalFolder.setLatestUpdateItems();
+            LocalFolder.printLastUpdateStructure();
+
             // 2) compute size -----------------------------------------------------
-            filesNumber = computeSize(LocalFolder.Path);
+            filesNumber = computeFileNumber(LocalFolder);
             worker.ReportProgress(0, State.Uploading);
 
             try
@@ -65,50 +97,61 @@ namespace FolderSynchMUIClient.Classes
                     DateTime timestamp = DateTime.Now;
                     UpdateTransaction transaction = proxy.beginUpdate(LocalFolder.Name, timestamp);
 
-                    uploadDirectory(LocalFolder.Path, transaction, worker);
+                    uploadDirectory(LocalFolder, transaction, worker);
                     newUpdate = proxy.updateCommit(transaction);
+
+                    e.Result = new UploadWorkerResponse(true, "");
+                    LocalFolder.LastUpdate = newUpdate;
+                }
+                else
+                {
+                    e.Result = new UploadWorkerResponse(false, UploadWorkerResponse.USER_NOT_CONNECTED);
                 }
 
             }
             catch (FaultException f)
             {
                 Console.WriteLine("error: " + f.Reason);
-                e.Result = new UploadWorkerResponse(false, UploadWorkerResponse.ERROR_MESSAGE);
-            }
+                
+                // rollback to saved object
+                Newtonsoft.Json.Linq.JObject o = (Newtonsoft.Json.Linq.JObject)JsonConvert.DeserializeObject(localFolderSerialized);
+                LocalFolder = (LocalFolder)o.ToObject(typeof(LocalFolder));
+                LocalFolder.printLastUpdateStructure();
 
-            e.Result = new UploadWorkerResponse(true, "");
-            LocalFolder.LastUpdate = newUpdate;
-            LocalFolder.setLatestUpdateItems();
+                e.Result = new UploadWorkerResponse(false, UploadWorkerResponse.ERROR_MESSAGE);
+
+            }
+            
         }
 
 
 
         /***********************************************************************************************/
-        private void uploadDirectory(string path, UpdateTransaction transaction, BackgroundWorker worker)
+        private void uploadDirectory(FolderItem folder, UpdateTransaction transaction, BackgroundWorker worker)
         {
-            Console.WriteLine("Uploading directory: " + path);
-            if (!path.Equals(LocalFolder.Path))
+            Console.WriteLine("Uploading directory: " + folder.Path);
+            if (!folder.Path.Equals(LocalFolder.Path))
             {
-                string l = path.Replace(LocalFolder.Path + "\\", "");
+                string l = folder.Path.Replace(LocalFolder.Path + "\\", "");
                 Console.WriteLine("creating subdir: " + l);
                 proxy.addSubDirectory(transaction.TransactionID, LocalFolder.Name, l);
             }
 
 
-            List<string> subDirectories = new List<string>(Directory.EnumerateDirectories(path));
-            string[] files = Directory.GetFiles(path);
+            List<FolderItem> subDirectories = folder.LatestUpdateFolderItems;
+            List<FileItem> files = folder.LatestUpdateFileItems;
 
-            foreach (string file in files)
+            foreach (FileItem file in files)
             {
                 Console.WriteLine("uploading " + file);
 
                 // ***** compute local path *****
-                string localPath = file.Replace(LocalFolder.Path + "\\", "");
+                string localPath = file.Path.Replace(LocalFolder.Path + "\\", "");
                 
                 // ***** start reading file *****
-                using (Stream uploadStream = new FileStream(file, FileMode.Open, FileAccess.Read))
+                using (Stream uploadStream = new FileStream(file.Path, FileMode.Open, FileAccess.Read))
                 {
-                    FileInfo fi = new FileInfo(file);
+                    FileInfo fi = new FileInfo(file.Path);
 
                     if (fi.Length > App.MAX_BUFFERED_TRANSFER_FILE_SIZE)
                     {
@@ -131,26 +174,84 @@ namespace FolderSynchMUIClient.Classes
                 
             }
 
-            foreach (string d in subDirectories)
+            foreach (FolderItem d in subDirectories)
                 uploadDirectory(d, transaction, worker);
 
         }
 
 
         /* ------------------------------------------------------------------------------ */
+        /* ------------------------ DO WORK INCREMENTAL --------------------------------- */
+        /* ------------------------------------------------------------------------------ */
+
+        private void Upload_BackgroundWork_Incremental(object sender, DoWorkEventArgs e)
+        {
+            
+
+            BackgroundWorker worker = sender as BackgroundWorker;
+            worker.ReportProgress(0, State.Computing);
+            //Update newUpdate = null;
+
+            filesNumber = Changes.Count;
+
+            worker.ReportProgress(0, State.Uploading);
+
+            try
+            {
+                if (application.User != null)
+                {
+                    // 3) begin update transaction --------------------------------------
+                    DateTime timestamp = DateTime.Now;
+                    //UpdateTransaction transaction = proxy.beginUpdate(LocalFolder.Name, timestamp);
+
+                    foreach (Item.Change change in Changes)
+                    {
+                        uploadFile(change);
+                        int percentage = (int)(((float)++filesUploaded / filesNumber) * 100);
+                        worker.ReportProgress(percentage, State.Uploading);
+                    }
+
+                    //newUpdate = proxy.updateCommit(transaction);
+
+                    e.Result = new UploadWorkerResponse(true, "");
+                    
+                    //LocalFolder.LastUpdate = newUpdate;
+                }
+                else
+                {
+                    e.Result = new UploadWorkerResponse(false, UploadWorkerResponse.USER_NOT_CONNECTED);
+                }
+
+            }
+            catch (FaultException f)
+            {
+                Console.WriteLine("error: " + f.Reason);
+                e.Result = new UploadWorkerResponse(false, UploadWorkerResponse.ERROR_MESSAGE);
+
+            }
+        }
+
+
+        /***********************************************************************************/
+        private void uploadFile(Item.Change change)
+        {
+            Console.WriteLine("proceed to upload: " + change.Path);
+        }
+
+        /* ------------------------------------------------------------------------------ */
         /* ------------------------ SIZE COMPUTING -------------------------------------- */
         /* ------------------------------------------------------------------------------ */
 
-        private int computeSize(string path)
+        private int computeFileNumber(FolderItem folder)
         {
             int num = 0;
 
-            List<string> subDirectories = new List<string>(Directory.EnumerateDirectories(path));
-            string[] files = Directory.GetFiles(path);
+            List<FolderItem> subDirectories = folder.LatestUpdateFolderItems;
+            List<FileItem> files = folder.LatestUpdateFileItems;
 
-            num += files.Length;
-            foreach (string dir in subDirectories)
-                num += computeSize(dir);
+            num += files.Count;
+            foreach (FolderItem dir in subDirectories)
+                num += computeFileNumber(dir);
 
             return num;
         }
@@ -164,6 +265,7 @@ namespace FolderSynchMUIClient.Classes
         {
 
             public static readonly string ERROR_MESSAGE = "something went wrong";
+            public static readonly string USER_NOT_CONNECTED = "cannot upload if user is not connected";
 
             public bool Success
             {

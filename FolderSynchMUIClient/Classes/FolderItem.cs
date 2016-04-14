@@ -27,8 +27,6 @@ namespace FolderSynchMUIClient
             private set
             {
                 _LatestUpdateFolderItems = value;
-                foreach(FolderItem f in _LatestUpdateFolderItems)
-                        f.setLatestUpdateItems();
             }
         }
 
@@ -77,19 +75,16 @@ namespace FolderSynchMUIClient
         /********************************************************************/
         public List<Change> DetectChanges(DateTime lastUpdateTime)
         {
-            Console.WriteLine("scanning directory: " + this.Path);
             List<Change> changes = new List<Change>();
             List<String> files = new List<string>(Directory.GetFiles(this.Path));
 
 
             foreach(FileItem f in LatestUpdateFileItems)
             {
-                Console.WriteLine("checking file :" + f.Path);
                 int found = files.FindIndex(item => item.Equals(f.Path));
 
                 if(found == -1)
                 {
-                    Console.WriteLine("this file was canceled");
                     changes.Add(new Change(Change.DELETED_FILE, f.Path));
                 }
                 else
@@ -97,7 +92,6 @@ namespace FolderSynchMUIClient
                     FileInfo fi = new FileInfo(files[found]);
                     if (fi.LastWriteTime > lastUpdateTime)
                     {
-                        Console.WriteLine("The file changed");
                         changes.Add(new Change(Change.CHANGED_FILE, f.Path));
                     }
 
@@ -107,7 +101,6 @@ namespace FolderSynchMUIClient
 
             foreach(string file in files)
             {
-                Console.WriteLine(file + " is a new file");
                 changes.Add(new Change(Change.NEW_FILE, file));
             }
 
@@ -115,16 +108,12 @@ namespace FolderSynchMUIClient
             
             foreach(FolderItem fi in LatestUpdateFolderItems)
             {
-                Console.WriteLine("Checking subFolder: " + fi.Path);
                 int found = subFolders.FindIndex(item => item.Equals(fi.Path));
 
                 if (found == -1)
                 {
-                    Console.WriteLine("this directory was canceled");
-                    
                     foreach(Item i in fi.getAllLatestSubItems())
                     {
-                        Console.WriteLine(i.Path + "canceled with upper directory: " + fi.Path);
                         int type = i.GetType().Equals(typeof(FileItem)) ? Change.DELETED_FILE : Change.DELETED_DIRECTORY;
                         changes.Add(new Change(type, i.Path));
                     }
@@ -210,6 +199,21 @@ namespace FolderSynchMUIClient
         {
             LatestUpdateFolderItems = getFolderItems();
             LatestUpdateFileItems = getFileItems();
+
+            foreach (FolderItem f in LatestUpdateFolderItems)
+                f.setLatestUpdateItems();
+        }
+
+        public void printLastUpdateStructure()
+        {
+            foreach (FileItem file in LatestUpdateFileItems)
+                Console.WriteLine(file.Path);
+
+            foreach(FolderItem folder in LatestUpdateFolderItems)
+            {
+                Console.WriteLine(folder.Path);
+                folder.printLastUpdateStructure();
+            }
         }
     }
 }

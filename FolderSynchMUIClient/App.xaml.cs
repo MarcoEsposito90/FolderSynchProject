@@ -281,7 +281,10 @@ namespace FolderSynchMUIClient
 
             foreach (LocalFolder lf in allLocalFolders)
                 if (lf.Username.Equals(User.Username))
+                {
                     LocalFolders.Add(lf);
+                    lf.printLastUpdateStructure();
+                }
 
             return LocalFolders;
         }

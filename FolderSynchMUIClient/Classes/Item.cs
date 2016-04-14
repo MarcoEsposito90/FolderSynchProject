@@ -28,11 +28,6 @@ namespace FolderSynchMUIClient
         [DataMember]
         public Update LastUpdate { get; set; }
 
-
-        /* ---------------------------------------------------------------- */
-        /* ------------ TEMPORARY PROPERTIES ------------------------------ */
-        /* ---------------------------------------------------------------- */
-
         [DataMember]
         public DateTime SynchDate { get; set; }
 
@@ -43,6 +38,11 @@ namespace FolderSynchMUIClient
                 return CalculateSize();
             }
         }
+
+        /* ---------------------------------------------------------------- */
+        /* ------------ TEMPORARY PROPERTIES ------------------------------ */
+        /* ---------------------------------------------------------------- */
+
 
         public string SizeInBytes
         {
