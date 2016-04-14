@@ -137,13 +137,13 @@ namespace FolderSynchMUIClient
             List<FileItem> fileItem = getFileItems();
             List<FolderItem> folderItem = getFolderItems();
 
-            foreach (FileItem fi in fileItem)
-                Items.Add(fi);
-
             foreach (FolderItem ff in folderItem)
-                Items.Add(ff);
+                            items.Add(ff);
 
-            Console.WriteLine("Items: " + Items.Count);
+            foreach (FileItem fi in fileItem)
+                items.Add(fi);
+            
+            Console.WriteLine("Items: " + items.Count);
 
             return items;
         }
