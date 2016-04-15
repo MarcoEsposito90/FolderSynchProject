@@ -166,7 +166,9 @@ namespace ServicesProject
                     {
 
                         string[] tokens = line.Split(';');
-
+                        if (tokens.Length < 2)
+                            continue;
+                        
                         // 2) if the entry is a committ or an abort, it is finished
                         if (tokens[1].Equals(Operations.Commit) || tokens[1].Equals(Operations.Abort))
                         {

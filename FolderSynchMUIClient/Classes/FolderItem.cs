@@ -64,9 +64,10 @@ namespace FolderSynchMUIClient
         {
             long size = 0;
 
-            foreach (Item i in Items) {
+            foreach (Item i in Items)
+            {
                 size += i.CalculateSize();
-                }
+            }
             return size;
         }
 
@@ -78,42 +79,48 @@ namespace FolderSynchMUIClient
             List<String> files = new List<string>(Directory.GetFiles(this.Path));
 
             // 1) see if old files are still there -----------------------------------------
-            foreach(FileItem f in LatestUpdateFileItems)
+            foreach (FileItem f in LatestUpdateFileItems)
             {
                 int found = files.FindIndex(item => item.Equals(f.Path));
 
-                if(found == -1)
+                if (found == -1)
                 {
+                    // file was deleted
                     changes.Add(new Change(Change.DELETED_FILE, f.Path));
                 }
                 else
                 {
+
                     FileInfo fi = new FileInfo(files[found]);
-                    if (fi.LastWriteTime > lastUpdateTime)
+                    if (DateTime.Compare(fi.LastWriteTime,lastUpdateTime) > 0)
                     {
+                        // file was modified
                         changes.Add(new Change(Change.CHANGED_FILE, f.Path));
                     }
 
-                    Console.WriteLine("now removing " + files[found]);
                     files.RemoveAt(found);
                 }
             }
 
-            foreach(string file in files)
+            // 2) see new files ----------------------------------------------------------
+            foreach (string file in files)
             {
                 Console.WriteLine("new file: " + file);
                 changes.Add(new Change(Change.NEW_FILE, file));
             }
 
             List<string> subFolders = new List<string>(Directory.GetDirectories(this.Path));
-            
-            foreach(FolderItem fi in LatestUpdateFolderItems)
+
+            // 3) see if old folders are still there ------------------------------------
+            foreach (FolderItem fi in LatestUpdateFolderItems)
             {
                 int found = subFolders.FindIndex(item => item.Equals(fi.Path));
 
                 if (found == -1)
                 {
-                    foreach(Item i in fi.getAllLatestSubItems())
+                    changes.Add(new Change(Change.DELETED_DIRECTORY, fi.Path));
+                    // folder deleted. get all its subfiles
+                    foreach (Item i in fi.getAllLatestSubItems())
                     {
                         int type = i.GetType().Equals(typeof(FileItem)) ? Change.DELETED_FILE : Change.DELETED_DIRECTORY;
                         changes.Add(new Change(type, i.Path));
@@ -121,11 +128,33 @@ namespace FolderSynchMUIClient
                 }
                 else
                 {
+                    // folder is still there. check for variations inside it
                     List<Change> subCHanges = fi.DetectChanges(lastUpdateTime);
                     foreach (Change sc in subCHanges)
                         changes.Add(sc);
+
+                    subFolders.RemoveAt(found);
                 }
-            } 
+
+            }
+
+
+            // 4) see new folders ------------------------------------------------------------
+            foreach (String sf in subFolders)
+            {
+                string name = sf.Replace(this.Name + "\\", "");
+                Console.WriteLine("new subFolder: " + sf + "; name = " + name);
+
+                changes.Add(new Change(Change.NEW_DIRECTORY, sf));
+                FolderItem fi = new FolderItem(name, sf);
+                List<Item> subItems = fi.getAllSubItems();
+
+                foreach(Item i in subItems)
+                {
+                    int type = i.GetType().Equals(typeof(FileItem)) ? Change.NEW_FILE : Change.NEW_DIRECTORY;
+                    changes.Add(new Change(type, i.Path));
+                }
+            }
 
             return changes;
         }
@@ -143,7 +172,7 @@ namespace FolderSynchMUIClient
             List<FolderItem> folderItem = getFolderItems();
 
             foreach (FolderItem ff in folderItem)
-                            items.Add(ff);
+                items.Add(ff);
 
             foreach (FileItem fi in fileItem)
                 items.Add(fi);
@@ -202,6 +231,31 @@ namespace FolderSynchMUIClient
             return items;
         }
 
+
+        /************************************************************************/
+        protected List<Item> getAllSubItems()
+        {
+
+            List<Item> items = new List<Item>();
+
+            List<FileItem> files = getFileItems();
+
+            foreach (FileItem i in files)
+                items.Add(i);
+
+            List<FolderItem> folders = getFolderItems();
+            foreach(FolderItem f in folders)
+            {
+                items.Add(f);
+                List<Item> subItems = f.getAllSubItems();
+                foreach (Item si in subItems)
+                    items.Add(si);
+            }
+
+
+            return items;
+        }
+
         /************************************************************************/
         public void setLatestUpdateItems()
         {
@@ -217,7 +271,7 @@ namespace FolderSynchMUIClient
             foreach (FileItem file in LatestUpdateFileItems)
                 Console.WriteLine(file.Path);
 
-            foreach(FolderItem folder in LatestUpdateFolderItems)
+            foreach (FolderItem folder in LatestUpdateFolderItems)
             {
                 Console.WriteLine(folder.Path);
                 folder.printLastUpdateStructure();

@@ -46,7 +46,7 @@ namespace FolderSynchMUIClient
             timer = new Timer(  performUpdate, 
                                 null, 
                                 minutes > 1 ? TimeSpan.FromSeconds(2) : TimeSpan.FromSeconds(10),    // first time span is for next fire
-                                TimeSpan.FromSeconds(10));                                           // second is for subsequent
+                                TimeSpan.FromSeconds(20));                                           // second is for subsequent
         }
 
         public void stopWatching()
