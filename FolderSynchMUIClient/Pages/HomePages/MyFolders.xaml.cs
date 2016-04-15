@@ -37,8 +37,7 @@ namespace FolderSynchMUIClient.Pages.HomePages
                 foldersButtonControl.SelectedItem = application.LocalFolders[0];
                 foreach (LocalFolder lf in FolderList)
                 {
-                    //lf.Updates = new ObservableCollection<Update>(application.FolderSynchProxy.getHistory(lf.Name));
-                    
+                    lf.Updates = new ObservableCollection<Update>(application.FolderSynchProxy.getHistory(lf.Name));
                 }
             }
         }
