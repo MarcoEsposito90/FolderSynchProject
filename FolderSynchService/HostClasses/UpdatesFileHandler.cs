@@ -58,9 +58,8 @@ namespace ServicesProject
         }
 
 
-        /* ------------------------------------------------------------------------------ */
-        /* ------------------------ UPDATE METHODS -------------------------------------- */
-        /* ------------------------------------------------------------------------------ */
+
+        /******************************************************************************/
         private void initialize()
         {
 
@@ -68,15 +67,24 @@ namespace ServicesProject
                 Updates = readFromFile();
             else
                 writeToFile(new List<Update>());
+
+            Updates.Sort();
+            foreach (Update u in Updates)
+                Console.WriteLine("update number " + u.Number);
         }
 
-        /******************************************************************************/
+
+        /* ------------------------------------------------------------------------------ */
+        /* ------------------------ UPDATE METHODS -------------------------------------- */
+        /* ------------------------------------------------------------------------------ */
+
         public void createNewUpdate(UpdateTransaction transaction)
         {
             int number = 0;
             if(Updates.Count > 0)
                 number = Updates.ElementAt(Updates.Count-1).Number + 1;
 
+            Console.WriteLine("creating update with numer " + number);
             Update u = new Update(BaseFolder, transaction.Timestamp, number, transaction.TransactionID);
 
             // create the update folder
@@ -86,6 +94,7 @@ namespace ServicesProject
                                         u.UpdateFolder);
 
             Updates.Add(u);
+            Updates.Sort();
             writeToFile(Updates);
         }
 
@@ -93,9 +102,13 @@ namespace ServicesProject
         public void AddFile(UpdateTransaction transaction, string localPath, int type, byte[] data)
         {
             Update update = checkUpdateObject(transaction);
+            if (!checkMotherFolder(update, localPath))
+                throw new FaultException(new FaultReason(FileTransferFault.MISSING_FOLDER));
 
             if (!(type == Update.UpdateEntry.MODIFIED_FILE || type == Update.UpdateEntry.NEW_FILE))
                 throw new FaultException(new FaultReason(FileTransferFault.INCONSISTENT_UPDATE));
+
+
 
             string filePath =   FolderSynchServer.Instance.RemoteFoldersPath + "\\" + 
                                 User.Username + "\\" + 
@@ -114,7 +127,7 @@ namespace ServicesProject
                 inputStream.Close();
             }
 
-            update.UpdateEntries.Add(new Update.UpdateEntry(localPath, type));
+            update.UpdateEntries.Add(new Update.UpdateEntry(localPath, type, update.Timestamp));
         }
 
 
@@ -123,6 +136,8 @@ namespace ServicesProject
         {
 
             Update update = checkUpdateObject(transaction);
+            if (!checkMotherFolder(update, localPath))
+                throw new FaultException(new FaultReason(FileTransferFault.MISSING_FOLDER));
 
             if (!(type == Update.UpdateEntry.MODIFIED_FILE || type == Update.UpdateEntry.NEW_FILE))
                 throw new FaultException(new FaultReason(FileTransferFault.INCONSISTENT_UPDATE));
@@ -157,7 +172,7 @@ namespace ServicesProject
                 stream.Close();
             }
 
-            update.UpdateEntries.Add(new Update.UpdateEntry(localPath, type));
+            update.UpdateEntries.Add(new Update.UpdateEntry(localPath, type, update.Timestamp));
         }
 
 
@@ -166,8 +181,11 @@ namespace ServicesProject
         public void deleteFile(UpdateTransaction transaction, string localPath)
         {
             Update update = checkUpdateObject(transaction);
+            if (!checkMotherFolder(update, localPath))
+                throw new FaultException(new FaultReason(FileTransferFault.MISSING_FOLDER));
+
             Console.WriteLine("handler is deleting file");
-            update.UpdateEntries.Add(new Update.UpdateEntry(localPath, Update.UpdateEntry.DELETED_FILE));
+            update.UpdateEntries.Add(new Update.UpdateEntry(localPath, Update.UpdateEntry.DELETED_FILE, update.Timestamp));
         }
 
 
@@ -177,6 +195,8 @@ namespace ServicesProject
         {
 
             Update update = checkUpdateObject(transaction);
+            if (!checkMotherFolder(update, localPath))
+                throw new FaultException(new FaultReason(FileTransferFault.MISSING_FOLDER));
 
             string path =   FolderSynchServer.Instance.RemoteFoldersPath + "\\" +
                             User.Username + "\\" +
@@ -185,7 +205,7 @@ namespace ServicesProject
                             localPath;
 
             Directory.CreateDirectory(path);
-            update.UpdateEntries.Add(new Update.UpdateEntry(localPath, Update.UpdateEntry.NEW_FILE));
+            update.UpdateEntries.Add(new Update.UpdateEntry(localPath, Update.UpdateEntry.NEW_DIRECTORY, update.Timestamp));
         }
 
 
@@ -194,8 +214,11 @@ namespace ServicesProject
         public void deleteSubDirectory(UpdateTransaction transaction, string localPath)
         {
             Update update = checkUpdateObject(transaction);
+            if (!checkMotherFolder(update, localPath))
+                throw new FaultException(new FaultReason(FileTransferFault.MISSING_FOLDER));
+
             Console.WriteLine("handler is deleting subDirectory");
-            update.UpdateEntries.Add(new Update.UpdateEntry(localPath, Update.UpdateEntry.DELETED_DIRECTORY));
+            update.UpdateEntries.Add(new Update.UpdateEntry(localPath, Update.UpdateEntry.DELETED_DIRECTORY, update.Timestamp));
         }
 
 
@@ -228,6 +251,62 @@ namespace ServicesProject
         }
 
 
+        /**********************************************************************************/
+        private bool checkMotherFolder(Update update, string localPath)
+        {
+
+            string[] tokens = localPath.Split('\\');
+            string motherFolderLocalPath = "";
+
+            for (int i = 0; i < tokens.Length - 1; i++)
+            {
+                if (i != 0)
+                    motherFolderLocalPath += "\\";
+                motherFolderLocalPath += (tokens[i]);
+            }
+
+            string path = FolderSynchServer.Instance.RemoteFoldersPath + "\\" +
+                          User.Username + "\\" +
+                          update.BaseFolder + "\\" +
+                          update.UpdateFolder + "\\" +
+                          motherFolderLocalPath;
+
+            if (Directory.Exists(path))
+                return true;
+
+            if (update.Number == 0)
+            {
+                foreach (Update.UpdateEntry entry in update.UpdateEntries)
+                {
+                    if (entry.ItemLocalPath.Equals(motherFolderLocalPath) && entry.UpdateType == Update.UpdateEntry.NEW_DIRECTORY)
+                        return true;
+                }
+            }
+            else
+            {
+                for(int i = update.Number-1; i>=0; i--)
+                {
+                    Update u = Updates.ElementAt(i);
+
+                    foreach(Update.UpdateEntry entry in u.UpdateEntries)
+                        if (entry.ItemLocalPath.Equals(motherFolderLocalPath))
+                        {
+                            if (entry.UpdateType == Update.UpdateEntry.NEW_DIRECTORY)
+                            {
+                                Directory.CreateDirectory(path);
+                                return true;
+                            }
+                            else if (entry.UpdateType == Update.UpdateEntry.DELETED_DIRECTORY)
+                                return false;
+                            else
+                                throw new Exception("PANIC!! Detected inconsistent update entry");
+                        }
+                }
+            }
+
+            return false;
+        }
+
         /* ------------------------------------------------------------------------------ */
         /* ------------------------ ROLLBACK METHODS ------------------------------------ */
         /* ------------------------------------------------------------------------------ */
@@ -258,6 +337,7 @@ namespace ServicesProject
 
             // 3) remove update object from list
             Updates.Remove(targetUpdate);
+            Updates.Sort();
             writeToFile(Updates);
         }
 

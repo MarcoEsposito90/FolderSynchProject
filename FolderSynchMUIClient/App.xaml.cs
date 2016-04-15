@@ -162,12 +162,30 @@ namespace FolderSynchMUIClient
         /********************************************************************/
         private void Application_Logout()
         {
-
+            // 1) stop watching folder changes ------------------
             foreach (FolderWatcher fw in FolderWatchers)
                 fw.stopWatching();
 
-            // TODO: should write to file localfolders...
+            // 2) save current folders state --------------------
+            List<LocalFolder> list = getAllLocalFolders();
+            foreach(LocalFolder lf in LocalFolders)
+            {
+                int found = list.FindIndex(i => i.Name.Equals(lf.Name) && i.Username.Equals(lf.Username));
+                if(found != -1)
+                    list.RemoveAt(found);
 
+                list.Add(lf);
+            }
+
+            StreamWriter sw = new StreamWriter("folders.txt", false);
+            using (sw)
+            {
+                string output = JsonConvert.SerializeObject(list);
+                sw.WriteLine(output);
+                sw.Close();
+            }
+
+            // 3) clean everything ------------------------------
             LocalFolders.Clear();
             FolderWatchers.Clear();
             FolderSynchProxy = new FolderSynchServiceContractClient();

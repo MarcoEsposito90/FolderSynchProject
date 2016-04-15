@@ -90,9 +90,10 @@ namespace FolderSynchMUIClient
 
             public static readonly int NEW_FILE = 0;
             public static readonly int CHANGED_FILE = 1;
-            public static readonly int DELETED_FILE = 2;
-            public static readonly int NEW_DIRECTORY = 3;
-            public static readonly int DELETED_DIRECTORY = 4;
+            public static readonly int NEW_DIRECTORY = 2;
+            public static readonly int DELETED_DIRECTORY = 3;
+            public static readonly int DELETED_FILE = 4;
+
 
             public int Type { get; private set; }
             public string Path { get; private set; }
@@ -110,7 +111,19 @@ namespace FolderSynchMUIClient
 
                 Change c = (Change)obj;
 
-                return c.Type - Type;
+                int dif = c.Type - Type;
+
+                if (dif != 0)
+                    return dif;
+
+                // if the change type is the same, we must check who is higher in hierarchy
+                int pathLengthDif = Path.Length - c.Path.Length;
+                if (Type == NEW_DIRECTORY)
+                    return pathLengthDif;
+                else if (Type == DELETED_DIRECTORY)
+                    return -pathLengthDif;
+
+                return 0;
             }
         }
     }

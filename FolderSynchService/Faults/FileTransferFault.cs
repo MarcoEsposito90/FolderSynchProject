@@ -13,6 +13,7 @@ namespace ServicesProject
         public static string NO_TRANSACTION_ACTIVE = "There is no transaction active for this update";
         public static string INCONSISTENT_UPDATE = "The upload brings to an inconsistent state";
         public static string NO_UPDATE_FOUND = "The update object relative to this upload is missing";
+        public static string MISSING_FOLDER = "You are trying to upload a file/directory for an unexisting folder";
 
 
         public FileTransferFault(string message) : base(message) { }

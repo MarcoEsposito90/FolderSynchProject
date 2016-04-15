@@ -85,7 +85,6 @@ namespace FolderSynchMUIClient.Classes
             // 1) temporary save the object ---------------------------------------------
             string localFolderSerialized = JsonConvert.SerializeObject(LocalFolder);
             LocalFolder.setLatestUpdateItems();
-            LocalFolder.printLastUpdateStructure();
 
             // 2) compute size -----------------------------------------------------
             filesNumber = computeFileNumber(LocalFolder);
@@ -114,7 +113,7 @@ namespace FolderSynchMUIClient.Classes
             catch (FaultException f)
             {
                 Console.WriteLine("error: " + f.Reason);
-                
+
                 // rollback to saved object
                 Newtonsoft.Json.Linq.JObject o = (Newtonsoft.Json.Linq.JObject)JsonConvert.DeserializeObject(localFolderSerialized);
                 LocalFolder = (LocalFolder)o.ToObject(typeof(LocalFolder));
@@ -123,7 +122,7 @@ namespace FolderSynchMUIClient.Classes
                 e.Result = new UploadWorkerResponse(false, UploadWorkerResponse.ERROR_MESSAGE);
 
             }
-            
+
         }
 
 
@@ -149,7 +148,7 @@ namespace FolderSynchMUIClient.Classes
 
                 // ***** compute local path *****
                 string localPath = file.Path.Replace(LocalFolder.Path + "\\", "");
-                
+
                 // ***** start reading file *****
                 using (Stream uploadStream = new FileStream(file.Path, FileMode.Open, FileAccess.Read))
                 {
@@ -158,8 +157,8 @@ namespace FolderSynchMUIClient.Classes
                     if (fi.Length > App.MAX_BUFFERED_TRANSFER_FILE_SIZE)
                     {
                         // ***** streamed transfer *****
-                        streamProxy.uploadFileStreamed( LocalFolder.Name, 
-                                                        localPath, 
+                        streamProxy.uploadFileStreamed(LocalFolder.Name,
+                                                        localPath,
                                                         transaction.TransactionID,
                                                         Item.Change.NEW_FILE,
                                                         application.User.Username,
@@ -178,7 +177,7 @@ namespace FolderSynchMUIClient.Classes
 
                 int percentage = (int)(((float)++filesUploaded / filesNumber) * 100);
                 worker.ReportProgress(percentage, State.Uploading);
-                
+
             }
 
             foreach (FolderItem d in subDirectories)
@@ -193,50 +192,54 @@ namespace FolderSynchMUIClient.Classes
 
         private void Upload_BackgroundWork_Incremental(object sender, DoWorkEventArgs e)
         {
-            Console.WriteLine("Uploading " + Changes.Count + " changes");
-            foreach (Item.Change c in Changes)
-                Console.WriteLine(c.Path + " (" + c.Type + ")");
 
+            if (application.User == null)
+            {
+                e.Result = new UploadWorkerResponse(false, UploadWorkerResponse.USER_NOT_CONNECTED);
+                return;
+            }
+
+            // 1) temporary save the object ---------------------------------------------
+            string localFolderSerialized = JsonConvert.SerializeObject(LocalFolder);
+            LocalFolder.setLatestUpdateItems();
+
+            // 2) preparation ------------------------------------------------------------
             BackgroundWorker worker = sender as BackgroundWorker;
             worker.ReportProgress(0, State.Computing);
             Update newUpdate = null;
-
             filesNumber = Changes.Count;
-
             worker.ReportProgress(0, State.Uploading);
 
             try
             {
-                if (application.User != null)
+                // 3) begin update transaction --------------------------------------
+                DateTime timestamp = DateTime.Now;
+                UpdateTransaction transaction = proxy.beginUpdate(LocalFolder.Name, timestamp);
+
+                // 4) upload items --------------------------------------------------
+                foreach (Item.Change change in Changes)
                 {
-                    // 3) begin update transaction --------------------------------------
-                    DateTime timestamp = DateTime.Now;
-                    UpdateTransaction transaction = proxy.beginUpdate(LocalFolder.Name, timestamp);
-
-                    foreach (Item.Change change in Changes)
-                    {
-                        uploadItem(change, transaction);
-                        int percentage = (int)(((float)++filesUploaded / filesNumber) * 100);
-                        worker.ReportProgress(percentage, State.Uploading);
-                    }
-
-                    newUpdate = proxy.updateCommit(transaction);
-
-                    e.Result = new UploadWorkerResponse(true, "");
-
-                    LocalFolder.LastUpdate = newUpdate;
+                    uploadItem(change, transaction);
+                    int percentage = (int)(((float)++filesUploaded / filesNumber) * 100);
+                    worker.ReportProgress(percentage, State.Uploading);
                 }
-                else
-                {
-                    e.Result = new UploadWorkerResponse(false, UploadWorkerResponse.USER_NOT_CONNECTED);
-                }
+
+                // 5) saving result
+                newUpdate = proxy.updateCommit(transaction);
+                e.Result = new UploadWorkerResponse(true, "");
+                LocalFolder.LastUpdate = newUpdate;
 
             }
             catch (FaultException f)
             {
                 Console.WriteLine("error: " + f.Message);
-                e.Result = new UploadWorkerResponse(false, UploadWorkerResponse.ERROR_MESSAGE);
 
+                // rollback to saved object
+                Newtonsoft.Json.Linq.JObject o = (Newtonsoft.Json.Linq.JObject)JsonConvert.DeserializeObject(localFolderSerialized);
+                LocalFolder = (LocalFolder)o.ToObject(typeof(LocalFolder));
+                LocalFolder.printLastUpdateStructure();
+
+                e.Result = new UploadWorkerResponse(false, UploadWorkerResponse.ERROR_MESSAGE);
             }
         }
 
@@ -248,13 +251,13 @@ namespace FolderSynchMUIClient.Classes
 
             string localPath = change.Path.Replace(LocalFolder.Path + "\\", "");
 
-            if(change.Type == Item.Change.NEW_DIRECTORY)
+            if (change.Type == Item.Change.NEW_DIRECTORY)
                 proxy.addSubDirectory(transaction.TransactionID, LocalFolder.Name, localPath);
 
-            else if(change.Type == Item.Change.DELETED_DIRECTORY)
+            else if (change.Type == Item.Change.DELETED_DIRECTORY)
                 proxy.deleteSubDirectory(transaction.TransactionID, LocalFolder.Name, localPath);
 
-            else if(change.Type == Item.Change.DELETED_FILE)
+            else if (change.Type == Item.Change.DELETED_FILE)
                 proxy.deleteFile(transaction.TransactionID, LocalFolder.Name, localPath);
 
             else
@@ -266,7 +269,7 @@ namespace FolderSynchMUIClient.Classes
                     if (fi.Length > App.MAX_BUFFERED_TRANSFER_FILE_SIZE)
                     {
                         // ***** streamed transfer *****
-                        streamProxy.uploadFileStreamed( LocalFolder.Name,
+                        streamProxy.uploadFileStreamed(LocalFolder.Name,
                                                         localPath,
                                                         transaction.TransactionID,
                                                         change.Type,
@@ -278,7 +281,7 @@ namespace FolderSynchMUIClient.Classes
                         // ***** one-time transfer (buffered) *****
                         byte[] buffer = new byte[App.MAX_BUFFERED_TRANSFER_FILE_SIZE];
                         uploadStream.Read(buffer, 0, App.MAX_BUFFERED_TRANSFER_FILE_SIZE);
-                        proxy.uploadFile(transaction.TransactionID, LocalFolder.Name, localPath, change.Type , buffer);
+                        proxy.uploadFile(transaction.TransactionID, LocalFolder.Name, localPath, change.Type, buffer);
                     }
                 }
             }
