@@ -33,10 +33,16 @@ namespace ServicesProject
         UpdateTransaction beginUpdate(string baseFolder, DateTime timestamp);
 
         [OperationContract(IsInitiating = false, IsTerminating = false)]
-        void uploadFile(string transactionID, string baseFolder, string localPath, byte[] data);
+        void uploadFile(string transactionID, string baseFolder, string localPath, int type, byte[] data);
+
+        [OperationContract(IsInitiating = false, IsTerminating = false)]
+        void deleteFile(string transactionID, string baseFolder, string localPath);
 
         [OperationContract(IsInitiating = false, IsTerminating = false)]
         void addSubDirectory(string transactionID, string baseFolder, string localPath);
+
+        [OperationContract(IsInitiating = false, IsTerminating = false)]
+        void deleteSubDirectory(string transactionID, string baseFolder, string localPath);
 
         [OperationContract(IsInitiating = false, IsTerminating = false)]
         Update updateCommit(UpdateTransaction transaction);

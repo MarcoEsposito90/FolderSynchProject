@@ -90,18 +90,12 @@ namespace ServicesProject
         }
 
         /********************************************************************************/
-        public void AddFile(UpdateTransaction transaction, string localPath, byte[] data)
+        public void AddFile(UpdateTransaction transaction, string localPath, int type, byte[] data)
         {
-            Update update = null;
-            foreach(Update u in Updates)
-                if (u.TransactionID.Equals(transaction.TransactionID))
-                {
-                    update = u;
-                    break;
-                }
+            Update update = checkUpdateObject(transaction);
 
-            if (update == null)
-                throw new FaultException(new FaultReason("Update object not found"));
+            if (!(type == Update.UpdateEntry.MODIFIED_FILE || type == Update.UpdateEntry.NEW_FILE))
+                throw new FaultException(new FaultReason(FileTransferFault.INCONSISTENT_UPDATE));
 
             string filePath =   FolderSynchServer.Instance.RemoteFoldersPath + "\\" + 
                                 User.Username + "\\" + 
@@ -120,24 +114,18 @@ namespace ServicesProject
                 inputStream.Close();
             }
 
-            update.UpdateEntries.Add(new Update.UpdateEntry(localPath, Update.UpdateEntry.NEW));
+            update.UpdateEntries.Add(new Update.UpdateEntry(localPath, type));
         }
 
 
         /***********************************************************************************/
-        public void AddFileStreamed(UpdateTransaction transaction, string localPath, Stream stream)
+        public void AddFileStreamed(UpdateTransaction transaction, string localPath, int type, Stream stream)
         {
 
-            Update update = null;
-            foreach (Update u in Updates)
-                if (u.TransactionID.Equals(transaction.TransactionID))
-                {
-                    update = u;
-                    break;
-                }
+            Update update = checkUpdateObject(transaction);
 
-            if (update == null)
-                throw new FaultException(new FaultReason("Update object not found"));
+            if (!(type == Update.UpdateEntry.MODIFIED_FILE || type == Update.UpdateEntry.NEW_FILE))
+                throw new FaultException(new FaultReason(FileTransferFault.INCONSISTENT_UPDATE));
 
             string filePath =   FolderSynchServer.Instance.RemoteFoldersPath + "\\" + 
                                 User.Username + "\\" + 
@@ -169,23 +157,26 @@ namespace ServicesProject
                 stream.Close();
             }
 
-            update.UpdateEntries.Add(new Update.UpdateEntry(localPath, Update.UpdateEntry.NEW));
+            update.UpdateEntries.Add(new Update.UpdateEntry(localPath, type));
         }
+
+
+
+        /**********************************************************************************/
+        public void deleteFile(UpdateTransaction transaction, string localPath)
+        {
+            Update update = checkUpdateObject(transaction);
+            Console.WriteLine("handler is deleting file");
+            update.UpdateEntries.Add(new Update.UpdateEntry(localPath, Update.UpdateEntry.DELETED_FILE));
+        }
+
+
 
         /**********************************************************************************/
         public void addSubDirectory(UpdateTransaction transaction, string localPath)
         {
 
-            Update update = null;
-            foreach (Update u in Updates)
-                if (u.TransactionID.Equals(transaction.TransactionID))
-                {
-                    update = u;
-                    break;
-                }
-
-            if (update == null)
-                throw new FaultException(new FaultReason("Update object not found"));
+            Update update = checkUpdateObject(transaction);
 
             string path =   FolderSynchServer.Instance.RemoteFoldersPath + "\\" +
                             User.Username + "\\" +
@@ -194,12 +185,33 @@ namespace ServicesProject
                             localPath;
 
             Directory.CreateDirectory(path);
-            update.UpdateEntries.Add(new Update.UpdateEntry(localPath, Update.UpdateEntry.NEW));
+            update.UpdateEntries.Add(new Update.UpdateEntry(localPath, Update.UpdateEntry.NEW_FILE));
         }
+
+
+
+        /**********************************************************************************/
+        public void deleteSubDirectory(UpdateTransaction transaction, string localPath)
+        {
+            Update update = checkUpdateObject(transaction);
+            Console.WriteLine("handler is deleting subDirectory");
+            update.UpdateEntries.Add(new Update.UpdateEntry(localPath, Update.UpdateEntry.DELETED_DIRECTORY));
+        }
+
 
 
         /**********************************************************************************/
         public Update commit(UpdateTransaction transaction)
+        {
+            Update update = checkUpdateObject(transaction);
+            writeToFile(Updates);
+            return update;
+        }
+
+
+
+        /**********************************************************************************/
+        private Update checkUpdateObject(UpdateTransaction transaction)
         {
             Update update = null;
             foreach (Update u in Updates)
@@ -210,9 +222,8 @@ namespace ServicesProject
                 }
 
             if (update == null)
-                throw new FaultException(new FaultReason("Update object not found"));
+                throw new FaultException(new FaultReason(FileTransferFault.NO_UPDATE_FOUND));
 
-            writeToFile(Updates);
             return update;
         }
 
@@ -268,7 +279,7 @@ namespace ServicesProject
             {
                 foreach(Update.UpdateEntry entry in u.UpdateEntries)
                 {
-                    if (entry.ItemName.Equals(localPath))
+                    if (entry.ItemLocalPath.Equals(localPath))
                     {
                         entries.Add(entry);
                         break;

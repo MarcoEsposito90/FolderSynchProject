@@ -105,7 +105,6 @@ namespace FolderSynchMUIClient
             // 2) see new files ----------------------------------------------------------
             foreach (string file in files)
             {
-                Console.WriteLine("new file: " + file);
                 changes.Add(new Change(Change.NEW_FILE, file));
             }
 
@@ -120,7 +119,7 @@ namespace FolderSynchMUIClient
                 {
                     changes.Add(new Change(Change.DELETED_DIRECTORY, fi.Path));
                     // folder deleted. get all its subfiles
-                    foreach (Item i in fi.getAllLatestSubItems())
+                    foreach (Item i in fi.getAllLatestUpdateSubItems())
                     {
                         int type = i.GetType().Equals(typeof(FileItem)) ? Change.DELETED_FILE : Change.DELETED_DIRECTORY;
                         changes.Add(new Change(type, i.Path));
@@ -142,10 +141,9 @@ namespace FolderSynchMUIClient
             // 4) see new folders ------------------------------------------------------------
             foreach (String sf in subFolders)
             {
-                string name = sf.Replace(this.Name + "\\", "");
-                Console.WriteLine("new subFolder: " + sf + "; name = " + name);
-
+                string name = sf.Replace(this.Path + "\\", "");
                 changes.Add(new Change(Change.NEW_DIRECTORY, sf));
+
                 FolderItem fi = new FolderItem(name, sf);
                 List<Item> subItems = fi.getAllSubItems();
 
@@ -213,7 +211,7 @@ namespace FolderSynchMUIClient
 
 
         /************************************************************************/
-        protected List<Item> getAllLatestSubItems()
+        protected List<Item> getAllLatestUpdateSubItems()
         {
             List<Item> items = new List<Item>();
 
@@ -223,7 +221,7 @@ namespace FolderSynchMUIClient
             foreach (FolderItem fi in LatestUpdateFolderItems)
             {
                 items.Add(fi);
-                List<Item> subItems = fi.getAllLatestSubItems();
+                List<Item> subItems = fi.getAllLatestUpdateSubItems();
                 foreach (Item si in subItems)
                     items.Add(si);
             }
@@ -266,6 +264,8 @@ namespace FolderSynchMUIClient
                 f.setLatestUpdateItems();
         }
 
+
+        /************************************************************************/
         public void printLastUpdateStructure()
         {
             foreach (FileItem file in LatestUpdateFileItems)

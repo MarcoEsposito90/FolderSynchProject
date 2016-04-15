@@ -281,7 +281,7 @@ namespace ServicesProject
 
 
         /**************************************************************************************************/
-        public void uploadFileStreamed(string username, string transactionID, string baseFolder, string localPath, Stream uploadStream)
+        public void uploadFileStreamed(string username, string transactionID, string baseFolder, string localPath, int type, Stream uploadStream)
         {
             // 1) check if everything ok ---------------------------------------------------
             User user = null;
@@ -295,16 +295,19 @@ namespace ServicesProject
             fileTransferChecks(user, baseFolder, transactionID, out transaction, out handler);
 
             // 2) write to file ------------------------------------------------------------
-            handler.AddFileStreamed(transaction, localPath, uploadStream);
+            handler.AddFileStreamed(transaction, localPath, type, uploadStream);
 
             // 3) register transaction -----------------------------------------------------
-            TransactionsHandler.Instance.AddOperation(transaction, TransactionsHandler.Operations.NewFile, localPath);
+            TransactionsHandler.Instance.AddOperation(
+                transaction,
+                type == Update.UpdateEntry.MODIFIED_FILE ? TransactionsHandler.Operations.UpdateFile : TransactionsHandler.Operations.NewFile,
+                localPath);
         }
 
         
         
         /**************************************************************************************************/
-        public void uploadFile(User user, UpdateTransaction transaction, string baseFolder, string localPath, byte[] data)
+        public void uploadFile(User user, UpdateTransaction transaction, string baseFolder, string localPath, int type, byte[] data)
         {
 
             // 1) check if everything ok
@@ -316,10 +319,31 @@ namespace ServicesProject
             fileTransferChecks(user, baseFolder, transaction.TransactionID, out tr, out handler);
 
             // 2) write to file
-            handler.AddFile(tr, localPath, data);
+            handler.AddFile(tr, localPath, type, data);
 
             // 3) register to log
-            TransactionsHandler.Instance.AddOperation(tr, TransactionsHandler.Operations.NewFile, localPath);
+            TransactionsHandler.Instance.AddOperation(  
+                tr, 
+                type == Update.UpdateEntry.MODIFIED_FILE ? TransactionsHandler.Operations.UpdateFile : TransactionsHandler.Operations.NewFile, 
+                localPath);
+        }
+
+
+
+        /**************************************************************************************************/
+        public void deleteFile(User user, UpdateTransaction transaction, string baseFolder, string localPath)
+        {
+            // 1) check if everything ok
+            if (!ConnectedUsers.ContainsKey(user.Username))
+                throw new FaultException(new FaultReason(FileTransferFault.USER_NOT_CONNECTED));
+
+            UpdateTransaction tr = null;
+            UpdatesFileHandler handler = null;
+            fileTransferChecks(user, baseFolder, transaction.TransactionID, out tr, out handler);
+
+            Console.WriteLine("ask handler to delete file");
+            handler.deleteFile(tr, localPath);
+            TransactionsHandler.Instance.AddOperation(tr, TransactionsHandler.Operations.DeleteFile, localPath);
         }
 
 
@@ -340,6 +364,23 @@ namespace ServicesProject
             TransactionsHandler.Instance.AddOperation(tr, TransactionsHandler.Operations.NewFolder, localPath);
         }
 
+
+
+        /**************************************************************************************************/
+        public void deleteSubDirectory(User user, UpdateTransaction transaction, string baseFolder, string localPath)
+        {
+            // 1) check if everything ok
+            if (!ConnectedUsers.ContainsKey(user.Username))
+                throw new FaultException(new FaultReason(FileTransferFault.USER_NOT_CONNECTED));
+
+            UpdateTransaction tr = null;
+            UpdatesFileHandler handler = null;
+            fileTransferChecks(user, baseFolder, transaction.TransactionID, out tr, out handler);
+
+            Console.WriteLine("ask handler to delete directory");
+            handler.deleteSubDirectory(tr, localPath);
+            TransactionsHandler.Instance.AddOperation(tr, TransactionsHandler.Operations.DeleteFolder, localPath);
+        }
 
 
         /**************************************************************************************************/

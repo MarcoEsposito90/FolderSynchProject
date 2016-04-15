@@ -45,6 +45,9 @@ namespace FolderSynchMUIClient.StreamedTransferService {
         public string transactionID;
         
         [System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
+        public int updateType;
+        
+        [System.ServiceModel.MessageHeaderAttribute(Namespace="http://tempuri.org/")]
         public string username;
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://tempuri.org/", Order=0)]
@@ -53,10 +56,11 @@ namespace FolderSynchMUIClient.StreamedTransferService {
         public FileStreamMessage() {
         }
         
-        public FileStreamMessage(string baseFolder, string localPath, string transactionID, string username, System.IO.Stream data) {
+        public FileStreamMessage(string baseFolder, string localPath, string transactionID, int updateType, string username, System.IO.Stream data) {
             this.baseFolder = baseFolder;
             this.localPath = localPath;
             this.transactionID = transactionID;
+            this.updateType = updateType;
             this.username = username;
             this.data = data;
         }
@@ -104,11 +108,12 @@ namespace FolderSynchMUIClient.StreamedTransferService {
             return base.Channel.uploadFileStreamed(request);
         }
         
-        public void uploadFileStreamed(string baseFolder, string localPath, string transactionID, string username, System.IO.Stream data) {
+        public void uploadFileStreamed(string baseFolder, string localPath, string transactionID, int updateType, string username, System.IO.Stream data) {
             FolderSynchMUIClient.StreamedTransferService.FileStreamMessage inValue = new FolderSynchMUIClient.StreamedTransferService.FileStreamMessage();
             inValue.baseFolder = baseFolder;
             inValue.localPath = localPath;
             inValue.transactionID = transactionID;
+            inValue.updateType = updateType;
             inValue.username = username;
             inValue.data = data;
             FolderSynchMUIClient.StreamedTransferService.uploadFileStreamedResponse retVal = ((FolderSynchMUIClient.StreamedTransferService.StreamedTransferContract)(this)).uploadFileStreamed(inValue);
@@ -119,11 +124,12 @@ namespace FolderSynchMUIClient.StreamedTransferService {
             return base.Channel.uploadFileStreamedAsync(request);
         }
         
-        public System.Threading.Tasks.Task<FolderSynchMUIClient.StreamedTransferService.uploadFileStreamedResponse> uploadFileStreamedAsync(string baseFolder, string localPath, string transactionID, string username, System.IO.Stream data) {
+        public System.Threading.Tasks.Task<FolderSynchMUIClient.StreamedTransferService.uploadFileStreamedResponse> uploadFileStreamedAsync(string baseFolder, string localPath, string transactionID, int updateType, string username, System.IO.Stream data) {
             FolderSynchMUIClient.StreamedTransferService.FileStreamMessage inValue = new FolderSynchMUIClient.StreamedTransferService.FileStreamMessage();
             inValue.baseFolder = baseFolder;
             inValue.localPath = localPath;
             inValue.transactionID = transactionID;
+            inValue.updateType = updateType;
             inValue.username = username;
             inValue.data = data;
             return ((FolderSynchMUIClient.StreamedTransferService.StreamedTransferContract)(this)).uploadFileStreamedAsync(inValue);

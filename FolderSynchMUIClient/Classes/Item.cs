@@ -81,8 +81,13 @@ namespace FolderSynchMUIClient
         /* ------------ CHANGE OBJECT ------------------------------------- */
         /* ---------------------------------------------------------------- */
 
-        public class Change
+        public class Change : IComparable
         {
+            /*  ATTENTION!!!!! 
+                These statics must ABSOLUTELY be equal to the statics defined in the class
+                Update.UpdateEntry of the service. Please don't touch them!!!
+            */
+
             public static readonly int NEW_FILE = 0;
             public static readonly int CHANGED_FILE = 1;
             public static readonly int DELETED_FILE = 2;
@@ -96,6 +101,16 @@ namespace FolderSynchMUIClient
             {
                 Type = type;
                 Path = path;
+            }
+
+            public int CompareTo(object obj)
+            {
+                if (!obj.GetType().Equals(typeof(Change)))
+                    throw new Exception("ivoking compareTo for another type object in Item.Change.CompareTo");
+
+                Change c = (Change)obj;
+
+                return c.Type - Type;
             }
         }
     }

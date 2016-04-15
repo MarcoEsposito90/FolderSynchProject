@@ -45,8 +45,8 @@ namespace FolderSynchMUIClient
             // 2) setting timer
             timer = new Timer(  performUpdate, 
                                 null, 
-                                minutes > 1 ? TimeSpan.FromSeconds(2) : TimeSpan.FromSeconds(10),    // first time span is for next fire
-                                TimeSpan.FromSeconds(20));                                           // second is for subsequent
+                                minutes > 1 ? TimeSpan.FromSeconds(2) : TimeSpan.FromMinutes(1),    // first time span is for next fire
+                                TimeSpan.FromMinutes(1));                                           // second is for subsequent
         }
 
         public void stopWatching()
@@ -69,10 +69,6 @@ namespace FolderSynchMUIClient
             if (localFolder.LastUpdate != null)
             {
                 List<Item.Change> changes = localFolder.DetectChanges(localFolder.LastUpdate.Timestamp);
-
-                Console.WriteLine("detected " + changes.Count + " changes");
-                foreach (Item.Change c in changes)
-                    Console.WriteLine("changed: " + c.Path + " (" + c.Type + ")");
 
                 if(changes.Count > 0)
                 {

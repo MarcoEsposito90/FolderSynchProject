@@ -506,7 +506,7 @@ namespace FolderSynchMUIClient.FolderSynchService {
             private System.DateTime EntryTimestampField;
             
             [System.Runtime.Serialization.OptionalFieldAttribute()]
-            private string ItemNameField;
+            private string ItemLocalPathField;
             
             [System.Runtime.Serialization.OptionalFieldAttribute()]
             private int UpdateTypeField;
@@ -534,14 +534,14 @@ namespace FolderSynchMUIClient.FolderSynchService {
             }
             
             [System.Runtime.Serialization.DataMemberAttribute()]
-            public string ItemName {
+            public string ItemLocalPath {
                 get {
-                    return this.ItemNameField;
+                    return this.ItemLocalPathField;
                 }
                 set {
-                    if ((object.ReferenceEquals(this.ItemNameField, value) != true)) {
-                        this.ItemNameField = value;
-                        this.RaisePropertyChanged("ItemName");
+                    if ((object.ReferenceEquals(this.ItemLocalPathField, value) != true)) {
+                        this.ItemLocalPathField = value;
+                        this.RaisePropertyChanged("ItemLocalPath");
                     }
                 }
             }
@@ -610,16 +610,28 @@ namespace FolderSynchMUIClient.FolderSynchService {
         System.Threading.Tasks.Task<FolderSynchMUIClient.FolderSynchService.UpdateTransaction> beginUpdateAsync(string baseFolder, System.DateTime timestamp);
         
         [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/uploadFile", ReplyAction="http://tempuri.org/FolderSynchServiceContract/uploadFileResponse")]
-        void uploadFile(string transactionID, string baseFolder, string localPath, byte[] data);
+        void uploadFile(string transactionID, string baseFolder, string localPath, int type, byte[] data);
         
         [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/uploadFile", ReplyAction="http://tempuri.org/FolderSynchServiceContract/uploadFileResponse")]
-        System.Threading.Tasks.Task uploadFileAsync(string transactionID, string baseFolder, string localPath, byte[] data);
+        System.Threading.Tasks.Task uploadFileAsync(string transactionID, string baseFolder, string localPath, int type, byte[] data);
+        
+        [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/deleteFile", ReplyAction="http://tempuri.org/FolderSynchServiceContract/deleteFileResponse")]
+        void deleteFile(string transactionID, string baseFolder, string localPath);
+        
+        [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/deleteFile", ReplyAction="http://tempuri.org/FolderSynchServiceContract/deleteFileResponse")]
+        System.Threading.Tasks.Task deleteFileAsync(string transactionID, string baseFolder, string localPath);
         
         [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/addSubDirectory", ReplyAction="http://tempuri.org/FolderSynchServiceContract/addSubDirectoryResponse")]
         void addSubDirectory(string transactionID, string baseFolder, string localPath);
         
         [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/addSubDirectory", ReplyAction="http://tempuri.org/FolderSynchServiceContract/addSubDirectoryResponse")]
         System.Threading.Tasks.Task addSubDirectoryAsync(string transactionID, string baseFolder, string localPath);
+        
+        [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/deleteSubDirectory", ReplyAction="http://tempuri.org/FolderSynchServiceContract/deleteSubDirectoryResponse")]
+        void deleteSubDirectory(string transactionID, string baseFolder, string localPath);
+        
+        [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/deleteSubDirectory", ReplyAction="http://tempuri.org/FolderSynchServiceContract/deleteSubDirectoryResponse")]
+        System.Threading.Tasks.Task deleteSubDirectoryAsync(string transactionID, string baseFolder, string localPath);
         
         [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/updateCommit", ReplyAction="http://tempuri.org/FolderSynchServiceContract/updateCommitResponse")]
         FolderSynchMUIClient.FolderSynchService.Update updateCommit(FolderSynchMUIClient.FolderSynchService.UpdateTransaction transaction);
@@ -713,12 +725,20 @@ namespace FolderSynchMUIClient.FolderSynchService {
             return base.Channel.beginUpdateAsync(baseFolder, timestamp);
         }
         
-        public void uploadFile(string transactionID, string baseFolder, string localPath, byte[] data) {
-            base.Channel.uploadFile(transactionID, baseFolder, localPath, data);
+        public void uploadFile(string transactionID, string baseFolder, string localPath, int type, byte[] data) {
+            base.Channel.uploadFile(transactionID, baseFolder, localPath, type, data);
         }
         
-        public System.Threading.Tasks.Task uploadFileAsync(string transactionID, string baseFolder, string localPath, byte[] data) {
-            return base.Channel.uploadFileAsync(transactionID, baseFolder, localPath, data);
+        public System.Threading.Tasks.Task uploadFileAsync(string transactionID, string baseFolder, string localPath, int type, byte[] data) {
+            return base.Channel.uploadFileAsync(transactionID, baseFolder, localPath, type, data);
+        }
+        
+        public void deleteFile(string transactionID, string baseFolder, string localPath) {
+            base.Channel.deleteFile(transactionID, baseFolder, localPath);
+        }
+        
+        public System.Threading.Tasks.Task deleteFileAsync(string transactionID, string baseFolder, string localPath) {
+            return base.Channel.deleteFileAsync(transactionID, baseFolder, localPath);
         }
         
         public void addSubDirectory(string transactionID, string baseFolder, string localPath) {
@@ -727,6 +747,14 @@ namespace FolderSynchMUIClient.FolderSynchService {
         
         public System.Threading.Tasks.Task addSubDirectoryAsync(string transactionID, string baseFolder, string localPath) {
             return base.Channel.addSubDirectoryAsync(transactionID, baseFolder, localPath);
+        }
+        
+        public void deleteSubDirectory(string transactionID, string baseFolder, string localPath) {
+            base.Channel.deleteSubDirectory(transactionID, baseFolder, localPath);
+        }
+        
+        public System.Threading.Tasks.Task deleteSubDirectoryAsync(string transactionID, string baseFolder, string localPath) {
+            return base.Channel.deleteSubDirectoryAsync(transactionID, baseFolder, localPath);
         }
         
         public FolderSynchMUIClient.FolderSynchService.Update updateCommit(FolderSynchMUIClient.FolderSynchService.UpdateTransaction transaction) {

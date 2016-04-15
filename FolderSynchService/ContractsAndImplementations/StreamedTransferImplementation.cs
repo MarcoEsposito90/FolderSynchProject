@@ -17,7 +17,8 @@ namespace ServicesProject
             FolderSynchServer.Instance.uploadFileStreamed(  message.username, 
                                                             message.transactionID,  
                                                             message.baseFolder, 
-                                                            message.localPath, 
+                                                            message.localPath,
+                                                            message.updateType, 
                                                             message.data);
         }
 

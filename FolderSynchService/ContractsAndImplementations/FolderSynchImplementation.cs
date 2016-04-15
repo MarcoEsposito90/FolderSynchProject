@@ -62,8 +62,8 @@ namespace ServicesProject
             return tr;
         }
 
-
-        public void uploadFile(string transactionID, string baseFolder, string localPath, byte[] data)
+        /***************************************************************************************************/
+        public void uploadFile(string transactionID, string baseFolder, string localPath, int type, byte[] data)
         {
             UpdateTransaction transaction = null;
             
@@ -72,9 +72,11 @@ namespace ServicesProject
                 throw new FaultException(new FaultReason("This transaction is not active for the user"));
 
             Console.WriteLine(currentUser.Username + "wants to add a new file");
-            FolderSynchServer.Instance.uploadFile(currentUser, transaction, baseFolder, localPath, data);
+            FolderSynchServer.Instance.uploadFile(currentUser, transaction, baseFolder, localPath, type, data);
         }
 
+
+        /***************************************************************************************************/
         public void addSubDirectory(string transactionID, string baseFolder, string localPath)
         {
             UpdateTransaction transaction = null;
@@ -87,6 +89,35 @@ namespace ServicesProject
         }
 
 
+        /***************************************************************************************************/
+        public void deleteFile(string transactionID, string baseFolder, string localPath)
+        {
+            UpdateTransaction transaction = null;
+
+            if (!ActiveTransactions.TryGetValue(transactionID, out transaction))
+                throw new FaultException(new FaultReason("This transaction is not active for the user"));
+
+            Console.WriteLine(currentUser.Username + "wants to delete a file");
+            FolderSynchServer.Instance.deleteFile(currentUser, transaction, baseFolder, localPath);
+            Console.WriteLine("Delete file return");
+        }
+
+
+        /***************************************************************************************************/
+        public void deleteSubDirectory(string transactionID, string baseFolder, string localPath)
+        {
+            UpdateTransaction transaction = null;
+
+            if (!ActiveTransactions.TryGetValue(transactionID, out transaction))
+                throw new FaultException(new FaultReason("This transaction is not active for the user"));
+
+            Console.WriteLine(currentUser.Username + "wants to delete a subDirectory");
+            FolderSynchServer.Instance.deleteSubDirectory(currentUser, transaction, baseFolder, localPath);
+            Console.WriteLine("Delete subDirectory return");
+        }
+
+
+        /***************************************************************************************************/
         public Update updateCommit(UpdateTransaction transaction)
         {
             Console.WriteLine(currentUser.Username + "wants to commit an update");
@@ -132,5 +163,7 @@ namespace ServicesProject
             Console.WriteLine(currentUser.Username + " wants to download: " + baseFolder + "\\" + localPath + "; (update " + updateNumber + ")");
             return FolderSynchServer.Instance.downloadFile(currentUser, baseFolder, localPath, updateNumber);
         }
+
+        
     }
 }

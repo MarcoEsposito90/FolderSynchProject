@@ -46,7 +46,7 @@ namespace ServicesProject
         public class UpdateEntry
         {
             [DataMember]
-            public string ItemName { get; private set; }
+            public string ItemLocalPath { get; private set; }
 
             [DataMember]
             public DateTime EntryTimestamp { get; private set; }
@@ -54,13 +54,15 @@ namespace ServicesProject
             [DataMember]
             public int UpdateType { get; private set; }
 
-            public static readonly int DELETE = 0;
-            public static readonly int NEW = 1;
-            public static readonly int MODIFIED = 2;
+            public static readonly int NEW_FILE = 0;
+            public static readonly int MODIFIED_FILE = 1;
+            public static readonly int DELETED_FILE = 2;
+            public static readonly int NEW_DIRECTORY = 3;
+            public static readonly int DELETED_DIRECTORY = 4;
 
-            public UpdateEntry(string itemName, int updateType)
+            public UpdateEntry(string itemLocalPath, int updateType)
             {
-                this.ItemName = itemName;
+                this.ItemLocalPath = itemLocalPath;
                 this.UpdateType = updateType;
                 this.EntryTimestamp = DateTime.Now;
 

@@ -11,6 +11,7 @@
   <xs:element name="baseFolder" nillable="true" type="xs:string" />
   <xs:element name="localPath" nillable="true" type="xs:string" />
   <xs:element name="transactionID" nillable="true" type="xs:string" />
+  <xs:element name="updateType" type="xs:int" />
   <xs:element name="username" nillable="true" type="xs:string" />
   <xs:element name="downloadFileStreamed">
     <xs:complexType>

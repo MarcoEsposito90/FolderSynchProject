@@ -23,6 +23,7 @@
     <wsdl:part name="baseFolder" element="tns:baseFolder" />
     <wsdl:part name="localPath" element="tns:localPath" />
     <wsdl:part name="transactionID" element="tns:transactionID" />
+    <wsdl:part name="updateType" element="tns:updateType" />
     <wsdl:part name="username" element="tns:username" />
   </wsdl:message>
   <wsdl:message name="StreamedTransferContract_uploadFileStreamed_OutputMessage" />
@@ -51,6 +52,7 @@
         <soap12:header message="tns:FileStreamMessage_Headers" part="baseFolder" use="literal" />
         <soap12:header message="tns:FileStreamMessage_Headers" part="localPath" use="literal" />
         <soap12:header message="tns:FileStreamMessage_Headers" part="transactionID" use="literal" />
+        <soap12:header message="tns:FileStreamMessage_Headers" part="updateType" use="literal" />
         <soap12:header message="tns:FileStreamMessage_Headers" part="username" use="literal" />
         <soap12:body use="literal" />
       </wsdl:input>

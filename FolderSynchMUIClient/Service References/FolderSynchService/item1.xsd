@@ -76,11 +76,26 @@
         <xs:element minOccurs="0" name="transactionID" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="baseFolder" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="localPath" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="type" type="xs:int" />
         <xs:element minOccurs="0" name="data" nillable="true" type="xs:base64Binary" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="uploadFileResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="deleteFile">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="transactionID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="baseFolder" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="localPath" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="deleteFileResponse">
     <xs:complexType>
       <xs:sequence />
     </xs:complexType>
@@ -95,6 +110,20 @@
     </xs:complexType>
   </xs:element>
   <xs:element name="addSubDirectoryResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="deleteSubDirectory">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="transactionID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="baseFolder" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="localPath" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="deleteSubDirectoryResponse">
     <xs:complexType>
       <xs:sequence />
     </xs:complexType>

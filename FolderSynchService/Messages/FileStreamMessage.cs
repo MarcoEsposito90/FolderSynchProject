@@ -24,6 +24,9 @@ namespace ServicesProject
         [MessageHeader]
         public string transactionID;
 
+        [MessageHeader]
+        public int updateType;
+
         [MessageBodyMember]
         public Stream data;
 

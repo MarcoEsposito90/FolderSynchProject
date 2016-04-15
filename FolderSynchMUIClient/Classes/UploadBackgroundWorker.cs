@@ -56,8 +56,10 @@ namespace FolderSynchMUIClient.Classes
         // incremental uploader
         public UploadBackgroundWorker(LocalFolder localFolder, List<Item.Change> changes) : base()
         {
-            this.LocalFolder = localFolder;
-            this.Changes = changes;
+            LocalFolder = localFolder;
+            Changes = changes;
+            Changes.Sort();
+
             filesNumber = 0;
             filesUploaded = 0;
 
@@ -156,14 +158,19 @@ namespace FolderSynchMUIClient.Classes
                     if (fi.Length > App.MAX_BUFFERED_TRANSFER_FILE_SIZE)
                     {
                         // ***** streamed transfer *****
-                        streamProxy.uploadFileStreamed(LocalFolder.Name, localPath, transaction.TransactionID, application.User.Username, uploadStream);
+                        streamProxy.uploadFileStreamed( LocalFolder.Name, 
+                                                        localPath, 
+                                                        transaction.TransactionID,
+                                                        Item.Change.NEW_FILE,
+                                                        application.User.Username,
+                                                        uploadStream);
                     }
                     else
                     {
                         // ***** one-time transfer (buffered) *****
                         byte[] buffer = new byte[App.MAX_BUFFERED_TRANSFER_FILE_SIZE];
                         uploadStream.Read(buffer, 0, App.MAX_BUFFERED_TRANSFER_FILE_SIZE);
-                        proxy.uploadFile(transaction.TransactionID, LocalFolder.Name, localPath, buffer);
+                        proxy.uploadFile(transaction.TransactionID, LocalFolder.Name, localPath, Item.Change.NEW_FILE, buffer);
                     }
                 }
 
@@ -186,11 +193,13 @@ namespace FolderSynchMUIClient.Classes
 
         private void Upload_BackgroundWork_Incremental(object sender, DoWorkEventArgs e)
         {
-            
+            Console.WriteLine("Uploading " + Changes.Count + " changes");
+            foreach (Item.Change c in Changes)
+                Console.WriteLine(c.Path + " (" + c.Type + ")");
 
             BackgroundWorker worker = sender as BackgroundWorker;
             worker.ReportProgress(0, State.Computing);
-            //Update newUpdate = null;
+            Update newUpdate = null;
 
             filesNumber = Changes.Count;
 
@@ -202,20 +211,20 @@ namespace FolderSynchMUIClient.Classes
                 {
                     // 3) begin update transaction --------------------------------------
                     DateTime timestamp = DateTime.Now;
-                    //UpdateTransaction transaction = proxy.beginUpdate(LocalFolder.Name, timestamp);
+                    UpdateTransaction transaction = proxy.beginUpdate(LocalFolder.Name, timestamp);
 
                     foreach (Item.Change change in Changes)
                     {
-                        uploadFile(change);
+                        uploadItem(change, transaction);
                         int percentage = (int)(((float)++filesUploaded / filesNumber) * 100);
                         worker.ReportProgress(percentage, State.Uploading);
                     }
 
-                    //newUpdate = proxy.updateCommit(transaction);
+                    newUpdate = proxy.updateCommit(transaction);
 
                     e.Result = new UploadWorkerResponse(true, "");
-                    
-                    //LocalFolder.LastUpdate = newUpdate;
+
+                    LocalFolder.LastUpdate = newUpdate;
                 }
                 else
                 {
@@ -225,7 +234,7 @@ namespace FolderSynchMUIClient.Classes
             }
             catch (FaultException f)
             {
-                Console.WriteLine("error: " + f.Reason);
+                Console.WriteLine("error: " + f.Message);
                 e.Result = new UploadWorkerResponse(false, UploadWorkerResponse.ERROR_MESSAGE);
 
             }
@@ -233,9 +242,46 @@ namespace FolderSynchMUIClient.Classes
 
 
         /***********************************************************************************/
-        private void uploadFile(Item.Change change)
+        private void uploadItem(Item.Change change, UpdateTransaction transaction)
         {
             Console.WriteLine("proceed to upload: " + change.Path);
+
+            string localPath = change.Path.Replace(LocalFolder.Path + "\\", "");
+
+            if(change.Type == Item.Change.NEW_DIRECTORY)
+                proxy.addSubDirectory(transaction.TransactionID, LocalFolder.Name, localPath);
+
+            else if(change.Type == Item.Change.DELETED_DIRECTORY)
+                proxy.deleteSubDirectory(transaction.TransactionID, LocalFolder.Name, localPath);
+
+            else if(change.Type == Item.Change.DELETED_FILE)
+                proxy.deleteFile(transaction.TransactionID, LocalFolder.Name, localPath);
+
+            else
+            {
+                using (Stream uploadStream = new FileStream(change.Path, FileMode.Open, FileAccess.Read))
+                {
+                    FileInfo fi = new FileInfo(change.Path);
+
+                    if (fi.Length > App.MAX_BUFFERED_TRANSFER_FILE_SIZE)
+                    {
+                        // ***** streamed transfer *****
+                        streamProxy.uploadFileStreamed( LocalFolder.Name,
+                                                        localPath,
+                                                        transaction.TransactionID,
+                                                        change.Type,
+                                                        application.User.Username,
+                                                        uploadStream);
+                    }
+                    else
+                    {
+                        // ***** one-time transfer (buffered) *****
+                        byte[] buffer = new byte[App.MAX_BUFFERED_TRANSFER_FILE_SIZE];
+                        uploadStream.Read(buffer, 0, App.MAX_BUFFERED_TRANSFER_FILE_SIZE);
+                        proxy.uploadFile(transaction.TransactionID, LocalFolder.Name, localPath, change.Type , buffer);
+                    }
+                }
+            }
         }
 
         /* ------------------------------------------------------------------------------ */

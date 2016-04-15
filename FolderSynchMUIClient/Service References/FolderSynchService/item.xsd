@@ -76,7 +76,7 @@
   <xs:complexType name="Update.UpdateEntry">
     <xs:sequence>
       <xs:element minOccurs="0" name="EntryTimestamp" type="xs:dateTime" />
-      <xs:element minOccurs="0" name="ItemName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ItemLocalPath" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="UpdateType" type="xs:int" />
     </xs:sequence>
   </xs:complexType>
