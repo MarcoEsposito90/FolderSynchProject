@@ -88,7 +88,7 @@
     <Compile Include="Classes\UploadBackgroundWorker.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Classes\LocalFolder.cs" />
+    <Compile Include="Pages\LocalFolder.cs" />
     <Compile Include="Classes\FileItem.cs" />
     <Compile Include="Classes\FolderItem.cs" />
     <Compile Include="Classes\Item.cs" />
@@ -155,6 +155,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="TypeConverter.cs" />
     <Page Include="Pages\Dialogs\FileDownloadDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
