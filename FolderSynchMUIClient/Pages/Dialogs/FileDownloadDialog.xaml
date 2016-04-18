@@ -52,8 +52,8 @@
 
         <Grid Margin="20">
 
-            <ProgressBar Minimum="0" Maximum="100" 
-                         Name="DownloadProgressBar" />
+            <ProgressBar Name="DownloadProgressBar"
+                         IsIndeterminate="True"/>
             
             <TextBlock Name="responseTB" 
                        Text="{Binding ElementName=UploadProgressBar, Path=Value, StringFormat={}{0:0}%}" 

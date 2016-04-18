@@ -506,7 +506,13 @@ namespace FolderSynchMUIClient.FolderSynchService {
             private System.DateTime EntryTimestampField;
             
             [System.Runtime.Serialization.OptionalFieldAttribute()]
+            private long ItemDimensionField;
+            
+            [System.Runtime.Serialization.OptionalFieldAttribute()]
             private string ItemLocalPathField;
+            
+            [System.Runtime.Serialization.OptionalFieldAttribute()]
+            private int UpdateNumberField;
             
             [System.Runtime.Serialization.OptionalFieldAttribute()]
             private int UpdateTypeField;
@@ -534,6 +540,19 @@ namespace FolderSynchMUIClient.FolderSynchService {
             }
             
             [System.Runtime.Serialization.DataMemberAttribute()]
+            public long ItemDimension {
+                get {
+                    return this.ItemDimensionField;
+                }
+                set {
+                    if ((this.ItemDimensionField.Equals(value) != true)) {
+                        this.ItemDimensionField = value;
+                        this.RaisePropertyChanged("ItemDimension");
+                    }
+                }
+            }
+            
+            [System.Runtime.Serialization.DataMemberAttribute()]
             public string ItemLocalPath {
                 get {
                     return this.ItemLocalPathField;
@@ -542,6 +561,19 @@ namespace FolderSynchMUIClient.FolderSynchService {
                     if ((object.ReferenceEquals(this.ItemLocalPathField, value) != true)) {
                         this.ItemLocalPathField = value;
                         this.RaisePropertyChanged("ItemLocalPath");
+                    }
+                }
+            }
+            
+            [System.Runtime.Serialization.DataMemberAttribute()]
+            public int UpdateNumber {
+                get {
+                    return this.UpdateNumberField;
+                }
+                set {
+                    if ((this.UpdateNumberField.Equals(value) != true)) {
+                        this.UpdateNumberField = value;
+                        this.RaisePropertyChanged("UpdateNumber");
                     }
                 }
             }

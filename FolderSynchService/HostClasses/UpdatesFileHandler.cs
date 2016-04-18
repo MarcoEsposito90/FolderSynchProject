@@ -127,7 +127,8 @@ namespace ServicesProject
                 inputStream.Close();
             }
 
-            update.UpdateEntries.Add(new Update.UpdateEntry(localPath, type, update.Timestamp));
+            FileInfo fi = new FileInfo(filePath);
+            update.UpdateEntries.Add(new Update.UpdateEntry(localPath, type, update.Timestamp, fi.Length, update.Number));
         }
 
 
@@ -172,7 +173,8 @@ namespace ServicesProject
                 stream.Close();
             }
 
-            update.UpdateEntries.Add(new Update.UpdateEntry(localPath, type, update.Timestamp));
+            FileInfo fi = new FileInfo(filePath);
+            update.UpdateEntries.Add(new Update.UpdateEntry(localPath, type, update.Timestamp, fi.Length, update.Number));
         }
 
 
@@ -185,7 +187,7 @@ namespace ServicesProject
                 throw new FaultException(new FaultReason(FileTransferFault.MISSING_FOLDER));
 
             Console.WriteLine("handler is deleting file");
-            update.UpdateEntries.Add(new Update.UpdateEntry(localPath, Update.UpdateEntry.DELETED_FILE, update.Timestamp));
+            update.UpdateEntries.Add(new Update.UpdateEntry(localPath, Update.UpdateEntry.DELETED_FILE, update.Timestamp, 0, update.Number));
         }
 
 
@@ -205,7 +207,8 @@ namespace ServicesProject
                             localPath;
 
             Directory.CreateDirectory(path);
-            update.UpdateEntries.Add(new Update.UpdateEntry(localPath, Update.UpdateEntry.NEW_DIRECTORY, update.Timestamp));
+            DirectoryInfo di = new DirectoryInfo(path);
+            update.UpdateEntries.Add(new Update.UpdateEntry(localPath, Update.UpdateEntry.NEW_DIRECTORY, update.Timestamp, 0, update.Number));
         }
 
 
@@ -218,7 +221,7 @@ namespace ServicesProject
                 throw new FaultException(new FaultReason(FileTransferFault.MISSING_FOLDER));
 
             Console.WriteLine("handler is deleting subDirectory");
-            update.UpdateEntries.Add(new Update.UpdateEntry(localPath, Update.UpdateEntry.DELETED_DIRECTORY, update.Timestamp));
+            update.UpdateEntries.Add(new Update.UpdateEntry(localPath, Update.UpdateEntry.DELETED_DIRECTORY, update.Timestamp, 0, update.Number));
         }
 
 

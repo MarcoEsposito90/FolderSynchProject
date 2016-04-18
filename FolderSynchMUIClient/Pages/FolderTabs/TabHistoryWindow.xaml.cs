@@ -33,7 +33,7 @@ namespace FolderSynchMUIClient.Pages
             Update.UpdateEntry entry = (Update.UpdateEntry)b.DataContext;
             LocalFolder lf = (LocalFolder)DataContext;
 
-            FileDownloadDialog dialog = new FileDownloadDialog(entry);
+            FileDownloadDialog dialog = new FileDownloadDialog(entry, lf);
             dialog.ShowDialog();
         }
 

@@ -92,6 +92,9 @@
     <Compile Include="Classes\FileItem.cs" />
     <Compile Include="Classes\FolderItem.cs" />
     <Compile Include="Classes\Item.cs" />
+    <Compile Include="Classes\DownloadBackgroundWorker.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Pages\Dialogs\FileDownloadDialog.xaml.cs">
       <DependentUpon>FileDownloadDialog.xaml</DependentUpon>
     </Compile>

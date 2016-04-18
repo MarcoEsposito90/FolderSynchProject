@@ -80,8 +80,13 @@ namespace ServicesProject
             public DateTime EntryTimestamp { get; private set; }
 
             [DataMember]
+            public int UpdateNumber { get; private set; }
+
+            [DataMember]
             public int UpdateType { get; private set; }
 
+            [DataMember]
+            public long ItemDimension { get; private set; }
             
             public static readonly int NEW_FILE = 0;
             public static readonly int MODIFIED_FILE = 1;
@@ -89,12 +94,13 @@ namespace ServicesProject
             public static readonly int DELETED_DIRECTORY = 3;
             public static readonly int DELETED_FILE = 4;
 
-            public UpdateEntry(string itemLocalPath, int updateType, DateTime timestamp)
+            public UpdateEntry(string itemLocalPath, int updateType, DateTime timestamp, long dimension, int updateNumber)
             {
                 this.ItemLocalPath = itemLocalPath;
                 this.UpdateType = updateType;
                 this.EntryTimestamp = timestamp;
-
+                this.ItemDimension = dimension;
+                this.UpdateNumber = updateNumber;
             }
         }
 
