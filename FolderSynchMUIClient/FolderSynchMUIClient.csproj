@@ -145,6 +145,9 @@
     <Compile Include="Pages\FolderTabs\TabOptionsWindow.xaml.cs">
       <DependentUpon>TabOptionsWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Dialogs\RollbackDialog.xaml.cs">
+      <DependentUpon>RollbackDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Service References\FolderSynchService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -247,6 +250,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\FolderTabs\TabOptionsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Dialogs\RollbackDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
