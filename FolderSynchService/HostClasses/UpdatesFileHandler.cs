@@ -347,6 +347,10 @@ namespace ServicesProject
         /* ------------------------------------------------------------------------------ */
         public List<Update> getHistory()
         {
+            Console.WriteLine("Handler is returning updates list for " + User.Username + " - " + BaseFolder);
+
+            foreach (Update u in Updates)
+                u.printUpdate();
             return Updates;
         }
 
@@ -354,6 +358,7 @@ namespace ServicesProject
         public List<Update.UpdateEntry> getFileHistory(string localPath)
         {
 
+            Console.WriteLine("Handler is returning updates list for " + User.Username + " - " + BaseFolder + "\\" + localPath);
             List<Update.UpdateEntry> entries = new List<Update.UpdateEntry>();
             foreach(Update u in Updates)
             {
@@ -361,6 +366,10 @@ namespace ServicesProject
                 {
                     if (entry.ItemLocalPath.Equals(localPath))
                     {
+                        Console.WriteLine("-----------------------------------------------");
+                        Console.WriteLine("ItemLocalPath: " + entry.ItemLocalPath);
+                        Console.WriteLine("EntryTimestamp: " + entry.EntryTimestamp);
+                        Console.WriteLine("UpdateType: " + entry.UpdateType);
                         entries.Add(entry);
                         break;
                     }

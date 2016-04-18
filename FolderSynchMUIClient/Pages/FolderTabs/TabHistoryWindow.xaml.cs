@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FolderSynchMUIClient.FolderSynchService;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -29,13 +30,20 @@ namespace FolderSynchMUIClient.Pages
         private void downloadButton_Click(object sender, RoutedEventArgs e)
         {
             Console.WriteLine("Download button pressed!");
-            //TODO: implementazione metodo per scaricare una vecchia versione di file/folder
+
+            Button b = (Button)sender;
+            Update.UpdateEntry entry = (Update.UpdateEntry)b.DataContext;
+            LocalFolder lf = (LocalFolder)DataContext;
+
+
         }
 
         private void reloadButton_Click(object sender, RoutedEventArgs e)
         {
             Console.WriteLine("Reload button pressed!");
-            //TODO: implementazione metodo per ripristinare una vecchia versione della cartella
+
+            Button b = (Button)sender;
+            Update update = (Update)b.DataContext;
         }
     }
 }

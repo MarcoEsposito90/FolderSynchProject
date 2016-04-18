@@ -92,6 +92,9 @@
     <Compile Include="Classes\FileItem.cs" />
     <Compile Include="Classes\FolderItem.cs" />
     <Compile Include="Classes\Item.cs" />
+    <Compile Include="Pages\Dialogs\FileDownloadDialog.xaml.cs">
+      <DependentUpon>FileDownloadDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Dialogs\DetailsDialog.xaml.cs">
       <DependentUpon>DetailsDialog.xaml</DependentUpon>
     </Compile>
@@ -152,6 +155,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Page Include="Pages\Dialogs\FileDownloadDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\Dialogs\DetailsDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
