@@ -6,7 +6,8 @@
                   xmlns:mui="http://firstfloorsoftware.com/ModernUI"
                   mc:Ignorable="d" 
                   d:DesignHeight="300" d:DesignWidth="300"
-                  Title="ModernDialog">
+                  Title="ModernDialog"
+                  ContentRendered="FileDownloadDialog_ContentRendered">
 
     <!-- Note: ModernDialog buttons are defined in the constructor of the code behind class -->
 
@@ -19,17 +20,14 @@
                    VerticalAlignment="Center" 
                    Foreground="{DynamicResource ItemBackgroundSelected}" />
 
-        <TextBlock Margin="10" TextWrapping="Wrap" 
+        <TextBlock Name="TBDownloadQuestion"
+                   Margin="10" TextWrapping="Wrap" 
                    FontSize="13.333" 
-                   Text="Would you like to download the version of the file of: "/>
+                   Text="Would you like to download the version of the file dated: "/>
 
         <TextBlock Margin="10" TextWrapping="Wrap" 
                    FontSize="13.333" 
                    Text="The file will be downloaded in: "/>
-
-        <TextBox Name="choosedFolderPathEditor" IsEnabled="False" 
-                        VerticalAlignment="Center" Foreground="Black" 
-                        Margin="10,0,10,0"/>
 
         <Button Name="btnBrowseFolder" 
                 Content="Browse"
@@ -38,6 +36,30 @@
                 Click="btnBrowseFolder_Click" 
                 Margin="10,0,0,0" 
                 Style="{StaticResource BaseButtonStyle}"/>
+
+        <TextBox Name="choosedFolderPathEditor" IsEnabled="False" 
+                        VerticalAlignment="Center" Foreground="Black" 
+                        Margin="10,0,10,0"/>
+
+        <Button Name="btnDownloadFile" 
+                Content="Download"
+                VerticalAlignment="Center" 
+                FontSize="13.333" 
+                Click="btnDownloadFile_Click" 
+                Margin="10,0,0,0" 
+                Style="{StaticResource BaseButtonStyle}"/>
+
+
+        <Grid Margin="20">
+
+            <ProgressBar Minimum="0" Maximum="100" 
+                         Name="DownloadProgressBar" />
+            
+            <TextBlock Name="responseTB" 
+                       Text="{Binding ElementName=UploadProgressBar, Path=Value, StringFormat={}{0:0}%}" 
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="Center" />
+        </Grid>
 
     </StackPanel>
     

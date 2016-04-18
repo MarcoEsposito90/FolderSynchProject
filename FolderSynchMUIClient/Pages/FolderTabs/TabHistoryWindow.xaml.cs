@@ -35,7 +35,8 @@ namespace FolderSynchMUIClient.Pages
             Update.UpdateEntry entry = (Update.UpdateEntry)b.DataContext;
             LocalFolder lf = (LocalFolder)DataContext;
 
-
+            FileDownloadDialog dialog = new FileDownloadDialog(entry);
+            dialog.ShowDialog();
         }
 
         private void reloadButton_Click(object sender, RoutedEventArgs e)
