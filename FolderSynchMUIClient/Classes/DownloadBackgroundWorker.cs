@@ -94,11 +94,32 @@ namespace FolderSynchMUIClient
                     long size = Entry.ItemDimension;
                     if(size > App.MAX_BUFFERED_TRANSFER_FILE_SIZE)
                     {
-                        // streamed download
+                        // streamed download --------------------------------------------------------------------
+                        Stream stream = streamProxy.downloadFileStreamed(   application.User.Username, 
+                                                                            LocalFolder.Name, 
+                                                                            Entry.ItemLocalPath, 
+                                                                            Entry.UpdateNumber);
+
+                        FileStream fs = new FileStream(DownloadFileName, FileMode.OpenOrCreate, FileAccess.Write);
+
+                        using (fs)
+                        {
+                            int bufferSize = 10240;
+                            byte[] buffer = new byte[bufferSize];
+                            int bytesRead;
+
+                            while ((bytesRead = stream.Read(buffer, 0, bufferSize)) > 0 ){
+
+                                fs.Write(buffer, 0, bytesRead);
+                            }
+
+                            fs.Close();
+                            stream.Close();
+                        }
                     }
                     else
                     {
-                        // buffered download
+                        // buffered download -----------------------------------------------------------------------
                         byte[] fileBuffer = proxy.downloadFile(LocalFolder.Name, Entry.ItemLocalPath, Entry.UpdateNumber);
                         using (FileStream fs = new FileStream(DownloadFileName, FileMode.OpenOrCreate, FileAccess.Write))
                         {
