@@ -8,64 +8,61 @@
              xmlns:localPages="clr-namespace:FolderSynchMUIClient.Pages"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    
-    <Grid Style="{StaticResource ContentRoot}">
-        <ScrollViewer>
-            <StackPanel MinWidth="200">
 
-                <!-- TITLE -->
-                <TextBlock Text="MY FOLDERS" Style="{StaticResource Heading1}" />
-                <!-- END TITLE -->
+    <Grid Margin="0,10,0,0" Style="{StaticResource ContentRoot}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
-                <Grid Margin="0,10,0,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="3*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="1*"/>
-                    </Grid.RowDefinitions>
-
-                    <!-- FOLDERS LIST -->
-                    <Border BorderThickness="0,0,1,0" BorderBrush="LightGray" Margin="0,10,0,0">
-                        <ListBox Name="foldersButtonControl" SelectionChanged="foldersButtonControl_changed" 
+        <!-- FOLDERS LIST -->
+        <TextBlock Text="MY FOLDERS" 
+                   Grid.Column="0" Grid.Row="0"
+                   Grid.ColumnSpan="2"
+                   Style="{StaticResource Heading1}" />
+        
+        
+        <!-- FOLDERS LIST -->
+        <Border BorderThickness="0,0,1,0" BorderBrush="LightGray" Margin="0,10,0,0">
+            <ListBox Name="foldersButtonControl" SelectionChanged="foldersButtonControl_changed" 
                                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="0,10,5,0" 
-                                 Grid.Column="0" Grid.Row="0">
+                                 Grid.Column="0" Grid.Row="1">
 
-                            <ListBox.ItemTemplate>
-                                <DataTemplate >
-                                    <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" 
+                <ListBox.ItemTemplate>
+                    <DataTemplate >
+                        <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" 
                                                TextAlignment="Left" 
                                                Margin="0,0,0,5"
                                                Width="{Binding ActualWidth, ElementName=foldersButtonControl}"/>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                    </Border>
-                    <!-- FOLDERS LIST -->
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Border>
+        <!-- FOLDERS LIST -->
 
-                    <!-- TAB CONTAINER -->
-                    <mui:ModernTab Name="FolderTab" Margin="10,30,10,10" Grid.Column="1" Grid.Row="0" 
+        <!-- TAB CONTAINER -->
+        <mui:ModernTab Name="FolderTab" Margin="10,30,10,10" Grid.Column="1" Grid.Row="1" 
                                    SelectedSource="/Pages/FolderTabs/TabDetailsWindow.xaml">
-                        <mui:ModernTab.Links>
-                            
-                            <mui:Link DisplayName="Details" 
+            <mui:ModernTab.Links>
+
+                <mui:Link DisplayName="Details" 
                                       Source="/Pages/FolderTabs/TabDetailsWindow.xaml"/>
-                            
-                            <mui:Link DisplayName="Browse" 
+
+                <mui:Link DisplayName="Browse" 
                                       Source="/Pages/FolderTabs/TabBrowseWindow.xaml" />
-                            
-                            <mui:Link DisplayName="History" 
+
+                <mui:Link DisplayName="History" 
                                       Source="/Pages/FolderTabs/TabHistoryWindow.xaml" />
-                            
-                            <mui:Link DisplayName="Options" 
+
+                <mui:Link DisplayName="Options" 
                                       Source="/Pages/FolderTabs/TabOptionsWindow.xaml" />
-                        </mui:ModernTab.Links>
-                    </mui:ModernTab>
-                    <!-- END TAB CONTAINER -->
-                    
-                </Grid>
-            </StackPanel>
-        </ScrollViewer>
+            </mui:ModernTab.Links>
+        </mui:ModernTab>
+        <!-- END TAB CONTAINER -->
+
     </Grid>
 </UserControl>
