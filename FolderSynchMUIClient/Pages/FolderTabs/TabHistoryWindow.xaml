@@ -18,7 +18,6 @@
         <local:TypeConverter x:Key="Converter1"/>
     </UserControl.Resources>
 
-    <ScrollViewer>
         <StackPanel MinWidth="200">
 
             <!-- TITLE -->
@@ -36,7 +35,7 @@
                         <!-- Il secondo DataTemplate contiene i file/folder modificati in quell'update -->
                         <!-- Nel primo l'icona mi permette di ripristinare quella versione -->
                         <!-- Nel secondo l'icona mi permette di scaricare quel file/cartella -->
-                        
+
                         <StackPanel Orientation="Horizontal">
                             <Expander Margin="0,10,0,0">
                                 <Expander.Header>
@@ -81,7 +80,6 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
             <!-- END ITEMS TREEVIEW -->
-            
+
         </StackPanel>
-    </ScrollViewer>
 </UserControl>

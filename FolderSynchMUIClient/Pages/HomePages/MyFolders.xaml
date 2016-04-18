@@ -9,7 +9,8 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
-    <Grid Margin="0,10,0,0" Style="{StaticResource ContentRoot}">
+    <ScrollViewer Style="{StaticResource ContentRoot}">
+    <Grid Margin="0,10,0,0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="3*"/>
@@ -21,16 +22,16 @@
 
         <!-- FOLDERS LIST -->
         <TextBlock Text="MY FOLDERS" 
-                   Grid.Column="0" Grid.Row="0"
+                   Grid.Row="0"
                    Grid.ColumnSpan="2"
                    Style="{StaticResource Heading1}" />
         
         
         <!-- FOLDERS LIST -->
-        <Border BorderThickness="0,0,1,0" BorderBrush="LightGray" Margin="0,10,0,0">
+        <Border BorderThickness="0,0,1,0" BorderBrush="LightGray" Margin="0,10,0,0" Grid.Column="0" Grid.Row="1">
             <ListBox Name="foldersButtonControl" SelectionChanged="foldersButtonControl_changed" 
                                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="0,10,5,0" 
-                                 Grid.Column="0" Grid.Row="1">
+                                 >
 
                 <ListBox.ItemTemplate>
                     <DataTemplate >
@@ -65,4 +66,5 @@
         <!-- END TAB CONTAINER -->
 
     </Grid>
+    </ScrollViewer>
 </UserControl>
