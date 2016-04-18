@@ -1,4 +1,6 @@
 ﻿using FirstFloor.ModernUI.Windows.Controls;
+using FolderSynchMUIClient.FolderSynchService;
+using Microsoft.WindowsAPICodePack.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,9 +23,14 @@ namespace FolderSynchMUIClient
     /// </summary>
     public partial class RollbackDialog : ModernDialog
     {
-        public RollbackDialog()
+        private LocalFolder localFolder;
+        private Update update;
+
+        public RollbackDialog(LocalFolder lf, Update up)
         {
             InitializeComponent();
+            this.localFolder = lf;
+            this.update = up;
 
             // define the dialog buttons
             this.Buttons = new Button[] { this.OkButton, this.CancelButton };
@@ -31,7 +38,25 @@ namespace FolderSynchMUIClient
 
         private void btnBrowsePath_Click(object sender, RoutedEventArgs e)
         {
+            var openFolderDialog = new CommonOpenFileDialog();
+            openFolderDialog.IsFolderPicker = true;
 
+            if (openFolderDialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                choosedPathTextBox.Text = openFolderDialog.FileName.ToString();
+            }
+        }
+
+        private void btnDownloadOld_Checked(object sender, RoutedEventArgs e)
+        {
+            btnBrowsePath.Visibility = Visibility.Visible;
+            choosedPathTextBox.Visibility = Visibility.Visible;
+        }
+
+        private void btnDownloadOld_Unchecked(object sender, RoutedEventArgs e)
+        {
+            btnBrowsePath.Visibility = Visibility.Hidden;
+            choosedPathTextBox.Visibility = Visibility.Hidden;
         }
     }
 }

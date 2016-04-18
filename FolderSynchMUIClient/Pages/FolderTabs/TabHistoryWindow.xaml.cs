@@ -29,8 +29,6 @@ namespace FolderSynchMUIClient.Pages
 
         private void downloadButton_Click(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine("Download button pressed!");
-
             Button b = (Button)sender;
             Update.UpdateEntry entry = (Update.UpdateEntry)b.DataContext;
             LocalFolder lf = (LocalFolder)DataContext;
@@ -41,10 +39,12 @@ namespace FolderSynchMUIClient.Pages
 
         private void reloadButton_Click(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine("Reload button pressed!");
-
             Button b = (Button)sender;
             Update update = (Update)b.DataContext;
+            LocalFolder lf = (LocalFolder)DataContext;
+
+            RollbackDialog rd = new RollbackDialog(lf, update);
+            rd.ShowDialog();
         }
     }
 }
