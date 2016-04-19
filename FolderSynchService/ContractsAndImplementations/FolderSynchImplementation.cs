@@ -13,7 +13,8 @@ namespace ServicesProject
     public class FolderSynchImplementation : FolderSynchServiceContract
     {
         User currentUser = null;
-        Dictionary<string,UpdateTransaction> ActiveTransactions = null;
+        Dictionary<string,UpdateTransaction> ActiveUpdateTransactions = null;
+        Dictionary<string, RollbackTransaction> ActiveRollbackTransactions = null;
 
         /* ---------------------------------------------------------------------- */
         /* ------------------------ USER ---------------------------------------- */
@@ -22,7 +23,8 @@ namespace ServicesProject
         public User loginUser(string username, string password)
         {
             currentUser = FolderSynchServer.Instance.LoginUser(username, password);
-            ActiveTransactions = new Dictionary<string, UpdateTransaction>();
+            ActiveUpdateTransactions = new Dictionary<string, UpdateTransaction>();
+            ActiveRollbackTransactions = new Dictionary<string, RollbackTransaction>();
 
             Console.WriteLine(currentUser.Username + " wants to login");
             Console.WriteLine(currentUser.Username + " Folders list: ");
@@ -58,7 +60,7 @@ namespace ServicesProject
             Console.WriteLine("baseFodler = " + baseFolder);
             UpdateTransaction tr = new UpdateTransaction(currentUser, baseFolder, timestamp);
             FolderSynchServer.Instance.beginUpdate(tr);
-            ActiveTransactions.Add(tr.TransactionID,tr);
+            ActiveUpdateTransactions.Add(tr.TransactionID,tr);
             return tr;
         }
 
@@ -68,7 +70,7 @@ namespace ServicesProject
             UpdateTransaction transaction = null;
             
 
-            if (!ActiveTransactions.TryGetValue(transactionID, out transaction))
+            if (!ActiveUpdateTransactions.TryGetValue(transactionID, out transaction))
                 throw new FaultException(new FaultReason("This transaction is not active for the user"));
 
             Console.WriteLine(currentUser.Username + "wants to add a new file");
@@ -81,7 +83,7 @@ namespace ServicesProject
         {
             UpdateTransaction transaction = null;
 
-            if (!ActiveTransactions.TryGetValue(transactionID, out transaction))
+            if (!ActiveUpdateTransactions.TryGetValue(transactionID, out transaction))
                 throw new FaultException(new FaultReason("This transaction is not active for the user"));
 
             Console.WriteLine(currentUser.Username + "wants to add a subDirectory");
@@ -94,7 +96,7 @@ namespace ServicesProject
         {
             UpdateTransaction transaction = null;
 
-            if (!ActiveTransactions.TryGetValue(transactionID, out transaction))
+            if (!ActiveUpdateTransactions.TryGetValue(transactionID, out transaction))
                 throw new FaultException(new FaultReason("This transaction is not active for the user"));
 
             Console.WriteLine(currentUser.Username + "wants to delete a file");
@@ -108,7 +110,7 @@ namespace ServicesProject
         {
             UpdateTransaction transaction = null;
 
-            if (!ActiveTransactions.TryGetValue(transactionID, out transaction))
+            if (!ActiveUpdateTransactions.TryGetValue(transactionID, out transaction))
                 throw new FaultException(new FaultReason("This transaction is not active for the user"));
 
             Console.WriteLine(currentUser.Username + "wants to delete a subDirectory");
@@ -122,7 +124,7 @@ namespace ServicesProject
         {
             Console.WriteLine(currentUser.Username + "wants to commit an update");
             Update result = FolderSynchServer.Instance.updateCommit(transaction);
-            ActiveTransactions.Remove(transaction.TransactionID);
+            ActiveUpdateTransactions.Remove(transaction.TransactionID);
             return result;
         }
 
@@ -164,20 +166,40 @@ namespace ServicesProject
             return FolderSynchServer.Instance.downloadFile(currentUser, baseFolder, localPath, updateNumber);
         }
 
+        
+        /***************************************************************************************************/
         public List<Update.UpdateEntry> getUpdateFileList(Update update)
         {
             Console.WriteLine(currentUser.Username + " wants the list of file relative to update " + update.Number);
             return FolderSynchServer.Instance.getUpdateFilesList(currentUser, update);
         }
 
-        public RollbackTransaction beginRollback(Update update)
+
+        /***************************************************************************************************/
+        public RollbackTransaction beginRollback(Update update, DateTime timestamp)
         {
-            throw new NotImplementedException();
+            Console.WriteLine(currentUser.Username + " wants to begin a rollback");
+            Console.WriteLine("Update: " + update.Number);
+            Console.WriteLine("time: " + timestamp.ToString());
+
+            RollbackTransaction transaction = new RollbackTransaction(currentUser, update.Number, update.BaseFolder, timestamp);
+            FolderSynchServer.Instance.beginRollback(transaction);
+            ActiveRollbackTransactions.Add(transaction.TransactionID, transaction);
+            return transaction;
         }
 
+
+        /***************************************************************************************************/
         public void commitRollback(RollbackTransaction transaction)
         {
-            throw new NotImplementedException();
+            Console.WriteLine(currentUser.Username + " wants to commit a rollback");
+
+            RollbackTransaction tr = null;
+            if (!ActiveRollbackTransactions.TryGetValue(transaction.TransactionID, out tr))
+                throw new FaultException(new FaultReason("No active transaction for this rollback"));
+
+            FolderSynchServer.Instance.commitRollback(tr);
+            ActiveRollbackTransactions.Remove(tr.TransactionID);
         }
     }
 }

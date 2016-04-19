@@ -524,6 +524,16 @@ namespace ServicesProject
 
 
         /***********************************************************************************/
+        public void commitRollback(int updateNumber)
+        {
+            for(int i = updateNumber + 1; i < Updates.Count; i++)
+                deleteDirectory(Updates.ElementAt(i).UpdateFolder);
+
+            Updates.RemoveRange(updateNumber + 1, (Updates.Count - updateNumber - 1));
+        }
+
+
+        /***********************************************************************************/
         private string getUpdateFolder(int updateNumber)
         {
 

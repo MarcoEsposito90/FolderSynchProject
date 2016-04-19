@@ -59,7 +59,7 @@ namespace ServicesProject
         List<Update.UpdateEntry> getUpdateFileList(Update update);
 
         [OperationContract(IsInitiating = false, IsTerminating = false)]
-        RollbackTransaction beginRollback(Update update);
+        RollbackTransaction beginRollback(Update update, DateTime timestamp);
 
         [OperationContract(IsInitiating = false, IsTerminating = false)]
         byte[] downloadFile(string baseFolder, string localPath, int updateNumber);

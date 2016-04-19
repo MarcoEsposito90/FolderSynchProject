@@ -426,9 +426,9 @@ namespace ServicesProject
 
         
         /*****************************************************************************************************/
-        public RollbackTransaction beginRollback(User user, Update update)
+        public void beginRollback(RollbackTransaction transaction)
         {
-            return null;
+            RollbackTransactionsHandler.Instance.AddTransaction(transaction);
         }
 
 
@@ -471,6 +471,15 @@ namespace ServicesProject
                 throw new FaultException(new FaultReason(FileTransferFault.UNKNOWN_BASE_FOLDER));
 
             return getUpdateFileHandler(user, baseFolder).getFileStreamed(localPath, updateNumber);
+        }
+
+
+        /*****************************************************************************************************/
+        public void commitRollback(RollbackTransaction transaction)
+        {
+            UpdatesFileHandler handler = getUpdateFileHandler(transaction.User, transaction.BaseFolder);
+            handler.commitRollback(transaction.UpdateNumber);
+            RollbackTransactionsHandler.Instance.CommitTransaction(transaction);
         }
 
         /* ----------------------------------------------------------------------------------------------- */
