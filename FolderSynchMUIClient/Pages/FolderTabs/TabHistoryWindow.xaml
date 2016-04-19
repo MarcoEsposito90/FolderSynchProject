@@ -16,18 +16,73 @@
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
         <local:TypeConverter x:Key="Converter1"/>
+        
+        <Style x:Key="DownloadButton" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" 
+                                BorderThickness="1"  CornerRadius="3">
+                            <Border.Background>
+                                <ImageBrush ImageSource="../../Icons/MyDownload_Icon2.png"/>
+                            </Border.Background>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" TargetName="border">
+                                    <Setter.Value>
+                                        <ImageBrush ImageSource="/Icons/MyDownload_IconSmall.png"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="RollbackButton" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border"
+                                BorderThickness="1" CornerRadius="3">
+                            <Border.Background>
+                                <ImageBrush ImageSource="../../Icons/MyRollback_Icon2.png"/>
+                            </Border.Background>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" TargetName="border">
+                                    <Setter.Value>
+                                        <ImageBrush ImageSource="/Icons/MyRollback_IconSmall.png"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
     </UserControl.Resources>
+    
 
         <StackPanel MinWidth="200">
 
             <!-- TITLE -->
-            <TextBlock Text="Updates History" HorizontalAlignment="Left" 
+        <TextBlock Text="Updates History" HorizontalAlignment="Left" 
                        Style="{StaticResource Title}" FontSize="26.667"
                        VerticalAlignment="Center" Margin="10,10,0,0"  
                        Foreground="{DynamicResource ItemBackgroundSelected}"/>
-            <!-- END TITLE -->
+        <!-- END TITLE -->
 
-            <!-- ITEMS TREEVIEW -->
+
+        <!-- ITEMS TREEVIEW -->
             <ItemsControl Name="folderEditDates" Margin="20,10,10,0" ItemsSource="{Binding Source={StaticResource sortedUpdates}}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate >
@@ -42,31 +97,39 @@
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="{Binding Timestamp}"
                                                    FontSize="14.667" Margin="10,0,0,0" />
-                                        <Button Name="reloadButton" Click="reloadButton_Click"
-                                                Width="20" Height="20"
-                                                Margin="10,0,0,0" BorderBrush="{x:Null}">
-                                            <Button.Background>
-                                                <ImageBrush ImageSource="../../Icons/MyReload_Icon.png"/>
-                                            </Button.Background>
-                                        </Button>
-                                    </StackPanel>
+                                    <Border Margin="10,0,0,0" BorderBrush="White" 
+                                                    Width="23" Height="23" Background="{DynamicResource ItemBackgroundSelected}"
+                                                    CornerRadius="4" BorderThickness="1"
+                                                    VerticalAlignment="Center">
+                                                <Button Name="reloadButton" Click="reloadButton_Click"
+                                                            Width="23" Height="23" 
+                                                            BorderBrush="{x:Null}" 
+                                                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                            Style="{StaticResource RollbackButton}">
+                                                    </Button>
+                                                
+                                            </Border>
+                                </StackPanel>
                                 </Expander.Header>
                                 <ItemsControl Name="folderEditDates" ItemsSource="{Binding UpdateEntries}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal" Margin="20,10,10,10">
-                                                <Button Name="downloadButton" Click="downloadButton_Click" 
-                                                        Height="20" Width="20" VerticalAlignment="Center"
-                                                        Margin="10,0,0,0"  BorderBrush="{x:Null}">
-                                                    <Button.Background>
-                                                        <ImageBrush ImageSource="../../Icons/MyDownload_Icon.png"/>
-                                                    </Button.Background>
+                                            <Border Margin="10,0,0,0" BorderBrush="White" 
+                                                    Width="23" Height="23" Background="{DynamicResource ItemBackgroundSelected}"
+                                                    CornerRadius="4" BorderThickness="1"
+                                                    VerticalAlignment="Center">
+                                                <Button Name="downloadButton" Click="downloadButton_Click"
+                                                            Width="23" Height="23" 
+                                                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                            BorderBrush="{x:Null}" Style="{StaticResource DownloadButton}">
                                                 </Button>
-                                                <TextBlock Text="{Binding UpdateType,  Converter={StaticResource Converter1}}" VerticalAlignment="Center"
-                                                           FontSize="13.333" Margin="10,0,0,0"/>
-                                                <TextBlock Text="{Binding ItemLocalPath}" VerticalAlignment="Center"
-                                                           FontSize="13.333" Margin="0,0,0,0"/>
-                                            </StackPanel>
+                                            </Border>
+                                            <TextBlock Text="{Binding UpdateType,  Converter={StaticResource Converter1}}" VerticalAlignment="Center"
+                                                       FontSize="13.333" Margin="10,0,0,0"/>
+                                            <TextBlock Text="{Binding ItemLocalPath}" VerticalAlignment="Center"
+                                                       FontSize="13.333" Margin="0,0,0,0"/>
+                                        </StackPanel>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>

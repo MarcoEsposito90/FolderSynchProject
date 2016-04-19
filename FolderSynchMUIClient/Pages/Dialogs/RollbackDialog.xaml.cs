@@ -85,6 +85,17 @@ namespace FolderSynchMUIClient
             {
                 btnBrowsePath.Visibility = Visibility.Visible;
                 choosedPathTextBox.Visibility = Visibility.Visible;
+                btnStartDownload_Text.Text = "Start download";
+
+                var uriSource = new Uri(@"/FolderSynchMUIClient;component/Icons/MyDownload_Icon.png", UriKind.Relative);
+                btnStartDownload_Icon.Source = new BitmapImage(uriSource);
+            }
+            else
+            {
+                btnStartDownload_Text.Text = "Start rollback";
+
+                var uriSource = new Uri(@"/FolderSynchMUIClient;component/Icons/MyRollback_Icon.png", UriKind.Relative);
+                btnStartDownload_Icon.Source = new BitmapImage(uriSource);
             }
 
             btnStartDownload.Visibility = Visibility.Visible;

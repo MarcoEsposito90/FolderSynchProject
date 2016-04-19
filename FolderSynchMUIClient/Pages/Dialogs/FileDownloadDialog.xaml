@@ -29,27 +29,43 @@
                    FontSize="13.333" 
                    Text="The file will be downloaded in: "/>
 
-        <Button Name="btnBrowseFolder" 
-                Content="Browse"
-                VerticalAlignment="Center" 
-                FontSize="13.333" 
-                Click="btnBrowseFolder_Click" 
-                Margin="10,0,0,0" 
-                Style="{StaticResource BaseButtonStyle}"/>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            
+            <Button Name="btnBrowseFolder" Content="Browse"
+                    VerticalAlignment="Center" FontSize="13.333" 
+                    Click="btnBrowseFolder_Click" 
+                    Margin="10,0,0,0" Grid.Column="0" Grid.Row="0"
+                    Style="{StaticResource BaseButtonStyle}"/>
 
-        <TextBox Name="choosedFolderPathEditor" IsEnabled="False" 
-                        VerticalAlignment="Center" Foreground="Black" 
-                        Margin="10,0,10,0"/>
+            <TextBox Name="choosedFolderPathEditor" IsEnabled="False" 
+                     VerticalAlignment="Center" Foreground="Black" 
+                     Margin="10,0,10,0" Grid.Column="1" Grid.Row="0"/>
+        </Grid>
 
-        <Button Name="btnDownloadFile" 
-                Content="Download"
-                VerticalAlignment="Center" 
-                FontSize="13.333" 
-                Click="btnDownloadFile_Click" 
-                Margin="10,0,0,0" 
-                Style="{StaticResource BaseButtonStyle}"/>
-
-
+        <Button Name="btnDownloadFile"
+                Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="2" Margin="10,10,10,0" 
+                Visibility="Visible" HorizontalAlignment="Center"
+                BorderBrush="{DynamicResource ItemBackgroundSelected}"
+                VerticalAlignment="Center" Style="{StaticResource BaseButtonStyle}"
+                Click="btnDownloadFile_Click">
+            <Button.Content>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="Download"  FontSize="14.667" VerticalAlignment="Center"/>
+                    <Image Source="/Icons/MyDownload_Icon.png"
+                       Name="downloadIcon"
+                       Height="30" Width="35"
+                       Margin="5,0,0,0"/>
+                </StackPanel>
+            </Button.Content>
+        </Button>
+        
         <Grid Margin="20">
 
             <ProgressBar Name="DownloadProgressBar"
