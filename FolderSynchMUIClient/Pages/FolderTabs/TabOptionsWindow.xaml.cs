@@ -44,22 +44,7 @@ namespace FolderSynchMUIClient.Pages
             
         }
 
-        private void autoDeleteUp_Click(object sender, RoutedEventArgs e)
-        {
-            //Increasing auto-delete time
-            f = (LocalFolder)(this.DataContext);
-            txtAutoDelete.Text = (f.AutoDeleteTime + 1).ToString();
-            
-        }
-
-        private void autoDeleteDown_Click(object sender, RoutedEventArgs e)
-        {
-            //Decreasing auto-delete time
-            f = (LocalFolder)(this.DataContext);
-            txtAutoDelete.Text = (f.AutoDeleteTime - 1).ToString();
-            
-        }
-
+        
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
             //TODO: metodo per eliminare la cartella sincronizzata

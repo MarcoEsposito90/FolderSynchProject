@@ -36,9 +36,7 @@ namespace FolderSynchMUIClient.Pages.HomePages
 
             RefreshComboBox.ItemsSource = hoursArray;
             RefreshComboBox.SelectedIndex = 23;
-
-            DeleteComboBox.ItemsSource = daysArray;
-            DeleteComboBox.SelectedIndex = 6;
+            
         }
 
 
@@ -80,7 +78,6 @@ namespace FolderSynchMUIClient.Pages.HomePages
                 newFold.FolderName = folderName;
                 newFold.Username = application.User.Username;
                 newFold.AutoRefreshTime = int.Parse(RefreshComboBox.SelectedItem.ToString());
-                newFold.AutoDeleteTime = int.Parse(DeleteComboBox.SelectedItem.ToString());
 
                 DateTime synchDate = DateTime.Now;
                 newFold.SynchDate = synchDate;
@@ -90,7 +87,6 @@ namespace FolderSynchMUIClient.Pages.HomePages
                 // 4) proceed to upload
                 LocalFolder lf = new LocalFolder(application.User.Username, newFold.FolderName, choosedFolderPathEditor.Text);
                 lf.AutoRefreshTime = int.Parse(RefreshComboBox.SelectedItem.ToString());
-                lf.AutoDeleteTime = int.Parse(DeleteComboBox.SelectedItem.ToString());
 
                 UploadDialog ud = new UploadDialog(lf);
                 ud.ShowDialog();
