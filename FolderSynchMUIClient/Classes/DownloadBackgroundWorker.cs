@@ -59,16 +59,17 @@ namespace FolderSynchMUIClient
         }
 
 
-        // incremental uploader
+        // whole folder downloader
         public DownloadBackgroundWorker(LocalFolder localFolder, Update update, string downloadFolderName) : base()
         {
             LocalFolder = localFolder;
             DownloadFolderName = downloadFolderName;
+            Update = update;
 
             filesNumber = 0;
             filesDownloaded = 0;
 
-            //DoWork += ;
+            DoWork += Download_BackgroundWork_Folder;
 
             application = (App)Application.Current;
             proxy = application.FolderSynchProxy;
@@ -142,6 +143,16 @@ namespace FolderSynchMUIClient
                 e.Result = new DownloadWorkerResponse(false, DownloadWorkerResponse.ERROR_MESSAGE);
             }
 
+        }
+
+
+        /*********************************************************************************/
+        private void Download_BackgroundWork_Folder(object sender, DoWorkEventArgs e)
+        {
+
+            List<Update.UpdateEntry> entries = new List<Update.UpdateEntry>(proxy.getUpdateFileList(Update));
+            foreach (Update.UpdateEntry entry in entries)
+                Console.WriteLine(entry.ItemLocalPath + "(" + entry.UpdateType + ") from update " + entry.UpdateNumber); 
         }
 
 

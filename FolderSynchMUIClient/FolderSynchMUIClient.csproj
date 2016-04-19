@@ -151,6 +151,9 @@
     <Compile Include="Pages\Dialogs\RollbackDialog.xaml.cs">
       <DependentUpon>RollbackDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Dialogs\RollbackConfirmDialog.xaml.cs">
+      <DependentUpon>RollbackConfirmDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Service References\FolderSynchService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -260,6 +263,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\Dialogs\RollbackConfirmDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">
@@ -270,6 +277,9 @@
     <None Include="Properties\DataSources\ServicesProject.UpdateTransaction.datasource" />
     <None Include="Properties\DataSources\ServicesProject.User.datasource" />
     <None Include="Service References\FolderSynchService\FolderSynchImplementation.wsdl" />
+    <None Include="Service References\FolderSynchService\FolderSynchMUIClient.FolderSynchService.RollbackTransaction.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Service References\FolderSynchService\FolderSynchMUIClient.FolderSynchService.Update.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>

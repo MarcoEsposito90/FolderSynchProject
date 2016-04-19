@@ -6,7 +6,8 @@
                   xmlns:mui="http://firstfloorsoftware.com/ModernUI"
                   mc:Ignorable="d" 
                   d:DesignHeight="300" d:DesignWidth="300"
-                  Title="Rollback">
+                  Title="Rollback"
+                  ContentRendered="ModernDialog_ContentRendered">
 
     <!-- Note: ModernDialog buttons are defined in the constructor of the code behind class -->
     <Grid>
@@ -17,6 +18,8 @@
             <ColumnDefinition Width="5*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -33,45 +36,64 @@
 
         <!-- FIRST OPTION -->
         <RadioButton Name="btnDeleteOld"
+                     Checked="radioButton_Checked" Unchecked="radioButton_Unchecked"
                      Grid.Column="0" Grid.Row="1" Margin="10, 0, 10, 10"
                      VerticalAlignment="Center" HorizontalAlignment="Right"/>
         <TextBlock Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" 
                    VerticalAlignment="Center" HorizontalAlignment="Left"
-                   Text="Synchronize this previous version of the folder and delete the current one."
+                   Text="Synchronize this version of the folder and delete the current one."
                    TextWrapping="Wrap" Margin="10,0,10,10"/>
         <!-- END FIRST OPTION -->
 
         <!-- SECOND OPTION -->
         <RadioButton Name="btnKeepOld"
+                     Checked="radioButton_Checked" Unchecked="radioButton_Unchecked"
                      Grid.Column="0" Grid.Row="2" Margin="10, 0, 10, 10"
                      VerticalAlignment="Center" HorizontalAlignment="Right"/>
         <TextBlock Grid.Column="1" Grid.Row="2"  Grid.ColumnSpan="2"
                    VerticalAlignment="Center" HorizontalAlignment="Left"
-                   Text="Synchronize this previous version of the folder and keep a copy of the current one."
+                   Text="Synchronize this version of the folder and keep a copy of the current one."
                    TextWrapping="Wrap" Margin="10,0,10,10"/>
         <!-- END SECOND OPTION -->
 
         <!-- THIRD OPTION -->
-        <RadioButton Name="btnDownloadOld" Checked="btnDownloadOld_Checked" Unchecked="btnDownloadOld_Unchecked"
+        <RadioButton Name="btnDownloadOld" 
+                     Checked="radioButton_Checked" Unchecked="radioButton_Unchecked"
                   Grid.Column="0" Grid.Row="3" Margin="10, 0, 10, 10"
                   VerticalAlignment="Center" HorizontalAlignment="Right"/>
         <TextBlock Grid.Column="1" Grid.Row="3"  Grid.ColumnSpan="2"
                    VerticalAlignment="Center" HorizontalAlignment="Left"
-                   Text="Keep the current folder synchronized and download (without synch) the older folder."
+                   Text="Download this version of the folder (without synchronizing) to the following directory:"
                    TextWrapping="Wrap" Margin="10,0,10,10"/>
         <!-- END THIRD OPTION -->
 
         <!-- CHOOSE PATH SECTION -->
         <Button Name="btnBrowsePath" Content="Browse"
-                Visibility="Hidden"
+                Visibility="Visible"
                 VerticalAlignment="Center"  Style="{StaticResource BaseButtonStyle}"
                 Click="btnBrowsePath_Click" Margin="10,0,0,0" 
                 Grid.Column="1" Grid.Row="4"/>
         <TextBox Name="choosedPathTextBox" IsEnabled="False" 
-                 Visibility="Hidden"
+                 Visibility="Visible"
                  VerticalAlignment="Center" Foreground="Black" 
                  Margin="10,0,10,0" Grid.Column="2" Grid.Row="4"/>
         <!-- END CHOOSE PATH SECTION -->
 
+        
+        <!-- START DOWNLOAD -->
+        <Button Name="btnStartDownload" Content="Start Download"
+                Visibility="Visible"
+                VerticalAlignment="Center"  Style="{StaticResource BaseButtonStyle}"
+                Click="btnStartDownload_Click" Margin="10,10,10,0" 
+                Grid.Column="1" Grid.Row="5"
+                Grid.ColumnSpan="2"/>
+        
+        <!-- MESSAGEE TEXT -->
+        <TextBlock  Name="warningTB" 
+                    VerticalAlignment="Center" Foreground="Black" 
+                    Margin="10,0,10,0" Grid.ColumnSpan="2" 
+                    Grid.Column="1" Grid.Row="6"/>
+        
+        
     </Grid>
 </mui:ModernDialog>

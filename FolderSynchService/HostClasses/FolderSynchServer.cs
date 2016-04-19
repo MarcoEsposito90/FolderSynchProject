@@ -417,6 +417,14 @@ namespace ServicesProject
         /* ------------ DOWNLOAD METHODS ----------------------------------------------------------------- */
         /* ----------------------------------------------------------------------------------------------- */
 
+        public List<Update.UpdateEntry> getUpdateFilesList(User user, Update update)
+        {
+            return getUpdateFileHandler(user, update.BaseFolder).getUpdateFilesList(update.Number);
+        }
+
+
+
+        /*****************************************************************************************************/
         public byte[] downloadFile(User user, string baseFolder, string localPath, int updateNumber)
         {
             bool exists = false;
@@ -433,6 +441,9 @@ namespace ServicesProject
             return getUpdateFileHandler(user, baseFolder).getFile(localPath, updateNumber);
         }
 
+
+
+        /*****************************************************************************************************/
         public Stream downloadFileStreamed(string username, string baseFolder, string localPath, int updateNumber)
         {
             User user = null;

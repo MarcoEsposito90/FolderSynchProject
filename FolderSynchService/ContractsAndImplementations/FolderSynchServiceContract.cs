@@ -56,6 +56,15 @@ namespace ServicesProject
 
         /**********************************************************************************************************/
         [OperationContract(IsInitiating = false, IsTerminating = false)]
+        List<Update.UpdateEntry> getUpdateFileList(Update update);
+
+        [OperationContract(IsInitiating = false, IsTerminating = false)]
+        RollbackTransaction beginRollback(Update update);
+
+        [OperationContract(IsInitiating = false, IsTerminating = false)]
         byte[] downloadFile(string baseFolder, string localPath, int updateNumber);
+
+        [OperationContract(IsInitiating = false, IsTerminating = false)]
+        void commitRollback(RollbackTransaction transaction);
     }
 }

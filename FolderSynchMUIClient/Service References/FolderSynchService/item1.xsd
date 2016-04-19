@@ -171,6 +171,34 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="getUpdateFileList">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/ServicesProject" minOccurs="0" name="update" nillable="true" type="q10:Update" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="getUpdateFileListResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/ServicesProject" minOccurs="0" name="getUpdateFileListResult" nillable="true" type="q11:ArrayOfUpdate.UpdateEntry" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="beginRollback">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/ServicesProject" minOccurs="0" name="update" nillable="true" type="q12:Update" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="beginRollbackResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/ServicesProject" minOccurs="0" name="beginRollbackResult" nillable="true" type="q13:RollbackTransaction" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="downloadFile">
     <xs:complexType>
       <xs:sequence>
@@ -185,6 +213,18 @@
       <xs:sequence>
         <xs:element minOccurs="0" name="downloadFileResult" nillable="true" type="xs:base64Binary" />
       </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="commitRollback">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/ServicesProject" minOccurs="0" name="transaction" nillable="true" type="q14:RollbackTransaction" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="commitRollbackResponse">
+    <xs:complexType>
+      <xs:sequence />
     </xs:complexType>
   </xs:element>
 </xs:schema>

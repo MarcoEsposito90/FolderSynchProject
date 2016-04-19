@@ -164,6 +164,20 @@ namespace ServicesProject
             return FolderSynchServer.Instance.downloadFile(currentUser, baseFolder, localPath, updateNumber);
         }
 
-        
+        public List<Update.UpdateEntry> getUpdateFileList(Update update)
+        {
+            Console.WriteLine(currentUser.Username + " wants the list of file relative to update " + update.Number);
+            return FolderSynchServer.Instance.getUpdateFilesList(currentUser, update);
+        }
+
+        public RollbackTransaction beginRollback(Update update)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void commitRollback(RollbackTransaction transaction)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

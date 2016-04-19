@@ -96,11 +96,29 @@
   <wsdl:message name="FolderSynchServiceContract_getHistory_OutputMessage">
     <wsdl:part name="parameters" element="tns:getHistoryResponse" />
   </wsdl:message>
+  <wsdl:message name="FolderSynchServiceContract_getUpdateFileList_InputMessage">
+    <wsdl:part name="parameters" element="tns:getUpdateFileList" />
+  </wsdl:message>
+  <wsdl:message name="FolderSynchServiceContract_getUpdateFileList_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getUpdateFileListResponse" />
+  </wsdl:message>
+  <wsdl:message name="FolderSynchServiceContract_beginRollback_InputMessage">
+    <wsdl:part name="parameters" element="tns:beginRollback" />
+  </wsdl:message>
+  <wsdl:message name="FolderSynchServiceContract_beginRollback_OutputMessage">
+    <wsdl:part name="parameters" element="tns:beginRollbackResponse" />
+  </wsdl:message>
   <wsdl:message name="FolderSynchServiceContract_downloadFile_InputMessage">
     <wsdl:part name="parameters" element="tns:downloadFile" />
   </wsdl:message>
   <wsdl:message name="FolderSynchServiceContract_downloadFile_OutputMessage">
     <wsdl:part name="parameters" element="tns:downloadFileResponse" />
+  </wsdl:message>
+  <wsdl:message name="FolderSynchServiceContract_commitRollback_InputMessage">
+    <wsdl:part name="parameters" element="tns:commitRollback" />
+  </wsdl:message>
+  <wsdl:message name="FolderSynchServiceContract_commitRollback_OutputMessage">
+    <wsdl:part name="parameters" element="tns:commitRollbackResponse" />
   </wsdl:message>
   <wsdl:portType msc:usingSession="true" name="FolderSynchServiceContract">
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="RegisterNewUser">
@@ -154,9 +172,21 @@
       <wsdl:input wsaw:Action="http://tempuri.org/FolderSynchServiceContract/getHistory" message="tns:FolderSynchServiceContract_getHistory_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/FolderSynchServiceContract/getHistoryResponse" message="tns:FolderSynchServiceContract_getHistory_OutputMessage" />
     </wsdl:operation>
+    <wsdl:operation msc:isInitiating="false" msc:isTerminating="false" name="getUpdateFileList">
+      <wsdl:input wsaw:Action="http://tempuri.org/FolderSynchServiceContract/getUpdateFileList" message="tns:FolderSynchServiceContract_getUpdateFileList_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/FolderSynchServiceContract/getUpdateFileListResponse" message="tns:FolderSynchServiceContract_getUpdateFileList_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="false" msc:isTerminating="false" name="beginRollback">
+      <wsdl:input wsaw:Action="http://tempuri.org/FolderSynchServiceContract/beginRollback" message="tns:FolderSynchServiceContract_beginRollback_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/FolderSynchServiceContract/beginRollbackResponse" message="tns:FolderSynchServiceContract_beginRollback_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation msc:isInitiating="false" msc:isTerminating="false" name="downloadFile">
       <wsdl:input wsaw:Action="http://tempuri.org/FolderSynchServiceContract/downloadFile" message="tns:FolderSynchServiceContract_downloadFile_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/FolderSynchServiceContract/downloadFileResponse" message="tns:FolderSynchServiceContract_downloadFile_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="false" msc:isTerminating="false" name="commitRollback">
+      <wsdl:input wsaw:Action="http://tempuri.org/FolderSynchServiceContract/commitRollback" message="tns:FolderSynchServiceContract_commitRollback_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/FolderSynchServiceContract/commitRollbackResponse" message="tns:FolderSynchServiceContract_commitRollback_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="serviceTcpEndpoint" type="tns:FolderSynchServiceContract">
@@ -279,8 +309,35 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="getUpdateFileList">
+      <soap12:operation soapAction="http://tempuri.org/FolderSynchServiceContract/getUpdateFileList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="beginRollback">
+      <soap12:operation soapAction="http://tempuri.org/FolderSynchServiceContract/beginRollback" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="downloadFile">
       <soap12:operation soapAction="http://tempuri.org/FolderSynchServiceContract/downloadFile" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="commitRollback">
+      <soap12:operation soapAction="http://tempuri.org/FolderSynchServiceContract/commitRollback" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

@@ -602,6 +602,115 @@ namespace FolderSynchMUIClient.FolderSynchService {
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="RollbackTransaction", Namespace="http://schemas.datacontract.org/2004/07/ServicesProject")]
+    [System.SerializableAttribute()]
+    public partial class RollbackTransaction : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string BaseFolderField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.DateTime TimestampField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string TransactionIDField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int UpdateNumberField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private FolderSynchMUIClient.FolderSynchService.User UserField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string BaseFolder {
+            get {
+                return this.BaseFolderField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.BaseFolderField, value) != true)) {
+                    this.BaseFolderField = value;
+                    this.RaisePropertyChanged("BaseFolder");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.DateTime Timestamp {
+            get {
+                return this.TimestampField;
+            }
+            set {
+                if ((this.TimestampField.Equals(value) != true)) {
+                    this.TimestampField = value;
+                    this.RaisePropertyChanged("Timestamp");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string TransactionID {
+            get {
+                return this.TransactionIDField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.TransactionIDField, value) != true)) {
+                    this.TransactionIDField = value;
+                    this.RaisePropertyChanged("TransactionID");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int UpdateNumber {
+            get {
+                return this.UpdateNumberField;
+            }
+            set {
+                if ((this.UpdateNumberField.Equals(value) != true)) {
+                    this.UpdateNumberField = value;
+                    this.RaisePropertyChanged("UpdateNumber");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public FolderSynchMUIClient.FolderSynchService.User User {
+            get {
+                return this.UserField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.UserField, value) != true)) {
+                    this.UserField = value;
+                    this.RaisePropertyChanged("User");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="FolderSynchService.FolderSynchServiceContract", SessionMode=System.ServiceModel.SessionMode.Required)]
     public interface FolderSynchServiceContract {
@@ -683,11 +792,29 @@ namespace FolderSynchMUIClient.FolderSynchService {
         [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/getHistory", ReplyAction="http://tempuri.org/FolderSynchServiceContract/getHistoryResponse")]
         System.Threading.Tasks.Task<FolderSynchMUIClient.FolderSynchService.Update[]> getHistoryAsync(string baseFolder);
         
+        [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/getUpdateFileList", ReplyAction="http://tempuri.org/FolderSynchServiceContract/getUpdateFileListResponse")]
+        FolderSynchMUIClient.FolderSynchService.Update.UpdateEntry[] getUpdateFileList(FolderSynchMUIClient.FolderSynchService.Update update);
+        
+        [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/getUpdateFileList", ReplyAction="http://tempuri.org/FolderSynchServiceContract/getUpdateFileListResponse")]
+        System.Threading.Tasks.Task<FolderSynchMUIClient.FolderSynchService.Update.UpdateEntry[]> getUpdateFileListAsync(FolderSynchMUIClient.FolderSynchService.Update update);
+        
+        [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/beginRollback", ReplyAction="http://tempuri.org/FolderSynchServiceContract/beginRollbackResponse")]
+        FolderSynchMUIClient.FolderSynchService.RollbackTransaction beginRollback(FolderSynchMUIClient.FolderSynchService.Update update);
+        
+        [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/beginRollback", ReplyAction="http://tempuri.org/FolderSynchServiceContract/beginRollbackResponse")]
+        System.Threading.Tasks.Task<FolderSynchMUIClient.FolderSynchService.RollbackTransaction> beginRollbackAsync(FolderSynchMUIClient.FolderSynchService.Update update);
+        
         [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/downloadFile", ReplyAction="http://tempuri.org/FolderSynchServiceContract/downloadFileResponse")]
         byte[] downloadFile(string baseFolder, string localPath, int updateNumber);
         
         [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/downloadFile", ReplyAction="http://tempuri.org/FolderSynchServiceContract/downloadFileResponse")]
         System.Threading.Tasks.Task<byte[]> downloadFileAsync(string baseFolder, string localPath, int updateNumber);
+        
+        [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/commitRollback", ReplyAction="http://tempuri.org/FolderSynchServiceContract/commitRollbackResponse")]
+        void commitRollback(FolderSynchMUIClient.FolderSynchService.RollbackTransaction transaction);
+        
+        [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/commitRollback", ReplyAction="http://tempuri.org/FolderSynchServiceContract/commitRollbackResponse")]
+        System.Threading.Tasks.Task commitRollbackAsync(FolderSynchMUIClient.FolderSynchService.RollbackTransaction transaction);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -813,12 +940,36 @@ namespace FolderSynchMUIClient.FolderSynchService {
             return base.Channel.getHistoryAsync(baseFolder);
         }
         
+        public FolderSynchMUIClient.FolderSynchService.Update.UpdateEntry[] getUpdateFileList(FolderSynchMUIClient.FolderSynchService.Update update) {
+            return base.Channel.getUpdateFileList(update);
+        }
+        
+        public System.Threading.Tasks.Task<FolderSynchMUIClient.FolderSynchService.Update.UpdateEntry[]> getUpdateFileListAsync(FolderSynchMUIClient.FolderSynchService.Update update) {
+            return base.Channel.getUpdateFileListAsync(update);
+        }
+        
+        public FolderSynchMUIClient.FolderSynchService.RollbackTransaction beginRollback(FolderSynchMUIClient.FolderSynchService.Update update) {
+            return base.Channel.beginRollback(update);
+        }
+        
+        public System.Threading.Tasks.Task<FolderSynchMUIClient.FolderSynchService.RollbackTransaction> beginRollbackAsync(FolderSynchMUIClient.FolderSynchService.Update update) {
+            return base.Channel.beginRollbackAsync(update);
+        }
+        
         public byte[] downloadFile(string baseFolder, string localPath, int updateNumber) {
             return base.Channel.downloadFile(baseFolder, localPath, updateNumber);
         }
         
         public System.Threading.Tasks.Task<byte[]> downloadFileAsync(string baseFolder, string localPath, int updateNumber) {
             return base.Channel.downloadFileAsync(baseFolder, localPath, updateNumber);
+        }
+        
+        public void commitRollback(FolderSynchMUIClient.FolderSynchService.RollbackTransaction transaction) {
+            base.Channel.commitRollback(transaction);
+        }
+        
+        public System.Threading.Tasks.Task commitRollbackAsync(FolderSynchMUIClient.FolderSynchService.RollbackTransaction transaction) {
+            return base.Channel.commitRollbackAsync(transaction);
         }
     }
 }

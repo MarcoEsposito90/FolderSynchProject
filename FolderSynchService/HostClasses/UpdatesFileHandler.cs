@@ -13,8 +13,6 @@ namespace ServicesProject
     public class UpdatesFileHandler
     {
 
-        public static readonly int LATEST_UPDATE = -1;
-
         /* ------------------------------------------------------------------------------ */
         /* ------------------------ PROPERTIES ------------------------------------------ */
         /* ------------------------------------------------------------------------------ */
@@ -81,16 +79,16 @@ namespace ServicesProject
         public void createNewUpdate(UpdateTransaction transaction)
         {
             int number = 0;
-            if(Updates.Count > 0)
-                number = Updates.ElementAt(Updates.Count-1).Number + 1;
+            if (Updates.Count > 0)
+                number = Updates.ElementAt(Updates.Count - 1).Number + 1;
 
             Console.WriteLine("creating update with numer " + number);
             Update u = new Update(BaseFolder, transaction.Timestamp, number, transaction.TransactionID);
 
             // create the update folder
-            Directory.CreateDirectory(  FolderSynchServer.Instance.RemoteFoldersPath + "\\" + 
-                                        User.Username + "\\" + 
-                                        BaseFolder + "\\" + 
+            Directory.CreateDirectory(FolderSynchServer.Instance.RemoteFoldersPath + "\\" +
+                                        User.Username + "\\" +
+                                        BaseFolder + "\\" +
                                         u.UpdateFolder);
 
             Updates.Add(u);
@@ -110,8 +108,8 @@ namespace ServicesProject
 
 
 
-            string filePath =   FolderSynchServer.Instance.RemoteFoldersPath + "\\" + 
-                                User.Username + "\\" + 
+            string filePath = FolderSynchServer.Instance.RemoteFoldersPath + "\\" +
+                                User.Username + "\\" +
                                 update.BaseFolder + "\\" +
                                 update.UpdateFolder + "\\" +
                                 localPath;
@@ -143,9 +141,9 @@ namespace ServicesProject
             if (!(type == Update.UpdateEntry.MODIFIED_FILE || type == Update.UpdateEntry.NEW_FILE))
                 throw new FaultException(new FaultReason(FileTransferFault.INCONSISTENT_UPDATE));
 
-            string filePath =   FolderSynchServer.Instance.RemoteFoldersPath + "\\" + 
-                                User.Username + "\\" + 
-                                update.BaseFolder + "\\" + 
+            string filePath = FolderSynchServer.Instance.RemoteFoldersPath + "\\" +
+                                User.Username + "\\" +
+                                update.BaseFolder + "\\" +
                                 update.UpdateFolder + "\\" +
                                 localPath;
 
@@ -200,7 +198,7 @@ namespace ServicesProject
             if (!checkMotherFolder(update, localPath))
                 throw new FaultException(new FaultReason(FileTransferFault.MISSING_FOLDER));
 
-            string path =   FolderSynchServer.Instance.RemoteFoldersPath + "\\" +
+            string path = FolderSynchServer.Instance.RemoteFoldersPath + "\\" +
                             User.Username + "\\" +
                             update.BaseFolder + "\\" +
                             update.UpdateFolder + "\\" +
@@ -287,11 +285,11 @@ namespace ServicesProject
             }
             else
             {
-                for(int i = update.Number-1; i>=0; i--)
+                for (int i = update.Number - 1; i >= 0; i--)
                 {
                     Update u = Updates.ElementAt(i);
 
-                    foreach(Update.UpdateEntry entry in u.UpdateEntries)
+                    foreach (Update.UpdateEntry entry in u.UpdateEntries)
                         if (entry.ItemLocalPath.Equals(motherFolderLocalPath))
                         {
                             if (entry.UpdateType == Update.UpdateEntry.NEW_DIRECTORY)
@@ -320,7 +318,7 @@ namespace ServicesProject
             // 1) read updates file and find which update is related to this transaction
             Update targetUpdate = null;
 
-            foreach(Update u in Updates)
+            foreach (Update u in Updates)
             {
                 if (u.TransactionID.Equals(transactionID))
                 {
@@ -333,7 +331,7 @@ namespace ServicesProject
                 throw new Exception("PANIC: uncommitted update not found");
 
             // 2) proceed to delete whole update folder
-            deleteDirectory(    FolderSynchServer.Instance.RemoteFoldersPath + "\\" +
+            deleteDirectory(FolderSynchServer.Instance.RemoteFoldersPath + "\\" +
                                 User.Username + "\\" +
                                 BaseFolder + "\\" +
                                 targetUpdate.UpdateFolder);
@@ -342,6 +340,23 @@ namespace ServicesProject
             Updates.Remove(targetUpdate);
             Updates.Sort();
             writeToFile(Updates);
+        }
+
+
+        /*********************************************************************************/
+        private void deleteDirectory(string path)
+        {
+
+            string[] files = Directory.GetFiles(path);
+
+            foreach (string file in files)
+                File.Delete(file);
+
+            string[] subFolders = Directory.GetDirectories(path);
+            foreach (string dir in subFolders)
+                deleteDirectory(dir);
+
+            Directory.Delete(path);
         }
 
 
@@ -363,9 +378,9 @@ namespace ServicesProject
 
             Console.WriteLine("Handler is returning updates list for " + User.Username + " - " + BaseFolder + "\\" + localPath);
             List<Update.UpdateEntry> entries = new List<Update.UpdateEntry>();
-            foreach(Update u in Updates)
+            foreach (Update u in Updates)
             {
-                foreach(Update.UpdateEntry entry in u.UpdateEntries)
+                foreach (Update.UpdateEntry entry in u.UpdateEntries)
                 {
                     if (entry.ItemLocalPath.Equals(localPath))
                     {
@@ -384,26 +399,68 @@ namespace ServicesProject
 
 
 
-        /*********************************************************************************/
-        private void deleteDirectory(string path)
-        {
-
-            string[] files = Directory.GetFiles(path);
-
-            foreach (string file in files)
-                File.Delete(file);
-
-            string[] subFolders = Directory.GetDirectories(path);
-            foreach (string dir in subFolders)
-                deleteDirectory(dir);
-
-            Directory.Delete(path);
-        }
-
-
         /* ------------------------------------------------------------------------------ */
         /* ------------------------ DOWNLOAD METHODS ------------------------------------ */
         /* ------------------------------------------------------------------------------ */
+
+        public List<Update.UpdateEntry> getUpdateFilesList(int updateNumber)
+        {
+            List<Update.UpdateEntry> entries = new List<Update.UpdateEntry>();
+            Update update = null;
+
+            foreach(Update u in Updates)
+            {
+                if(u.Number == updateNumber)
+                {
+                    update = u;
+                    break;
+                }
+            }
+
+            if (update == null)
+                throw new FaultException(new FaultReason("no update with number " + updateNumber));
+
+            List<string> ignores = new List<string>();
+            List<string> added = new List<string>();
+            for(int i = updateNumber; i >= 0; i--)
+            {
+                Console.WriteLine("-----------------------------------------------------------");
+                Console.WriteLine("scanning update " + i);
+                foreach(Update.UpdateEntry e in Updates.ElementAt(i).UpdateEntries)
+                {
+                    Console.WriteLine("**********************");
+                    Console.WriteLine("checking update entry: " + e.ItemLocalPath + "; " + e.UpdateType);
+                    if (ignores.Contains(e.ItemLocalPath))
+                    {
+                        Console.WriteLine("entry ignored");
+                        continue;
+                    }
+
+                    if (e.UpdateType == Update.UpdateEntry.DELETED_FILE || e.UpdateType == Update.UpdateEntry.DELETED_DIRECTORY)
+                    {
+                        Console.WriteLine("adding entry to ignores");
+                        ignores.Add(e.ItemLocalPath);
+                        continue;
+                    }
+
+                    if (!added.Contains(e.ItemLocalPath))
+                    {
+                        Console.WriteLine("adding entry to list");
+                        entries.Add(e);
+                        added.Add(e.ItemLocalPath);
+                    }
+                    else
+                    {
+                        Console.WriteLine("found later update already");
+                    }
+                }
+            }
+
+            return entries;
+        }
+
+
+        /***********************************************************************************/
         public byte[] getFile(string localPath, int updateNumber)
         {
 
@@ -440,6 +497,7 @@ namespace ServicesProject
         }
 
 
+
         /***********************************************************************************/
         public Stream getFileStreamed(string localPath, int updateNumber)
         {
@@ -471,19 +529,12 @@ namespace ServicesProject
 
             string updateFolder = null;
 
-            if (updateNumber == LATEST_UPDATE)
+            foreach (Update u in Updates)
             {
-                updateFolder = Updates.ElementAt(Updates.Count - 1).UpdateFolder;
-            }
-            else
-            {
-                foreach (Update u in Updates)
+                if (u.Number == updateNumber)
                 {
-                    if (u.Number == updateNumber)
-                    {
-                        updateFolder = u.UpdateFolder;
-                        break;
-                    }
+                    updateFolder = u.UpdateFolder;
+                    break;
                 }
             }
 
@@ -493,6 +544,8 @@ namespace ServicesProject
 
             return updateFolder;
         }
+
+
 
         /* ------------------------------------------------------------------------------ */
         /* ------------------------ FILE METHODS ---------------------------------------- */
