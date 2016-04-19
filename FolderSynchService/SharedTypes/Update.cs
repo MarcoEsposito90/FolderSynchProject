@@ -71,7 +71,7 @@ namespace ServicesProject
         }
 
         [DataContract]
-        public class UpdateEntry
+        public class UpdateEntry : IComparable
         {
             [DataMember]
             public string ItemLocalPath { get; private set; }
@@ -101,6 +101,28 @@ namespace ServicesProject
                 this.EntryTimestamp = timestamp;
                 this.ItemDimension = dimension;
                 this.UpdateNumber = updateNumber;
+            }
+
+            public int CompareTo(object obj)
+            {
+                if (!obj.GetType().Equals(typeof(UpdateEntry)))
+                    throw new Exception("ivoking compareTo for another type object in Item.Change.CompareTo");
+
+                UpdateEntry entry = (UpdateEntry)obj;
+
+                int dif = entry.UpdateType - UpdateType;
+
+                if (dif != 0)
+                    return dif;
+
+                // if the change type is the same, we must check who is higher in hierarchy
+                int pathLengthDif = ItemLocalPath.Length - entry.ItemLocalPath.Length;
+                if (UpdateType == NEW_DIRECTORY)
+                    return pathLengthDif;
+                else if (UpdateType == DELETED_DIRECTORY)
+                    return -pathLengthDif;
+
+                return 0;
             }
         }
 

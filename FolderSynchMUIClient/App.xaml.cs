@@ -381,5 +381,34 @@ namespace FolderSynchMUIClient
 
             return allLocalFolders;
         }
+
+
+        /* ---------------------------------------------------------------- */
+        /* ------------ FOLDER WATCHERS ----------------------------------- */
+        /* ---------------------------------------------------------------- */
+
+        
+        public void stopWatching(LocalFolder localFolder)
+        {
+            foreach(FolderWatcher fw in FolderWatchers)
+                if (fw.LocalFolder.Name.Equals(localFolder.Name) && fw.IsWatching)
+                {
+                    fw.stopWatching();
+                    break;
+                }
+        }
+
+
+
+        /******************************************************************/
+        public void startWaching(LocalFolder localFolder)
+        {
+            foreach(FolderWatcher fw in FolderWatchers)
+                if (fw.LocalFolder.Name.Equals(localFolder.Name) && !fw.IsWatching)
+                {
+                    fw.watch();
+                    break;
+                }
+        }
     }
 }

@@ -456,6 +456,7 @@ namespace ServicesProject
                 }
             }
 
+            entries.Sort();
             return entries;
         }
 

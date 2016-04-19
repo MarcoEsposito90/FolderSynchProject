@@ -31,6 +31,7 @@ namespace FolderSynchMUIClient
         private int filesDownloaded;
         private string DownloadFileName;
         private string DownloadFolderName;
+        bool DeleteCurrent;
 
         private App application;
         private FolderSynchServiceContractClient proxy;
@@ -60,11 +61,12 @@ namespace FolderSynchMUIClient
 
 
         // whole folder downloader
-        public DownloadBackgroundWorker(LocalFolder localFolder, Update update, string downloadFolderName) : base()
+        public DownloadBackgroundWorker(LocalFolder localFolder, Update update, string downloadFolderName, bool deleteCurrent) : base()
         {
             LocalFolder = localFolder;
             DownloadFolderName = downloadFolderName;
             Update = update;
+            DeleteCurrent = deleteCurrent;
 
             filesNumber = 0;
             filesDownloaded = 0;
@@ -92,43 +94,7 @@ namespace FolderSynchMUIClient
                 if (application.User != null)
                 {
 
-                    long size = Entry.ItemDimension;
-                    if(size > App.MAX_BUFFERED_TRANSFER_FILE_SIZE)
-                    {
-                        // streamed download --------------------------------------------------------------------
-                        Stream stream = streamProxy.downloadFileStreamed(   application.User.Username, 
-                                                                            LocalFolder.Name, 
-                                                                            Entry.ItemLocalPath, 
-                                                                            Entry.UpdateNumber);
-
-                        FileStream fs = new FileStream(DownloadFileName, FileMode.OpenOrCreate, FileAccess.Write);
-
-                        using (fs)
-                        {
-                            int bufferSize = 10240;
-                            byte[] buffer = new byte[bufferSize];
-                            int bytesRead;
-
-                            while ((bytesRead = stream.Read(buffer, 0, bufferSize)) > 0 ){
-
-                                fs.Write(buffer, 0, bytesRead);
-                            }
-
-                            fs.Close();
-                            stream.Close();
-                        }
-                    }
-                    else
-                    {
-                        // buffered download -----------------------------------------------------------------------
-                        byte[] fileBuffer = proxy.downloadFile(LocalFolder.Name, Entry.ItemLocalPath, Entry.UpdateNumber);
-                        using (FileStream fs = new FileStream(DownloadFileName, FileMode.OpenOrCreate, FileAccess.Write))
-                        {
-                            fs.Write(fileBuffer, 0, fileBuffer.Length);
-                            fs.Close();
-                        }
-                    }
-
+                    downloadFile(Entry, DownloadFileName);
                     e.Result = new DownloadWorkerResponse(true, "");
                 }
                 else
@@ -146,15 +112,167 @@ namespace FolderSynchMUIClient
         }
 
 
+
         /*********************************************************************************/
         private void Download_BackgroundWork_Folder(object sender, DoWorkEventArgs e)
         {
+            DateTime timestamp = DateTime.Now;
+            string tempDir = null;
+            RollbackTransaction transaction = null;
+            application.stopWatching(LocalFolder);
 
-            List<Update.UpdateEntry> entries = new List<Update.UpdateEntry>(proxy.getUpdateFileList(Update));
-            foreach (Update.UpdateEntry entry in entries)
-                Console.WriteLine(entry.ItemLocalPath + "(" + entry.UpdateType + ") from update " + entry.UpdateNumber); 
+            try
+            {
+                if(application.User != null)
+                {
+                    
+                    // start transaction and move directory ------------------------------------------------
+                    if (DeleteCurrent || DownloadFolderName.Equals(LocalFolder.Path))
+                    {
+                        transaction = proxy.beginRollback(Update, timestamp);
+                        tempDir = moveDirectory(LocalFolder.Path);
+                        Directory.CreateDirectory(LocalFolder.Path);
+                    }
+
+                    // downloading files -------------------------------------------------------------------
+                    List<Update.UpdateEntry> entries = new List<Update.UpdateEntry>(proxy.getUpdateFileList(Update));
+
+                    for (int i = 0; i < entries.Count; i++)
+                    {
+                        Update.UpdateEntry entry = entries.ElementAt(i);
+                        Console.WriteLine("entry" + i + ": " + entry.ItemLocalPath + "; from update " + entry.UpdateNumber);
+                        if (entry.UpdateType == Item.Change.NEW_DIRECTORY)
+                        {
+                            Directory.CreateDirectory(DownloadFolderName + "\\" + entry.ItemLocalPath);
+                            continue;
+                        }
+
+                        downloadFile(entry, DownloadFolderName + "\\" + entry.ItemLocalPath);
+                    }
+
+                    // everything ok. commit and delete folder if necessary ----------------------------------
+                    if (DeleteCurrent || DownloadFolderName.Equals(LocalFolder.Path))
+                        proxy.commitRollback(transaction);
+
+                    if (DeleteCurrent)
+                        deleteFolder(tempDir);
+
+                    // save new state
+                    LocalFolder.setLatestUpdateItems();
+                    LocalFolder.LastUpdate = Update;
+
+                    e.Result = new DownloadWorkerResponse(true, "");
+                }
+                else
+                {
+                    Console.WriteLine("null user! cannot download folder");
+                    e.Result = new DownloadWorkerResponse(false, "You are not connected!");
+                }
+            }
+            catch(FaultException f)
+            {
+                Console.WriteLine("error: " + f.Message);
+                e.Result = new DownloadWorkerResponse(false, f.Message);
+
+                // delete what has been copied so far
+                deleteFolder(DownloadFolderName);
+
+                if (DeleteCurrent || DownloadFolderName.Equals(LocalFolder.Path))
+                {
+                    // return to current directory
+                    Console.WriteLine("moving " + tempDir + " to " + LocalFolder.Path);
+                    Directory.Move(tempDir, LocalFolder.Path);
+                }
+            }
+
+            application.startWaching(LocalFolder);
         }
 
+
+
+        /* ------------------------------------------------------------------------------ */
+        /* ------------------------ AUXILIARY ------------------------------------------- */
+        /* ------------------------------------------------------------------------------ */
+
+        private void downloadFile(Update.UpdateEntry entry, string path)
+        {
+            long size = entry.ItemDimension;
+            if (size > App.MAX_BUFFERED_TRANSFER_FILE_SIZE)
+            {
+                // streamed download --------------------------------------------------------------------
+                Stream stream = streamProxy.downloadFileStreamed(application.User.Username,
+                                                                    LocalFolder.Name,
+                                                                    entry.ItemLocalPath,
+                                                                    entry.UpdateNumber);
+
+                FileStream fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write);
+
+                using (fs)
+                {
+                    int bufferSize = 10240;
+                    byte[] buffer = new byte[bufferSize];
+                    int bytesRead;
+
+                    while ((bytesRead = stream.Read(buffer, 0, bufferSize)) > 0)
+                    {
+
+                        fs.Write(buffer, 0, bytesRead);
+                    }
+
+                    fs.Close();
+                    stream.Close();
+                }
+            }
+            else
+            {
+                // buffered download -----------------------------------------------------------------------
+                byte[] fileBuffer = proxy.downloadFile(LocalFolder.Name, entry.ItemLocalPath, entry.UpdateNumber);
+                using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write))
+                {
+                    fs.Write(fileBuffer, 0, fileBuffer.Length);
+                    fs.Close();
+                }
+            }
+
+        }
+
+
+        /*********************************************************************************/
+        private void deleteFolder(string path)
+        {
+            string[] files = Directory.GetFiles(path);
+            foreach (string f in files)
+                File.Delete(f);
+
+            string[] subFolders = Directory.GetDirectories(path);
+            foreach(string f in subFolders)
+            {
+                deleteFolder(f);
+            }
+
+            Directory.Delete(path);
+        }
+
+
+        /*********************************************************************************/
+        private string moveDirectory(string path)
+        {
+            // do not delete folder, just temporary rename it
+            int counter = 0;
+            string newPath;
+
+            while (true)
+            {
+                newPath = path + "_temp" + counter;
+
+                if (!Directory.Exists(newPath))
+                    break;
+                counter++;
+            }
+
+            Directory.Move(path, newPath);
+            return newPath;
+        }
 
         /* ------------------------------------------------------------------------------ */
         /* ------------------------ RESPONSE OBJECT ------------------------------------- */

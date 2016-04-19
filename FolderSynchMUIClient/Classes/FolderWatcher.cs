@@ -15,7 +15,18 @@ namespace FolderSynchMUIClient
     {
         Timer timer;
 
-        LocalFolder localFolder;
+        public LocalFolder LocalFolder
+        {
+            get;
+            private set;
+        }
+
+        public bool IsWatching
+        {
+            get;
+            private set;
+        }
+
         Folder folder;
 
 
@@ -23,7 +34,7 @@ namespace FolderSynchMUIClient
         {
             Console.WriteLine("Watcher created for path " + localFolder.Path);
             this.folder = folder;
-            this.localFolder = localFolder;
+            this.LocalFolder = localFolder;
             timer = null;
         }
 
@@ -35,11 +46,12 @@ namespace FolderSynchMUIClient
         public void watch()
         {
             Console.WriteLine("Start watching");
+            IsWatching = true;
 
             // 1)   must detect if update is immediately necessary (for instance,
             //      the client may have been closed for days)
-            double minutes = (DateTime.Now - localFolder.LastUpdate.Timestamp).TotalMinutes;
-            Console.WriteLine("folder: " + localFolder.Name + " is not being updated for " + minutes + " minutes");
+            double minutes = (DateTime.Now - LocalFolder.LastUpdate.Timestamp).TotalMinutes;
+            Console.WriteLine("folder: " + LocalFolder.Name + " is not being updated for " + minutes + " minutes");
             
 
             // 2) setting timer
@@ -54,6 +66,8 @@ namespace FolderSynchMUIClient
             if (timer != null)
                 timer.Dispose();
             timer = null;
+
+            IsWatching = false;
         }
 
 
@@ -66,14 +80,14 @@ namespace FolderSynchMUIClient
             Console.WriteLine("proceeding with update at " + DateTime.Now);
             UploadBackgroundWorker uploader = null;
 
-            if (localFolder.LastUpdate != null)
+            if (LocalFolder.LastUpdate != null)
             {
-                List<Item.Change> changes = localFolder.DetectChanges(localFolder.LastUpdate.Timestamp);
+                List<Item.Change> changes = LocalFolder.DetectChanges(LocalFolder.LastUpdate.Timestamp);
 
                 if(changes.Count > 0)
                 {
                     // we do not upload the whole folder, but just what's changed
-                    uploader = new UploadBackgroundWorker(localFolder, changes);
+                    uploader = new UploadBackgroundWorker(LocalFolder, changes);
                     uploader.RunWorkerAsync();
                 }
             }
@@ -81,7 +95,7 @@ namespace FolderSynchMUIClient
             {
                 // no previous update available. it is the first update or something went wrong in the past
                 // for safety, we proceed uploading the whole folder
-                uploader = new UploadBackgroundWorker(localFolder);
+                uploader = new UploadBackgroundWorker(LocalFolder);
                 uploader.RunWorkerAsync();
             }
 

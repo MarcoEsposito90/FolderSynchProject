@@ -117,13 +117,27 @@ namespace FolderSynchMUIClient
         private void btnStartDownload_Click(object sender, RoutedEventArgs e)
         {
             RollbackConfirmDialog.Option op;
+            string downloadFolderName = "";
+            bool deleteCurrent = false;
 
             if (btnDeleteOld.IsChecked == true)
+            {
                 op = RollbackConfirmDialog.Option.DeleteCurrent;
+                downloadFolderName = localFolder.Path;
+                deleteCurrent = true;
+            }
             else if (btnKeepOld.IsChecked == true)
+            {
                 op = RollbackConfirmDialog.Option.KeepCurrent;
+                downloadFolderName = localFolder.Path;
+                deleteCurrent = false; 
+            }
             else if (btnDownloadOld.IsChecked == true)
+            {
                 op = RollbackConfirmDialog.Option.SimpleDownload;
+                downloadFolderName = choosedPathTextBox.Text;
+                deleteCurrent = false;
+            }
             else
             {
                 warningTB.Text = "Please select an option before proceeding!";
@@ -136,7 +150,7 @@ namespace FolderSynchMUIClient
             {
 
                 Console.WriteLine("asked to proceed with rollback/download");
-                DownloadBackgroundWorker bw = new DownloadBackgroundWorker(localFolder, update, "");
+                DownloadBackgroundWorker bw = new DownloadBackgroundWorker(localFolder, update, downloadFolderName, deleteCurrent);
 
                 bw.WorkerSupportsCancellation = false;
                 bw.WorkerReportsProgress = true;
