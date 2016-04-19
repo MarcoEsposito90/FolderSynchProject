@@ -722,10 +722,10 @@ namespace FolderSynchMUIClient.FolderSynchService {
         System.Threading.Tasks.Task<FolderSynchMUIClient.FolderSynchService.Update.UpdateEntry[]> getUpdateFileListAsync(FolderSynchMUIClient.FolderSynchService.Update update);
         
         [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/beginRollback", ReplyAction="http://tempuri.org/FolderSynchServiceContract/beginRollbackResponse")]
-        FolderSynchMUIClient.FolderSynchService.RollbackTransaction beginRollback(FolderSynchMUIClient.FolderSynchService.Update update);
+        FolderSynchMUIClient.FolderSynchService.RollbackTransaction beginRollback(FolderSynchMUIClient.FolderSynchService.Update update, System.DateTime timestamp);
         
         [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/beginRollback", ReplyAction="http://tempuri.org/FolderSynchServiceContract/beginRollbackResponse")]
-        System.Threading.Tasks.Task<FolderSynchMUIClient.FolderSynchService.RollbackTransaction> beginRollbackAsync(FolderSynchMUIClient.FolderSynchService.Update update);
+        System.Threading.Tasks.Task<FolderSynchMUIClient.FolderSynchService.RollbackTransaction> beginRollbackAsync(FolderSynchMUIClient.FolderSynchService.Update update, System.DateTime timestamp);
         
         [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/downloadFile", ReplyAction="http://tempuri.org/FolderSynchServiceContract/downloadFileResponse")]
         byte[] downloadFile(string baseFolder, string localPath, int updateNumber);
@@ -871,12 +871,12 @@ namespace FolderSynchMUIClient.FolderSynchService {
             return base.Channel.getUpdateFileListAsync(update);
         }
         
-        public FolderSynchMUIClient.FolderSynchService.RollbackTransaction beginRollback(FolderSynchMUIClient.FolderSynchService.Update update) {
-            return base.Channel.beginRollback(update);
+        public FolderSynchMUIClient.FolderSynchService.RollbackTransaction beginRollback(FolderSynchMUIClient.FolderSynchService.Update update, System.DateTime timestamp) {
+            return base.Channel.beginRollback(update, timestamp);
         }
         
-        public System.Threading.Tasks.Task<FolderSynchMUIClient.FolderSynchService.RollbackTransaction> beginRollbackAsync(FolderSynchMUIClient.FolderSynchService.Update update) {
-            return base.Channel.beginRollbackAsync(update);
+        public System.Threading.Tasks.Task<FolderSynchMUIClient.FolderSynchService.RollbackTransaction> beginRollbackAsync(FolderSynchMUIClient.FolderSynchService.Update update, System.DateTime timestamp) {
+            return base.Channel.beginRollbackAsync(update, timestamp);
         }
         
         public byte[] downloadFile(string baseFolder, string localPath, int updateNumber) {
