@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using FolderSynchMUIClient.FolderSynchService;
+using System.Text.RegularExpressions;
 
 namespace FolderSynchMUIClient.Pages
 {
@@ -22,6 +23,8 @@ namespace FolderSynchMUIClient.Pages
     /// </summary>
     public partial class RegisterPage : UserControl
     {
+       
+
         public RegisterPage()
         {
             InitializeComponent();
@@ -32,21 +35,34 @@ namespace FolderSynchMUIClient.Pages
             if (TBRegisterPassword.Password.Equals(TBRegisterConfirmPassword.Password))
             {
                 Console.WriteLine("Registering user: " + TBRegisterUsername.Text.ToString());
+                string specialChars = "{}[]()|;\\";
+                string pwd = TBRegisterPassword.Password.ToString();
 
-                try
+                if (pwd.Contains(";") || pwd.Contains("|") || pwd.Contains("(") || pwd.Contains(")") 
+                    || pwd.Contains("[") || pwd.Contains("]") || pwd.Contains("{") || pwd.Contains("}") || pwd.Contains("\\"))
                 {
-                    App application = (App)Application.Current;
-                    FolderSynchServiceContractClient proxy = application.FolderSynchProxy;
-
-                    application.User = proxy.RegisterNewUser(TBRegisterUsername.Text.ToString(), TBRegisterPassword.Password.ToString());
-                    ResponseLabel.Content = "Registration successful";
-                }
-                catch(FaultException f)
-                {
-
-                    ResponseLabel.Content = "Error: " + f.Message;
+                    ErrorDialog ed = new ErrorDialog();
+                    ed.txtFaultTitle.Text = "Invalid password";
+                    ed.txtFaultReason.Text = "Your password should not contain one of these special charcaters: " + specialChars.ToString();
+                    ed.ShowDialog();
                 }
 
+                else {
+                    try
+                    {
+                        App application = (App)Application.Current;
+                        FolderSynchServiceContractClient proxy = application.FolderSynchProxy;
+
+                        application.User = proxy.RegisterNewUser(TBRegisterUsername.Text.ToString(), TBRegisterPassword.Password.ToString());
+                        ResponseLabel.Content = "Registration successful";
+                    }
+                    catch (FaultException f)
+                    {
+
+                        ResponseLabel.Content = "Error: " + f.Message;
+                    }
+
+                }
             }
             else
             {

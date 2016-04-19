@@ -26,10 +26,12 @@
         </WrapPanel>
 
         <TextBlock Text="Fault reason:"
+                   Name="txtFaultTitle"
                    Style="{StaticResource Title}"
                    Margin="20,0,10,10"/>
         <TextBlock Name="txtFaultReason"
                    Text="Reason here"
+                   TextWrapping="Wrap"
                    Style="{StaticResource Heading2}"
                    Margin="20,0,10,10"/>
 
