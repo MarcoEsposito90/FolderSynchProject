@@ -1,5 +1,4 @@
-﻿using ServicesProject;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,9 +8,8 @@ using System.Threading.Tasks;
 
 namespace ServicesProject
 {
-    class TransactionsHandler
+    public abstract class TransactionsHandler
     {
-
         public enum Operations
         {
             New,
@@ -23,43 +21,27 @@ namespace ServicesProject
             DeleteFolder,
             UpdateFile
         }
-        private static string LOG_FILE_RELATIVE_PATH = "\\TransactionsLog.txt";
-        private static string LOG_CLEAN_START = "LOG_CLEAN_START";
-        private static string LOG_CLEAN_CLEAN_COMPLETE = "LOG_CLEAN_COMPLETE";
+
 
         /* ------------------------------------------------------------------------------ */
         /* ------------------------ PROPERTIES ------------------------------------------ */
         /* ------------------------------------------------------------------------------ */
 
-        public Dictionary<String, UpdateTransaction> ActiveTransactions;
+        public Dictionary<String, Transaction> ActiveTransactions;
 
-        public static string LogFilePath
+        public abstract string LogFilePath
         {
-            get
-            {
-                return FolderSynchServer.Instance.MainDirectoryPath + LOG_FILE_RELATIVE_PATH;
-            }
+            get;
         }
 
         /* ------------------------------------------------------------------------------ */
         /* ------------------------ CONSTRUCTOR ----------------------------------------- */
         /* ------------------------------------------------------------------------------ */
 
-        private static TransactionsHandler _instance = null;
-        public static TransactionsHandler Instance
+        protected TransactionsHandler()
         {
-            get
-            {
-                if (_instance == null)
-                    _instance = new TransactionsHandler();
 
-                return _instance;
-            }
-        }
-
-        private TransactionsHandler() {
-
-            ActiveTransactions = new Dictionary<string, UpdateTransaction>();
+            ActiveTransactions = new Dictionary<string, Transaction>();
         }
 
 
@@ -70,17 +52,18 @@ namespace ServicesProject
         /**********************************************************************************/
         public void CheckLogFile()
         {
-            if (!File.Exists(FolderSynchServer.Instance.MainDirectoryPath + LOG_FILE_RELATIVE_PATH))
+            if (!File.Exists(LogFilePath))
             {
-                FileStream fs = new FileStream( LogFilePath,
+                FileStream fs = new FileStream(LogFilePath,
                                                 FileMode.Create);
                 using (fs)
                     fs.Close();
             }
         }
 
+
         /**********************************************************************************/
-        public void AddTransaction(UpdateTransaction transaction)
+        public void AddTransaction(Transaction transaction)
         {
             if (ActiveTransactions.Keys.Contains(transaction.TransactionID))
                 throw new FaultException(new FaultReason("error: transaction ID not available"));
@@ -91,22 +74,11 @@ namespace ServicesProject
 
 
         /**********************************************************************************/
-        public void AddOperation(UpdateTransaction transaction, Operations operation, string path)
+        public void CommitTransaction(Transaction transaction)
         {
 
-            if (!ActiveTransactions.ContainsValue(transaction))
-                throw new FaultException(new FaultReason("no transaction active for this upload"));
-
-            WriteLogEntry(transaction, operation, path);
-        }
-
-
-        /**********************************************************************************/
-        public void CommitTransaction(UpdateTransaction transaction)
-        {
-
-            UpdateTransaction tr = null;
-            if(!ActiveTransactions.TryGetValue(transaction.TransactionID, out tr))
+            Transaction tr = null;
+            if (!ActiveTransactions.TryGetValue(transaction.TransactionID, out tr))
                 throw new FaultException(new FaultReason("no transaction active for this upload"));
 
             WriteLogEntry(tr, Operations.Commit, "");
@@ -115,11 +87,11 @@ namespace ServicesProject
 
 
         /**********************************************************************************/
-        private void WriteLogEntry(UpdateTransaction transaction, Operations operation, string path)
+        protected void WriteLogEntry(Transaction transaction, Operations operation, string path)
         {
-            lock (_instance)
+            lock (this)
             {
-                FileStream fs = new FileStream( LogFilePath,
+                FileStream fs = new FileStream(LogFilePath,
                                                 FileMode.Append,
                                                 FileAccess.Write);
 
@@ -138,16 +110,16 @@ namespace ServicesProject
                 }
 
             }
-            
+
         }
 
 
         /*******************************************************************************/
-        private void cleanLogFile()
+        protected void cleanLogFile()
         {
-            lock (_instance)
+            lock (this)
             {
-                
+
                 List<String> lines = new List<string>();
 
                 // 0) open the file in read mode
@@ -168,7 +140,7 @@ namespace ServicesProject
                         string[] tokens = line.Split(';');
                         if (tokens.Length < 2)
                             continue;
-                        
+
                         // 2) if the entry is a committ or an abort, it is finished
                         if (tokens[1].Equals(Operations.Commit) || tokens[1].Equals(Operations.Abort))
                         {
@@ -194,7 +166,7 @@ namespace ServicesProject
                 using (sw)
                 {
                     // 5) writing log file
-                    foreach(string s in lines)
+                    foreach (string s in lines)
                         sw.WriteLine(s);
 
                     sw.Close();
@@ -206,7 +178,7 @@ namespace ServicesProject
         /*************************************************************************/
         public void cleanLogFile(string transactionID)
         {
-            lock (_instance)
+            lock (this)
             {
 
                 List<String> lines = new List<string>();
@@ -238,7 +210,7 @@ namespace ServicesProject
                 }
 
                 // 4) open the file in write mode
-                StreamWriter sw = new StreamWriter(LogFilePath,false);
+                StreamWriter sw = new StreamWriter(LogFilePath, false);
 
                 using (sw)
                 {
@@ -260,7 +232,7 @@ namespace ServicesProject
 
             List<string> transactionIDs = new List<string>();
 
-            lock (_instance)
+            lock (this)
             {
                 // 0) open the file in read mode
                 FileStream fs = new FileStream(LogFilePath,
@@ -289,5 +261,6 @@ namespace ServicesProject
 
             return transactionIDs;
         }
+
     }
 }

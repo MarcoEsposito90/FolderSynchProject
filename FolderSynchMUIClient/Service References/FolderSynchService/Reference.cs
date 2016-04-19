@@ -262,15 +262,17 @@ namespace FolderSynchMUIClient.FolderSynchService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="UpdateTransaction", Namespace="http://schemas.datacontract.org/2004/07/ServicesProject")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Transaction", Namespace="http://schemas.datacontract.org/2004/07/ServicesProject")]
     [System.SerializableAttribute()]
-    public partial class UpdateTransaction : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(FolderSynchMUIClient.FolderSynchService.RollbackTransaction))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(FolderSynchMUIClient.FolderSynchService.UpdateTransaction))]
+    public partial class Transaction : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string FolderNameField;
+        private string BaseFolderField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private System.DateTime TimestampField;
@@ -292,14 +294,14 @@ namespace FolderSynchMUIClient.FolderSynchService {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public string FolderName {
+        public string BaseFolder {
             get {
-                return this.FolderNameField;
+                return this.BaseFolderField;
             }
             set {
-                if ((object.ReferenceEquals(this.FolderNameField, value) != true)) {
-                    this.FolderNameField = value;
-                    this.RaisePropertyChanged("FolderName");
+                if ((object.ReferenceEquals(this.BaseFolderField, value) != true)) {
+                    this.BaseFolderField = value;
+                    this.RaisePropertyChanged("BaseFolder");
                 }
             }
         }
@@ -351,6 +353,36 @@ namespace FolderSynchMUIClient.FolderSynchService {
                 propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
             }
         }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="RollbackTransaction", Namespace="http://schemas.datacontract.org/2004/07/ServicesProject")]
+    [System.SerializableAttribute()]
+    public partial class RollbackTransaction : FolderSynchMUIClient.FolderSynchService.Transaction {
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int UpdateNumberField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int UpdateNumber {
+            get {
+                return this.UpdateNumberField;
+            }
+            set {
+                if ((this.UpdateNumberField.Equals(value) != true)) {
+                    this.UpdateNumberField = value;
+                    this.RaisePropertyChanged("UpdateNumber");
+                }
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="UpdateTransaction", Namespace="http://schemas.datacontract.org/2004/07/ServicesProject")]
+    [System.SerializableAttribute()]
+    public partial class UpdateTransaction : FolderSynchMUIClient.FolderSynchService.Transaction {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -598,115 +630,6 @@ namespace FolderSynchMUIClient.FolderSynchService {
                 if ((propertyChanged != null)) {
                     propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
                 }
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="RollbackTransaction", Namespace="http://schemas.datacontract.org/2004/07/ServicesProject")]
-    [System.SerializableAttribute()]
-    public partial class RollbackTransaction : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string BaseFolderField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.DateTime TimestampField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string TransactionIDField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int UpdateNumberField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private FolderSynchMUIClient.FolderSynchService.User UserField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string BaseFolder {
-            get {
-                return this.BaseFolderField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.BaseFolderField, value) != true)) {
-                    this.BaseFolderField = value;
-                    this.RaisePropertyChanged("BaseFolder");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.DateTime Timestamp {
-            get {
-                return this.TimestampField;
-            }
-            set {
-                if ((this.TimestampField.Equals(value) != true)) {
-                    this.TimestampField = value;
-                    this.RaisePropertyChanged("Timestamp");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string TransactionID {
-            get {
-                return this.TransactionIDField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.TransactionIDField, value) != true)) {
-                    this.TransactionIDField = value;
-                    this.RaisePropertyChanged("TransactionID");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int UpdateNumber {
-            get {
-                return this.UpdateNumberField;
-            }
-            set {
-                if ((this.UpdateNumberField.Equals(value) != true)) {
-                    this.UpdateNumberField = value;
-                    this.RaisePropertyChanged("UpdateNumber");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public FolderSynchMUIClient.FolderSynchService.User User {
-            get {
-                return this.UserField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.UserField, value) != true)) {
-                    this.UserField = value;
-                    this.RaisePropertyChanged("User");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
             }
         }
     }

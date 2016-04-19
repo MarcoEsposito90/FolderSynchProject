@@ -59,8 +59,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HostClasses\TransactionsHandler.cs" />
+    <Compile Include="HostClasses\UpdateTransactionsHandler.cs" />
     <Compile Include="Faults\FileTransferFault.cs" />
+    <Compile Include="HostClasses\RollbackTransactionsHandler.cs" />
     <Compile Include="SharedTypes\RollbackTransaction.cs" />
     <Compile Include="SharedTypes\Folder.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -84,7 +85,9 @@
     </Compile>
     <Compile Include="HostClasses\UsersFileHandler.cs" />
     <Compile Include="HostClasses\UpdatesFileHandler.cs" />
-    <Compile Include="UpdateTransaction.cs" />
+    <Compile Include="HostClasses\TransactionsHandler.cs" />
+    <Compile Include="SharedTypes\Transaction.cs" />
+    <Compile Include="SharedTypes\UpdateTransaction.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">

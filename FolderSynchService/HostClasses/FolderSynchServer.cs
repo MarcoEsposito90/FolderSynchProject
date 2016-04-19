@@ -125,7 +125,8 @@ namespace ServicesProject
             UsersFileHandler.Instance.ReadUsersFromFile(Users);
 
             // 3) initialize transactions data structures -------------------
-            TransactionsHandler.Instance.CheckLogFile();
+            UpdateTransactionsHandler.Instance.CheckLogFile();
+            RollbackTransactionsHandler.Instance.CheckLogFile();
             UpdateHandlers = new Dictionary<string, UpdatesFileHandler>();
 
             // 4) check if some rollback is necessary ----------------------
@@ -137,7 +138,8 @@ namespace ServicesProject
         /*****************************************************************************************/
         private void checkForRollbacks()
         {
-            foreach (string id in TransactionsHandler.Instance.checkForRecovery())
+            List<string> transactionIDs = UpdateTransactionsHandler.Instance.checkForRecovery();
+            foreach (string id in transactionIDs)
             {
                 string[] tokens = id.Split('|');
 
@@ -150,7 +152,7 @@ namespace ServicesProject
                 UpdatesFileHandler handler = getUpdateFileHandler(u, tokens[1]);
                 handler.rollBack(id);
 
-                TransactionsHandler.Instance.cleanLogFile(id);
+                UpdateTransactionsHandler.Instance.cleanLogFile(id);
             }
         }
 
@@ -274,8 +276,8 @@ namespace ServicesProject
         public void beginUpdate(UpdateTransaction transaction)
         {
 
-            UpdatesFileHandler handler = getUpdateFileHandler(transaction.User, transaction.FolderName);
-            TransactionsHandler.Instance.AddTransaction(transaction);
+            UpdatesFileHandler handler = getUpdateFileHandler(transaction.User, transaction.BaseFolder);
+            UpdateTransactionsHandler.Instance.AddTransaction(transaction);
             handler.createNewUpdate(transaction);
         }
 
@@ -298,9 +300,9 @@ namespace ServicesProject
             handler.AddFileStreamed(transaction, localPath, type, uploadStream);
 
             // 3) register transaction -----------------------------------------------------
-            TransactionsHandler.Instance.AddOperation(
+            UpdateTransactionsHandler.Instance.AddOperation(
                 transaction,
-                type == Update.UpdateEntry.MODIFIED_FILE ? TransactionsHandler.Operations.UpdateFile : TransactionsHandler.Operations.NewFile,
+                type == Update.UpdateEntry.MODIFIED_FILE ? UpdateTransactionsHandler.Operations.UpdateFile : UpdateTransactionsHandler.Operations.NewFile,
                 localPath);
         }
 
@@ -322,9 +324,9 @@ namespace ServicesProject
             handler.AddFile(tr, localPath, type, data);
 
             // 3) register to log
-            TransactionsHandler.Instance.AddOperation(  
+            UpdateTransactionsHandler.Instance.AddOperation(  
                 tr, 
-                type == Update.UpdateEntry.MODIFIED_FILE ? TransactionsHandler.Operations.UpdateFile : TransactionsHandler.Operations.NewFile, 
+                type == Update.UpdateEntry.MODIFIED_FILE ? UpdateTransactionsHandler.Operations.UpdateFile : UpdateTransactionsHandler.Operations.NewFile, 
                 localPath);
         }
 
@@ -343,7 +345,7 @@ namespace ServicesProject
 
             Console.WriteLine("ask handler to delete file");
             handler.deleteFile(tr, localPath);
-            TransactionsHandler.Instance.AddOperation(tr, TransactionsHandler.Operations.DeleteFile, localPath);
+            UpdateTransactionsHandler.Instance.AddOperation(tr, UpdateTransactionsHandler.Operations.DeleteFile, localPath);
         }
 
 
@@ -361,7 +363,7 @@ namespace ServicesProject
             fileTransferChecks(user, baseFolder, transaction.TransactionID, out tr, out handler);
 
             handler.addSubDirectory(tr, localPath);
-            TransactionsHandler.Instance.AddOperation(tr, TransactionsHandler.Operations.NewFolder, localPath);
+            UpdateTransactionsHandler.Instance.AddOperation(tr, UpdateTransactionsHandler.Operations.NewFolder, localPath);
         }
 
 
@@ -379,7 +381,7 @@ namespace ServicesProject
 
             Console.WriteLine("ask handler to delete directory");
             handler.deleteSubDirectory(tr, localPath);
-            TransactionsHandler.Instance.AddOperation(tr, TransactionsHandler.Operations.DeleteFolder, localPath);
+            UpdateTransactionsHandler.Instance.AddOperation(tr, UpdateTransactionsHandler.Operations.DeleteFolder, localPath);
         }
 
 
@@ -387,11 +389,11 @@ namespace ServicesProject
         public Update updateCommit(UpdateTransaction transaction)
         {
             UpdatesFileHandler handler = null;
-            if (!UpdateHandlers.TryGetValue(transaction.User.Username+transaction.FolderName, out handler))
+            if (!UpdateHandlers.TryGetValue(transaction.User.Username+transaction.BaseFolder, out handler))
                 throw new FaultException(new FaultReason("Transaction handler not found"));
 
             Update result = handler.commit(transaction);
-            TransactionsHandler.Instance.CommitTransaction(transaction);
+            UpdateTransactionsHandler.Instance.CommitTransaction(transaction);
             return result;
         }
 
@@ -420,6 +422,13 @@ namespace ServicesProject
         public List<Update.UpdateEntry> getUpdateFilesList(User user, Update update)
         {
             return getUpdateFileHandler(user, update.BaseFolder).getUpdateFilesList(update.Number);
+        }
+
+        
+        /*****************************************************************************************************/
+        public RollbackTransaction beginRollback(User user, Update update)
+        {
+            return null;
         }
 
 
@@ -486,8 +495,14 @@ namespace ServicesProject
             if (!exists)
                 throw new FaultException(new FaultReason(FileTransferFault.UNKNOWN_BASE_FOLDER));
 
-            if (!TransactionsHandler.Instance.ActiveTransactions.TryGetValue(transactionID, out transaction))
+            Transaction tr = null;
+            if (!UpdateTransactionsHandler.Instance.ActiveTransactions.TryGetValue(transactionID, out tr))
                 throw new FaultException(new FaultReason(FileTransferFault.NO_TRANSACTION_ACTIVE));
+
+            if (!tr.GetType().Equals(typeof(UpdateTransaction)))
+                throw new FaultException(new FaultReason("wrong transaction type"));
+
+            transaction = (UpdateTransaction)tr;
 
             if (!UpdateHandlers.TryGetValue(user.Username + baseFolder, out handler))
                 throw new FaultException(new FaultReason("Transaction handler not found"));
