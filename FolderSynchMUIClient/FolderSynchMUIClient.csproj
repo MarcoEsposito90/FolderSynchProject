@@ -98,6 +98,12 @@
     <Compile Include="Pages\Dialogs\FolderDownloadDialog.xaml.cs">
       <DependentUpon>FolderDownloadDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Dialogs\DetailsDialogHistory.xaml.cs">
+      <DependentUpon>DetailsDialogHistory.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Dialogs\DetailsDialogInfo.xaml.cs">
+      <DependentUpon>DetailsDialogInfo.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Dialogs\FileDownloadDialog.xaml.cs">
       <DependentUpon>FileDownloadDialog.xaml</DependentUpon>
     </Compile>
@@ -169,6 +175,14 @@
     </Compile>
     <Compile Include="TypeConverter.cs" />
     <Page Include="Pages\Dialogs\FolderDownloadDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Dialogs\DetailsDialogHistory.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Dialogs\DetailsDialogInfo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

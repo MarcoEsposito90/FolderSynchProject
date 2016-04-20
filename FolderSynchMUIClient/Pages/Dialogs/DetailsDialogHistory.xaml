@@ -1,0 +1,101 @@
+﻿<UserControl x:Class="FolderSynchMUIClient.DetailsDialogHistory"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+             xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+             xmlns:local="clr-namespace:FolderSynchMUIClient"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+
+    <UserControl.Resources>
+        <CollectionViewSource x:Key="sortedUpdates" Source="{Binding Updates}">
+            <CollectionViewSource.SortDescriptions>
+                <scm:SortDescription PropertyName="Timestamp" Direction="Descending"/>
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+        <local:TypeConverter x:Key="Converter1"/>
+
+        <Style x:Key="DownloadButton" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" 
+                                BorderThickness="1"  CornerRadius="3">
+                            <Border.Background>
+                                <ImageBrush ImageSource="../../Icons/MyDownload_Icon2.png"/>
+                            </Border.Background>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" TargetName="border">
+                                    <Setter.Value>
+                                        <ImageBrush ImageSource="/Icons/MyDownload_IconSmall.png"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Style="{StaticResource ContentRoot}">
+        <TextBlock Text="Updates History" HorizontalAlignment="Left" 
+                       Style="{StaticResource Title}" FontSize="26.667"
+                       VerticalAlignment="Center" Margin="10,10,0,0"  
+                       Foreground="{DynamicResource ItemBackgroundSelected}"/>
+        <!-- END TITLE -->
+
+
+        <!-- ITEMS TREEVIEW -->
+        <ItemsControl Name="updateDates" Margin="20,10,10,0" ItemsSource="{Binding Source={StaticResource sortedUpdates}}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate >
+                    <!-- Il primo DataTemplate contiene i timestamp degli update -->
+                    <!-- Il secondo DataTemplate contiene i file/folder modificati in quell'update -->
+                    <!-- Nel primo l'icona mi permette di ripristinare quella versione -->
+                    <!-- Nel secondo l'icona mi permette di scaricare quel file/cartella -->
+
+                    <StackPanel Orientation="Horizontal">
+                        <Expander Margin="0,10,0,0">
+                            <Expander.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding EntryTimestamp}"
+                                                   FontSize="14.667" Margin="10,0,0,0" />
+                                </StackPanel>
+                            </Expander.Header>
+                            <StackPanel Orientation="Horizontal" Margin="20,10,10,10">
+                                <Border Margin="10,0,0,0" BorderBrush="White" 
+                                                    Width="23" Height="23" Background="{DynamicResource ItemBackgroundSelected}"
+                                                    CornerRadius="4" BorderThickness="1"
+                                                    VerticalAlignment="Center">
+                                    <Button Name="downloadButton" Click="downloadButton_Click"
+                                                            Width="23" Height="23" 
+                                                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                            BorderBrush="{x:Null}" Style="{StaticResource DownloadButton}">
+                                    </Button>
+                                </Border>
+                                <TextBlock Text="{Binding UpdateType,  Converter={StaticResource Converter1}}" VerticalAlignment="Center"
+                                                       FontSize="13.333" Margin="10,0,0,0"/>
+                                <TextBlock Text="{Binding ItemLocalPath}" VerticalAlignment="Center"
+                                                       FontSize="13.333" Margin="0,0,0,0"/>
+                            </StackPanel>
+                            
+                        </Expander>
+                        <!--
+                                <Button Name="reloadButton" Click="reloadButton_Click" 
+                                        Height="15" Width="15" Content="{StaticResource ReloadImage}"
+                                        VerticalAlignment="Top" Margin="10,0,0,0"/>-->
+                    </StackPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <!-- END ITEMS TREEVIEW -->
+
+    </Grid>
+</UserControl>

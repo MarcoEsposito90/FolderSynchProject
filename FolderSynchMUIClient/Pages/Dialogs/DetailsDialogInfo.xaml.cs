@@ -1,5 +1,4 @@
-﻿using FirstFloor.ModernUI.Windows.Controls;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,16 +16,13 @@ using System.Windows.Shapes;
 namespace FolderSynchMUIClient
 {
     /// <summary>
-    /// Interaction logic for DetailsDialog.xaml
+    /// Interaction logic for DetailsDialogInfo.xaml
     /// </summary>
-    public partial class DetailsDialog : ModernDialog
+    public partial class DetailsDialogInfo : UserControl
     {
-        public DetailsDialog(LocalFolder lf)
+        public DetailsDialogInfo()
         {
             InitializeComponent();
-
-            // define the dialog buttons
-            this.Buttons = new Button[] { this.OkButton};
         }
     }
 }
