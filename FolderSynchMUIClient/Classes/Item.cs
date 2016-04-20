@@ -31,6 +31,13 @@ namespace FolderSynchMUIClient
         [DataMember]
         public DateTime SynchDate { get; set; }
 
+        public ObservableCollection<Update.UpdateEntry> Updates
+        {
+            get;
+            set;
+        }
+
+
         public long CurrentSize
         {
             get
