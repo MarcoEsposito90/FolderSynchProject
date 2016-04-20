@@ -13,19 +13,24 @@
 
 
     <Grid>
-
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
+        <Image Source="/Icons/Warning.png"
+               Grid.Row="0" Grid.Column="0"
+               Width="60" Height="60"
+               Margin="10" VerticalAlignment="Center"/>
 
         <TextBlock Name="warningMessageTB"
-                   TextWrapping="Wrap"
-                   Grid.Row="1"
-                   Margin="10,10,0,0"/>
+                   TextWrapping="Wrap" 
+                   VerticalAlignment="Center"
+                   Grid.Row="0" Grid.Column="1"
+                   Margin="10" FontSize="14.667" FontFamily="Segoe UI Semilight"/>
 
 
     </Grid>

@@ -55,6 +55,7 @@ namespace FolderSynchMUIClient
             choosedPathTextBox.Visibility = Visibility.Hidden;
             choosedPathTextBox.Text = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             DownloadProgressBar.Visibility = Visibility.Hidden;
+            responseTB.Visibility = Visibility.Hidden;
         }
 
 
@@ -157,6 +158,7 @@ namespace FolderSynchMUIClient
                 Console.WriteLine("path: " + downloadFolderName + "; cancel current: " + deleteCurrent);
 
                 DownloadProgressBar.Visibility = Visibility.Visible;
+                responseTB.Visibility = Visibility.Visible;
                 btnStartDownload.Visibility = Visibility.Hidden;
                 btnBrowsePath.Visibility = Visibility.Hidden;
                 btnKeepOld.IsEnabled = false;
@@ -193,6 +195,7 @@ namespace FolderSynchMUIClient
         {
             Console.WriteLine("progress at: " + e.ProgressPercentage);
             DownloadProgressBar.Value = e.ProgressPercentage;
+            responseTB.Text = (e.ProgressPercentage).ToString();
         }
     }
 }
