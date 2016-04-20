@@ -53,6 +53,8 @@ namespace FolderSynchMUIClient
             btnStartDownload.Visibility = Visibility.Hidden;
             btnBrowsePath.Visibility = Visibility.Hidden;
             choosedPathTextBox.Visibility = Visibility.Hidden;
+            choosedPathTextBox.Text = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            DownloadProgressBar.Visibility = Visibility.Hidden;
         }
 
 
@@ -149,7 +151,18 @@ namespace FolderSynchMUIClient
             if (dialog.ShowDialog() == true)
             {
 
-                Console.WriteLine("asked to proceed with rollback/download");
+                Console.WriteLine("asked to proceed with rollback/download. Parameters:");
+                Console.WriteLine("LocalFolder = " + localFolder.Path);
+                Console.WriteLine("update: " + update.Number);
+                Console.WriteLine("path: " + downloadFolderName + "; cancel current: " + deleteCurrent);
+
+                DownloadProgressBar.Visibility = Visibility.Visible;
+                btnStartDownload.Visibility = Visibility.Hidden;
+                btnBrowsePath.Visibility = Visibility.Hidden;
+                btnKeepOld.IsEnabled = false;
+                btnDownloadOld.IsEnabled = false;
+                btnDeleteOld.IsEnabled = false;
+
                 DownloadBackgroundWorker bw = new DownloadBackgroundWorker(localFolder, update, downloadFolderName, deleteCurrent);
 
                 bw.WorkerSupportsCancellation = false;
@@ -167,7 +180,8 @@ namespace FolderSynchMUIClient
 
         private void DownloadWork_Completed(object sender, RunWorkerCompletedEventArgs e)
         {
-            Console.WriteLine("completed download");
+            CancelButton.Visibility = Visibility.Hidden;
+            OkButton.Visibility = Visibility.Visible;
         }
 
 
@@ -178,6 +192,7 @@ namespace FolderSynchMUIClient
         private void DownloadWork_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             Console.WriteLine("progress at: " + e.ProgressPercentage);
+            DownloadProgressBar.Value = e.ProgressPercentage;
         }
     }
 }

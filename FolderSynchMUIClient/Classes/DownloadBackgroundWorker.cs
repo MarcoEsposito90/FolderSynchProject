@@ -116,6 +116,7 @@ namespace FolderSynchMUIClient
         /*********************************************************************************/
         private void Download_BackgroundWork_Folder(object sender, DoWorkEventArgs e)
         {
+            BackgroundWorker worker = sender as BackgroundWorker;
             DateTime timestamp = DateTime.Now;
             string tempDir = null;
             RollbackTransaction transaction = null;
@@ -136,30 +137,42 @@ namespace FolderSynchMUIClient
 
                     // downloading files -------------------------------------------------------------------
                     List<Update.UpdateEntry> entries = new List<Update.UpdateEntry>(proxy.getUpdateFileList(Update));
+                    filesNumber = entries.Count;
 
                     for (int i = 0; i < entries.Count; i++)
                     {
                         Update.UpdateEntry entry = entries.ElementAt(i);
                         Console.WriteLine("entry" + i + ": " + entry.ItemLocalPath + "; from update " + entry.UpdateNumber);
+
+                        // creating subdirectories
                         if (entry.UpdateType == Item.Change.NEW_DIRECTORY)
                         {
+                            filesNumber--;
                             Directory.CreateDirectory(DownloadFolderName + "\\" + entry.ItemLocalPath);
                             continue;
                         }
 
+                        // download file
                         downloadFile(entry, DownloadFolderName + "\\" + entry.ItemLocalPath);
+
+                        // report progress
+                        filesDownloaded++;
+                        int progress = (int)(((float)filesDownloaded) / filesNumber * 100);
+                        worker.ReportProgress(progress);
                     }
 
-                    // everything ok. commit and delete folder if necessary ----------------------------------
+                    // download finished. commit and delete folder if necessary -------------------------------
                     if (DeleteCurrent || DownloadFolderName.Equals(LocalFolder.Path))
+                    {
                         proxy.commitRollback(transaction);
+
+                        // save new state
+                        LocalFolder.setLatestUpdateItems();
+                        LocalFolder.LastUpdate = Update;
+                    }
 
                     if (DeleteCurrent)
                         deleteFolder(tempDir);
-
-                    // save new state
-                    LocalFolder.setLatestUpdateItems();
-                    LocalFolder.LastUpdate = Update;
 
                     e.Result = new DownloadWorkerResponse(true, "");
                 }
@@ -240,6 +253,7 @@ namespace FolderSynchMUIClient
         /*********************************************************************************/
         private void deleteFolder(string path)
         {
+            Console.WriteLine("deleting folder: " + path);
             string[] files = Directory.GetFiles(path);
             foreach (string f in files)
                 File.Delete(f);
@@ -270,6 +284,7 @@ namespace FolderSynchMUIClient
                 counter++;
             }
 
+            Console.WriteLine("Temporarily moving directory to " + newPath);
             Directory.Move(path, newPath);
             return newPath;
         }
