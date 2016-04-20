@@ -1,6 +1,7 @@
 ﻿using FolderSynchMUIClient.FolderSynchService;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,20 +22,44 @@ namespace FolderSynchMUIClient
     /// </summary>
     public partial class DetailsDialogHistory : UserControl
     {
+        Update.UpdateEntry[] updates;
         public DetailsDialogHistory()
         {
             InitializeComponent();
+            Console.WriteLine("Inizializzo");
             App application = (App)Application.Current;
             FolderSynchServiceContractClient proxy = application.FolderSynchProxy;
+            FileItem i = (FileItem)this.DataContext;
+            Console.WriteLine("DataContext: " + i.Name);
 
-            //FileItem file = (FileItem)this.DataContext;
-            //updateDates.ItemsSource = proxy.getFileHistory(file);
+            if (this.DataContext.GetType() == typeof(FileItem))
+            {
+                Console.WriteLine("I'm file item.");
+                FileItem file = (FileItem)this.DataContext;
+                updates = proxy.getFileHistory(application.Folder.Name, file.Name);
+              
+            } else
+            {
+                Console.WriteLine("I'm folder item.");
+                FolderItem folder = (FolderItem)this.DataContext;
+            }
+
+            if(updates.Length > 0)
+                updateDates.ItemsSource = updates;
+            
 
         }
 
         private void downloadButton_Click(object sender, RoutedEventArgs e)
         {
-            //TODO
+            if (this.DataContext.GetType() == typeof(FileItem))
+            {
+                
+            }
+            else
+            {
+                
+            }
         }
 
        

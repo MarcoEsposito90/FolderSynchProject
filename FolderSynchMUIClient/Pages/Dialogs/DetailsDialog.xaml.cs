@@ -21,10 +21,13 @@ namespace FolderSynchMUIClient
     /// </summary>
     public partial class DetailsDialog : ModernDialog
     {
-        public DetailsDialog(LocalFolder lf)
+
+        public DetailsDialog(LocalFolder lf, Item it)
         {
             InitializeComponent();
 
+            tabDetails.DataContext = it;
+            Console.WriteLine("DataContext: " + it.Name);
             // define the dialog buttons
             this.Buttons = new Button[] { this.OkButton};
         }
