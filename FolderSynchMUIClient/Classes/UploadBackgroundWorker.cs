@@ -103,6 +103,7 @@ namespace FolderSynchMUIClient.Classes
 
                     e.Result = new UploadWorkerResponse(true, "");
                     LocalFolder.LastUpdate = newUpdate;
+                    LocalFolder.Updates.Add(newUpdate);
                 }
                 else
                 {

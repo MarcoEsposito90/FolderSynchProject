@@ -45,7 +45,7 @@ namespace FolderSynchMUIClient
 
         public void watch()
         {
-            Console.WriteLine("Start watching");
+            Console.WriteLine("Start watching (" + LocalFolder.Name + ")");
             IsWatching = true;
 
             // 1)   must detect if update is immediately necessary (for instance,
@@ -63,6 +63,7 @@ namespace FolderSynchMUIClient
 
         public void stopWatching()
         {
+            Console.WriteLine("Stop watching (" + LocalFolder.Name + ")");
             if (timer != null)
                 timer.Dispose();
             timer = null;

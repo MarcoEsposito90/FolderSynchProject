@@ -346,7 +346,7 @@ namespace ServicesProject
         /*********************************************************************************/
         private void deleteDirectory(string path)
         {
-
+            Console.WriteLine("deleting dir: " + path);
             string[] files = Directory.GetFiles(path);
 
             foreach (string file in files)
@@ -528,9 +528,16 @@ namespace ServicesProject
         public void commitRollback(int updateNumber)
         {
             for(int i = updateNumber + 1; i < Updates.Count; i++)
-                deleteDirectory(Updates.ElementAt(i).UpdateFolder);
+            {
+                deleteDirectory(FolderSynchServer.Instance.RemoteFoldersPath + "\\" +
+                                User.Username + "\\" +
+                                BaseFolder + "\\" +
+                                Updates.ElementAt(i).UpdateFolder);
+
+            }
 
             Updates.RemoveRange(updateNumber + 1, (Updates.Count - updateNumber - 1));
+            writeToFile(Updates);
         }
 
 

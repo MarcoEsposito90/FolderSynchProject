@@ -3,6 +3,7 @@ using FolderSynchMUIClient.StreamedTransferService;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -168,7 +169,9 @@ namespace FolderSynchMUIClient
 
                         // save new state
                         LocalFolder.setLatestUpdateItems();
+                        Update.Timestamp = DateTime.Now;
                         LocalFolder.LastUpdate = Update;
+                        LocalFolder.Updates = new ObservableCollection<Update>(proxy.getHistory(LocalFolder.Name));
                     }
 
                     if (DeleteCurrent)
