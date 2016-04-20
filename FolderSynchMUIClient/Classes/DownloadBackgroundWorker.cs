@@ -133,7 +133,6 @@ namespace FolderSynchMUIClient
                     {
                         transaction = proxy.beginRollback(Update, timestamp);
                         tempDir = moveDirectory(LocalFolder.Path);
-                        Directory.CreateDirectory(LocalFolder.Path);
                     }
 
                     // downloading files -------------------------------------------------------------------
@@ -188,17 +187,15 @@ namespace FolderSynchMUIClient
             catch(FaultException f)
             {
                 Console.WriteLine("error: " + f.Message);
-                e.Result = new DownloadWorkerResponse(false, f.Message);
-
-                // delete what has been copied so far
-                deleteFolder(DownloadFolderName);
-
-                if (DeleteCurrent || DownloadFolderName.Equals(LocalFolder.Path))
-                {
-                    // return to current directory
-                    Console.WriteLine("moving " + tempDir + " to " + LocalFolder.Path);
-                    Directory.Move(tempDir, LocalFolder.Path);
-                }
+                e.Result = new DownloadWorkerResponse(false, "Error: " + f.Message + ". Please try later or contact us");
+                cancelRollback(tempDir);
+            }
+            catch(IOException ioException)
+            {
+                Console.WriteLine("error: " + ioException.Message);
+                e.Result = new DownloadWorkerResponse(false, "Error: Access denied. Close all files and folders inside \"" + 
+                                                             LocalFolder.Path + 
+                                                             "\" and try again");
             }
 
             application.startWaching(LocalFolder);
@@ -290,6 +287,21 @@ namespace FolderSynchMUIClient
             Console.WriteLine("Temporarily moving directory to " + newPath);
             Directory.Move(path, newPath);
             return newPath;
+        }
+
+
+        /*********************************************************************************/
+        private void cancelRollback(string tempDir)
+        {
+            // delete what has been copied so far
+            deleteFolder(DownloadFolderName);
+
+            if (DeleteCurrent || DownloadFolderName.Equals(LocalFolder.Path))
+            {
+                // return to current directory
+                Console.WriteLine("moving " + tempDir + " to " + LocalFolder.Path);
+                Directory.Move(tempDir, LocalFolder.Path);
+            }
         }
 
         /* ------------------------------------------------------------------------------ */

@@ -42,6 +42,7 @@ namespace FolderSynchMUIClient.Pages
 
             this.localFolder = localFolder;
             success = false;
+            Owner = Application.Current.MainWindow;
 
             this.Buttons = new Button[] { this.OkButton };
             OkButton.IsEnabled = false;

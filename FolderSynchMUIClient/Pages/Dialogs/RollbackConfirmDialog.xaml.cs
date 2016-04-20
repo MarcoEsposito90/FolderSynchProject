@@ -48,7 +48,7 @@ namespace FolderSynchMUIClient
 
             this.option = option;
             this.update = update;
-
+            Owner = Application.Current.MainWindow;
             // define the dialog buttons
             this.Buttons = new Button[] { this.YesButton, this.NoButton};
         }

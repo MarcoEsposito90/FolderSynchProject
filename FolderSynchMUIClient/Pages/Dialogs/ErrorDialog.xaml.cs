@@ -24,7 +24,7 @@ namespace FolderSynchMUIClient
         public ErrorDialog()
         {
             InitializeComponent();
-
+            Owner = Application.Current.MainWindow;
             this.Buttons = new Button[] { this.OkButton };
         }
     }

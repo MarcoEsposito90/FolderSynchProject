@@ -38,7 +38,8 @@ namespace FolderSynchMUIClient
             InitializeComponent();
             this.Entry = entry;
             this.LocalFolder = localFolder;
-            
+
+            Owner = Application.Current.MainWindow;
             // define the dialog buttons
             this.Buttons = new Button[] { this.OkButton, this.CancelButton};
         }

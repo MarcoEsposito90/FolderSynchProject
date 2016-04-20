@@ -5,11 +5,78 @@
                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
                   xmlns:mui="http://firstfloorsoftware.com/ModernUI"
                   mc:Ignorable="d" 
-                  d:DesignHeight="300" d:DesignWidth="300"
-                  Title="ModernDialog">
+                  d:DesignHeight="400" d:DesignWidth="300"
+                  Title="You are missing these Folders!"
+                  ContentRendered="ModernDialog_ContentRendered">
 
-    <!-- Note: ModernDialog buttons are defined in the constructor of the code behind class -->
+    <Grid>
 
-    <TextBlock Name="TBMessage"/>
-    
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Text="The following Folders are not available on this device:"
+                   TextWrapping="Wrap"
+                   Grid.Row="0" Grid.Column="0"
+                   Margin="10,10,10,10"/>
+
+
+        <ItemsControl Name="missingFoldersList" 
+                      Margin="20,10,10,0" 
+                      Grid.Row="1" Grid.Column="0">
+            
+            <ItemsControl.ItemTemplate>
+                <DataTemplate >
+                    <!-- Il primo DataTemplate contiene i timestamp degli update -->
+                    <!-- Il secondo DataTemplate contiene i file/folder modificati in quell'update -->
+                    <!-- Nel primo l'icona mi permette di ripristinare quella versione -->
+                    <!-- Nel secondo l'icona mi permette di scaricare quel file/cartella -->
+
+                    <StackPanel Orientation="Horizontal">
+                        <Expander Margin="0,10,0,0">
+                            <Expander.Header>
+                                <StackPanel Orientation="Horizontal">
+
+                                    <!-- ************** EXPANDER HEADER ****************************** -->
+                                    <TextBlock Text="{Binding FolderName}"
+                                               FontSize="14.667" 
+                                               Margin="10,0,0,0" />
+
+                                    <Border Margin="10,0,0,0" BorderBrush="White" 
+                                            Width="23" Height="23" 
+                                            Background="{DynamicResource ItemBackgroundSelected}"
+                                            CornerRadius="4" BorderThickness="1"
+                                            VerticalAlignment="Center">
+
+                                        <Button Name="reloadButton"
+                                                Click="reloadButton_Click"
+                                                Content="DL"
+                                                Width="23" Height="23" 
+                                                HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                                    </Border>
+
+                                    <!-- ************************************************************* -->
+
+                                </StackPanel>
+                            </Expander.Header>
+
+                            <!-- ************** EXPANDER CONTENT *************************************** -->
+
+                            <!-- *********************************************************************** -->
+
+                        </Expander>
+                    </StackPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+
+    </Grid>
+
 </mui:ModernDialog>

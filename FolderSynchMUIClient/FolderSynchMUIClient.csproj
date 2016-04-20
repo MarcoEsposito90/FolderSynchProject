@@ -95,6 +95,9 @@
     <Compile Include="Classes\DownloadBackgroundWorker.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Pages\Dialogs\FolderDownloadDialog.xaml.cs">
+      <DependentUpon>FolderDownloadDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Dialogs\FileDownloadDialog.xaml.cs">
       <DependentUpon>FileDownloadDialog.xaml</DependentUpon>
     </Compile>
@@ -165,6 +168,10 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="TypeConverter.cs" />
+    <Page Include="Pages\Dialogs\FolderDownloadDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\Dialogs\FileDownloadDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

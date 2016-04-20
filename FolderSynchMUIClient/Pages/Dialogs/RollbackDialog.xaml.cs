@@ -16,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.ComponentModel;
+using System.IO;
 
 namespace FolderSynchMUIClient
 {
@@ -36,7 +37,7 @@ namespace FolderSynchMUIClient
             InitializeComponent();
             this.localFolder = localFolder;
             this.update = update;
-
+            Owner = Application.Current.MainWindow;
             // define the dialog buttons
             this.Buttons = new Button[] { this.OkButton, this.CancelButton };
         }
@@ -133,12 +134,13 @@ namespace FolderSynchMUIClient
             {
                 op = RollbackConfirmDialog.Option.KeepCurrent;
                 downloadFolderName = localFolder.Path;
-                deleteCurrent = false; 
+                deleteCurrent = false;
             }
             else if (btnDownloadOld.IsChecked == true)
             {
                 op = RollbackConfirmDialog.Option.SimpleDownload;
-                downloadFolderName = choosedPathTextBox.Text;
+                downloadFolderName = choosedPathTextBox.Text + "\\" + localFolder.Name + "_" + update.Timestamp;
+                Directory.CreateDirectory(downloadFolderName);
                 deleteCurrent = false;
             }
             else
@@ -146,7 +148,7 @@ namespace FolderSynchMUIClient
                 warningTB.Text = "Please select an option before proceeding!";
                 return;
             }
-            
+
 
             RollbackConfirmDialog dialog = new RollbackConfirmDialog(op, update);
             if (dialog.ShowDialog() == true)
@@ -182,6 +184,21 @@ namespace FolderSynchMUIClient
 
         private void DownloadWork_Completed(object sender, RunWorkerCompletedEventArgs e)
         {
+            if (e.Error != null)
+            {
+                Console.WriteLine("BackgroundWorker error: " + e.Error);
+                warningTB.Text = "Error: " + e.Error + ". Unable to complete";
+                return;
+            }
+
+            DownloadBackgroundWorker.DownloadWorkerResponse response = (DownloadBackgroundWorker.DownloadWorkerResponse)e.Result;
+            if (!response.Success)
+            {
+                warningTB.Text = response.ErrorMessage;
+                return;
+            }
+
+            warningTB.Text = "Operation completed succesfully!";
             CancelButton.Visibility = Visibility.Hidden;
             OkButton.Visibility = Visibility.Visible;
         }
