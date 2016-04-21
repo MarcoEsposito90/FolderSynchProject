@@ -24,7 +24,6 @@
                     </Grid.RowDefinitions>-->
                     <TextBlock Text="Username: " 
                            Foreground="{DynamicResource ItemBackgroundSelected}" 
-                               Grid.Column="0" Grid.Row="0" 
                                VerticalAlignment="Center" 
                                Margin="10,10,10,0" FontSize="16"/>
 
@@ -39,23 +38,18 @@
                     -->
 
                     <toolkit:AutoCompleteBox Name="TBLoginUsername" 
-                             Grid.Column="1" Grid.Row="0" 
-                                             Background="White"
-                             VerticalAlignment="Center" 
-                                             AllowDrop="True"
-                                             
-                             Margin="10,5,20,10" FontSize="13.333" TextChanged="TBLoginUsername_TextChanged" />
+                              Background="White"
+                              VerticalAlignment="Center" 
+                              AllowDrop="True"
+                              Margin="10,5,20,10" FontSize="13.333" TextChanged="TBLoginUsername_TextChanged" />
                     
-
                     <TextBlock Text="Password: " 
-                               Grid.Column="0" Grid.Row="1" 
-                           Foreground="{DynamicResource ItemBackgroundSelected}" 
+                               Foreground="{DynamicResource ItemBackgroundSelected}" 
                                VerticalAlignment="Center" 
                                Margin="10,10,10,0" FontSize="16"/>
                     
                     <PasswordBox Name="TBLoginPassword" 
                                  PasswordChar="*" 
-                                 Grid.Column="1" Grid.Row="1"
                                  VerticalAlignment="Center" 
                                  Margin="10,5,20,10" FontSize="13.333"/>
 

@@ -33,7 +33,10 @@ namespace FolderSynchMUIClient
 
         private void editPasswordButton_Click(object sender, RoutedEventArgs e)
         {
-            //TODO
+            ChangePasswordDialog cpd = new ChangePasswordDialog();
+            cpd.ShowDialog();
+            
+
         }
 
         private void btnCheck_Click(object sender, RoutedEventArgs e)
@@ -54,6 +57,8 @@ namespace FolderSynchMUIClient
             {
                 LocalFoldersWarningDialog dialog = new LocalFoldersWarningDialog(missingFolders);
                 dialog.ShowDialog();
+               
+
             }
             else
             {
