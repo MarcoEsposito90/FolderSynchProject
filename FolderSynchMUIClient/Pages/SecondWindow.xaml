@@ -6,6 +6,35 @@
              xmlns:mui="http://firstfloorsoftware.com/ModernUI"
              Height="680" Width="1024"
             ContentSource="/Pages/HomePage.xaml">
+
+    <mui:ModernWindow.Resources>
+        <Style x:Key="DownloadButton" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" 
+                                BorderThickness="1"  CornerRadius="3">
+                            <Border.Background>
+                                <ImageBrush ImageSource="/Icons/MyDownload_Icon2.png"/>
+                            </Border.Background>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" TargetName="border">
+                                    <Setter.Value>
+                                        <ImageBrush ImageSource="/Icons/MyDownload_IconSmall.png"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </mui:ModernWindow.Resources>
+
     <mui:ModernWindow.MenuLinkGroups>
 
         <mui:LinkGroup DisplayName="welcome">

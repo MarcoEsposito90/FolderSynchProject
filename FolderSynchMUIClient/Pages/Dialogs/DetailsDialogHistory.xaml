@@ -7,6 +7,7 @@
              xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              xmlns:local="clr-namespace:FolderSynchMUIClient"
              mc:Ignorable="d" 
+             Width="300" Height="250"
              d:DesignHeight="300" d:DesignWidth="300">
 
     <UserControl.Resources>
@@ -40,11 +41,14 @@
         </Style>
     </UserControl.Resources>
 
-    <Grid Style="{StaticResource ContentRoot}">
+    <StackPanel>
+        
+        <!--TITLE-->
         <TextBlock Text="Updates History" HorizontalAlignment="Left" 
-                       Style="{StaticResource Title}" FontSize="26.667"
-                       VerticalAlignment="Center" Margin="10,10,0,0"  
-                       Foreground="{DynamicResource ItemBackgroundSelected}"/>
+                   FontSize="18.667"
+                   VerticalAlignment="Center" Margin="10,10,0,0"  
+                   FontFamily="Segoe UI Light" 
+                   Foreground="{DynamicResource ItemBackgroundSelected}"/>
         <!-- END TITLE -->
 
 
@@ -95,5 +99,5 @@
         </ItemsControl>
         <!-- END ITEMS TREEVIEW -->
 
-    </Grid>
+    </StackPanel>
 </UserControl>

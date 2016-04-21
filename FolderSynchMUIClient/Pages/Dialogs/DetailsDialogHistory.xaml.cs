@@ -26,16 +26,6 @@ namespace FolderSynchMUIClient
         public DetailsDialogHistory()
         {
             InitializeComponent();
-
-            //Item i = (Item)this.DataContext;
-            //Console.WriteLine("DataContext: " + i.Name);
-
-            //if (this.DataContext.GetType() == typeof(FileItem))
-            //    Console.WriteLine("I'm file item.");
-            //else
-            //    Console.WriteLine("I'm folder item.");
-
-            //updateDates.ItemsSource = i.Updates;
         }
 
 
