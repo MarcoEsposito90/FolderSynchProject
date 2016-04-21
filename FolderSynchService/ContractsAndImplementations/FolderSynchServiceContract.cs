@@ -24,6 +24,9 @@ namespace ServicesProject
         [OperationContract(IsInitiating = false, IsTerminating = true)]
         void logoutUser(User user);
 
+        [OperationContract(IsInitiating = false, IsTerminating = false)]
+        void changeCredentials(string oldPassword, string newPassword);
+
         /**********************************************************************************************************/
         [OperationContract(IsInitiating = false, IsTerminating = false)]
         [FaultContract(typeof(MyBaseFault))]

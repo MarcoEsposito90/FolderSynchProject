@@ -24,7 +24,7 @@ namespace ServicesProject
         public string Password
         {
             get;
-            private set;
+            set;
         }
 
         [DataMember]

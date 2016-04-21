@@ -34,6 +34,9 @@ namespace ServicesProject
             return currentUser;
         }
 
+
+
+        /***************************************************************************************************/
         public void logoutUser(User user)
         {
             Console.WriteLine(user.Username + "is logging out");
@@ -41,10 +44,22 @@ namespace ServicesProject
             currentUser = null;
         }
 
+
+
+        /***************************************************************************************************/
         public User RegisterNewUser(string username, string password)
         {
             currentUser = FolderSynchServer.Instance.registerNewUser(username, password);
             return currentUser;
+        }
+
+
+
+        /***************************************************************************************************/
+        public void changeCredentials(string oldPassword, string newPassword)
+        {
+            Console.WriteLine(currentUser.Username + " wants to change password");
+            FolderSynchServer.Instance.changeCredentials(currentUser, oldPassword, newPassword);
         }
 
 
@@ -219,5 +234,7 @@ namespace ServicesProject
             Console.WriteLine(currentUser.Username + " wants to remove a folder: " + folderName);
             FolderSynchServer.Instance.removeSynchronizedFolder(currentUser, folderName);
         }
+
+        
     }
 }

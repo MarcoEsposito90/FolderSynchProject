@@ -240,6 +240,18 @@ namespace ServicesProject
 
 
         /*******************************************************************************************/
+        public void changeCredentials(User user, string oldPassword, string newPassword)
+        {
+            if (!oldPassword.Equals(user.Password))
+                throw new FaultException(new FaultReason("Could not perform operation"));
+
+            user.Password = newPassword;
+            UsersFileHandler.Instance.WriteUsersList(Users.Values.ToList());
+        }
+
+
+
+        /*******************************************************************************************/
         private void LoginUser(User u)
         {
             lock (ConnectedUsers)
@@ -250,7 +262,6 @@ namespace ServicesProject
                 ConnectedUsers.Add(u.Username,u);
             }
         }
-
 
         /* ----------------------------------------------------------------------------------------------- */
         /* ------------ FOLDERS METHODS ------------------------------------------------------------------ */
