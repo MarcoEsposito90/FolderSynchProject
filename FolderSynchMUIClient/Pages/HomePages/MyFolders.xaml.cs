@@ -29,13 +29,12 @@ namespace FolderSynchMUIClient.Pages.HomePages
             App application = (App)Application.Current;
 
             //1. Retrieving user's local folders
-            ObservableCollection<LocalFolder> FolderList = new ObservableCollection<LocalFolder>(application.getLocalFolders());
             foldersButtonControl.ItemsSource = application.LocalFolders;
 
             //2. Retrieving folders updates
             if (application.LocalFolders.Count > 0) { 
                 foldersButtonControl.SelectedItem = application.LocalFolders[0];
-                foreach (LocalFolder lf in FolderList)
+                foreach (LocalFolder lf in application.LocalFolders)
                 {
                     lf.Updates = new ObservableCollection<Update>(application.FolderSynchProxy.getHistory(lf.Name));
                 }

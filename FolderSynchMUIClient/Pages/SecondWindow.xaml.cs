@@ -26,24 +26,84 @@ namespace FolderSynchMUIClient.Pages
         {
             InitializeComponent();
 
+            
+        }
+
+        private void ModernWindow_ContentRendered(object sender, EventArgs e)
+        {
             App application = (App)Application.Current;
 
-            // check if some synced folder is missing on this device -----------------------------------
-            List<LocalFolder> localFolders = application.getLocalFolders().ToList();
+            // check if some synced folder is missing on this device ---------------------------------------------
             List<Folder> missingFolders = new List<Folder>();
+            Dictionary<LocalFolder, Update> needResynch = new Dictionary<LocalFolder, Update>();
+
             foreach (Folder f in application.User.Folders)
             {
-                int found = localFolders.FindIndex(item => item.Name.Equals(f.FolderName));
+                LocalFolder lf = null;
 
-                if (found == -1)
+                foreach (LocalFolder locFold in application.LocalFolders)
+                    if (locFold.Name.Equals(f.FolderName))
+                        lf = locFold;
+
+                if (lf == null)
+                {
+                    Console.WriteLine(f.FolderName + " is missing");
                     missingFolders.Add(f);
+                }
+                else
+                {
+                    // check if local folder needs to be resynched ----------------------------------------------
+                    Update lastLocalUpdate = lf.Updates.ElementAt(lf.Updates.Count - 1);
+                    List<Update> remoteUpdates = new List<Update>(application.FolderSynchProxy.getHistory(lf.Name));
+                    Update lastRemoteUpdate = remoteUpdates.ElementAt(remoteUpdates.Count - 1);
+
+                    Console.WriteLine("Checking synchronization for folder: " + lf.Name + "**************************");
+                    Console.WriteLine("local update: ");
+                    printUpdate(lastLocalUpdate);
+                    Console.WriteLine("remote update: ");
+                    printUpdate(lastRemoteUpdate);
+
+                    if (lastRemoteUpdate.TransactionID.Equals(lastLocalUpdate.TransactionID))
+                    {
+                        Console.WriteLine(lf.Name + " is not synchronized! localUpdate: " +
+                                            lf.Updates.ElementAt(lf.Updates.Count - 1) +
+                                            "; remoteUpdate: " + remoteUpdates.ElementAt(remoteUpdates.Count - 1));
+
+                        needResynch.Add(lf, lastRemoteUpdate);
+                    }
+                }
             }
 
+            // show dialogs if necessary ---------------------------------------------------------------
             if (missingFolders.Count > 0)
             {
-                LocalFoldersWarningDialog dialog = new LocalFoldersWarningDialog(missingFolders);
-                dialog.ShowDialog();
+                LocalFoldersWarningDialog dialog1 = new LocalFoldersWarningDialog(missingFolders);
+                dialog1.ShowDialog();
             }
+
+            if (needResynch.Count > 0)
+            {
+                FolderDesynchUpdateDialog dialog2 = new FolderDesynchUpdateDialog(needResynch);
+                dialog2.ShowDialog();
+            }
+
+
+            application.startWatching();
+        }
+
+
+
+        /* ---------------------------------------------------------------- */
+        /* ------------ AUXILIARY ----------------------------------------- */
+        /* ---------------------------------------------------------------- */
+
+        private void printUpdate(Update update)
+        {
+            Console.WriteLine("------------------------------------------------------");
+            Console.WriteLine("Update number: " + update.Number);
+            Console.WriteLine("timestamp: " + update.Timestamp);
+            Console.WriteLine("transaction: " + update.TransactionID);
+            Console.WriteLine("number of changes: " + update.UpdateEntries.Length);
         }
     }
 }

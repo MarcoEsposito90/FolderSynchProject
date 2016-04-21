@@ -29,6 +29,11 @@ namespace FolderSynchMUIClient.Pages
             TBLoginUsername.ItemsSource = application.KnownUsers.Keys;
         }
 
+
+        /* ---------------------------------------------------------------- */
+        /* ------------ LOGIN CLICK --------------------------------------- */
+        /* ---------------------------------------------------------------- */
+
         private void ButtonLogin_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -46,6 +51,9 @@ namespace FolderSynchMUIClient.Pages
                 if (CheckBoxRemember.IsChecked.Value)
                     application.AddKnownUser(TBLoginUsername.Text, TBLoginPassword.Password);
 
+
+                
+
                 // change window ---------------------------------------------------------------------------
                 SecondWindow sw = new SecondWindow();
                 sw.Show();
@@ -60,17 +68,10 @@ namespace FolderSynchMUIClient.Pages
             }
         }
 
-        private void ButtonLogout_Click(object sender, RoutedEventArgs e)
-        {
-            App application = (App)Application.Current;
 
-            if (application.User == null)
-                responseLabel.Content = "must login before logout";
-
-            FolderSynchServiceContractClient proxy = application.FolderSynchProxy;
-            proxy.logoutUser(application.User);
-            application.User = null;
-        }
+        /* ---------------------------------------------------------------- */
+        /* ------------ AUTOCOMPLETE -------------------------------------- */
+        /* ---------------------------------------------------------------- */
 
         private void TBLoginUsername_TextChanged(object sender, RoutedEventArgs e)
         {
@@ -79,7 +80,10 @@ namespace FolderSynchMUIClient.Pages
                 TBLoginPassword.Password = application.KnownUsers[TBLoginUsername.Text];
             else
                 TBLoginPassword.Password = "";
-            
+
         }
+
+
+        
     }
 }
