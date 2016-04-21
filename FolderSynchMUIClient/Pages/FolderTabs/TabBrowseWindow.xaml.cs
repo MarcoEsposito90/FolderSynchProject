@@ -29,11 +29,17 @@ namespace FolderSynchMUIClient.Pages
         private void treeViewItem_Click(object sender, RoutedEventArgs e)
         {
             //Showing dialog with selected folder/file details
-            Item it = trvFolders.SelectedItem as Item;
-            DetailsDialog detailsDialog = new DetailsDialog((LocalFolder)this.DataContext, it);
-            detailsDialog.DataContext = it;
-            detailsDialog.ShowDialog();
+            if(trvFolders.SelectedItem.GetType() == typeof(FileItem))
+            {
+                FileItem it = trvFolders.SelectedItem as FileItem;
+                DetailsDialog detailsDialog = new DetailsDialog((LocalFolder)this.DataContext, it);
+                detailsDialog.DataContext = it;
+                detailsDialog.ShowDialog();
+            }
+            
 
         }
+
+        
     }
 }

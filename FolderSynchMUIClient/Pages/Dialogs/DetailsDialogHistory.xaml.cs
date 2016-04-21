@@ -26,9 +26,14 @@ namespace FolderSynchMUIClient
         public DetailsDialogHistory()
         {
             InitializeComponent();
+
         }
 
-
+        private void UserControl_ContentRendered(object sender, EventArgs e)
+        {
+            
+           
+        }
 
 
         private void downloadButton_Click(object sender, RoutedEventArgs e)

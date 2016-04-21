@@ -51,6 +51,7 @@
 
                 <!-- FILE ELEMENT -->
                 <DataTemplate DataType="{x:Type local:Item}">
+                    
                     <StackPanel Orientation="Horizontal">
 
                         <Image Width="20" Height="20"  Margin="3" Source="/Icons/MyFile_Icon.png"/>
