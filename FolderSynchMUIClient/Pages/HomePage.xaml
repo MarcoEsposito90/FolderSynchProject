@@ -11,6 +11,7 @@
             <mui:ModernTab.Links>
                 <mui:Link DisplayName="New Folder" Source="/Pages/HomePages/NewFolder.xaml" />
                 <mui:Link DisplayName="My Folders" Source="/Pages/HomePages/MyFolders.xaml" />
+                <mui:Link DisplayName="Profile" Source="/Pages/HomePages/Profile.xaml" />
             </mui:ModernTab.Links>
         </mui:ModernTab>
     </Grid> 
