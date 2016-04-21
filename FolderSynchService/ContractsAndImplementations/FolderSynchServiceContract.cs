@@ -66,5 +66,13 @@ namespace ServicesProject
 
         [OperationContract(IsInitiating = false, IsTerminating = false)]
         void commitRollback(RollbackTransaction transaction);
+
+
+        /**********************************************************************************************************/
+        [OperationContract(IsInitiating = false, IsTerminating = false)]
+        void changeFolderOptions(string folderName, Folder updatedFolder);
+
+        [OperationContract(IsInitiating = false, IsTerminating = false)]
+        void removeSynchronizedFolder(string folderName);
     }
 }

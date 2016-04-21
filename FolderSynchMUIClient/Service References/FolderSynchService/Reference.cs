@@ -738,6 +738,18 @@ namespace FolderSynchMUIClient.FolderSynchService {
         
         [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/commitRollback", ReplyAction="http://tempuri.org/FolderSynchServiceContract/commitRollbackResponse")]
         System.Threading.Tasks.Task commitRollbackAsync(FolderSynchMUIClient.FolderSynchService.RollbackTransaction transaction);
+        
+        [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/changeFolderOptions", ReplyAction="http://tempuri.org/FolderSynchServiceContract/changeFolderOptionsResponse")]
+        void changeFolderOptions(string folderName, FolderSynchMUIClient.FolderSynchService.Folder updatedFolder);
+        
+        [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/changeFolderOptions", ReplyAction="http://tempuri.org/FolderSynchServiceContract/changeFolderOptionsResponse")]
+        System.Threading.Tasks.Task changeFolderOptionsAsync(string folderName, FolderSynchMUIClient.FolderSynchService.Folder updatedFolder);
+        
+        [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/removeSynchronizedFolder", ReplyAction="http://tempuri.org/FolderSynchServiceContract/removeSynchronizedFolderResponse")]
+        void removeSynchronizedFolder(string folderName);
+        
+        [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/removeSynchronizedFolder", ReplyAction="http://tempuri.org/FolderSynchServiceContract/removeSynchronizedFolderResponse")]
+        System.Threading.Tasks.Task removeSynchronizedFolderAsync(string folderName);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -893,6 +905,22 @@ namespace FolderSynchMUIClient.FolderSynchService {
         
         public System.Threading.Tasks.Task commitRollbackAsync(FolderSynchMUIClient.FolderSynchService.RollbackTransaction transaction) {
             return base.Channel.commitRollbackAsync(transaction);
+        }
+        
+        public void changeFolderOptions(string folderName, FolderSynchMUIClient.FolderSynchService.Folder updatedFolder) {
+            base.Channel.changeFolderOptions(folderName, updatedFolder);
+        }
+        
+        public System.Threading.Tasks.Task changeFolderOptionsAsync(string folderName, FolderSynchMUIClient.FolderSynchService.Folder updatedFolder) {
+            return base.Channel.changeFolderOptionsAsync(folderName, updatedFolder);
+        }
+        
+        public void removeSynchronizedFolder(string folderName) {
+            base.Channel.removeSynchronizedFolder(folderName);
+        }
+        
+        public System.Threading.Tasks.Task removeSynchronizedFolderAsync(string folderName) {
+            return base.Channel.removeSynchronizedFolderAsync(folderName);
         }
     }
 }

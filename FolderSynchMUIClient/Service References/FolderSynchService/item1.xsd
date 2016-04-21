@@ -228,4 +228,29 @@
       <xs:sequence />
     </xs:complexType>
   </xs:element>
+  <xs:element name="changeFolderOptions">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="folderName" nillable="true" type="xs:string" />
+        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/ServicesProject" minOccurs="0" name="updatedFolder" nillable="true" type="q15:Folder" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="changeFolderOptionsResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="removeSynchronizedFolder">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="folderName" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="removeSynchronizedFolderResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
 </xs:schema>

@@ -482,6 +482,53 @@ namespace ServicesProject
             RollbackTransactionsHandler.Instance.CommitTransaction(transaction);
         }
 
+
+        /* ----------------------------------------------------------------------------------------------- */
+        /* ------------ OPTIONS METHODS ------------------------------------------------------------------ */
+        /* ----------------------------------------------------------------------------------------------- */
+        
+        public void changeFolderOptions(User user, string folderName, Folder updatedFolder)
+        {
+            Folder oldFolder = checkFolder(user, folderName);
+
+            if(oldFolder.AutoRefreshTime != updatedFolder.AutoRefreshTime)
+            {
+                Console.WriteLine(user.Username + " wants to change auto refresh");
+                oldFolder.AutoRefreshTime = updatedFolder.AutoRefreshTime;
+            }
+
+            UsersFileHandler.Instance.WriteUsersList(Users.Values.ToList());
+        }
+
+
+        /*****************************************************************************************************/
+        public void removeSynchronizedFolder(User user, string folderName)
+        {
+            Folder folder = checkFolder(user, folderName);
+            getUpdateFileHandler(user, folderName).removeFolder();
+            user.Folders.Remove(folder);
+            UsersFileHandler.Instance.WriteUsersList(Users.Values.ToList());
+        }
+
+
+
+        /*****************************************************************************************************/
+        private Folder checkFolder(User user, string folderName)
+        {
+            Folder folder = null;
+            foreach (Folder f in user.Folders)
+            {
+                if (f.FolderName.Equals(folderName))
+                    folder = f;
+            }
+
+            if (folder == null)
+                throw new FaultException("No such folder for this user");
+
+            return folder;
+        }
+
+
         /* ----------------------------------------------------------------------------------------------- */
         /* ------------ AUXILIARY METHODS ---------------------------------------------------------------- */
         /* ----------------------------------------------------------------------------------------------- */

@@ -201,5 +201,23 @@ namespace ServicesProject
             FolderSynchServer.Instance.commitRollback(tr);
             ActiveRollbackTransactions.Remove(tr.TransactionID);
         }
+
+
+        /* ------------------------------------------------------------------------------ */
+        /* ------------------------ OPTIONS --------------------------------------------- */
+        /* ------------------------------------------------------------------------------ */
+
+        public void changeFolderOptions(string folderName, Folder updatedFolder)
+        {
+            Console.WriteLine(currentUser.Username + " wants to change options for: " + folderName);
+            FolderSynchServer.Instance.changeFolderOptions(currentUser, folderName, updatedFolder);
+        }
+
+        /***************************************************************************************************/
+        public void removeSynchronizedFolder(string folderName)
+        {
+            Console.WriteLine(currentUser.Username + " wants to remove a folder: " + folderName);
+            FolderSynchServer.Instance.removeSynchronizedFolder(currentUser, folderName);
+        }
     }
 }

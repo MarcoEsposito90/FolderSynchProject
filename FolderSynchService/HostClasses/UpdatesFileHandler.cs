@@ -394,6 +394,7 @@ namespace ServicesProject
                 }
             }
 
+            entries.Sort();
             return entries;
         }
 
@@ -563,6 +564,21 @@ namespace ServicesProject
             return updateFolder;
         }
 
+        /* ------------------------------------------------------------------------------ */
+        /* ------------------------ DELETE METHODS -------------------------------------- */
+        /* ------------------------------------------------------------------------------ */
+        public void removeFolder()
+        {
+            foreach(Update u in Updates)
+            {
+                string path = FolderSynchServer.Instance.RemoteFoldersPath + "\\" +
+                              User.Username + "\\" +
+                              BaseFolder;
+
+                deleteDirectory(path);
+                Updates = null;
+            }
+        }
 
 
         /* ------------------------------------------------------------------------------ */
