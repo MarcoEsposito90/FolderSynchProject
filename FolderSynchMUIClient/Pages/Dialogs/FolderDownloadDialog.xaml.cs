@@ -17,6 +17,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.ComponentModel;
 using System.IO;
+using System.Collections.ObjectModel;
 
 namespace FolderSynchMUIClient
 {
@@ -28,6 +29,7 @@ namespace FolderSynchMUIClient
         private Folder Folder;
         private LocalFolder localFolder;
         private string downloadFolderName;
+        private Update Update;
         public bool Success { get; private set; }
 
         public FolderDownloadDialog(Folder folder)
@@ -88,15 +90,22 @@ namespace FolderSynchMUIClient
             localFolder = new LocalFolder(application.User.Username, Folder.FolderName, "");
             FolderSynchServiceContractClient proxy = application.FolderSynchProxy;
             List<Update> Updates = new List<Update>(proxy.getHistory(Folder.FolderName));
-            Update latest = Updates.ElementAt(Updates.Count - 1);
+            Update = Updates.ElementAt(Updates.Count - 1);
 
-            DownloadBackgroundWorker bw = new DownloadBackgroundWorker(localFolder, latest, downloadFolderName, deleteCurrent);
+            localFolder.AutoRefreshTime = Folder.AutoRefreshTime;
+            localFolder.AutoDeleteTime = Folder.AutoDeleteTime;
+            localFolder.Updates = new ObservableCollection<Update>(Updates);
+
+            DownloadBackgroundWorker bw = new DownloadBackgroundWorker(localFolder, Update, downloadFolderName, deleteCurrent);
 
             bw.WorkerSupportsCancellation = false;
             bw.WorkerReportsProgress = true;
             bw.ProgressChanged += DownloadWork_ProgressChanged;
             bw.RunWorkerCompleted += DownloadWork_Completed;
             bw.RunWorkerAsync();
+
+            DownloadProgressBar.Visibility = Visibility.Visible;
+            CancelButton.Visibility = Visibility.Hidden;
         }
 
 
@@ -121,6 +130,8 @@ namespace FolderSynchMUIClient
             }
 
             localFolder.Path = downloadFolderName;
+            Update.Timestamp = DateTime.Now;
+            localFolder.LastUpdate = Update;
             App application = (App)Application.Current;
             application.addLocalFolder(Folder, localFolder);
 
