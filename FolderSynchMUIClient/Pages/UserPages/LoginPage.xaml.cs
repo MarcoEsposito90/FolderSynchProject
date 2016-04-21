@@ -53,24 +53,6 @@ namespace FolderSynchMUIClient.Pages
                 Application.Current.MainWindow.Close();
                 Application.Current.MainWindow = sw;
 
-                // check if some synced folder is missing on this device -----------------------------------
-                List<LocalFolder> localFolders = application.getLocalFolders().ToList();
-                List<Folder> missingFolders = new List<Folder>();
-                foreach(Folder f in application.User.Folders)
-                {
-                    int found = localFolders.FindIndex(item => item.Name.Equals(f.FolderName));
-
-                    if (found == -1)
-                        missingFolders.Add(f);
-                }
-                
-                if(missingFolders.Count > 0)
-                {
-                    LocalFoldersWarningDialog dialog = new LocalFoldersWarningDialog(missingFolders);
-                    dialog.ShowDialog();
-                }
-
-
             }
             catch (FaultException f)
             {

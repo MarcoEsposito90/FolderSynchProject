@@ -1,6 +1,8 @@
 ﻿using FirstFloor.ModernUI.Windows.Controls;
+using FolderSynchMUIClient.FolderSynchService;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,11 +24,19 @@ namespace FolderSynchMUIClient
     public partial class DetailsDialog : ModernDialog
     {
 
+        public static readonly string LOCAL_FOLDER_ACCESS_KEY = "localFolder";
+
         public DetailsDialog(LocalFolder lf, Item it)
         {
             InitializeComponent();
 
             tabDetails.DataContext = it;
+            string localPath = it.Path.Replace(lf.Path + "\\", "");
+
+            App application = (App)Application.Current;
+            FolderSynchServiceContractClient proxy = application.FolderSynchProxy;
+            it.Updates = new ObservableCollection<Update.UpdateEntry>(proxy.getFileHistory(lf.Name, localPath));
+
             Console.WriteLine("DataContext: " + it.Name);
             // define the dialog buttons
             this.Buttons = new Button[] { this.OkButton};

@@ -53,7 +53,7 @@
 
 
         <!-- ITEMS TREEVIEW -->
-        <ItemsControl Name="updateDates" Margin="20,10,10,0" ItemsSource="{Binding Source={StaticResource sortedUpdates}}">
+        <ItemsControl Name="updateDates" Margin="20,10,10,0" ItemsSource="{Binding Updates}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate >
                     <!-- Il primo DataTemplate contiene i timestamp degli update -->
@@ -74,10 +74,12 @@
                                                     Width="23" Height="23" Background="{DynamicResource ItemBackgroundSelected}"
                                                     CornerRadius="4" BorderThickness="1"
                                                     VerticalAlignment="Center">
-                                    <Button Name="downloadButton" Click="downloadButton_Click"
-                                                            Width="23" Height="23" 
-                                                        HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                            BorderBrush="{x:Null}" Style="{StaticResource DownloadButton}">
+                                    <Button Name="downloadButton" 
+                                            Click="downloadButton_Click"
+                                            Width="23" Height="23" 
+                                            HorizontalAlignment="Center" 
+                                            VerticalAlignment="Center"
+                                            BorderBrush="{x:Null}" Style="{StaticResource DownloadButton}">
                                     </Button>
                                 </Border>
                                 <TextBlock Text="{Binding UpdateType,  Converter={StaticResource Converter1}}" VerticalAlignment="Center"

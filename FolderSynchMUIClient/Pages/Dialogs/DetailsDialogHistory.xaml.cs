@@ -29,40 +29,23 @@ namespace FolderSynchMUIClient
             Console.WriteLine("Inizializzo");
             App application = (App)Application.Current;
             FolderSynchServiceContractClient proxy = application.FolderSynchProxy;
-            FileItem i = (FileItem)this.DataContext;
+            Item i = (Item)this.DataContext;
             Console.WriteLine("DataContext: " + i.Name);
 
             if (this.DataContext.GetType() == typeof(FileItem))
-            {
                 Console.WriteLine("I'm file item.");
-                FileItem file = (FileItem)this.DataContext;
-                updates = proxy.getFileHistory(application.Folder.Name, file.Name);
-              
-            } else
-            {
+            else
                 Console.WriteLine("I'm folder item.");
-                FolderItem folder = (FolderItem)this.DataContext;
-            }
 
-            if(updates.Length > 0)
-                updateDates.ItemsSource = updates;
             
-
         }
+
+
+
 
         private void downloadButton_Click(object sender, RoutedEventArgs e)
         {
-            if (this.DataContext.GetType() == typeof(FileItem))
-            {
-                
-            }
-            else
-            {
-                
-            }
+
         }
-
-       
-
     }
 }

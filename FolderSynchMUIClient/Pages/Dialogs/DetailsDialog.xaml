@@ -8,14 +8,16 @@
                   d:DesignHeight="300" d:DesignWidth="300"
                   Title="Details">
 
-    <Grid  Style="{StaticResource ContentRoot}">
+    <StackPanel  Style="{StaticResource ContentRoot}">
+        
         <mui:ModernTab Name="tabDetails"
             Layout="Tab" SelectedSource="/Pages/Dialogs/DetailsDialogInfo.xaml" Margin="0,10,0,0">
-        <mui:ModernTab.Links>
-            <mui:Link DisplayName="Info" Source="/Pages/Dialogs/DetailsDialogInfo.xaml" />
-            <mui:Link DisplayName="History" Source="/Pages/Dialogs/DetailsDialogHistory.xaml" />
-        </mui:ModernTab.Links>
-    </mui:ModernTab>
+            <mui:ModernTab.Links>
+                <mui:Link DisplayName="Info" Source="/Pages/Dialogs/DetailsDialogInfo.xaml" />
+                <mui:Link DisplayName="History" Source="/Pages/Dialogs/DetailsDialogHistory.xaml" />
+            </mui:ModernTab.Links>
+        </mui:ModernTab>
 
-</Grid>
+    </StackPanel>
+    
 </mui:ModernDialog>

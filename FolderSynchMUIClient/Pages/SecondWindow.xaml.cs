@@ -1,4 +1,5 @@
 ﻿using FirstFloor.ModernUI.Windows.Controls;
+using FolderSynchMUIClient.FolderSynchService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,25 @@ namespace FolderSynchMUIClient.Pages
         public SecondWindow()
         {
             InitializeComponent();
+
+            App application = (App)Application.Current;
+
+            // check if some synced folder is missing on this device -----------------------------------
+            List<LocalFolder> localFolders = application.getLocalFolders().ToList();
+            List<Folder> missingFolders = new List<Folder>();
+            foreach (Folder f in application.User.Folders)
+            {
+                int found = localFolders.FindIndex(item => item.Name.Equals(f.FolderName));
+
+                if (found == -1)
+                    missingFolders.Add(f);
+            }
+
+            if (missingFolders.Count > 0)
+            {
+                LocalFoldersWarningDialog dialog = new LocalFoldersWarningDialog(missingFolders);
+                dialog.ShowDialog();
+            }
         }
     }
 }
