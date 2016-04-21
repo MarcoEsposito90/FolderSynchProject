@@ -16,7 +16,16 @@
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
         <local:TypeConverter x:Key="Converter1"/>
-        
+
+        <Style TargetType="{x:Type TextBlock}" x:Key="TBStyle">
+            <Setter Property="Visibility" Value="Hidden" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Updates.Count}" Value="0">
+                    <Setter Property="Visibility" Value="Visible" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
         <Style x:Key="DownloadButton" TargetType="Button">
             <Setter Property="OverridesDefaultStyle" Value="True"/>
             <Setter Property="Template">
@@ -144,5 +153,10 @@
             </ItemsControl>
             <!-- END ITEMS TREEVIEW -->
 
-        </StackPanel>
+        <TextBlock Name="tbNoUpdates"
+                   Text="There are no updates available."
+                   Margin="20,10,10,0" FontSize="14.667" 
+                   Style="{StaticResource TBStyle}"/>
+
+    </StackPanel>
 </UserControl>
