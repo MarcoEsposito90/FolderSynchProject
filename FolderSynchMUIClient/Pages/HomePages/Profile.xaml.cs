@@ -40,7 +40,7 @@ namespace FolderSynchMUIClient
         {
             // check if some synced folder is missing on this device -----------------------------------
             App application = (App)Application.Current;
-            List<LocalFolder> localFolders = application.getLocalFolders().ToList();
+            List<LocalFolder> localFolders = application.LocalFolders.ToList();
             List<Folder> missingFolders = new List<Folder>();
             foreach (Folder f in application.User.Folders)
             {
