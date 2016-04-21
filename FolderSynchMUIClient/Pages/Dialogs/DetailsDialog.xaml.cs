@@ -35,7 +35,7 @@ namespace FolderSynchMUIClient
 
             App application = (App)Application.Current;
             FolderSynchServiceContractClient proxy = application.FolderSynchProxy;
-            it.Updates = new ObservableCollection<Update.UpdateEntry>(proxy.getFileHistory(lf.Name, localPath));
+            it.UpdateEntries = new ObservableCollection<Update.UpdateEntry>(proxy.getFileHistory(lf.Name, localPath));
 
             Console.WriteLine("DataContext: " + it.Name);
             // define the dialog buttons

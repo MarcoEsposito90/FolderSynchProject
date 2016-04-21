@@ -62,7 +62,7 @@
 
 
         <!-- ITEMS TREEVIEW -->
-        <ItemsControl Name="updateDates" Margin="20,10,10,0" ItemsSource="{Binding Updates}">
+        <ItemsControl Name="updateDates" Margin="20,10,10,0" ItemsSource="{Binding UpdateEntries}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate >
                     <!-- Il primo DataTemplate contiene i timestamp degli update -->

@@ -21,7 +21,7 @@ namespace FolderSynchMUIClient
         {
             this.Name = name;
             this.Path = relativePath;
-            this.Updates = new ObservableCollection<Update.UpdateEntry>();
+            this.UpdateEntries = new ObservableCollection<Update.UpdateEntry>();
         }
 
 
