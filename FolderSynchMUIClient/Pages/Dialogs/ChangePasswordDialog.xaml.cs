@@ -37,7 +37,7 @@ namespace FolderSynchMUIClient
             App application = (App)Application.Current;
 
             if (TBOldPassword.Password.Equals(application.User.Password)) { 
-                if (TBNewPassword.Password.Equals(TBNewPassword.Password))
+                if (TBNewPassword.Password.Equals(TBRepeatPassword.Password))
                 {
                     string specialChars = "{}[]()|;\\";
                     string pwd = TBNewPassword.Password.ToString();
@@ -46,6 +46,7 @@ namespace FolderSynchMUIClient
                         || pwd.Contains("[") || pwd.Contains("]") || pwd.Contains("{") || pwd.Contains("}") || pwd.Contains("\\"))
                     {
                         responseLabel.Content = "Charcaters: " + specialChars.ToString() + " not allowed.";
+                        responseLabel.Foreground = Brushes.Red;
                         
                     }
 
@@ -53,7 +54,9 @@ namespace FolderSynchMUIClient
                         try
                         {
                             FolderSynchServiceContractClient proxy = application.FolderSynchProxy;
-
+                            proxy.changeCredentials(TBOldPassword.Password, TBNewPassword.Password);
+                            responseLabel.Content = "Password changed";
+                            responseLabel.Foreground = Brushes.Green;
                             OkButton.Visibility = Visibility.Visible;
                             CancelButton.IsEnabled = false;
                             
@@ -71,11 +74,13 @@ namespace FolderSynchMUIClient
                 else
                 {
                     responseLabel.Content = "Mismatching password";
+                    responseLabel.Foreground = Brushes.Red;
                 }
             }
             else
             {
                 responseLabel.Content = "Your old password is wrong";
+                responseLabel.Foreground = Brushes.Red;
             }
         }
     }
