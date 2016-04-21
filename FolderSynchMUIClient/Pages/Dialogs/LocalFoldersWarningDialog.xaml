@@ -9,19 +9,47 @@
                   Title="You are missing these Folders!"
                   ContentRendered="ModernDialog_ContentRendered">
 
+    <mui:ModernDialog.Resources>
+        <Style x:Key="DownloadButton" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" 
+                                BorderThickness="1"  CornerRadius="3">
+                            <Border.Background>
+                                <ImageBrush ImageSource="../../Icons/MyDownload_Icon2.png"/>
+                            </Border.Background>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" TargetName="border">
+                                    <Setter.Value>
+                                        <ImageBrush ImageSource="/Icons/MyDownload_IconSmall.png"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </mui:ModernDialog.Resources>
+    
     <Grid>
-
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
 
         <TextBlock Text="The following Folders are not available on this device:"
-                   TextWrapping="Wrap"
+                   TextWrapping="Wrap" 
+                   FontSize="13.333" 
                    Grid.Row="0" Grid.Column="0"
                    Margin="10,10,10,10"/>
 
@@ -32,11 +60,6 @@
             
             <ItemsControl.ItemTemplate>
                 <DataTemplate >
-                    <!-- Il primo DataTemplate contiene i timestamp degli update -->
-                    <!-- Il secondo DataTemplate contiene i file/folder modificati in quell'update -->
-                    <!-- Nel primo l'icona mi permette di ripristinare quella versione -->
-                    <!-- Nel secondo l'icona mi permette di scaricare quel file/cartella -->
-
                     <StackPanel Orientation="Horizontal">
                         <Expander Margin="0,10,0,0">
                             <Expander.Header>
@@ -55,7 +78,7 @@
 
                                         <Button Name="reloadButton"
                                                 Click="reloadButton_Click"
-                                                Content="DL"
+                                                Style="{StaticResource DownloadButton}"
                                                 Width="23" Height="23" 
                                                 HorizontalAlignment="Center" VerticalAlignment="Center"/>
 

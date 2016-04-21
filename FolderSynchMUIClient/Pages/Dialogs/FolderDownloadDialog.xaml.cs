@@ -119,6 +119,7 @@ namespace FolderSynchMUIClient
             {
                 Console.WriteLine("BackgroundWorker error: " + e.Error);
                 warningTB.Text = "Error: " + e.Error + ". Unable to complete";
+                warningTB.Foreground = Brushes.Red;
                 return;
             }
 
@@ -133,9 +134,11 @@ namespace FolderSynchMUIClient
             Update.Timestamp = DateTime.Now;
             localFolder.LastUpdate = Update;
             App application = (App)Application.Current;
+            localFolder.setLatestUpdateItems();
             application.addLocalFolder(Folder, localFolder);
 
             warningTB.Text = "Operation completed succesfully!";
+            warningTB.Foreground = Brushes.Green;
             CancelButton.Visibility = Visibility.Hidden;
             OkButton.Visibility = Visibility.Visible;
             Success = true;

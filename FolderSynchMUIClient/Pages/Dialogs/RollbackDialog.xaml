@@ -113,12 +113,7 @@
                         Text="{Binding ElementName=DownloadProgressBar, Path=Value, StringFormat={}{0:0}%}" 
                         HorizontalAlignment="Center" VerticalAlignment="Center" />
         </Grid>
-        
 
-
-        <WrapPanel HorizontalAlignment="Center" />
-
-        
         <!-- MESSAGEE TEXT -->
         <TextBlock  Name="warningTB" 
                     Foreground="Red"
