@@ -43,6 +43,19 @@
       <xs:sequence />
     </xs:complexType>
   </xs:element>
+  <xs:element name="changeCredentials">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="oldPassword" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="newPassword" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="changeCredentialsResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
   <xs:element name="addNewSynchronizedFolder">
     <xs:complexType>
       <xs:sequence>

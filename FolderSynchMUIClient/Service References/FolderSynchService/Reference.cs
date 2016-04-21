@@ -659,6 +659,12 @@ namespace FolderSynchMUIClient.FolderSynchService {
         [System.ServiceModel.OperationContractAttribute(IsTerminating=true, IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/logoutUser", ReplyAction="http://tempuri.org/FolderSynchServiceContract/logoutUserResponse")]
         System.Threading.Tasks.Task logoutUserAsync(FolderSynchMUIClient.FolderSynchService.User user);
         
+        [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/changeCredentials", ReplyAction="http://tempuri.org/FolderSynchServiceContract/changeCredentialsResponse")]
+        void changeCredentials(string oldPassword, string newPassword);
+        
+        [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/changeCredentials", ReplyAction="http://tempuri.org/FolderSynchServiceContract/changeCredentialsResponse")]
+        System.Threading.Tasks.Task changeCredentialsAsync(string oldPassword, string newPassword);
+        
         [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/addNewSynchronizedFolder", ReplyAction="http://tempuri.org/FolderSynchServiceContract/addNewSynchronizedFolderResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(FolderSynchMUIClient.FolderSynchService.MyBaseFault), Action="http://tempuri.org/FolderSynchServiceContract/addNewSynchronizedFolderMyBaseFault" +
             "Fault", Name="MyBaseFault", Namespace="http://schemas.datacontract.org/2004/07/ServicesProject")]
@@ -801,6 +807,14 @@ namespace FolderSynchMUIClient.FolderSynchService {
         
         public System.Threading.Tasks.Task logoutUserAsync(FolderSynchMUIClient.FolderSynchService.User user) {
             return base.Channel.logoutUserAsync(user);
+        }
+        
+        public void changeCredentials(string oldPassword, string newPassword) {
+            base.Channel.changeCredentials(oldPassword, newPassword);
+        }
+        
+        public System.Threading.Tasks.Task changeCredentialsAsync(string oldPassword, string newPassword) {
+            return base.Channel.changeCredentialsAsync(oldPassword, newPassword);
         }
         
         public void addNewSynchronizedFolder(FolderSynchMUIClient.FolderSynchService.Folder folderName) {
