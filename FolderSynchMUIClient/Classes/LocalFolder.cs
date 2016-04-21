@@ -20,8 +20,6 @@ namespace FolderSynchMUIClient
 
         [DataMember]
         public string Username { get; private set; }
-        
-        public string FolderName { get; private set; }
 
         [DataMember]
         public int AutoRefreshTime { get; set; }
@@ -29,17 +27,18 @@ namespace FolderSynchMUIClient
         [DataMember]
         public int AutoDeleteTime { get; set; }
 
-
-
-        /* ---------------------------------------------------------------- */
-        /* ------------ READONLY PROPERTIES ------------------------------- */
-        /* ---------------------------------------------------------------- */
-
+        [DataMember]
         public ObservableCollection<Update> Updates
         {
             get;
             set;
         }
+
+        /* ---------------------------------------------------------------- */
+        /* ------------ READONLY PROPERTIES ------------------------------- */
+        /* ---------------------------------------------------------------- */
+
+
 
         public int ContainedFiles
         {

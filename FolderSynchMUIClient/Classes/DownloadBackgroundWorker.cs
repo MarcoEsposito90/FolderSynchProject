@@ -198,7 +198,7 @@ namespace FolderSynchMUIClient
                                                              "\" and try again");
             }
 
-            application.startWaching(LocalFolder);
+            application.startWatching(LocalFolder);
         }
 
 

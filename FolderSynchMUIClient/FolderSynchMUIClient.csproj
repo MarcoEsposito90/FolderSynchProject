@@ -98,6 +98,9 @@
     <Compile Include="Classes\DownloadBackgroundWorker.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Pages\Dialogs\FolderDesynchUpdateDialog.xaml.cs">
+      <DependentUpon>FolderDesynchUpdateDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Dialogs\FolderDownloadDialog.xaml.cs">
       <DependentUpon>FolderDownloadDialog.xaml</DependentUpon>
     </Compile>
@@ -180,7 +183,11 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="TypeConverter.cs" />
+<<<<<<< HEAD
     <Page Include="Pages\Dialogs\ChangePasswordDialog.xaml">
+=======
+    <Page Include="Pages\Dialogs\FolderDesynchUpdateDialog.xaml">
+>>>>>>> origin/master
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

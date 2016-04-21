@@ -230,7 +230,7 @@ namespace FolderSynchMUIClient.Classes
                 newUpdate = proxy.updateCommit(transaction);
                 e.Result = new UploadWorkerResponse(true, "");
                 LocalFolder.LastUpdate = newUpdate;
-
+                LocalFolder.Updates = new ObservableCollection<Update>(proxy.getHistory(LocalFolder.Name));
             }
             catch (FaultException f)
             {

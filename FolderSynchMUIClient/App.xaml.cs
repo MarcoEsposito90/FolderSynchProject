@@ -58,9 +58,10 @@ namespace FolderSynchMUIClient
                 if (value != null)
                 {
                     _User = value;
-                    LocalFolders = getLocalFolders();
+                    _LocalFolders = setLocalFolders();
                     Application_Login();
                     isUserInitialized = true;
+                    Console.WriteLine("user set finished");
                 }
                 else
                 {
@@ -88,10 +89,18 @@ namespace FolderSynchMUIClient
             private set;
         }
 
+        private ObservableCollection<LocalFolder> _LocalFolders;
         public ObservableCollection<LocalFolder> LocalFolders
         {
-            get;
-            private set;
+            get
+            {
+                Console.WriteLine("localfolders getter waiting for lock");
+                lock (_LocalFolders)
+                {
+                    Console.WriteLine("localfolders getter acquired lock");
+                    return _LocalFolders;
+                }
+            }
         }
 
 
@@ -146,12 +155,11 @@ namespace FolderSynchMUIClient
             foreach (Folder f in User.Folders)
             {
                 Console.WriteLine("Checking for folder: " + f.FolderName);
-                int index = LocalFolders.ToList().FindIndex(item => item.Name.Equals(f.FolderName));
+                int index = _LocalFolders.ToList().FindIndex(item => item.Name.Equals(f.FolderName));
                 if (index != -1)
                 {
-                    FolderWatcher fw = new FolderWatcher(f, LocalFolders.ElementAt(index));
+                    FolderWatcher fw = new FolderWatcher(f, _LocalFolders.ElementAt(index));
                     FolderWatchers.Add(fw);
-                    fw.watch();
                 }
                 else
                     Console.WriteLine("No local Folder");
@@ -168,7 +176,7 @@ namespace FolderSynchMUIClient
 
             // 2) save current folders state --------------------
             List<LocalFolder> list = getAllLocalFolders();
-            foreach(LocalFolder lf in LocalFolders)
+            foreach(LocalFolder lf in _LocalFolders)
             {
                 int found = list.FindIndex(i => i.Name.Equals(lf.Name) && i.Username.Equals(lf.Username));
                 if(found != -1)
@@ -177,16 +185,19 @@ namespace FolderSynchMUIClient
                 list.Add(lf);
             }
 
-            StreamWriter sw = new StreamWriter("folders.txt", false);
-            using (sw)
+            lock (this)
             {
-                string output = JsonConvert.SerializeObject(list);
-                sw.WriteLine(output);
-                sw.Close();
+                StreamWriter sw = new StreamWriter("folders.txt", false);
+                using (sw)
+                {
+                    string output = JsonConvert.SerializeObject(list);
+                    sw.WriteLine(output);
+                    sw.Close();
+                }
             }
 
             // 3) clean everything ------------------------------
-            LocalFolders.Clear();
+            _LocalFolders.Clear();
             FolderWatchers.Clear();
             FolderSynchProxy = new FolderSynchServiceContractClient();
         }
@@ -199,27 +210,30 @@ namespace FolderSynchMUIClient
         private void UsersFileCheck()
         {
             KnownUsers = new Dictionary<string, string>();
-
-            FileStream fs = new FileStream("users.txt",
+            lock (this)
+            {
+                FileStream fs = new FileStream("users.txt",
                                             FileMode.Open,
                                             FileAccess.Read);
 
-            StreamReader sr = new StreamReader(fs);
+                StreamReader sr = new StreamReader(fs);
 
-            using (fs)
-            using (sr)
-            {
-                string line;
-                while ((line = sr.ReadLine()) != null)
+                using (fs)
+                using (sr)
                 {
+                    string line;
+                    while ((line = sr.ReadLine()) != null)
+                    {
 
-                    string[] tokens = line.Split(';');
-                    KnownUsers.Add(tokens[0], tokens[1]);
+                        string[] tokens = line.Split(';');
+                        KnownUsers.Add(tokens[0], tokens[1]);
+                    }
+
+                    sr.Close();
+                    fs.Close();
                 }
-
-                sr.Close();
-                fs.Close();
             }
+            
         }
 
         /********************************************************************/
@@ -233,41 +247,45 @@ namespace FolderSynchMUIClient
             string oldPassword = null;
             KnownUsers.TryGetValue(username, out oldPassword);
 
-            FileStream fs = new FileStream("users.txt",
+            lock (this)
+            {
+                FileStream fs = new FileStream("users.txt",
                                             oldPassword == null ? FileMode.Append : FileMode.Open,
                                             oldPassword == null ? FileAccess.Write : FileAccess.ReadWrite);
 
-            StreamWriter sw = new StreamWriter(fs);
+                StreamWriter sw = new StreamWriter(fs);
 
 
-            using (fs)
-            using (sw)
-            {
-
-                string allFile = null;
-                if (oldPassword != null)
+                using (fs)
+                using (sw)
                 {
-                    StreamReader sr = new StreamReader(fs);
 
-                    using (sr)
+                    string allFile = null;
+                    if (oldPassword != null)
                     {
+                        StreamReader sr = new StreamReader(fs);
 
-                        allFile = sr.ReadToEnd().Replace(username + ";" + oldPassword, username + ";" + password);
-                        sr.Close();
+                        using (sr)
+                        {
+
+                            allFile = sr.ReadToEnd().Replace(username + ";" + oldPassword, username + ";" + password);
+                            sr.Close();
+                        }
                     }
-                }
-                else
-                {
-                    if (oldPassword == null)
-                        sw.WriteLine(username + ";" + password);
                     else
-                        sw.Write(allFile);
+                    {
+                        if (oldPassword == null)
+                            sw.WriteLine(username + ";" + password);
+                        else
+                            sw.Write(allFile);
 
+                    }
+
+                    sw.Close();
+                    fs.Close();
                 }
-
-                sw.Close();
-                fs.Close();
             }
+            
         }
 
 
@@ -278,32 +296,39 @@ namespace FolderSynchMUIClient
         /********************************************************************/
         private void FoldersFileCheck()
         {
+            _LocalFolders = new ObservableCollection<LocalFolder>();
+            lock (this)
+            {
+                FileStream fs = new FileStream("folders.txt", FileMode.Open, FileAccess.Read);
 
-            LocalFolders = new ObservableCollection<LocalFolder>();
-            FileStream fs = new FileStream("folders.txt", FileMode.Open, FileAccess.Read);
-
-            using (fs)
-                fs.Close();
+                using (fs)
+                    fs.Close();
+            }
+            
         }
 
 
         /********************************************************************/
-        public ObservableCollection<LocalFolder> getLocalFolders()
+        private ObservableCollection<LocalFolder> setLocalFolders()
         {
-            if (isUserInitialized && LocalFolders != null)
-                return LocalFolders;
+            Console.WriteLine("localfolders setter waiting for lock");
 
-            LocalFolders = new ObservableCollection<LocalFolder>();
-            List<LocalFolder> allLocalFolders = getAllLocalFolders();
+            lock (_LocalFolders)
+            {
+                Console.WriteLine("localfolders setter acquired lock");
+                if (isUserInitialized)
+                    return _LocalFolders;
 
-            foreach (LocalFolder lf in allLocalFolders)
-                if (lf.Username.Equals(User.Username))
-                {
-                    LocalFolders.Add(lf);
-                    lf.printLastUpdateStructure();
-                }
+                _LocalFolders.Clear();
+                List<LocalFolder> allLocalFolders = getAllLocalFolders();
 
-            return LocalFolders;
+                foreach (LocalFolder lf in allLocalFolders)
+                    if (lf.Username.Equals(User.Username))
+                        _LocalFolders.Add(lf);
+
+                Console.WriteLine("setlocalFolders completed");
+                return _LocalFolders;
+            }
         }
 
 
@@ -315,15 +340,19 @@ namespace FolderSynchMUIClient
             LocalFolder lf = new LocalFolder(User.Username, folder.FolderName, path);
             allLocalFolders.Add(lf);
 
-            StreamWriter sw = new StreamWriter("folders.txt", false);
-            using (sw)
+            lock (this)
             {
-                string output = JsonConvert.SerializeObject(allLocalFolders);
-                sw.WriteLine(output);
-                sw.Close();
+                StreamWriter sw = new StreamWriter("folders.txt", false);
+                using (sw)
+                {
+                    string output = JsonConvert.SerializeObject(allLocalFolders);
+                    sw.WriteLine(output);
+                    sw.Close();
+                }
             }
+            
 
-            LocalFolders.Add(lf);
+            _LocalFolders.Add(lf);
 
             FolderWatcher fw = new FolderWatcher(folder, lf);
             FolderWatchers.Add(fw);
@@ -338,15 +367,18 @@ namespace FolderSynchMUIClient
             List<LocalFolder> allLocalFolders = getAllLocalFolders();
             allLocalFolders.Add(lf);
 
-            StreamWriter sw = new StreamWriter("folders.txt", false);
-            using (sw)
+            lock (this)
             {
-                string output = JsonConvert.SerializeObject(allLocalFolders);
-                sw.WriteLine(output);
-                sw.Close();
+                StreamWriter sw = new StreamWriter("folders.txt", false);
+                using (sw)
+                {
+                    string output = JsonConvert.SerializeObject(allLocalFolders);
+                    sw.WriteLine(output);
+                    sw.Close();
+                }
             }
 
-            LocalFolders.Add(lf);
+            _LocalFolders.Add(lf);
 
             FolderWatcher fw = new FolderWatcher(folder, lf);
             FolderWatchers.Add(fw);
@@ -360,11 +392,15 @@ namespace FolderSynchMUIClient
             List<LocalFolder> allLocalFolders = new List<LocalFolder>();
             string fileContent = null;
 
-            using (StreamReader sr = new StreamReader("folders.txt"))
+            lock (this)
             {
-                fileContent = sr.ReadToEnd();
-                sr.Close();
+                using (StreamReader sr = new StreamReader("folders.txt"))
+                {
+                    fileContent = sr.ReadToEnd();
+                    sr.Close();
+                }
             }
+            
 
             if (fileContent == null)
                 return allLocalFolders;
@@ -399,9 +435,8 @@ namespace FolderSynchMUIClient
         }
 
 
-
         /******************************************************************/
-        public void startWaching(LocalFolder localFolder)
+        public void startWatching(LocalFolder localFolder)
         {
             foreach(FolderWatcher fw in FolderWatchers)
                 if (fw.LocalFolder.Name.Equals(localFolder.Name) && !fw.IsWatching)
@@ -409,6 +444,14 @@ namespace FolderSynchMUIClient
                     fw.watch();
                     break;
                 }
+        }
+
+
+        /******************************************************************/
+        public void startWatching()
+        {
+            foreach (FolderWatcher fw in FolderWatchers)
+                fw.watch();
         }
     }
 }
