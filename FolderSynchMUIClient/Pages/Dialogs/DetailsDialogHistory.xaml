@@ -10,11 +10,7 @@
              d:DesignHeight="300" d:DesignWidth="300">
 
     <UserControl.Resources>
-        <CollectionViewSource x:Key="sortedUpdates" Source="{Binding Updates}">
-            <CollectionViewSource.SortDescriptions>
-                <scm:SortDescription PropertyName="Timestamp" Direction="Descending"/>
-            </CollectionViewSource.SortDescriptions>
-        </CollectionViewSource>
+        
         <local:TypeConverter x:Key="Converter1"/>
 
         <Style x:Key="DownloadButton" TargetType="Button">

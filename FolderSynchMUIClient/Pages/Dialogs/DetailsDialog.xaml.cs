@@ -29,8 +29,8 @@ namespace FolderSynchMUIClient
         public DetailsDialog(LocalFolder lf, Item it)
         {
             InitializeComponent();
+            this.DataContext = it;
 
-            tabDetails.DataContext = it;
             string localPath = it.Path.Replace(lf.Path + "\\", "");
 
             App application = (App)Application.Current;
@@ -40,6 +40,11 @@ namespace FolderSynchMUIClient
             Console.WriteLine("DataContext: " + it.Name);
             // define the dialog buttons
             this.Buttons = new Button[] { this.OkButton};
+        }
+
+        private void ModernDialog_ContentRendered(object sender, EventArgs e)
+        {
+            tabDetails.DataContext = this.DataContext;
         }
     }
 }

@@ -22,22 +22,20 @@ namespace FolderSynchMUIClient
     /// </summary>
     public partial class DetailsDialogHistory : UserControl
     {
-        Update.UpdateEntry[] updates;
+
         public DetailsDialogHistory()
         {
             InitializeComponent();
-            Console.WriteLine("Inizializzo");
-            App application = (App)Application.Current;
-            FolderSynchServiceContractClient proxy = application.FolderSynchProxy;
-            Item i = (Item)this.DataContext;
-            Console.WriteLine("DataContext: " + i.Name);
 
-            if (this.DataContext.GetType() == typeof(FileItem))
-                Console.WriteLine("I'm file item.");
-            else
-                Console.WriteLine("I'm folder item.");
+            //Item i = (Item)this.DataContext;
+            //Console.WriteLine("DataContext: " + i.Name);
 
-            
+            //if (this.DataContext.GetType() == typeof(FileItem))
+            //    Console.WriteLine("I'm file item.");
+            //else
+            //    Console.WriteLine("I'm folder item.");
+
+            //updateDates.ItemsSource = i.Updates;
         }
 
 

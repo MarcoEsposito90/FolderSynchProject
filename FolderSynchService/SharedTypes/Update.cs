@@ -117,6 +117,11 @@ namespace ServicesProject
 
                 // if the change type is the same, we must check who is higher in hierarchy
                 int pathLengthDif = ItemLocalPath.Length - entry.ItemLocalPath.Length;
+
+                // same update type and (probably) same object
+                if (pathLengthDif == 0)
+                    return this.EntryTimestamp.CompareTo(entry.EntryTimestamp);
+
                 if (UpdateType == NEW_DIRECTORY)
                     return pathLengthDif;
                 else if (UpdateType == DELETED_DIRECTORY)
