@@ -6,7 +6,7 @@
              xmlns:mui="http://firstfloorsoftware.com/ModernUI"
              Height="680" Width="1024"
              ContentSource="/Pages/HomePage.xaml"
-             ContentRendered="ModernWindow_ContentRendered">
+                 Initialized="ModernWindow_ContentRendered">
 
     <mui:ModernWindow.Resources>
         <Style x:Key="DownloadButton" TargetType="Button">
