@@ -25,7 +25,10 @@
         <!-- *************************** TITLE ******************************************************* -->
 
         <TextBlock Text="The following folders need to be resynched: "
-                   Grid.Row="0" Grid.Column="0"
+                   Grid.Row="0" Grid.Column="0" 
+                   FontSize="16"
+                   FontFamily="Segoe UI Light" 
+                   Foreground="{DynamicResource ItemBackgroundSelected}"
                    Margin="10,10,10,10"/>
 
 
@@ -35,7 +38,7 @@
 
         <ItemsControl Name="folderList" 
                       Grid.Row="1" Grid.Column="0"
-                      Margin="20,10,10,0">
+                      Margin="20,10,10,10">
 
             <ItemsControl.ItemTemplate>
                 <DataTemplate >
@@ -43,18 +46,20 @@
                     <StackPanel Orientation="Horizontal">
                         
                         <TextBlock Text="{Binding Name}"
-                                   FontSize="14.667" 
+                                   FontSize="13.333" 
+                                   FontWeight="DemiBold"
                                    Margin="10,0,0,0" />
 
                         <Grid>
                             
                             <ProgressBar Minimum="0" Maximum="100" 
-                                     Name="DownloadProgressBar"/>
+                                         Name="DownloadProgressBar"
+                                         Margin="10"/>
                             <TextBlock  Name="responseTB"  Margin="10"
-                                    Text="{Binding ElementName=DownloadProgressBar, 
-                                                   Path=Value, 
-                                                   StringFormat={}{0:0}%}"
-                                    HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        Text="{Binding ElementName=DownloadProgressBar, 
+                                        Path=Value, 
+                                        StringFormat={}{0:0}%}"
+                                        HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Grid>
 
                     </StackPanel>
@@ -67,10 +72,28 @@
         <!-- *************************** START BUTTON **************************************************** -->
 
         <Button Name="btnStartResynch"
-                Content="StartResynch"
+                Margin="10,10,10,10"
+                HorizontalAlignment="Center"
+                BorderBrush="{DynamicResource ItemBackgroundSelected}"
+                VerticalAlignment="Center" Style="{StaticResource BaseButtonStyle}"
                 Click="btnStartResynch_Click"
-                Grid.Row="2" Grid.Column="0"
-                Margin="10,10,10,10"/>
+                Grid.Row="2" Grid.Column="0">
+
+            <Button.Content>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Name="btnStartResynch_Text"
+                               Text="Start resynch"  
+                               FontSize="14.667" 
+                               VerticalAlignment="Center"/>
+
+                    <Image Source="/Icons/MySync_Icon.png"
+                           Name="btnStartResynch_Icon"
+                           Height="30" Width="35"
+                           Margin="10,0,0,0"/>
+                </StackPanel>
+            </Button.Content>
+        </Button>
+
     </Grid>
 
 </mui:ModernDialog>
