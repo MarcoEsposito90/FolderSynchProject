@@ -126,7 +126,11 @@ namespace ServicesProject
 
             // 3) initialize transactions data structures -------------------
             UpdateTransactionsHandler.Instance.CheckLogFile();
+            UpdateTransactionsHandler.Instance.cleanLogFile();
+
             RollbackTransactionsHandler.Instance.CheckLogFile();
+            RollbackTransactionsHandler.Instance.cleanLogFile();
+
             UpdateHandlers = new Dictionary<string, UpdatesFileHandler>();
 
             // 4) check if some rollback is necessary ----------------------

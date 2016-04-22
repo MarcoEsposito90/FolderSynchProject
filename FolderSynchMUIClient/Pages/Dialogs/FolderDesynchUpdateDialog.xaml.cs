@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.ComponentModel;
+using System.IO;
 
 namespace FolderSynchMUIClient
 {
@@ -67,7 +68,9 @@ namespace FolderSynchMUIClient
                 Update targetUpdate = null;
                 folderUpdates.TryGetValue(lf, out targetUpdate);
 
-                string path = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos) + "\\" + lf.Path;
+                string path = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos) + "\\" + lf.Name;
+                Directory.CreateDirectory(path);
+                Console.WriteLine("Path = " + path);
 
                 DownloadBackgroundWorker bw = new DownloadBackgroundWorker(lf, targetUpdate, path, false);
                 BackgroundWorkers.Add(bw);

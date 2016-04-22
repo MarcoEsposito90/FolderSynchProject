@@ -114,15 +114,17 @@ namespace ServicesProject
         }
 
 
-        /*******************************************************************************/
-        protected void cleanLogFile()
+        /***********************************************************************************************/
+        public void cleanLogFile()
         {
+
+            Console.WriteLine("handler started log cleaning procedure");
             lock (this)
             {
 
                 List<String> lines = new List<string>();
 
-                // 0) open the file in read mode
+                // 0) open the file in read mode ----------------------------------------------
                 FileStream fs = new FileStream(LogFilePath,
                                                 FileMode.Open,
                                                 FileAccess.Read);
@@ -132,7 +134,7 @@ namespace ServicesProject
                 using (fs)
                 using (sr)
                 {
-                    // 1) start reading all log file
+                    // 1) start reading all log file ------------------------------------------
                     string line;
                     while ((line = sr.ReadLine()) != null)
                     {
@@ -141,33 +143,55 @@ namespace ServicesProject
                         if (tokens.Length < 2)
                             continue;
 
-                        // 2) if the entry is a committ or an abort, it is finished
-                        if (tokens[1].Equals(Operations.Commit) || tokens[1].Equals(Operations.Abort))
-                        {
-
-                            // 3) remove all lines relative to that transaction
-                            foreach (string s in lines)
-                            {
-                                string[] tokens2 = s.Split(';');
-                                if (tokens2[0].Equals(tokens[0]))
-                                    lines.Remove(s);
-                            }
-                        }
-                        else
-                            lines.Add(line);
+                        lines.Add(line);
                     }
 
                     sr.Close();
                     fs.Close();
                 }
 
-                // 4) open the file in write mode
+                // 2) scan lines and start cleaning -------------------------------------------
+                List<string> output = new List<string>();
+                List<string> ignores = new List<string>();
+
+                for(int i = lines.Count - 1; i >= 0; i--)
+                {
+                    string line = lines.ElementAt(i);
+                    string[] tokens = line.Split(';');
+
+                    Console.WriteLine("line = " + line);
+                    
+                    // 2) if the entry is a committ or an abort, it is finished ---------------
+                    if (tokens[1].Equals(Operations.Commit.ToString()) || tokens[1].Equals(Operations.Abort.ToString()))
+                    {
+                        Console.WriteLine("end of transaction detected. ignoring it");
+                        ignores.Add(tokens[0]);
+                        continue;
+                    }
+
+                    if(ignores.Contains(tokens[0]))
+                    {
+                        Console.WriteLine("ignoring because part of finished transaction");
+                        continue;
+                    }
+                    output.Add(line);
+                }
+
+
+                // 4) open the file in write mode ---------------------------------------------
                 StreamWriter sw = new StreamWriter(LogFilePath, false);
                 using (sw)
                 {
+                    Console.WriteLine("---------------------------------------------------------------");
+                    Console.WriteLine("Writing to log file: ");
+                    
                     // 5) writing log file
-                    foreach (string s in lines)
+                    foreach (string s in output)
+                    {
+                        Console.WriteLine(s);
                         sw.WriteLine(s);
+
+                    }
 
                     sw.Close();
                 }
@@ -227,8 +251,6 @@ namespace ServicesProject
         /*************************************************************************/
         public List<string> checkForRecovery()
         {
-
-            cleanLogFile();
 
             List<string> transactionIDs = new List<string>();
 
