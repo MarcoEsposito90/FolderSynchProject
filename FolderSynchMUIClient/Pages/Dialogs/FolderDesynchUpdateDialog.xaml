@@ -6,11 +6,71 @@
                   xmlns:mui="http://firstfloorsoftware.com/ModernUI"
                   mc:Ignorable="d" 
                   d:DesignHeight="300" d:DesignWidth="300"
-                  Title="ModernDialog"
+                  Title="Folder Resynch"
                   ContentRendered="ModernDialog_ContentRendered">
 
-    <!-- Note: ModernDialog buttons are defined in the constructor of the code behind class -->
+    <Grid>
 
-    <TextBlock Text="Replace the content of the dialog with your own." />
-    
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+
+        <!-- *************************** TITLE ******************************************************* -->
+
+        <TextBlock Text="The following folders need to be resynched: "
+                   Grid.Row="0" Grid.Column="0"
+                   Margin="10,10,10,10"/>
+
+
+        <!-- ***************************************************************************************** -->
+        <!-- ************************ LIST *********************************************************** -->
+        <!-- ***************************************************************************************** -->
+
+        <ItemsControl Name="folderList" 
+                      Grid.Row="1" Grid.Column="0"
+                      Margin="20,10,10,0">
+
+            <ItemsControl.ItemTemplate>
+                <DataTemplate >
+
+                    <StackPanel Orientation="Horizontal">
+                        
+                        <TextBlock Text="{Binding Name}"
+                                   FontSize="14.667" 
+                                   Margin="10,0,0,0" />
+
+                        <Grid>
+                            
+                            <ProgressBar Minimum="0" Maximum="100" 
+                                     Name="DownloadProgressBar"/>
+                            <TextBlock  Name="responseTB"  Margin="10"
+                                    Text="{Binding ElementName=DownloadProgressBar, 
+                                                   Path=Value, 
+                                                   StringFormat={}{0:0}%}"
+                                    HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Grid>
+
+                    </StackPanel>
+
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+
+        <!-- *************************** START BUTTON **************************************************** -->
+
+        <Button Name="btnStartResynch"
+                Content="StartResynch"
+                Click="btnStartResynch_Click"
+                Grid.Row="2" Grid.Column="0"
+                Margin="10,10,10,10"/>
+    </Grid>
+
 </mui:ModernDialog>

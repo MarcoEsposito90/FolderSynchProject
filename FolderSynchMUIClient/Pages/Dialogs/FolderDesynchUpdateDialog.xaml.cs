@@ -36,7 +36,14 @@ namespace FolderSynchMUIClient
 
         private void ModernDialog_ContentRendered(object sender, EventArgs e)
         {
-            //OkButton.Visibility = Visibility.Hidden;
+            OkButton.Visibility = Visibility.Hidden;
+            folderList.ItemsSource = folderUpdates.Keys;
+        }
+
+        private void btnStartResynch_Click(object sender, RoutedEventArgs e)
+        {
+            // TODO: FOLDER RESYNCH
+            OkButton.Visibility = Visibility.Visible;
         }
     }
 }
