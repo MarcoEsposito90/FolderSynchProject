@@ -24,7 +24,11 @@ namespace FolderSynchMUIClient
         }
 
 
-        private LocalFolder LocalFolder;
+        public LocalFolder LocalFolder
+        {
+            get;
+            private set;
+        }
         private Update.UpdateEntry Entry;
         private Update Update;
 
