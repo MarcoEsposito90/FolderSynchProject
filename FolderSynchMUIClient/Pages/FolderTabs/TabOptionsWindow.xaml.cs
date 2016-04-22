@@ -119,5 +119,10 @@ namespace FolderSynchMUIClient.Pages
                 //X MARCO: vedi se tenerlo, non so se ha senso mettere questa scritta quando clicchi ok
             }
         }
+
+        private void btnDesynchFolder_Click(object sender, RoutedEventArgs e)
+        {
+            //TODO: desincronizzare cartella
+        }
     }
 }

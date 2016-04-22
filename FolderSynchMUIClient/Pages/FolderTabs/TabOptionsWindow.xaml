@@ -33,6 +33,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        
     </UserControl.Resources>
     
     <StackPanel>
@@ -51,6 +52,7 @@
             </Grid.ColumnDefinitions>
 
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -84,12 +86,14 @@
                                     <Setter Property="Button.IsEnabled" Value="false"/>
                                 </DataTrigger>
                                 <Trigger Property="Button.IsMouseOver" Value="True">
-                                    <Setter Property="Button.Background" Value="{DynamicResource SystemButtonBackgroundOnMoseOver}" />
-                                    <Setter Property="Button.Foreground" Value="{DynamicResource SystemButtonForegroundOnMoseOver}"/>
+                                    <Setter Property="Button.Background" Value="{DynamicResource ButtonBackgroundHover}" />
+                                    <Setter Property="Button.BorderBrush" Value="{DynamicResource ButtonBorderHover}"/>
+                                    <Setter Property="Button.Foreground" Value="{DynamicResource ButtonTextHover}"/>
                                 </Trigger>
                                 <Trigger Property="Button.IsPressed" Value="True">
-                                    <Setter Property="Button.Background" Value="{DynamicResource SystemButtonBackgroundIsPressed}" />
-                                    <Setter Property="Button.Foreground" Value="{DynamicResource SystemButtonForegroundIsPressed}" />
+                                    <Setter Property="Button.Background" Value="{DynamicResource ButtonBackgroundPressed}" />
+                                    <Setter Property="Button.BorderBrush" Value="{DynamicResource ButtonBorderPressed}"/>
+                                    <Setter Property="Button.Foreground" Value="{DynamicResource ButtonTextPressed}"/>
                                 </Trigger>
                                 <Trigger Property="Button.IsEnabled" Value="false">
                                     <Setter Property="Button.Foreground" Value="{DynamicResource ButtonTextDisabled}" />
@@ -194,22 +198,33 @@
             
             <!-- END SAVE SECTION -->
 
+            <!-- DESYNCH FOLDER SECTION -->
+            <Image Width="50" Height="50" VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       Grid.Column="0" Grid.Row="5"
+                       Margin="10,5,5,5" Source="/Icons/MyUnsynch_Icon.png"/>
+
+            <Button Name="btnDesynchFolder"
+                        Grid.Row="5" Grid.Column="1"
+                        Margin="10" VerticalAlignment="Center"
+                        Content="Desynchronize this folder" 
+                        FontSize="14.667" FontFamily="Segoe UI Semilight"
+                        Click="btnDesynchFolder_Click"/>
+            <!-- END DESYNCH FOLDER SECTION -->
+
             <!-- DELETE FOLDER SECTION -->
             <Image Width="30" Height="50" VerticalAlignment="Center"
                        HorizontalAlignment="Center"
-                       Grid.Column="0" Grid.Row="5"
-                       Margin="10,5,5,15" Source="/Icons/MyDustbin_Icon.png"/>
+                       Grid.Column="0" Grid.Row="6"
+                       Margin="10,5,5,5" Source="/Icons/MyDustbin_Icon.png"/>
 
-            <Button Name="btnDeleteFolder_Click"
-                        Grid.Row="5" Grid.Column="1"
+            <Button Name="btnDeleteFolder"
+                        Grid.Row="6" Grid.Column="1"
                         Margin="10" VerticalAlignment="Center"
                         Content="Delete this folder" 
                         FontSize="14.667" FontFamily="Segoe UI Semilight"
                         Click="btnDelete_Click"/>
             <!-- END DELETE FOLDER SECTION -->
-
-            
-            
 
         </Grid>
        

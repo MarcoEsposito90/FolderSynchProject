@@ -35,7 +35,7 @@
         </Style>
     </UserControl.Resources>
 
-    <ScrollViewer  Style="{StaticResource ContentRoot}">
+    <ScrollViewer  Style="{StaticResource ContentRoot}"  VerticalScrollBarVisibility="Auto">
         
         <Grid>
             <Grid.ColumnDefinitions>

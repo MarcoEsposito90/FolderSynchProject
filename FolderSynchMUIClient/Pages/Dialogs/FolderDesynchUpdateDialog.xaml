@@ -5,6 +5,7 @@
                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
                   xmlns:mui="http://firstfloorsoftware.com/ModernUI"
                   mc:Ignorable="d" 
+                  Width="400" Height="300"
                   d:DesignHeight="300" d:DesignWidth="300"
                   Title="Folder Resynch"
                   ContentRendered="ModernDialog_ContentRendered">
@@ -18,7 +19,7 @@
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
 
@@ -44,24 +45,23 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate >
 
-                    <Grid>
+                    <Grid Margin="10">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        
+
                         <TextBlock Text="{Binding Name}"
                                    Grid.Column="0"
                                    FontSize="13.333"
                                    VerticalAlignment="Center"
-                                   FontWeight="DemiBold"
-                                   Margin="10,0,0,0" />
+                                   FontWeight="DemiBold" />
 
                         <Grid VerticalAlignment="Center" Grid.Column="1">
-                            
+
                             <ProgressBar Minimum="0" Maximum="100" 
                                          Name="DownloadProgressBar"
-                                         Margin="10"/>
+                                         Margin="10,5,10,5" Width="200"/>
                             <TextBlock  Name="responseTB"  Margin="10"
                                         Text="{Binding ElementName=DownloadProgressBar, 
                                         Path=Value, 
@@ -100,7 +100,6 @@
                 </StackPanel>
             </Button.Content>
         </Button>
-
     </Grid>
 
 </mui:ModernDialog>
