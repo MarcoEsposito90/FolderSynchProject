@@ -32,6 +32,7 @@
                    Margin="10,10,10,10"/>
 
 
+
         <!-- ***************************************************************************************** -->
         <!-- ************************ LIST *********************************************************** -->
         <!-- ***************************************************************************************** -->
@@ -43,14 +44,20 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate >
 
-                    <StackPanel Orientation="Horizontal">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
                         
                         <TextBlock Text="{Binding Name}"
-                                   FontSize="13.333" 
+                                   Grid.Column="0"
+                                   FontSize="13.333"
+                                   VerticalAlignment="Center"
                                    FontWeight="DemiBold"
                                    Margin="10,0,0,0" />
 
-                        <Grid>
+                        <Grid VerticalAlignment="Center" Grid.Column="1">
                             
                             <ProgressBar Minimum="0" Maximum="100" 
                                          Name="DownloadProgressBar"
@@ -62,7 +69,7 @@
                                         HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Grid>
 
-                    </StackPanel>
+                    </Grid>
 
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

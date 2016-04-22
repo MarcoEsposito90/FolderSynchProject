@@ -85,6 +85,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ColorConverter.cs" />
+    <Compile Include="Pages\Dialogs\ConfirmDialog.xaml.cs">
+      <DependentUpon>ConfirmDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Dialogs\ChangePasswordDialog.xaml.cs">
       <DependentUpon>ChangePasswordDialog.xaml</DependentUpon>
     </Compile>
@@ -184,6 +187,10 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="TypeConverter.cs" />
+    <Page Include="Pages\Dialogs\ConfirmDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\Dialogs\ChangePasswordDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

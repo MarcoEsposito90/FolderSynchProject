@@ -49,7 +49,6 @@ namespace FolderSynchMUIClient.Pages
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
             //TODO: metodo per eliminare la cartella sincronizzata
-            //VERIFICARE SE NECESSARIO E SE FATTIBILE.
         }
 
         private void btnBrowseMove_Click(object sender, RoutedEventArgs e)
@@ -65,7 +64,17 @@ namespace FolderSynchMUIClient.Pages
 
         private void btnSaveChanges_Click(object sender, RoutedEventArgs e)
         {
-            //TODO
+            ConfirmDialog cd = new ConfirmDialog();
+            if(cd.ShowDialog() == true)
+            {
+                Console.WriteLine("Voglio salvare");
+                //TODO: salvare opzioni e scrivere risultato positivo o negativo nella labelSaveResult
+            }
+            else
+            {
+                labelSaveResult.Content = "No changes made.";
+                //X MARCO: vedi se tenerlo, non so se ha senso mettere questa scritta quando clicchi ok
+            }
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿<mui:ModernDialog x:Class="FolderSynchMUIClient.RollbackConfirmDialog"
+﻿<mui:ModernDialog x:Class="FolderSynchMUIClient.ConfirmDialog"
                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,11 +6,7 @@
                   xmlns:mui="http://firstfloorsoftware.com/ModernUI"
                   mc:Ignorable="d" 
                   d:DesignHeight="150" d:DesignWidth="300"
-                  Title="Are you sure?"
-                  ContentRendered="ModernDialog_ContentRendered">
-
-    <!-- Note: ModernDialog buttons are defined in the constructor of the code behind class -->
-
+                  Title="Are you sure?">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -22,18 +18,18 @@
         </Grid.RowDefinitions>
 
         <Image Name="warningIcon"
-               Source="/Icons/Warning.png"
+               Source="/Icons/MySave_Icon.png"
                Grid.Row="0" Grid.Column="0"
                Width="60" Height="60"
                Margin="10" VerticalAlignment="Center"/>
 
         <TextBlock Name="warningMessageTB"
                    TextWrapping="Wrap" 
+                   Text="Do you want so save changes?"
                    VerticalAlignment="Center"
                    Grid.Row="0" Grid.Column="1"
                    Margin="10" FontSize="14.667" FontFamily="Segoe UI Semilight"/>
 
-
     </Grid>
-    
+
 </mui:ModernDialog>

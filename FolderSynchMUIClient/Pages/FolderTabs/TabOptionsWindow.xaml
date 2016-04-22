@@ -169,8 +169,13 @@
             
             <!-- SAVE SECTION -->
 
-            <Border Margin="10,0,10,0" BorderBrush="White" 
-                    Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" 
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"
+                        Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" >
+
+                <Label VerticalAlignment="Center"
+                       Margin="15,0,10,0" Name="labelSaveResult"/>
+
+                <Border Margin="10,0,10,0" BorderBrush="White" 
                     Width="35" Height="35" Background="{DynamicResource ItemBackgroundSelected}"
                     CornerRadius="4" BorderThickness="1" 
                     VerticalAlignment="Center" HorizontalAlignment="Right">
@@ -182,7 +187,7 @@
                 </Button>
 
             </Border>
-
+        </StackPanel>
             <Rectangle Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"
                        Margin="15, 5, 10, 5" Opacity="0.7"
                        Stroke="#FFC8CDCF" />
