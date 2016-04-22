@@ -30,6 +30,7 @@ namespace FolderSynchMUIClient.Pages
     {
 
         private LocalFolder localFolder;
+        private List<Item.Change> changes;
         public bool success;
 
         /* ------------------------------------------------------------------------------ */
@@ -49,6 +50,22 @@ namespace FolderSynchMUIClient.Pages
         }
 
 
+        /************************************************************************************/
+        public UploadDialog(LocalFolder localFolder, List<Item.Change> changes)
+        {
+            InitializeComponent();
+
+            this.localFolder = localFolder;
+            this.changes = changes;
+            success = false;
+            Owner = Application.Current.MainWindow;
+
+            this.Buttons = new Button[] { this.OkButton };
+            OkButton.IsEnabled = false;
+        }
+
+
+
         /* ------------------------------------------------------------------------------ */
         /* ------------------ AT CONTENT RENDERED --------------------------------------- */
         /* ------------------------------------------------------------------------------ */
@@ -56,7 +73,12 @@ namespace FolderSynchMUIClient.Pages
         private void ModernDialog_ContentRendered(object sender, EventArgs e)
         {
 
-            UploadBackgroundWorker bw = new UploadBackgroundWorker(localFolder);
+            UploadBackgroundWorker bw;
+            if (changes == null)
+                bw = new UploadBackgroundWorker(localFolder);
+            else
+                bw = new UploadBackgroundWorker(localFolder, changes);
+
             bw.WorkerSupportsCancellation = false;
             bw.WorkerReportsProgress = true;
 

@@ -1,4 +1,5 @@
-﻿using FolderSynchMUIClient.FolderSynchService;
+﻿using FolderSynchMUIClient.Classes;
+using FolderSynchMUIClient.FolderSynchService;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.ComponentModel;
+using System.IO;
 
 namespace FolderSynchMUIClient.Pages
 {
@@ -24,7 +27,6 @@ namespace FolderSynchMUIClient.Pages
     public partial class TabOptionsWindow : UserControl
     {
         App application;
-
 
         /* ------------------------------------------------------------------------------ */
         /* ------------------------ CONSTRUCTOR ----------------------------------------- */
@@ -100,8 +102,6 @@ namespace FolderSynchMUIClient.Pages
             }
         }
 
-
-
         /* ------------------------------------------------------------------------------ */
         /* ------------------------ SAVE CHANGES ---------------------------------------- */
         /* ------------------------------------------------------------------------------ */
@@ -159,15 +159,40 @@ namespace FolderSynchMUIClient.Pages
                         ErrorDialog ed = new ErrorDialog("You cannot move the folder inside itself");
                         ed.ShowDialog();
                     }
+                    else if(Directory.Exists(newPath + "\\" + lf.Name))
+                    {
+                        ErrorDialog ed = new ErrorDialog("A folder in directory " + newPath + "\\" + lf.Name + " already exists");
+                        ed.ShowDialog();
+                    }
                     else
                     {
-                        Console.WriteLine("nust move the folder");
-                        // todo: move the folder
+                        Console.WriteLine("proceed moving the folder");
+
+                        // temporary disable updates and manually update
+                        application.stopWatching(lf);
+
+                        // check if update is necessary before moving the folder
+                        List<Item.Change> changes = lf.DetectChanges(lf.LastUpdateCheck);
+                        if(changes.Count > 0)
+                        {
+                            Console.WriteLine("update before moving necessary");
+                            UploadDialog ud = new UploadDialog(lf, changes);
+                            ud.ShowDialog();
+                        }
+
+                        // now we can move it
+                        Directory.Move(lf.Path, newPath);
+                        lf.Path = newPath;
+                        lf.setLatestUpdateItems();
+
+                        application.startWatching(lf);
                     }
 
                 }
             }
         }
+
+        
 
         private void btnDesynchFolder_Click(object sender, RoutedEventArgs e)
         {
