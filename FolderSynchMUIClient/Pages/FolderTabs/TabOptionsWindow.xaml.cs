@@ -3,6 +3,7 @@ using Microsoft.WindowsAPICodePack.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -110,13 +111,55 @@ namespace FolderSynchMUIClient.Pages
             ConfirmDialog cd = new ConfirmDialog("Do you want to save changes?");
             if(cd.ShowDialog() == true)
             {
-                Console.WriteLine("Voglio salvare");
-                //TODO: salvare opzioni e scrivere risultato positivo o negativo nella labelSaveResult
-            }
-            else
-            {
-                labelSaveResult.Content = "No changes made.";
-                //X MARCO: vedi se tenerlo, non so se ha senso mettere questa scritta quando clicchi ok
+                LocalFolder lf = (LocalFolder)this.DataContext;
+                Folder folder = null;
+
+                // 1) find correspondent remote folder --------------------------------
+                foreach (Folder f in application.User.Folders)
+                    if (f.FolderName.Equals(lf.Name))
+                        folder = f;
+
+                if (folder == null)
+                {
+                    ErrorDialog ed = new ErrorDialog("An internal error occurred.\nWe suggest you to reboot the program");
+                    ed.ShowDialog();
+                    return;
+                }
+
+                // 2) communicate eventual changes to server ----------------------------
+                int newAutoRefresh = int.Parse(txtAutoRefresh.Text);
+
+                if(newAutoRefresh != folder.AutoRefreshTime)
+                {
+                    folder.AutoRefreshTime = newAutoRefresh;
+
+                    try
+                    {
+                        application.FolderSynchProxy.changeFolderOptions(folder.FolderName, folder);
+                    }
+                    catch(FaultException f)
+                    {
+                        ErrorDialog ed = new ErrorDialog(f.Message);
+                        ed.ShowDialog();
+                    }
+                }
+
+                // 3) move folder if necessary;
+                string newPath = choosedFolderPathEditor.Text;
+
+                if(newPath.Trim().Length != 0)
+                {
+                    if((newPath.Trim() + "\\" + lf.Name).Equals(lf.Path))
+                    {
+                        ErrorDialog ed = new ErrorDialog("The folder is already paced in:\n" + choosedFolderPathEditor.Text);
+                        ed.ShowDialog();
+                    }
+                    else
+                    {
+                        // todo: move the folder
+                    }
+
+                }
             }
         }
 

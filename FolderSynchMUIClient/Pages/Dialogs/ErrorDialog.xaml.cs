@@ -21,11 +21,18 @@ namespace FolderSynchMUIClient
     /// </summary>
     public partial class ErrorDialog : ModernDialog
     {
-        public ErrorDialog()
+        string errorMessage;
+        public ErrorDialog(string errorMessage)
         {
             InitializeComponent();
             Owner = Application.Current.MainWindow;
+            this.errorMessage = errorMessage;
             this.Buttons = new Button[] { this.OkButton };
+        }
+
+        private void ModernDialog_ContentRendered(object sender, EventArgs e)
+        {
+            txtFaultReason.Text = errorMessage;
         }
     }
 }
