@@ -68,7 +68,7 @@ namespace FolderSynchMUIClient.Pages
                     Console.WriteLine("remote update: ");
                     printUpdate(lastRemoteUpdate);
 
-                    if (!lastRemoteUpdate.TransactionID.Equals(lastLocalUpdate.TransactionID))
+                    if (lastRemoteUpdate.TransactionID.Equals(lastLocalUpdate.TransactionID))
                     {
                         Console.WriteLine(lf.Name + " is not synchronized! localUpdate: " +
                                             lf.Updates.ElementAt(lf.Updates.Count - 1).TransactionID +

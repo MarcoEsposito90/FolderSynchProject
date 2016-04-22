@@ -67,7 +67,9 @@ namespace FolderSynchMUIClient
                 Update targetUpdate = null;
                 folderUpdates.TryGetValue(lf, out targetUpdate);
 
-                DownloadBackgroundWorker bw = new DownloadBackgroundWorker(lf, targetUpdate, lf.Path, true);
+                string path = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos) + "\\" + lf.Path;
+
+                DownloadBackgroundWorker bw = new DownloadBackgroundWorker(lf, targetUpdate, path, false);
                 BackgroundWorkers.Add(bw);
                 bw.WorkerSupportsCancellation = false;
                 bw.WorkerReportsProgress = true;
