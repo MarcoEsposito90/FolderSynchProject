@@ -176,10 +176,10 @@ namespace FolderSynchMUIClient
 
             // 2) save current folders state --------------------
             List<LocalFolder> list = getAllLocalFolders();
-            foreach(LocalFolder lf in _LocalFolders)
+            foreach (LocalFolder lf in _LocalFolders)
             {
                 int found = list.FindIndex(i => i.Name.Equals(lf.Name) && i.Username.Equals(lf.Username));
-                if(found != -1)
+                if (found != -1)
                     list.RemoveAt(found);
 
                 list.Add(lf);
@@ -233,7 +233,7 @@ namespace FolderSynchMUIClient
                     fs.Close();
                 }
             }
-            
+
         }
 
         /********************************************************************/
@@ -242,50 +242,56 @@ namespace FolderSynchMUIClient
             string pw;
 
             if (KnownUsers.TryGetValue(username, out pw) && pw.Equals(password))
+            {
+                Console.WriteLine("known user: " + username + "; oldpassword: " + pw);
                 return;
+            }
 
             string oldPassword = null;
             KnownUsers.TryGetValue(username, out oldPassword);
 
+            Console.WriteLine("current pass: " + oldPassword);
+
             lock (this)
             {
-                FileStream fs = new FileStream("users.txt",
+                string allFile = null;
+
+                if (oldPassword != null)
+                {
+                    Console.WriteLine("proceed with password change. reading file");
+
+                    FileStream fs = new FileStream("users.txt",
                                             oldPassword == null ? FileMode.Append : FileMode.Open,
                                             oldPassword == null ? FileAccess.Write : FileAccess.ReadWrite);
 
-                StreamWriter sw = new StreamWriter(fs);
+                    StreamReader sr = new StreamReader(fs);
 
 
-                using (fs)
+                    using (fs)
+                    using (sr)
+                    {
+
+                        allFile = sr.ReadToEnd().Replace(username + ";" + oldPassword, username + ";" + password);
+                        sr.Close();
+                    }
+
+                }
+
+                StreamWriter sw = new StreamWriter("users.txt", false);
+
                 using (sw)
                 {
 
-                    string allFile = null;
-                    if (oldPassword != null)
-                    {
-                        StreamReader sr = new StreamReader(fs);
-
-                        using (sr)
-                        {
-
-                            allFile = sr.ReadToEnd().Replace(username + ";" + oldPassword, username + ";" + password);
-                            sr.Close();
-                        }
-                    }
+                    Console.WriteLine("proceed with adding user");
+                    if (oldPassword == null)
+                        sw.WriteLine(username + ";" + password);
                     else
-                    {
-                        if (oldPassword == null)
-                            sw.WriteLine(username + ";" + password);
-                        else
-                            sw.Write(allFile);
-
-                    }
+                        sw.Write(allFile);
 
                     sw.Close();
-                    fs.Close();
                 }
             }
-            
+
         }
 
 
@@ -304,7 +310,7 @@ namespace FolderSynchMUIClient
                 using (fs)
                     fs.Close();
             }
-            
+
         }
 
 
@@ -350,7 +356,7 @@ namespace FolderSynchMUIClient
                     sw.Close();
                 }
             }
-            
+
 
             _LocalFolders.Add(lf);
 
@@ -400,7 +406,7 @@ namespace FolderSynchMUIClient
                     sr.Close();
                 }
             }
-            
+
 
             if (fileContent == null)
                 return allLocalFolders;
@@ -423,10 +429,10 @@ namespace FolderSynchMUIClient
         /* ------------ FOLDER WATCHERS ----------------------------------- */
         /* ---------------------------------------------------------------- */
 
-        
+
         public void stopWatching(LocalFolder localFolder)
         {
-            foreach(FolderWatcher fw in FolderWatchers)
+            foreach (FolderWatcher fw in FolderWatchers)
                 if (fw.LocalFolder.Name.Equals(localFolder.Name) && fw.IsWatching)
                 {
                     fw.stopWatching();
@@ -438,7 +444,7 @@ namespace FolderSynchMUIClient
         /******************************************************************/
         public void startWatching(LocalFolder localFolder)
         {
-            foreach(FolderWatcher fw in FolderWatchers)
+            foreach (FolderWatcher fw in FolderWatchers)
                 if (fw.LocalFolder.Name.Equals(localFolder.Name) && !fw.IsWatching)
                 {
                     fw.watch();
