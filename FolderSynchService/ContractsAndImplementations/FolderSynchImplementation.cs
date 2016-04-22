@@ -233,8 +233,10 @@ namespace ServicesProject
         {
             Console.WriteLine(currentUser.Username + " wants to remove a folder: " + folderName);
             FolderSynchServer.Instance.removeSynchronizedFolder(currentUser, folderName);
+            Console.WriteLine(currentUser.Username + " succesfully removed the folder");
+
         }
 
-        
+
     }
 }

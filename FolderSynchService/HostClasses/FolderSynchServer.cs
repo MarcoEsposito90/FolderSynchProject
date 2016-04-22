@@ -107,6 +107,15 @@ namespace ServicesProject
         public void Startup()
         {
 
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine(" -------------------------------------------------------------------------- ");
+            Console.WriteLine(" -------------------------- BOOT START ------------------------------------ ");
+            Console.WriteLine(" -------------------------------------------------------------------------- ");
+            Console.WriteLine();
+            Console.WriteLine();
+
+
             // 1) initialize files and directories ---------------------
 
             string docsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
@@ -521,8 +530,11 @@ namespace ServicesProject
         {
             Folder folder = checkFolder(user, folderName);
             getUpdateFileHandler(user, folderName).removeFolder();
+            Console.WriteLine("Handler deleted folder");
             user.Folders.Remove(folder);
+            Console.WriteLine("folder removed from list");
             UsersFileHandler.Instance.WriteUsersList(Users.Values.ToList());
+            Console.WriteLine("saving");
         }
 
 

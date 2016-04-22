@@ -22,34 +22,71 @@ namespace FolderSynchMUIClient.Pages
     /// </summary>
     public partial class TabOptionsWindow : UserControl
     {
-        public LocalFolder f;
+        App application;
+
+
+        /* ------------------------------------------------------------------------------ */
+        /* ------------------------ CONSTRUCTOR ----------------------------------------- */
+        /* ------------------------------------------------------------------------------ */
 
         public TabOptionsWindow()
         {
             InitializeComponent();
+            application = (App)Application.Current;
         }
+
+
+
+        /* ------------------------------------------------------------------------------ */
+        /* ------------------------ AUTO REFRESH ---------------------------------------- */
+        /* ------------------------------------------------------------------------------ */
 
         private void autoRefreshUp_Click(object sender, RoutedEventArgs e)
         {
             //Increasing auto-refresh time
-            f = (LocalFolder)(this.DataContext);
-            txtAutoRefresh.Text = (f.AutoRefreshTime + 1).ToString();
+            LocalFolder lf = (LocalFolder)(this.DataContext);
+            txtAutoRefresh.Text = (lf.AutoRefreshTime + 1).ToString();
            
         }
         
+
+        /********************************************************************************/
         private void autoRefreshDown_Click(object sender, RoutedEventArgs e)
         {
             //Decreasing auto-refresh time
-            f = (LocalFolder)(this.DataContext);
-            txtAutoRefresh.Text = (f.AutoRefreshTime - 1).ToString();
+            LocalFolder lf = (LocalFolder)(this.DataContext);
+            txtAutoRefresh.Text = (lf.AutoRefreshTime - 1).ToString();
             
         }
 
-        
+
+
+        /* ------------------------------------------------------------------------------ */
+        /* ------------------------ DELETE ---------------------------------------------- */
+        /* ------------------------------------------------------------------------------ */
+
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
-            //TODO: metodo per eliminare la cartella sincronizzata
+            LocalFolder lf = (LocalFolder)this.DataContext;
+            ConfirmDialog cd = new ConfirmDialog("Do you really want to de-synch this folder?" + "\n" +
+                                                 "It won't be deleted anyway from your PC");
+
+            if(cd.ShowDialog() == true)
+            {
+                Console.WriteLine("User wants to proceed with desynch folder");
+                application.FolderSynchProxy.removeSynchronizedFolder(lf.Name);
+                Console.WriteLine("server removed folder. removing locally");
+                application.removeLocalFolder(lf);
+            }
         }
+
+
+
+
+        /* ------------------------------------------------------------------------------ */
+        /* ------------------------ MOVE FOLDER ----------------------------------------- */
+        /* ------------------------------------------------------------------------------ */
+
 
         private void btnBrowseMove_Click(object sender, RoutedEventArgs e)
         {
@@ -62,9 +99,15 @@ namespace FolderSynchMUIClient.Pages
             }
         }
 
+
+
+        /* ------------------------------------------------------------------------------ */
+        /* ------------------------ SAVE CHANGES ---------------------------------------- */
+        /* ------------------------------------------------------------------------------ */
+
         private void btnSaveChanges_Click(object sender, RoutedEventArgs e)
         {
-            ConfirmDialog cd = new ConfirmDialog();
+            ConfirmDialog cd = new ConfirmDialog("Do you want to save changes?");
             if(cd.ShowDialog() == true)
             {
                 Console.WriteLine("Voglio salvare");

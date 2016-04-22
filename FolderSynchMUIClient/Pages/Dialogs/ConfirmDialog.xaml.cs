@@ -21,13 +21,19 @@ namespace FolderSynchMUIClient
     /// </summary>
     public partial class ConfirmDialog : ModernDialog
     {
-        public ConfirmDialog()
+        string message;
+        public ConfirmDialog(string message)
         {
             InitializeComponent();
 
+            this.message = message;
             // define the dialog buttons
-            this.Buttons = new Button[] { this.OkButton, this.CancelButton };
+            this.Buttons = new Button[] { this.YesButton, this.NoButton };
         }
 
+        private void ModernDialog_ContentRendered(object sender, EventArgs e)
+        {
+            warningMessageTB.Text = message;
+        }
     }
 }

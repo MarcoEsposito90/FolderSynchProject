@@ -35,6 +35,14 @@ namespace FolderSynchHost
                 {
 
                     // open the service to make it available. After that, it will react to clients' requests
+                    Console.WriteLine();
+                    Console.WriteLine();
+                    Console.WriteLine(" -------------------------------------------------------------------------- ");
+                    Console.WriteLine(" -------------------------- SERVICE START --------------------------------- ");
+                    Console.WriteLine(" -------------------------------------------------------------------------- ");
+                    Console.WriteLine();
+                    Console.WriteLine();
+
                     Console.WriteLine("Opening host...");
                     host.Open();
                     streamHost.Open();

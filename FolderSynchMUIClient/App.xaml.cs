@@ -174,29 +174,7 @@ namespace FolderSynchMUIClient
             foreach (FolderWatcher fw in FolderWatchers)
                 fw.stopWatching();
 
-            // 2) save current folders state --------------------
-            List<LocalFolder> list = getAllLocalFolders();
-            foreach (LocalFolder lf in _LocalFolders)
-            {
-                int found = list.FindIndex(i => i.Name.Equals(lf.Name) && i.Username.Equals(lf.Username));
-                if (found != -1)
-                    list.RemoveAt(found);
-
-                list.Add(lf);
-            }
-
-            lock (this)
-            {
-                StreamWriter sw = new StreamWriter("folders.txt", false);
-                using (sw)
-                {
-                    string output = JsonConvert.SerializeObject(list);
-                    sw.WriteLine(output);
-                    sw.Close();
-                }
-            }
-
-            // 3) clean everything ------------------------------
+            // 2) clean everything ------------------------------
             _LocalFolders.Clear();
             FolderWatchers.Clear();
             FolderSynchProxy = new FolderSynchServiceContractClient();
@@ -286,8 +264,89 @@ namespace FolderSynchMUIClient
 
 
         /* ---------------------------------------------------------------- */
-        /* ------------ FOLDERS FILE -------------------------------------- */
+        /* ------------ FOLDERS ------------------------------------------- */
         /* ---------------------------------------------------------------- */
+
+        public void addLocalFolder(Folder folder, string path)
+        {
+            LocalFolder lf = new LocalFolder(User.Username, folder.FolderName, path);
+
+            List<LocalFolder> list = getAllLocalFolders();
+            list.Add(lf);
+            writeAllLocalFolders(list);
+
+            _LocalFolders.Add(lf);
+            FolderWatcher fw = new FolderWatcher(folder, lf);
+            FolderWatchers.Add(fw);
+            fw.watch();
+        }
+
+
+        /*****************************************************************/
+        public void addLocalFolder(Folder folder, LocalFolder lf)
+        {
+            List<LocalFolder> list = getAllLocalFolders();
+            list.Add(lf);
+            writeAllLocalFolders(list);
+
+            _LocalFolders.Add(lf);
+            FolderWatcher fw = new FolderWatcher(folder, lf);
+            FolderWatchers.Add(fw);
+            fw.watch();
+        }
+
+
+        /*****************************************************************/
+        public void removeLocalFolder(LocalFolder localFolder)
+        {
+            Console.WriteLine("removing local folder: " + localFolder.Name);
+
+            List<LocalFolder> list = getAllLocalFolders();
+            int index = list.FindIndex(i => i.Name.Equals(localFolder.Name));
+            list.RemoveAt(index);
+            writeAllLocalFolders(list);
+
+            stopWatching(localFolder);
+            _LocalFolders.Remove(localFolder);
+            Console.WriteLine("local folder removed");
+        }
+
+
+        /* ---------------------------------------------------------------- */
+        /* ------------ FOLDERS AUXILIARY --------------------------------- */
+        /* ---------------------------------------------------------------- */
+
+        private List<LocalFolder> getAllLocalFolders()
+        {
+            List<LocalFolder> allLocalFolders = new List<LocalFolder>();
+            string fileContent = null;
+
+            lock (this)
+            {
+                using (StreamReader sr = new StreamReader("folders.txt"))
+                {
+                    fileContent = sr.ReadToEnd();
+                    sr.Close();
+                }
+            }
+
+
+            if (fileContent == null)
+                return allLocalFolders;
+
+            Object o = JsonConvert.DeserializeObject(fileContent);
+            Newtonsoft.Json.Linq.JArray array = (Newtonsoft.Json.Linq.JArray)o;
+
+            foreach (Object i in array)
+            {
+                Newtonsoft.Json.Linq.JObject jo = (Newtonsoft.Json.Linq.JObject)i;
+                LocalFolder lf = (LocalFolder)jo.ToObject(typeof(LocalFolder));
+                allLocalFolders.Add(lf);
+            }
+
+            return allLocalFolders;
+        }
+
 
         /********************************************************************/
         private void FoldersFileCheck()
@@ -329,89 +388,18 @@ namespace FolderSynchMUIClient
 
 
         /********************************************************************/
-        public void addLocalFolder(Folder folder, string path)
+        private void writeAllLocalFolders(List<LocalFolder> folders)
         {
-
-            List<LocalFolder> allLocalFolders = getAllLocalFolders();
-            LocalFolder lf = new LocalFolder(User.Username, folder.FolderName, path);
-            allLocalFolders.Add(lf);
-
             lock (this)
             {
                 StreamWriter sw = new StreamWriter("folders.txt", false);
                 using (sw)
                 {
-                    string output = JsonConvert.SerializeObject(allLocalFolders);
+                    string output = JsonConvert.SerializeObject(folders);
                     sw.WriteLine(output);
                     sw.Close();
                 }
             }
-
-
-            _LocalFolders.Add(lf);
-
-            FolderWatcher fw = new FolderWatcher(folder, lf);
-            FolderWatchers.Add(fw);
-            fw.watch();
-        }
-
-
-        /*****************************************************************/
-        public void addLocalFolder(Folder folder, LocalFolder lf)
-        {
-
-            List<LocalFolder> allLocalFolders = getAllLocalFolders();
-            allLocalFolders.Add(lf);
-
-            lock (this)
-            {
-                StreamWriter sw = new StreamWriter("folders.txt", false);
-                using (sw)
-                {
-                    string output = JsonConvert.SerializeObject(allLocalFolders);
-                    sw.WriteLine(output);
-                    sw.Close();
-                }
-            }
-
-            _LocalFolders.Add(lf);
-
-            FolderWatcher fw = new FolderWatcher(folder, lf);
-            FolderWatchers.Add(fw);
-            fw.watch();
-        }
-
-
-        /********************************************************************/
-        private List<LocalFolder> getAllLocalFolders()
-        {
-            List<LocalFolder> allLocalFolders = new List<LocalFolder>();
-            string fileContent = null;
-
-            lock (this)
-            {
-                using (StreamReader sr = new StreamReader("folders.txt"))
-                {
-                    fileContent = sr.ReadToEnd();
-                    sr.Close();
-                }
-            }
-
-
-            if (fileContent == null)
-                return allLocalFolders;
-
-            Object o = JsonConvert.DeserializeObject(fileContent);
-            Newtonsoft.Json.Linq.JArray array = (Newtonsoft.Json.Linq.JArray)o;
-
-            foreach (Object i in array)
-            {
-                Newtonsoft.Json.Linq.JObject jo = (Newtonsoft.Json.Linq.JObject)i;
-                LocalFolder lf = (LocalFolder)jo.ToObject(typeof(LocalFolder));
-                allLocalFolders.Add(lf);
-            }
-
-            return allLocalFolders;
         }
 
 

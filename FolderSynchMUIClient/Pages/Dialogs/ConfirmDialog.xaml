@@ -6,7 +6,8 @@
                   xmlns:mui="http://firstfloorsoftware.com/ModernUI"
                   mc:Ignorable="d" 
                   d:DesignHeight="150" d:DesignWidth="300"
-                  Title="Are you sure?">
+                  Title="Are you sure?"
+                  ContentRendered="ModernDialog_ContentRendered">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -25,7 +26,6 @@
 
         <TextBlock Name="warningMessageTB"
                    TextWrapping="Wrap" 
-                   Text="Do you want so save changes?"
                    VerticalAlignment="Center"
                    Grid.Row="0" Grid.Column="1"
                    Margin="10" FontSize="14.667" FontFamily="Segoe UI Semilight"/>
