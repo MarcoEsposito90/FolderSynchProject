@@ -242,15 +242,10 @@ namespace FolderSynchMUIClient
             string pw;
 
             if (KnownUsers.TryGetValue(username, out pw) && pw.Equals(password))
-            {
-                Console.WriteLine("known user: " + username + "; oldpassword: " + pw);
                 return;
-            }
 
             string oldPassword = null;
             KnownUsers.TryGetValue(username, out oldPassword);
-
-            Console.WriteLine("current pass: " + oldPassword);
 
             lock (this)
             {
@@ -258,8 +253,6 @@ namespace FolderSynchMUIClient
 
                 if (oldPassword != null)
                 {
-                    Console.WriteLine("proceed with password change. reading file");
-
                     FileStream fs = new FileStream("users.txt",
                                             oldPassword == null ? FileMode.Append : FileMode.Open,
                                             oldPassword == null ? FileAccess.Write : FileAccess.ReadWrite);
@@ -281,8 +274,6 @@ namespace FolderSynchMUIClient
 
                 using (sw)
                 {
-
-                    Console.WriteLine("proceed with adding user");
                     if (oldPassword == null)
                         sw.WriteLine(username + ";" + password);
                     else
@@ -291,7 +282,6 @@ namespace FolderSynchMUIClient
                     sw.Close();
                 }
             }
-
         }
 
 

@@ -132,7 +132,7 @@ namespace FolderSynchMUIClient
 
             localFolder.Path = downloadFolderName;
             Update.Timestamp = DateTime.Now;
-            localFolder.LastUpdate = Update;
+            localFolder.LastUpdateCheck = DateTime.Now;
             App application = (App)Application.Current;
             localFolder.setLatestUpdateItems();
             application.addLocalFolder(Folder, localFolder);

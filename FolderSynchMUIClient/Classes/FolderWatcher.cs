@@ -50,7 +50,7 @@ namespace FolderSynchMUIClient
 
             // 1)   must detect if update is immediately necessary (for instance,
             //      the client may have been closed for days)
-            double minutes = (DateTime.Now - LocalFolder.LastUpdate.Timestamp).TotalMinutes;
+            double minutes = (DateTime.Now - LocalFolder.LastUpdateCheck).TotalMinutes;
             Console.WriteLine("folder: " + LocalFolder.Name + " is not being updated for " + minutes + " minutes");
             
 
@@ -81,9 +81,9 @@ namespace FolderSynchMUIClient
             Console.WriteLine("proceeding with update at " + DateTime.Now);
             UploadBackgroundWorker uploader = null;
 
-            if (LocalFolder.LastUpdate != null)
+            if (LocalFolder.LastUpdateCheck != null)
             {
-                List<Item.Change> changes = LocalFolder.DetectChanges(LocalFolder.LastUpdate.Timestamp);
+                List<Item.Change> changes = LocalFolder.DetectChanges(LocalFolder.LastUpdateCheck);
 
                 if(changes.Count > 0)
                 {
@@ -108,8 +108,11 @@ namespace FolderSynchMUIClient
                 uploader.RunWorkerCompleted += UploadWork_Completed;
             }
             else
+            {
                 Console.WriteLine("no need for new updates");
-            
+                LocalFolder.LastUpdateCheck = DateTime.Now;
+            }
+
         }
 
 

@@ -79,6 +79,8 @@ namespace FolderSynchMUIClient.Classes
         /*********************************************************************************/
         private void Upload_BackgroundWork(object sender, DoWorkEventArgs e)
         {
+            application.stopWatching(LocalFolder);
+
             BackgroundWorker worker = sender as BackgroundWorker;
             worker.ReportProgress(0, State.Computing);
             Update newUpdate = null;
@@ -103,7 +105,7 @@ namespace FolderSynchMUIClient.Classes
                     newUpdate = proxy.updateCommit(transaction);
 
                     e.Result = new UploadWorkerResponse(true, "");
-                    LocalFolder.LastUpdate = newUpdate;
+                    LocalFolder.LastUpdateCheck = DateTime.Now;
                     LocalFolder.Updates.Add(newUpdate);
                 }
                 else
@@ -125,6 +127,7 @@ namespace FolderSynchMUIClient.Classes
 
             }
 
+            application.startWatching(LocalFolder);
         }
 
 
@@ -194,6 +197,7 @@ namespace FolderSynchMUIClient.Classes
 
         private void Upload_BackgroundWork_Incremental(object sender, DoWorkEventArgs e)
         {
+            application.stopWatching(LocalFolder);
 
             if (application.User == null)
             {
@@ -229,7 +233,7 @@ namespace FolderSynchMUIClient.Classes
                 // 5) saving result
                 newUpdate = proxy.updateCommit(transaction);
                 e.Result = new UploadWorkerResponse(true, "");
-                LocalFolder.LastUpdate = newUpdate;
+                LocalFolder.LastUpdateCheck = DateTime.Now;
                 LocalFolder.Updates = new ObservableCollection<Update>(proxy.getHistory(LocalFolder.Name));
             }
             catch (FaultException f)
@@ -243,6 +247,8 @@ namespace FolderSynchMUIClient.Classes
 
                 e.Result = new UploadWorkerResponse(false, UploadWorkerResponse.ERROR_MESSAGE);
             }
+
+            application.startWatching(LocalFolder);
         }
 
 

@@ -28,6 +28,9 @@ namespace FolderSynchMUIClient
         public int AutoDeleteTime { get; set; }
 
         [DataMember]
+        public DateTime LastUpdateCheck { get; set; }
+
+        [DataMember]
         public ObservableCollection<Update> Updates
         {
             get;

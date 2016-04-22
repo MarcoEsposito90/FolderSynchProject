@@ -24,10 +24,7 @@ namespace FolderSynchMUIClient
 
         [DataMember]
         public string Path { get; set; }
-
-        [DataMember]
-        public Update LastUpdate { get; set; }
-
+        
         [DataMember]
         public DateTime SynchDate { get; set; }
 

@@ -169,7 +169,7 @@ namespace FolderSynchMUIClient
                         // save new state
                         LocalFolder.setLatestUpdateItems();
                         Update.Timestamp = DateTime.Now;
-                        LocalFolder.LastUpdate = Update;
+                        LocalFolder.LastUpdateCheck = DateTime.Now;
                         LocalFolder.Updates = new ObservableCollection<Update>(proxy.getHistory(LocalFolder.Name));
                     }
 

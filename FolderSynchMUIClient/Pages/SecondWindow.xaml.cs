@@ -32,7 +32,7 @@ namespace FolderSynchMUIClient.Pages
         private void ModernWindow_ContentRendered(object sender, EventArgs e)
         {
             Console.WriteLine("Secondwindow contentrendered called");
-            App application = (App)Application.Current;/*
+            App application = (App)Application.Current;
             // check if some synced folder is missing on this device ---------------------------------------------
             List<Folder> missingFolders = new List<Folder>();
             Dictionary<LocalFolder, Update> needResynch = new Dictionary<LocalFolder, Update>();
@@ -57,17 +57,22 @@ namespace FolderSynchMUIClient.Pages
                     List<Update> remoteUpdates = new List<Update>(application.FolderSynchProxy.getHistory(lf.Name));
                     Update lastRemoteUpdate = remoteUpdates.ElementAt(remoteUpdates.Count - 1);
 
-                    Console.WriteLine("Checking synchronization for folder: " + lf.Name + "**************************");
+                    Console.WriteLine("******************************************************************************");
+                    Console.WriteLine("Checking synchronization for folder: " + lf.Name);
+
+                    Console.WriteLine("------------------------------------------------------");
                     Console.WriteLine("local update: ");
                     printUpdate(lastLocalUpdate);
+
+                    Console.WriteLine("------------------------------------------------------");
                     Console.WriteLine("remote update: ");
                     printUpdate(lastRemoteUpdate);
 
-                    if (lastRemoteUpdate.TransactionID.Equals(lastLocalUpdate.TransactionID))
+                    if (!lastRemoteUpdate.TransactionID.Equals(lastLocalUpdate.TransactionID))
                     {
                         Console.WriteLine(lf.Name + " is not synchronized! localUpdate: " +
-                                            lf.Updates.ElementAt(lf.Updates.Count - 1) +
-                                            "; remoteUpdate: " + remoteUpdates.ElementAt(remoteUpdates.Count - 1));
+                                            lf.Updates.ElementAt(lf.Updates.Count - 1).TransactionID +
+                                            "; remoteUpdate: " + remoteUpdates.ElementAt(remoteUpdates.Count - 1).TransactionID);
 
                         needResynch.Add(lf, lastRemoteUpdate);
                     }
@@ -86,7 +91,6 @@ namespace FolderSynchMUIClient.Pages
                 FolderDesynchUpdateDialog dialog2 = new FolderDesynchUpdateDialog(needResynch);
                 dialog2.ShowDialog();
             }
-            */
 
             application.startWatching();
         }
@@ -99,7 +103,6 @@ namespace FolderSynchMUIClient.Pages
 
         private void printUpdate(Update update)
         {
-            Console.WriteLine("------------------------------------------------------");
             Console.WriteLine("Update number: " + update.Number);
             Console.WriteLine("timestamp: " + update.Timestamp);
             Console.WriteLine("transaction: " + update.TransactionID);
