@@ -1,4 +1,5 @@
 ﻿using FolderSynchMUIClient.FolderSynchService;
+using Microsoft.WindowsAPICodePack.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,5 +52,20 @@ namespace FolderSynchMUIClient.Pages
             //VERIFICARE SE NECESSARIO E SE FATTIBILE.
         }
 
+        private void btnBrowseMove_Click(object sender, RoutedEventArgs e)
+        {
+            var openFolderDialog = new CommonOpenFileDialog();
+            openFolderDialog.IsFolderPicker = true;
+
+            if (openFolderDialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                choosedFolderPathEditor.Text = openFolderDialog.FileName.ToString();
+            }
+        }
+
+        private void btnSaveChanges_Click(object sender, RoutedEventArgs e)
+        {
+            //TODO
+        }
     }
 }

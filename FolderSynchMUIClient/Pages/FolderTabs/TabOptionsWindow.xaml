@@ -7,6 +7,34 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
+    <UserControl.Resources>
+        <Style x:Key="SaveButton" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" 
+                                BorderThickness="1"  CornerRadius="3">
+                            <Border.Background>
+                                <ImageBrush ImageSource="../../Icons/MySave_Icon2.png"/>
+                            </Border.Background>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" TargetName="border">
+                                    <Setter.Value>
+                                        <ImageBrush ImageSource="/Icons/MySave_IconWhite.png"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    
     <StackPanel>
 
         <!-- TITLE -->
@@ -16,120 +44,169 @@
                        Foreground="{DynamicResource ItemBackgroundSelected}"/>
         <!-- END TITLE -->
 
-        <Grid ScrollViewer.HorizontalScrollBarVisibility="Auto" Margin="10">
+        <Grid Margin="10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
             <!-- AUTO-REFRESH SECTION -->
             <Image Width="50" Height="50" VerticalAlignment="Center"
-                       Grid.Column="0" Grid.Row="0" Margin="10,5,5,5" 
-                       Source="/Icons/MySyncTime_Icon.png"/>
+                   Grid.Column="0" Grid.Row="0" Margin="15,15,10,5" 
+                   Source="/Icons/MySyncTime_Icon.png"/>
 
-            <TextBlock Text="Auto refresh hours: " HorizontalAlignment="Left" 
-                           Grid.Column="1" Grid.Row="0" 
-                           VerticalAlignment="Center" Margin="10" 
+            <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="0">
+                <TextBlock Text="Auto refresh hours: " HorizontalAlignment="Left" 
+                           VerticalAlignment="Center" Margin="15,15,10,10" 
                            FontSize="14.667" FontFamily="Segoe UI Semilight"/>
 
-            <Button x:Name="autoRefreshUp"  
-                        Grid.Column="2" Grid.Row="0" 
+                <Button x:Name="autoRefreshUp"  
                         FontSize="14.667" 
                         Content=" ˄ " Click="autoRefreshUp_Click" 
                         Background="White"
                         Foreground="Black"
-                        Margin="5,15,5,15">
-                <Button.Style>
-                    <Style>
-                        <Style.Triggers>
-                            <DataTrigger 
+                        Margin="10,20,10,15">
+                    <Button.Style>
+                        <Style>
+                            <Style.Triggers>
+                                <DataTrigger 
                                      Binding ="{Binding ElementName=txtAutoRefresh, Path=Text}" 
                                      Value="48">
-                                <Setter Property="Button.IsEnabled" Value="false"/>
-                            </DataTrigger>
-                            <Trigger Property="Button.IsMouseOver" Value="True">
-                                <Setter Property="Button.Background" Value="{DynamicResource SystemButtonBackgroundOnMoseOver}" />
-                                <Setter Property="Button.Foreground" Value="{DynamicResource SystemButtonForegroundOnMoseOver}"/>
-                            </Trigger>
-                            <Trigger Property="Button.IsPressed" Value="True">
-                                <Setter Property="Button.Background" Value="{DynamicResource SystemButtonBackgroundIsPressed}" />
-                                <Setter Property="Button.Foreground" Value="{DynamicResource SystemButtonForegroundIsPressed}" />
-                            </Trigger>
-                            <Trigger Property="Button.IsEnabled" Value="false">
-                                <Setter Property="Button.Foreground" Value="{DynamicResource ButtonTextDisabled}" />
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Style>
-            </Button>
-            <TextBlock x:Name="txtAutoRefresh" 
-                           Grid.Column="3" Grid.Row="0"
+                                    <Setter Property="Button.IsEnabled" Value="false"/>
+                                </DataTrigger>
+                                <Trigger Property="Button.IsMouseOver" Value="True">
+                                    <Setter Property="Button.Background" Value="{DynamicResource SystemButtonBackgroundOnMoseOver}" />
+                                    <Setter Property="Button.Foreground" Value="{DynamicResource SystemButtonForegroundOnMoseOver}"/>
+                                </Trigger>
+                                <Trigger Property="Button.IsPressed" Value="True">
+                                    <Setter Property="Button.Background" Value="{DynamicResource SystemButtonBackgroundIsPressed}" />
+                                    <Setter Property="Button.Foreground" Value="{DynamicResource SystemButtonForegroundIsPressed}" />
+                                </Trigger>
+                                <Trigger Property="Button.IsEnabled" Value="false">
+                                    <Setter Property="Button.Foreground" Value="{DynamicResource ButtonTextDisabled}" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <TextBlock x:Name="txtAutoRefresh" 
                            Text="{Binding AutoRefreshTime, Mode=TwoWay}" 
                            Background="White" Foreground="Black"
-                           Padding="4" FontSize="14.667" Margin="5,15,5,15" 
+                           Padding="4" FontSize="13.333" Margin="5,20,5,15" 
                            VerticalAlignment="Center" TextAlignment="Center"/>
 
-            <Button x:Name="autoRefreshDown" 
-                        Grid.Column="4" Grid.Row="0"
+                <Button x:Name="autoRefreshDown" 
                         Background="White"  Foreground="Black"
-                        FontSize="14.667" Margin="5,15,5,15"
+                        FontSize="14.667" Margin="10,20,5,15"
                         Content=" ˅ " Click="autoRefreshDown_Click">
-                <Button.Style>
-                    <Style>
-                        <Style.Triggers>
-                            <DataTrigger 
+                    <Button.Style>
+                        <Style>
+                            <Style.Triggers>
+                                <DataTrigger 
                                      Binding ="{Binding ElementName=txtAutoRefresh, Path=Text}" 
                                      Value="1">
-                                <Setter Property="Button.IsEnabled" Value="false"/>
-                            </DataTrigger>
-                            <Trigger Property="Button.IsMouseOver" Value="True">
-                                <Setter Property="Button.Background" Value="{DynamicResource SystemButtonBackgroundOnMoseOver}" />
-                                <Setter Property="Button.Foreground" Value="{DynamicResource SystemButtonForegroundOnMoseOver}"/>
-                            </Trigger>
-                            <Trigger Property="Button.IsPressed" Value="True">
-                                <Setter Property="Button.Background" Value="{DynamicResource SystemButtonBackgroundIsPressed}" />
-                                <Setter Property="Button.Foreground" Value="{DynamicResource SystemButtonForegroundIsPressed}" />
-                            </Trigger>
-                            <Trigger Property="Button.IsEnabled" Value="false">
-                                <Setter Property="Button.Foreground" Value="{DynamicResource ButtonTextDisabled}" />
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Style>
-            </Button>
+                                    <Setter Property="Button.IsEnabled" Value="false"/>
+                                </DataTrigger>
+                                <Trigger Property="Button.IsMouseOver" Value="True">
+                                    <Setter Property="Button.Background" Value="{DynamicResource SystemButtonBackgroundOnMoseOver}" />
+                                    <Setter Property="Button.Foreground" Value="{DynamicResource SystemButtonForegroundOnMoseOver}"/>
+                                </Trigger>
+                                <Trigger Property="Button.IsPressed" Value="True">
+                                    <Setter Property="Button.Background" Value="{DynamicResource SystemButtonBackgroundIsPressed}" />
+                                    <Setter Property="Button.Foreground" Value="{DynamicResource SystemButtonForegroundIsPressed}" />
+                                </Trigger>
+                                <Trigger Property="Button.IsEnabled" Value="false">
+                                    <Setter Property="Button.Foreground" Value="{DynamicResource ButtonTextDisabled}" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </StackPanel>
             <!-- END AUTO-REFRESH SECTION -->
 
+            <!-- MOVE SECTION -->
+            <Image Width="50" Height="50" VerticalAlignment="Center"
+                   HorizontalAlignment="Center"
+                   Grid.Column="0" Grid.Row="1"
+                   Margin="15,15,5,10" Source="/Icons/MyMove_Icon.png"/>
+
+            <Grid Grid.Row="1" Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Move folder: " HorizontalAlignment="Left" 
+                           Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"
+                           VerticalAlignment="Center" Margin="15,10,0,0" 
+                           FontSize="14.667" FontFamily="Segoe UI Semilight"/>
+
+                <Button Name="btnBrowseMove" Content="Browse"
+                        VerticalAlignment="Center" HorizontalAlignment="Center"
+                        FontSize="13.333" Grid.Column="0" Grid.Row="1"
+                        Click="btnBrowseMove_Click" Margin="15,10,10,10" 
+                        Style="{StaticResource BaseButtonStyle}"/>
+
+                <TextBox Name="choosedFolderPathEditor" IsEnabled="False" 
+                     VerticalAlignment="Center" Foreground="Black" 
+                     Margin="10,0,10,0" Grid.Column="1" Grid.Row="1"/>
+            </Grid>
+            <!-- END MOVE SECTION -->
             
+            <!-- SAVE SECTION -->
+
+            <Border Margin="10,0,10,0" BorderBrush="White" 
+                    Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" 
+                    Width="35" Height="35" Background="{DynamicResource ItemBackgroundSelected}"
+                    CornerRadius="4" BorderThickness="1" 
+                    VerticalAlignment="Center" HorizontalAlignment="Right">
+                <Button Name="btnSaveChanges" Click="btnSaveChanges_Click"
+                        Width="35" Height="35" 
+                        BorderBrush="{x:Null}" 
+                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Style="{StaticResource SaveButton}">
+                </Button>
+
+            </Border>
+
+            <Rectangle Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"
+                       Margin="15, 5, 10, 5" Opacity="0.7"
+                       Stroke="#FFC8CDCF" />
+            
+            <!-- END SAVE SECTION -->
+
             <!-- DELETE FOLDER SECTION -->
             <Image Width="30" Height="50" VerticalAlignment="Center"
                        HorizontalAlignment="Center"
-                       Grid.Column="0" Grid.Row="1"
-                       Margin="10,5,5,5" Source="/Icons/MyDustbin_Icon.png"/>
+                       Grid.Column="0" Grid.Row="5"
+                       Margin="10,5,5,15" Source="/Icons/MyDustbin_Icon.png"/>
 
             <Button Name="btnDeleteFolder_Click"
-                        Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4"
+                        Grid.Row="5" Grid.Column="1"
                         Margin="10" VerticalAlignment="Center"
-                        Content="Delete this folder"
+                        Content="Delete this folder" 
                         FontSize="14.667" FontFamily="Segoe UI Semilight"
                         Click="btnDelete_Click"/>
             <!-- END DELETE FOLDER SECTION -->
 
-            <!-- <Button Name="btnSaveChanges"
-                        Grid.Row="2" Grid.ColumnSpan="4"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Content="Save changes"
-                        Click="btnSaveChanges_Click"
-                        />-->
+            
+            
 
         </Grid>
+       
     </StackPanel>
 </UserControl>
