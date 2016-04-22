@@ -41,9 +41,8 @@ namespace FolderSynchMUIClient.Pages
                 if (pwd.Contains(";") || pwd.Contains("|") || pwd.Contains("(") || pwd.Contains(")") 
                     || pwd.Contains("[") || pwd.Contains("]") || pwd.Contains("{") || pwd.Contains("}") || pwd.Contains("\\"))
                 {
-                    ErrorDialog ed = new ErrorDialog();
-                    ed.txtFaultTitle.Text = "Invalid password";
-                    ed.txtFaultReason.Text = "Your password should not contain one of these special charcaters: " + specialChars.ToString();
+                    ErrorDialog ed = new ErrorDialog("Invalid password\nYour password should not contain one of these special charcaters: " + 
+                                                     specialChars.ToString());
                     ed.ShowDialog();
                 }
 

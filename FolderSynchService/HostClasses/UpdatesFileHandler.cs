@@ -328,7 +328,7 @@ namespace ServicesProject
             }
 
             if (targetUpdate == null)
-                throw new Exception("PANIC: uncommitted update not found");
+                return;
 
             // 2) proceed to delete whole update folder
             deleteDirectory(FolderSynchServer.Instance.RemoteFoldersPath + "\\" +

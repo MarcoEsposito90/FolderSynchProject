@@ -151,11 +151,17 @@ namespace FolderSynchMUIClient.Pages
                 {
                     if((newPath.Trim() + "\\" + lf.Name).Equals(lf.Path))
                     {
-                        ErrorDialog ed = new ErrorDialog("The folder is already paced in:\n" + choosedFolderPathEditor.Text);
+                        ErrorDialog ed = new ErrorDialog("The folder is already placed in:\n" + choosedFolderPathEditor.Text);
+                        ed.ShowDialog();
+                    }
+                    else if (newPath.Trim().Contains(lf.Path))
+                    {
+                        ErrorDialog ed = new ErrorDialog("You cannot move the folder inside itself");
                         ed.ShowDialog();
                     }
                     else
                     {
+                        Console.WriteLine("nust move the folder");
                         // todo: move the folder
                     }
 

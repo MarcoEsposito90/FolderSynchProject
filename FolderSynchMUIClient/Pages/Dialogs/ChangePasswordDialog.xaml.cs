@@ -63,9 +63,7 @@ namespace FolderSynchMUIClient
                         }
                         catch (FaultException f)
                         {
-                            ErrorDialog ed = new ErrorDialog();
-                            ed.txtFaultTitle.Text = "Error:";
-                            ed.txtFaultReason.Text = f.Message;
+                            ErrorDialog ed = new ErrorDialog(f.Message);
                             ed.ShowDialog();
                         }
 

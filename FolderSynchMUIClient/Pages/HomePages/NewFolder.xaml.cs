@@ -84,6 +84,15 @@ namespace FolderSynchMUIClient.Pages.HomePages
 
                 proxy.addNewSynchronizedFolder(newFold);
 
+                // 3b) add new folder to user's list
+                Folder[] newFoldersList = new Folder[application.User.Folders.Length + 1];
+
+                for (int i = 0; i < application.User.Folders.Length; i++)
+                    newFoldersList[i] = application.User.Folders[i];
+
+                newFoldersList[application.User.Folders.Length] = newFold;
+                application.User.Folders = newFoldersList;
+
                 // 4) proceed to upload
                 LocalFolder lf = new LocalFolder(application.User.Username, newFold.FolderName, choosedFolderPathEditor.Text);
                 lf.AutoRefreshTime = int.Parse(RefreshComboBox.SelectedItem.ToString());
@@ -103,8 +112,7 @@ namespace FolderSynchMUIClient.Pages.HomePages
             {
                 Console.WriteLine("fault: " + f.Message);
 
-                ErrorDialog errDialog = new ErrorDialog();
-                errDialog.txtFaultReason.Text = f.Message;
+                ErrorDialog errDialog = new ErrorDialog(f.Message);
                 errDialog.ShowDialog();
             }
 
