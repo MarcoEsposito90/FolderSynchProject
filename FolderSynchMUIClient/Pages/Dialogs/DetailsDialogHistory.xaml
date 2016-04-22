@@ -7,7 +7,7 @@
              xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              xmlns:local="clr-namespace:FolderSynchMUIClient"
              mc:Ignorable="d" 
-             Width="350" Height="250"
+             Width="350" Height="300"
              d:DesignHeight="300" d:DesignWidth="300">
 
     <UserControl.Resources>
@@ -22,6 +22,7 @@
         </Style>
 
         <local:TypeConverter x:Key="Converter1"/>
+        <local:ColorConverter x:Key="Converter2"/>
 
         <Style x:Key="DownloadButton" TargetType="Button">
             <Setter Property="OverridesDefaultStyle" Value="True"/>
@@ -91,10 +92,13 @@
                                             BorderBrush="{x:Null}" Style="{StaticResource DownloadButton}">
                                     </Button>
                                 </Border>
-                                <TextBlock Text="{Binding UpdateType,  Converter={StaticResource Converter1}}" VerticalAlignment="Center"
-                                                       FontSize="13.333" Margin="10,0,0,0"/>
+                                <TextBlock Text="{Binding UpdateType,  Converter={StaticResource Converter1}}" 
+                                           VerticalAlignment="Center"
+                                           Foreground="{Binding UpdateType, Converter={StaticResource Converter2}}"
+                                           FontSize="13.333" Margin="10,0,0,0"/>
                                 <TextBlock Text="{Binding ItemLocalPath}" VerticalAlignment="Center"
-                                                       FontSize="13.333" Margin="0,0,0,0"/>
+                                           Foreground="{Binding UpdateType, Converter={StaticResource Converter2}}"
+                                           FontSize="13.333" Margin="0,0,0,0"/>
                             </StackPanel>
                             
                         </Expander>
