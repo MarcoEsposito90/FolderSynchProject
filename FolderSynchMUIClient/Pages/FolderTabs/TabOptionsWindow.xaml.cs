@@ -188,6 +188,8 @@ namespace FolderSynchMUIClient.Pages
                         application.startWatching(lf);
                     }
 
+                    labelSaveResult.Content = "Changes made with success.";
+
                 }
             }
         }

@@ -80,6 +80,10 @@
 
                 <Label Name="ResponseLabel"/>
 
+
+                <Image Width="200" Margin="10,25,10,10"
+                    Source="/Icons/LogoFS.png" Opacity="0.5"/>
+
             </StackPanel>
         </ScrollViewer>
     </Grid>

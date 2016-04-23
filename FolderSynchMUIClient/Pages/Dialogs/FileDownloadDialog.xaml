@@ -41,12 +41,12 @@
             <Button Name="btnBrowseFolder" Content="Browse"
                     VerticalAlignment="Center" FontSize="13.333" 
                     Click="btnBrowseFolder_Click" 
-                    Margin="10,0,0,0" Grid.Column="0" Grid.Row="0"
+                    Margin="10,10,0,10" Grid.Column="0" Grid.Row="0"
                     Style="{StaticResource BaseButtonStyle}"/>
 
             <TextBox Name="choosedFolderPathEditor" IsEnabled="False" 
                      VerticalAlignment="Center" Foreground="Black" 
-                     Margin="10,0,10,0" Grid.Column="1" Grid.Row="0"/>
+                     Margin="10,10,10,10" Grid.Column="1" Grid.Row="0"/>
         </Grid>
 
         <Button Name="btnDownloadFile"

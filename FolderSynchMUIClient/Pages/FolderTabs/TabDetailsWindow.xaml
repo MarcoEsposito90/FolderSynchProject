@@ -7,7 +7,7 @@
              xmlns:local="clr-namespace:FolderSynchMUIClient"
              mc:Ignorable="d">
 
-    <StackPanel Orientation="Vertical">
+    <StackPanel Orientation="Vertical" ScrollViewer.HorizontalScrollBarVisibility="Auto" >
 
         <!-- TITLE -->
         <TextBlock Text="Folder Details " HorizontalAlignment="Left" 
@@ -17,7 +17,7 @@
         <!-- END TITLE -->
 
 
-        <Grid ScrollViewer.HorizontalScrollBarVisibility="Auto" Margin="20,10,10,10">
+        <Grid Margin="20,10,10,10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
@@ -28,36 +28,55 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <!-- SYNCHED AT SECTION -->
+            <!-- PATH SECTION -->
             <Image  Width="50" Height="60" 
                         Grid.Column="0" Grid.Row="0" Margin="4" 
-                        Source="/Icons/MySyncTime_Icon.png"/>
+                        Source="/Icons/MyFolderPath_Icon.png"/>
 
-            <TextBlock Text="Synched at: " HorizontalAlignment="Left" 
+            <TextBlock Text="Local path: " HorizontalAlignment="Left" 
                            Grid.Column="1" Grid.Row="0" FontSize="14.667" 
                            VerticalAlignment="Center" 
                            Margin="10,10,10,10" FontFamily="Segoe UI Semibold" />
 
-            <TextBlock Name="TBFolderDetails_SynchDate" Text="{Binding SynchDate}" 
+            <TextBlock Name="TBFolderDetails_Path" Text="{Binding Path}" 
                            Grid.Column="2" Grid.Row="0" 
+                           FontSize="13.333" 
+                           VerticalAlignment="Center" Margin="0,10,30,10"/>
+            <!-- END PATH SECTION -->
+
+
+
+            <!-- SYNCHED AT SECTION -->
+            <Image  Width="50" Height="60" 
+                        Grid.Column="0" Grid.Row="1" Margin="4" 
+                        Source="/Icons/MySyncTime_Icon.png"/>
+
+            <TextBlock Text="Synched at: " HorizontalAlignment="Left" 
+                           Grid.Column="1" Grid.Row="1" FontSize="14.667" 
+                           VerticalAlignment="Center" 
+                           Margin="10,10,10,10" FontFamily="Segoe UI Semibold" />
+
+            <TextBlock Name="TBFolderDetails_SynchDate" Text="{Binding SynchDate}" 
+                           Grid.Column="2" Grid.Row="1" 
                            FontSize="13.333" 
                            VerticalAlignment="Center" Margin="0,10,30,10"/>
             <!-- END SYNCHED AT SECTION -->
 
             <!-- CONTAINED FILES/FOLDERS SECTION -->
             <Image Width="50" Height="60" 
-                       Grid.Column="0" Grid.Row="1" Margin="3" 
+                       Grid.Column="0" Grid.Row="2" Margin="3" 
                        Source="/Icons/MyFolderContent_Icon.png"/>
 
             <TextBlock Text="Contains: " HorizontalAlignment="Left"
-                           Grid.Column="1" Grid.Row="1" 
+                           Grid.Column="1" Grid.Row="2" 
                            FontSize="14.667" FontFamily="Segoe UI Semibold" 
                            VerticalAlignment="Center" Margin="10,10,10,10"/>
 
             <TextBlock Name="TBFolderDetails_NumFiles" 
-                           Grid.Column="2" Grid.Row="1" FontSize="13.333" 
+                           Grid.Column="2" Grid.Row="2" FontSize="13.333" 
                            VerticalAlignment="Center" Margin="0,10,30,10">
                 <TextBlock.Text>
                     <MultiBinding StringFormat="{}{0} files, {1} folders" >
@@ -70,16 +89,16 @@
 
             <!-- SIZE SECTION -->
             <Image Width="65" Height="60" 
-                       Grid.Column="0" Grid.Row="2" Margin="3"
+                       Grid.Column="0" Grid.Row="3" Margin="3"
                        Source="/Icons/MyFolderSize_Icon.png"/>
 
             <TextBlock Text="Size on disk: " HorizontalAlignment="Left" 
-                           Grid.Column="1" Grid.Row="2" 
+                           Grid.Column="1" Grid.Row="3" 
                            FontSize="14.667" FontFamily="Segoe UI Semibold" 
                            VerticalAlignment="Center" Margin="10,10,10,10"/>
 
             <TextBlock Name="TBFolderDetails_Size" Text="{Binding SizeInBytes}" 
-                           Grid.Column="2" Grid.Row="2" 
+                           Grid.Column="2" Grid.Row="3" 
                            FontSize="13.333" 
                            VerticalAlignment="Center" Margin="0,10,30,10"/>
             <!-- END SIZE SECTION -->
