@@ -31,7 +31,6 @@ namespace FolderSynchMUIClient
 
         private void UserControl_ContentRendered(object sender, EventArgs e)
         {
-            
            
         }
 

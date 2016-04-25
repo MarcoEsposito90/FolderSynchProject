@@ -24,7 +24,8 @@
         </Grid.RowDefinitions>
 
         <TextBlock Text="File Info" Margin="10"
-                   FontSize="18.667" Grid.Row="0" Grid.ColumnSpan="3"
+                   Style="{StaticResource Title}" FontSize="21.333"
+                   Grid.Row="0" Grid.ColumnSpan="3"
                    Foreground="{DynamicResource ItemBackgroundSelected}"
                    VerticalAlignment="Center" FontFamily="Segoe UI Light" />
 

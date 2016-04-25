@@ -62,7 +62,13 @@ namespace FolderSynchMUIClient
             }
             else
             {
-                MessageBoxResult result = MessageBox.Show("You have no unsynched folders.","Confirmation", MessageBoxButton.OK);
+                ConfirmDialog result = new ConfirmDialog("You have no unsynched folders.");
+                result.Title = "Info";
+                var uriSource = new Uri(@"/FolderSynchMUIClient;component/Icons/MyUnsynch_Icon.png", UriKind.Relative);
+                result.warningIcon.Source = new BitmapImage(uriSource);
+                result.NoButton.Content = "Ok";
+                result.YesButton.Visibility = Visibility.Hidden;
+                result.ShowDialog();
             }
         }
     }

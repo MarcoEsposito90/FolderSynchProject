@@ -71,6 +71,7 @@
                 <Label Name="responseLabel"/>
 
                 <Image Width="200" Margin="10,25,10,10"
+                       HorizontalAlignment="Center"
                     Source="/Icons/LogoFS.png" Opacity="0.5"/>
 
             </StackPanel>

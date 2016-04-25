@@ -15,7 +15,7 @@
         <Style TargetType="{x:Type TextBlock}" x:Key="TBStyle">
             <Setter Property="Visibility" Value="Hidden" />
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Updates.Count}" Value="0">
+                <DataTrigger Binding="{Binding UpdateEntries.Count}" Value="0">
                     <Setter Property="Visibility" Value="Visible" />
                 </DataTrigger>
             </Style.Triggers>
@@ -55,13 +55,14 @@
         
         <!--TITLE-->
         <TextBlock Text="Updates History" HorizontalAlignment="Left" 
-                   FontSize="18.667"
+                   Style="{StaticResource Title}" FontSize="21.333"
                    VerticalAlignment="Center" Margin="10,10,0,0"  
                    FontFamily="Segoe UI Light" 
                    Foreground="{DynamicResource ItemBackgroundSelected}"/>
         <!-- END TITLE -->
 
 
+        
         <!-- ITEMS TREEVIEW -->
         <ItemsControl Name="updateDates" Margin="20,10,10,0" ItemsSource="{Binding UpdateEntries}">
             <ItemsControl.ItemTemplate>

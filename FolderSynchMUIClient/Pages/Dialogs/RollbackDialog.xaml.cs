@@ -146,6 +146,7 @@ namespace FolderSynchMUIClient
             else
             {
                 warningTB.Text = "Please select an option before proceeding!";
+                warningTB.Foreground = Brushes.OrangeRed;
                 return;
             }
 
@@ -188,6 +189,7 @@ namespace FolderSynchMUIClient
             {
                 Console.WriteLine("BackgroundWorker error: " + e.Error);
                 warningTB.Text = "Error: " + e.Error + ". Unable to complete";
+                warningTB.Foreground = Brushes.Red;
                 return;
             }
 
@@ -199,6 +201,7 @@ namespace FolderSynchMUIClient
             }
 
             warningTB.Text = "Operation completed succesfully!";
+            warningTB.Foreground = Brushes.Green;
             CancelButton.Visibility = Visibility.Hidden;
             OkButton.Visibility = Visibility.Visible;
         }
