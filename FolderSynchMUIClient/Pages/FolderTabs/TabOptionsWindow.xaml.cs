@@ -18,6 +18,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.ComponentModel;
 using System.IO;
+using FolderSynchMUIClient.Pages.HomePages;
 
 namespace FolderSynchMUIClient.Pages
 {
@@ -187,10 +188,10 @@ namespace FolderSynchMUIClient.Pages
 
                         application.startWatching(lf);
                     }
-
-                    labelSaveResult.Content = "Changes made with success.";
-
                 }
+                labelSaveResult.Content = "Changes made with success.";
+                labelSaveResult.Foreground = Brushes.Green;
+                labelSaveResult.Visibility = Visibility.Visible;
             }
         }
 

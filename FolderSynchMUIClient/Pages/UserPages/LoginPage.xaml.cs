@@ -62,6 +62,7 @@ namespace FolderSynchMUIClient.Pages
             catch (FaultException f)
             {
                 responseLabel.Content = "error: " + f.Message;
+                responseLabel.Foreground = Brushes.Red;
             }
         }
 

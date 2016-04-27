@@ -1,0 +1,7 @@
+1- Se faccio logout e poi login non apre secondwindow
+2- A volte crea continui updates ad ogni accesso
+3- Probelma che ho solo io all'avvio con secondwindow
+4- Crash in delete folder per quelle folder del punto 2
+5- Se cerco di caricare una folder che ho precedentemente eliminato mi dà errore (dice che esiste già)
+6- Sembra non aggiornare il tempo di auto-refresh 
+7- Se desincronizzo una cartella con updates e poi la riscarico invece che scaricare tutto mi scarica solo la cartella "delta" con le modifiche

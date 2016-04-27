@@ -47,9 +47,12 @@ namespace FolderSynchMUIClient
                     {
                         responseLabel.Content = "Charcaters: " + specialChars.ToString() + " not allowed.";
                         responseLabel.Foreground = Brushes.Red;
-                        
                     }
-
+                    else if (pwd.Equals(application.User.Password))
+                    {
+                        responseLabel.Content = "The new password equals the old one.";
+                        responseLabel.Foreground = Brushes.Orange;
+                    }
                     else {
                         try
                         {

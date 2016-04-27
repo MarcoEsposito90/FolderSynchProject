@@ -72,7 +72,7 @@
 
                 <Image Width="200" Margin="10,25,10,10"
                        HorizontalAlignment="Center"
-                    Source="/Icons/LogoFS.png" Opacity="0.5"/>
+                    Source="/Icons/LogoFS.png" Opacity="0.7"/>
 
             </StackPanel>
         </ScrollViewer>

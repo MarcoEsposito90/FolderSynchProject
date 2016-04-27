@@ -54,11 +54,12 @@ namespace FolderSynchMUIClient.Pages
 
                         application.User = proxy.RegisterNewUser(TBRegisterUsername.Text.ToString(), TBRegisterPassword.Password.ToString());
                         ResponseLabel.Content = "Registration successful";
+                        ResponseLabel.Foreground = Brushes.Green;
                     }
                     catch (FaultException f)
                     {
-
                         ResponseLabel.Content = "Error: " + f.Message;
+                        ResponseLabel.Foreground = Brushes.Red;
                     }
 
                 }

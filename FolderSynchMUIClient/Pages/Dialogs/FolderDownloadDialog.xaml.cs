@@ -54,6 +54,7 @@ namespace FolderSynchMUIClient
 
             choosedPathTextBox.Text = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             DownloadProgressBar.Visibility = Visibility.Hidden;
+            responseTB.Visibility = Visibility.Hidden;
             OkButton.Visibility = Visibility.Hidden;
         }
 
@@ -104,7 +105,8 @@ namespace FolderSynchMUIClient
             bw.RunWorkerCompleted += DownloadWork_Completed;
             bw.RunWorkerAsync();
 
-            DownloadProgressBar.Visibility = Visibility.Visible;
+            DownloadProgressBar.Visibility = Visibility.Visible; ;
+            responseTB.Visibility = Visibility.Visible;
             CancelButton.Visibility = Visibility.Hidden;
         }
 
@@ -132,6 +134,7 @@ namespace FolderSynchMUIClient
 
             localFolder.Path = downloadFolderName;
             Update.Timestamp = DateTime.Now;
+            localFolder.SynchDate = DateTime.Now;
             localFolder.LastUpdateCheck = DateTime.Now;
             App application = (App)Application.Current;
             localFolder.setLatestUpdateItems();
