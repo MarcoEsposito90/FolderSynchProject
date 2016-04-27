@@ -166,7 +166,7 @@ namespace FolderSynchMUIClient.Pages
                     }
                     else
                     {
-                        Console.WriteLine("proceed moving the folder");
+                        Console.WriteLine("proceed moving the folder to: " + newPath + "\\" + lf.Name);
 
                         // temporary disable updates and manually update
                         application.stopWatching(lf);
@@ -181,8 +181,8 @@ namespace FolderSynchMUIClient.Pages
                         }
 
                         // now we can move it
-                        Directory.Move(lf.Path, newPath);
-                        lf.Path = newPath;
+                        Directory.Move(lf.Path, newPath + "\\" + lf.Name);
+                        lf.Path = newPath + "\\" + lf.Name;
                         lf.setLatestUpdateItems();
 
                         application.startWatching(lf);
