@@ -12,6 +12,7 @@ using FolderSynchMUIClient.StreamedTransferService;
 using System.IO;
 using Newtonsoft.Json;
 using System.Collections.ObjectModel;
+using System.ServiceModel;
 
 namespace FolderSynchMUIClient
 {
@@ -436,6 +437,51 @@ namespace FolderSynchMUIClient
         {
             foreach (FolderWatcher fw in FolderWatchers)
                 fw.watch();
+        }
+
+
+
+        /* ---------------------------------------------------------------- */
+        /* ------------ UNHANDLED EXCEPTIONS ------------------------------ */
+        /* ---------------------------------------------------------------- */
+
+        private void Application_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        {
+            Console.WriteLine("application must handle a " + e.Exception.GetType());
+
+            /* ----------------------------------------------------------------------------------- */
+            if (e.Exception.GetType().Equals(typeof(CommunicationObjectFaultedException)) ||
+                e.Exception.GetType().Equals(typeof(CommunicationException)) ||
+                e.Exception.GetType().Equals(typeof(EndpointNotFoundException)))
+            {
+                Console.WriteLine("Communication with server faulted");
+                forceLogout();
+            }
+
+            e.Handled = true;
+        }
+
+
+
+        /**************************************************************************************/
+        private void forceLogout()
+        {
+            Application_Logout();
+            _User = null;
+            isUserInitialized = false;
+
+            ErrorDialog ed = new ErrorDialog("Communication with server faulted. Impossible to access the service");
+
+            if (ed.ShowDialog() == true)
+            {
+                // change window -------------------------
+                MainWindow mw = new MainWindow();
+                mw.Show();
+                Application.Current.MainWindow = mw;
+
+                Application.Current.Windows[0].Close();
+            }
+
         }
     }
 }
