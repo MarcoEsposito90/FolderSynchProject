@@ -51,9 +51,6 @@ namespace FolderSynchMUIClient.Pages
                 if (CheckBoxRemember.IsChecked.Value)
                     application.AddKnownUser(TBLoginUsername.Text, TBLoginPassword.Password);
 
-
-                
-
                 // change window ---------------------------------------------------------------------------
                 SecondWindow sw = new SecondWindow();
                 sw.Show();

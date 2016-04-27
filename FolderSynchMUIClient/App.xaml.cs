@@ -452,13 +452,31 @@ namespace FolderSynchMUIClient
             /* ----------------------------------------------------------------------------------- */
             if (e.Exception.GetType().Equals(typeof(CommunicationObjectFaultedException)) ||
                 e.Exception.GetType().Equals(typeof(CommunicationException)) ||
-                e.Exception.GetType().Equals(typeof(EndpointNotFoundException)))
+                e.Exception.GetType().Equals(typeof(EndpointNotFoundException)) ||
+                e.Exception.GetType().Equals(typeof(ChannelTerminatedException)) ||
+                e.Exception.GetType().Equals(typeof(CommunicationObjectAbortedException)) ||
+                e.Exception.GetType().Equals(typeof(FaultException)) ||
+                e.Exception.GetType().Equals(typeof(ServerTooBusyException)) ||
+                e.Exception.GetType().Equals(typeof(ServiceActivationException)))
             {
+
                 Console.WriteLine("Communication with server faulted");
                 forceLogout();
+                e.Handled = true;
+            }
+            /* ----------------------------------------------------------------------------------- */
+            else
+            {
+                Console.WriteLine("Panic! unknown exception...");
+                Application_Logout();
+                _User = null;
+                isUserInitialized = false;
+
+                ErrorDialog ed = new ErrorDialog("Due to an unknown error, the application will be closed");
+                ed.ShowDialog();
             }
 
-            e.Handled = true;
+            
         }
 
 

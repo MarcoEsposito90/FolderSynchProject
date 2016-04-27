@@ -312,8 +312,9 @@ namespace ServicesProject
         /* ------------------------ ROLLBACK METHODS ------------------------------------ */
         /* ------------------------------------------------------------------------------ */
 
-        public void rollBack(string transactionID)
+        public void rollBack(string transactionID, out bool crashOnCreation)
         {
+            crashOnCreation = false;
 
             // 1) read updates file and find which update is related to this transaction
             Update targetUpdate = null;
@@ -338,9 +339,21 @@ namespace ServicesProject
 
             // 3) remove update object from list
             Updates.Remove(targetUpdate);
-            Updates.Sort();
-            writeToFile(Updates);
+            if (Updates.Count > 0)
+            {
+                Updates.Sort();
+                writeToFile(Updates);
+                return;
+            }
+
+
+            // 4) if crash on creating folder, remove it completely
+            crashOnCreation = true;
+            deleteDirectory(FolderSynchServer.Instance.RemoteFoldersPath + "\\" +
+                            User.Username + "\\" +
+                            BaseFolder);
         }
+
 
 
         /*********************************************************************************/
@@ -410,9 +423,9 @@ namespace ServicesProject
             List<Update.UpdateEntry> entries = new List<Update.UpdateEntry>();
             Update update = null;
 
-            foreach(Update u in Updates)
+            foreach (Update u in Updates)
             {
-                if(u.Number == updateNumber)
+                if (u.Number == updateNumber)
                 {
                     update = u;
                     break;
@@ -424,11 +437,11 @@ namespace ServicesProject
 
             List<string> ignores = new List<string>();
             List<string> added = new List<string>();
-            for(int i = updateNumber; i >= 0; i--)
+            for (int i = updateNumber; i >= 0; i--)
             {
                 Console.WriteLine("-----------------------------------------------------------");
                 Console.WriteLine("scanning update " + i);
-                foreach(Update.UpdateEntry e in Updates.ElementAt(i).UpdateEntries)
+                foreach (Update.UpdateEntry e in Updates.ElementAt(i).UpdateEntries)
                 {
                     Console.WriteLine("**********************");
                     Console.WriteLine("checking update entry: " + e.ItemLocalPath + "; " + e.UpdateType);
@@ -529,7 +542,7 @@ namespace ServicesProject
         /***********************************************************************************/
         public void commitRollback(int updateNumber)
         {
-            for(int i = updateNumber + 1; i < Updates.Count; i++)
+            for (int i = updateNumber + 1; i < Updates.Count; i++)
             {
                 deleteDirectory(FolderSynchServer.Instance.RemoteFoldersPath + "\\" +
                                 User.Username + "\\" +
@@ -570,7 +583,7 @@ namespace ServicesProject
         /* ------------------------------------------------------------------------------ */
         public void removeFolder()
         {
-            foreach(Update u in Updates)
+            foreach (Update u in Updates)
             {
                 string path = FolderSynchServer.Instance.RemoteFoldersPath + "\\" +
                               User.Username + "\\" +

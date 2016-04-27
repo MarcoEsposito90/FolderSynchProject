@@ -151,6 +151,8 @@ namespace ServicesProject
         /*****************************************************************************************/
         private void checkForRollbacks()
         {
+            Console.WriteLine("\n\n\n------------------------- STARTING RECOVERY --------------------------");
+
             List<string> transactionIDs = UpdateTransactionsHandler.Instance.checkForRecovery();
             foreach (string id in transactionIDs)
             {
@@ -162,11 +164,25 @@ namespace ServicesProject
                 if (!Users.TryGetValue(tokens[0], out u))
                     throw new Exception("User does not exist");
 
+                bool crashOnCreation = false;
                 UpdatesFileHandler handler = getUpdateFileHandler(u, tokens[1]);
-                handler.rollBack(id);
+                handler.rollBack(id, out crashOnCreation);
+
+                if (crashOnCreation)
+                {
+                    Console.WriteLine("crash during creating a remote folder. removing it from user's folder list");
+                    int index = u.Folders.FindIndex(item => item.FolderName.Equals(tokens[1]));
+                    if (index >= 0)
+                        u.Folders.RemoveAt(index);
+
+                    UsersFileHandler.Instance.WriteUsersList(Users.Values.ToList());
+                }
 
                 UpdateTransactionsHandler.Instance.cleanLogFile(id);
             }
+
+            Console.WriteLine("----------------------- RECOVERY COMPLETED --------------------------");
+
         }
 
         /* ----------------------------------------------------------------------------------------------- */
