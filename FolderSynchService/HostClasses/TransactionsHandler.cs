@@ -118,7 +118,7 @@ namespace ServicesProject
         public void cleanLogFile()
         {
 
-            Console.WriteLine("handler started log cleaning procedure");
+            Console.WriteLine("\n\n ------------------------------ LOG CLEAN START ----------------------------");
             lock (this)
             {
 
@@ -159,19 +159,19 @@ namespace ServicesProject
                     string line = lines.ElementAt(i);
                     string[] tokens = line.Split(';');
 
-                    Console.WriteLine("line = " + line);
+                    Console.WriteLine("- line = " + line);
                     
                     // 2) if the entry is a committ or an abort, it is finished ---------------
                     if (tokens[1].Equals(Operations.Commit.ToString()) || tokens[1].Equals(Operations.Abort.ToString()))
                     {
-                        Console.WriteLine("end of transaction detected. ignoring it");
+                        Console.WriteLine("     end of transaction detected. ignoring it");
                         ignores.Add(tokens[0]);
                         continue;
                     }
 
                     if(ignores.Contains(tokens[0]))
                     {
-                        Console.WriteLine("ignoring because part of finished transaction");
+                        Console.WriteLine("     ignoring because part of finished transaction");
                         continue;
                     }
                     output.Add(line);
@@ -182,9 +182,9 @@ namespace ServicesProject
                 StreamWriter sw = new StreamWriter(LogFilePath, false);
                 using (sw)
                 {
-                    Console.WriteLine("---------------------------------------------------------------");
+                    Console.WriteLine("//////////////////////////////////////");
                     Console.WriteLine("Writing to log file: ");
-                    
+
                     // 5) writing log file
                     foreach (string s in output)
                     {
@@ -193,9 +193,12 @@ namespace ServicesProject
 
                     }
 
+                    Console.WriteLine("//////////////////////////////////////");
                     sw.Close();
                 }
             }
+
+            Console.WriteLine("------------------------------ LOG CLEAN COMPLETE ----------------------------");
         }
 
 

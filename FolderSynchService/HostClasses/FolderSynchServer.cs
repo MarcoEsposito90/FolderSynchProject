@@ -144,9 +144,9 @@ namespace ServicesProject
 
             // 4) check if some rollback is necessary ----------------------
             checkForRollbacks();
-
             IsInitialized = true;
         }
+
 
         /*****************************************************************************************/
         private void checkForRollbacks()
@@ -170,7 +170,7 @@ namespace ServicesProject
 
                 if (crashOnCreation)
                 {
-                    Console.WriteLine("crash during creating a remote folder. removing it from user's folder list");
+                    Console.WriteLine("crash on creating a remote folder. removing it from user's folder list");
                     int index = u.Folders.FindIndex(item => item.FolderName.Equals(tokens[1]));
                     if (index >= 0)
                         u.Folders.RemoveAt(index);
@@ -182,7 +182,6 @@ namespace ServicesProject
             }
 
             Console.WriteLine("----------------------- RECOVERY COMPLETED --------------------------");
-
         }
 
         /* ----------------------------------------------------------------------------------------------- */
