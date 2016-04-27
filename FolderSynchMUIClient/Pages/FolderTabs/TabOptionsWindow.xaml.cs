@@ -72,7 +72,7 @@ namespace FolderSynchMUIClient.Pages
         {
             LocalFolder lf = (LocalFolder)this.DataContext;
             ConfirmDialog cd = new ConfirmDialog("Do you really want to de-synch this folder?" + "\n" +
-                                                 "It won't be deleted anyway from your PC");
+                                                 "It will be deleted from the cloud, but it won't be deleted anyway from your PC");
 
             if(cd.ShowDialog() == true)
             {
@@ -194,11 +194,25 @@ namespace FolderSynchMUIClient.Pages
             }
         }
 
-        
+
+
+        /* ------------------------------------------------------------------------------ */
+        /* ------------------------ LOCAL DESYNCH --------------------------------------- */
+        /* ------------------------------------------------------------------------------ */
 
         private void btnDesynchFolder_Click(object sender, RoutedEventArgs e)
         {
-            //TODO: desincronizzare cartella
+            Console.WriteLine("proceed to de-synch the folder on this device");
+
+            LocalFolder lf = (LocalFolder)this.DataContext;
+            ConfirmDialog cd = new ConfirmDialog("Do you really want to de-synch this folder locally?\n" +
+                                                 "The folder will still be available on the cloud, but it will be no longer synched on this PC.\n" + 
+                                                 "It won't be deleted on this PC.");
+
+            if(cd.ShowDialog() == true)
+            {
+                application.removeLocalFolder(lf);
+            }
         }
     }
 }

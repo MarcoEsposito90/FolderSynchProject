@@ -357,6 +357,7 @@ namespace ServicesProject
                 deleteDirectory(dir);
 
             Directory.Delete(path);
+            Console.WriteLine("completed deleting dir: " + path);
         }
 
 
@@ -576,6 +577,7 @@ namespace ServicesProject
                               BaseFolder;
 
                 deleteDirectory(path);
+                Console.WriteLine("Directory deleted");
                 Updates = null;
             }
         }
