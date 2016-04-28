@@ -297,14 +297,20 @@ namespace ServicesProject
 
         public void AddNewFolder(User user, Folder folder)
         {
-            if (Directory.Exists(RemoteFoldersPath + "\\" + user.Username + "\\" + folder.FolderName))
+            int found = user.Folders.FindIndex(item => item.FolderName.Equals(folder.FolderName));
+            if (Directory.Exists(RemoteFoldersPath + "\\" + user.Username + "\\" + folder.FolderName) || found >= 0)
                 throw new FaultException(new FaultReason("directory already on server"));
 
+            Console.WriteLine("folder to be created not found. ok");
             user.Folders.Add(folder);
-
             UsersFileHandler.Instance.WriteUsersList(new List<User>(Users.Values));
+            Console.WriteLine("User changes saved");
             Directory.CreateDirectory(RemoteFoldersPath + "\\" + user.Username + "\\" + folder.FolderName);
+            Console.WriteLine("new folder created");
+
         }
+
+
 
         /* ----------------------------------------------------------------------------------------------- */
         /* ------------ UPDATE METHODS ------------------------------------------------------------------- */
@@ -317,7 +323,9 @@ namespace ServicesProject
 
             UpdatesFileHandler handler = getUpdateFileHandler(transaction.User, transaction.BaseFolder);
             UpdateTransactionsHandler.Instance.AddTransaction(transaction);
+            Console.WriteLine("Starting update creation");
             handler.createNewUpdate(transaction);
+            Console.WriteLine("Update created with success");
         }
 
 
@@ -545,11 +553,9 @@ namespace ServicesProject
         {
             Folder folder = checkFolder(user, folderName);
             getUpdateFileHandler(user, folderName).removeFolder();
-            Console.WriteLine("Handler deleted folder");
+            removeUpdateFileHandler(user, folderName);
             user.Folders.Remove(folder);
-            Console.WriteLine("folder removed from list");
             UsersFileHandler.Instance.WriteUsersList(Users.Values.ToList());
-            Console.WriteLine("saving");
         }
 
 
@@ -631,6 +637,24 @@ namespace ServicesProject
             return handler;
         }
 
+
+
+        /**************************************************************************************************/
+        private void removeUpdateFileHandler(User user, string baseFolder)
+        {
+            UpdatesFileHandler handler = null;
+            UpdateHandlers.TryGetValue(user.Username + baseFolder, out handler);
+
+            if (handler == null)
+            {
+                Console.WriteLine("handler to be removed not found");
+                return;
+            }
+
+            Console.WriteLine("Proceed removing handler");
+            UpdateHandlers.Remove(user.Username + baseFolder);
+            handler = null;
+        }
     }
 
 

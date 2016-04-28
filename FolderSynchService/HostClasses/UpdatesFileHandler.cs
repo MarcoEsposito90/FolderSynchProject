@@ -82,7 +82,7 @@ namespace ServicesProject
             if (Updates.Count > 0)
                 number = Updates.ElementAt(Updates.Count - 1).Number + 1;
 
-            Console.WriteLine("creating update with numer " + number);
+            Console.WriteLine("creating update with number " + number);
             Update u = new Update(BaseFolder, transaction.Timestamp, number, transaction.TransactionID);
 
             // create the update folder
@@ -329,7 +329,18 @@ namespace ServicesProject
             }
 
             if (targetUpdate == null)
-                return;
+            {
+                if(Updates.Count == 0)
+                {
+                    crashOnCreation = true;
+                    deleteDirectory(FolderSynchServer.Instance.RemoteFoldersPath + "\\" +
+                                    User.Username + "\\" +
+                                    BaseFolder);
+                    return;
+                }
+
+                throw new Exception("Couldn't find update, impossible to do rollback");
+            }
 
             // 2) proceed to delete whole update folder
             deleteDirectory(FolderSynchServer.Instance.RemoteFoldersPath + "\\" +

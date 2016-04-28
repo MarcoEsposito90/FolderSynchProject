@@ -269,7 +269,10 @@ namespace FolderSynchMUIClient
         public void printLastUpdateStructure()
         {
             if (LatestUpdateFileItems == null || LatestUpdateFolderItems == null)
+            {
                 Console.WriteLine("no previous update structure");
+                return;
+            }
 
             foreach (FileItem file in LatestUpdateFileItems)
                 Console.WriteLine(file.Path);
