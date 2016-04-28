@@ -25,14 +25,13 @@ namespace FolderSynchMUIClient.Pages
         public SecondWindow()
         {
             InitializeComponent();
-
-            
         }
 
         private void ModernWindow_ContentRendered(object sender, EventArgs e)
         {
             Console.WriteLine("Secondwindow contentrendered called");
             App application = (App)Application.Current;
+
             // check if some synced folder is missing on this device ---------------------------------------------
             List<Folder> missingFolders = new List<Folder>();
             Dictionary<LocalFolder, Update> needResynch = new Dictionary<LocalFolder, Update>();

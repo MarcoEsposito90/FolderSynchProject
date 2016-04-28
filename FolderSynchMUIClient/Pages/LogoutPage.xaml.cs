@@ -37,6 +37,7 @@ namespace FolderSynchMUIClient.Pages
                 MainWindow mw = new MainWindow();
                 mw.Show();
 
+                Application.Current.MainWindow = mw;
                 Application.Current.Windows[0].Close();
             }
         }
