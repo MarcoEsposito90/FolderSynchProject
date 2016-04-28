@@ -49,6 +49,12 @@ namespace FolderSynchMUIClient.Pages
         {
             //Increasing auto-refresh time
             LocalFolder lf = (LocalFolder)(this.DataContext);
+            if (lf == null)
+            {
+                showErrorDialog();
+                return;
+            }
+
             txtAutoRefresh.Text = (lf.AutoRefreshTime + 1).ToString();
            
         }
@@ -59,6 +65,12 @@ namespace FolderSynchMUIClient.Pages
         {
             //Decreasing auto-refresh time
             LocalFolder lf = (LocalFolder)(this.DataContext);
+            if (lf == null)
+            {
+                showErrorDialog();
+                return;
+            }
+
             txtAutoRefresh.Text = (lf.AutoRefreshTime - 1).ToString();
             
         }
@@ -72,6 +84,13 @@ namespace FolderSynchMUIClient.Pages
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
             LocalFolder lf = (LocalFolder)this.DataContext;
+
+            if (lf == null)
+            {
+                showErrorDialog();
+                return;
+            }
+
             ConfirmDialog cd = new ConfirmDialog("Do you really want to de-synch this folder?" + "\n" +
                                                  "It will be deleted from the cloud, but it won't be deleted anyway from your PC");
 
@@ -113,6 +132,13 @@ namespace FolderSynchMUIClient.Pages
             if(cd.ShowDialog() == true)
             {
                 LocalFolder lf = (LocalFolder)this.DataContext;
+
+                if (lf == null)
+                {
+                    showErrorDialog();
+                    return;
+                }
+
                 Folder folder = null;
 
                 // 1) find correspondent remote folder --------------------------------
@@ -206,6 +232,12 @@ namespace FolderSynchMUIClient.Pages
             Console.WriteLine("proceed to de-synch the folder on this device");
 
             LocalFolder lf = (LocalFolder)this.DataContext;
+            if (lf == null)
+            {
+                showErrorDialog();
+                return;
+            }
+
             ConfirmDialog cd = new ConfirmDialog("Do you really want to de-synch this folder locally?\n" +
                                                  "The folder will still be available on the cloud, but it will be no longer synched on this PC.\n" + 
                                                  "It won't be deleted on this PC.");
@@ -214,6 +246,17 @@ namespace FolderSynchMUIClient.Pages
             {
                 application.removeLocalFolder(lf);
             }
+        }
+
+
+        /* ------------------------------------------------------------------------------ */
+        /* ------------------------ AUXILIARY ------------------------------------------- */
+        /* ------------------------------------------------------------------------------ */
+
+        private void showErrorDialog()
+        {
+            ErrorDialog ed = new ErrorDialog("No folder is currently selected");
+            ed.ShowDialog();
         }
     }
 }

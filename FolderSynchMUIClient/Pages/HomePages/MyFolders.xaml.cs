@@ -55,6 +55,11 @@ namespace FolderSynchMUIClient.Pages.HomePages
 
                 FolderTab.DataContext = application.Folder;
             }
+            else
+            {
+                Console.WriteLine("nothing selected");
+                FolderTab.DataContext = null;
+            }
         }
 
        
