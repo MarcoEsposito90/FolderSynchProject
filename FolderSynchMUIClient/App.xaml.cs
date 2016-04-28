@@ -175,6 +175,23 @@ namespace FolderSynchMUIClient
             foreach (FolderWatcher fw in FolderWatchers)
                 fw.stopWatching();
 
+            // 2) save unsaved changes --------------------------
+            List<LocalFolder> allLocalFolders = getAllLocalFolders();
+            foreach(LocalFolder lf in _LocalFolders)
+            {
+                int found = allLocalFolders.FindIndex(item => item.Name.Equals(lf.Name));
+                if (found >= 0)
+                {
+                    allLocalFolders.RemoveAt(found);
+                    allLocalFolders.Insert(found, lf);
+                }
+                else
+                {
+                    allLocalFolders.Add(lf);
+                }
+            }
+            writeAllLocalFolders(allLocalFolders);
+
             // 2) clean everything ------------------------------
             _LocalFolders.Clear();
             FolderWatchers.Clear();
@@ -311,7 +328,6 @@ namespace FolderSynchMUIClient
             _LocalFolders.Remove(localFolder);
             Console.WriteLine("local folder removed");
         }
-
 
         /* ---------------------------------------------------------------- */
         /* ------------ FOLDERS AUXILIARY --------------------------------- */

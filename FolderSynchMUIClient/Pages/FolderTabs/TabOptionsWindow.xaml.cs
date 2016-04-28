@@ -91,7 +91,7 @@ namespace FolderSynchMUIClient.Pages
                 return;
             }
 
-            ConfirmDialog cd = new ConfirmDialog("Do you really want to de-synch this folder?" + "\n" +
+            ConfirmDialog cd = new ConfirmDialog("Do you really want to de-synch this folder?\n" +
                                                  "It will be deleted from the cloud, but it won't be deleted anyway from your PC");
 
             if(cd.ShowDialog() == true)
