@@ -287,8 +287,9 @@ namespace FolderSynchMUIClient.Classes
                     else
                     {
                         // ***** one-time transfer (buffered) *****
-                        byte[] buffer = new byte[App.MAX_BUFFERED_TRANSFER_FILE_SIZE];
-                        uploadStream.Read(buffer, 0, App.MAX_BUFFERED_TRANSFER_FILE_SIZE);
+                        byte[] buffer = new byte[fi.Length];
+                        Console.WriteLine("buf len = " + buffer.Length);
+                        uploadStream.Read(buffer, 0, buffer.Length);
                         proxy.uploadFile(transaction.TransactionID, LocalFolder.Name, localPath, change.Type, buffer);
                     }
                 }
