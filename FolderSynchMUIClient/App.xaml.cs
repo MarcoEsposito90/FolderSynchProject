@@ -113,11 +113,11 @@ namespace FolderSynchMUIClient
         }
 
 
-        /* ---------------------------------------------------------------- */
-        /* ------------ CALLBACKS ----------------------------------------- */
-        /* ---------------------------------------------------------------- */
+        /* ---------------------------------------------------------------------------------------------------------------------- */
+        /* ------------ CALLBACKS ----------------------------------------------------------------------------------------------- */
+        /* ---------------------------------------------------------------------------------------------------------------------- */
 
-        /********************************************************************/
+        /****************************************************************************************************************************/
         private void Application_Startup(object sender, StartupEventArgs e)
         {
 
@@ -137,7 +137,7 @@ namespace FolderSynchMUIClient
         }
 
 
-        /********************************************************************/
+        /****************************************************************************************************************************/
         private void Application_Exit(object sender, ExitEventArgs e)
         {
 
@@ -148,10 +148,13 @@ namespace FolderSynchMUIClient
         }
 
 
-        /********************************************************************/
+        /****************************************************************************************************************************/
         private void Application_Login()
         {
             Console.WriteLine("Application_Login called");
+            List<Folder> missingFolders = new List<Folder>();
+            List<LocalFolder> disappearedFolders = new List<LocalFolder>();
+            Dictionary<LocalFolder, Update> needResynch = new Dictionary<LocalFolder, Update>();
 
             foreach (Folder f in User.Folders)
             {
@@ -159,16 +162,83 @@ namespace FolderSynchMUIClient
                 int index = _LocalFolders.ToList().FindIndex(item => item.Name.Equals(f.FolderName));
                 if (index != -1)
                 {
+                    LocalFolder lf = _LocalFolders.ElementAt(index);
+
+                    // check if the folder has been moved meanwhile --------------------------------------------
+                    if (!checkLocalFolder(lf.Path))
+                    {
+                        Console.WriteLine("the folder has been moved wihout authorization");
+                        disappearedFolders.Add(lf);
+                        continue;
+                    }
+
+                    // check if local folder needs to be resynched ----------------------------------------------
+                    Update lastLocalUpdate = lf.Updates.ElementAt(lf.Updates.Count - 1);
+                    List<Update> remoteUpdates = new List<Update>(FolderSynchProxy.getHistory(lf.Name));
+                    Update lastRemoteUpdate = remoteUpdates.ElementAt(remoteUpdates.Count - 1);
+
+                    Console.WriteLine("******************************************************************************");
+                    Console.WriteLine("Checking synchronization for folder: " + lf.Name);
+
+                    Console.WriteLine("------------------------------------------------------");
+                    Console.WriteLine("local update: ");
+                    printUpdate(lastLocalUpdate);
+
+                    Console.WriteLine("------------------------------------------------------");
+                    Console.WriteLine("remote update: ");
+                    printUpdate(lastRemoteUpdate);
+
+                    if (!lastRemoteUpdate.TransactionID.Equals(lastLocalUpdate.TransactionID))
+                    {
+                        Console.WriteLine(lf.Name + " is not synchronized! localUpdate: " +
+                                            lf.Updates.ElementAt(lf.Updates.Count - 1).TransactionID +
+                                            "; remoteUpdate: " + remoteUpdates.ElementAt(remoteUpdates.Count - 1).TransactionID);
+
+                        needResynch.Add(lf, lastRemoteUpdate);
+                    }
+
                     FolderWatcher fw = new FolderWatcher(f, _LocalFolders.ElementAt(index));
                     FolderWatchers.Add(fw);
                 }
                 else
-                    Console.WriteLine("No local Folder");
+                {
+                    Console.WriteLine(f.FolderName + " is missing");
+                    missingFolders.Add(f);
+                }
+                
             }
+
+            // show dialogs if necessary ---------------------------------------------------------------
+            if (missingFolders.Count > 0)
+            {
+                LocalFoldersWarningDialog dialog1 = new LocalFoldersWarningDialog(missingFolders);
+                dialog1.ShowDialog();
+            }
+
+            if (needResynch.Count > 0)
+            {
+                FolderDesynchUpdateDialog dialog2 = new FolderDesynchUpdateDialog(needResynch);
+                dialog2.ShowDialog();
+            }
+
+            if(disappearedFolders.Count > 0)
+            {
+                string message = "The Folders:\n";
+                foreach (LocalFolder lf in disappearedFolders)
+                    message += lf.Name + "\n";
+                message += "Have been moved from their path and will loose synchronization.\n";
+                message += "If you want them to be resynched close the application and move them back to their original path";
+
+                ErrorDialog ed = new ErrorDialog(message);
+                ed.ShowDialog();
+            }
+
+            // can now start monitoring ---------------------------------------------------------------
+            startWatching();
         }
 
 
-        /********************************************************************/
+        /****************************************************************************************************************/
         private void Application_Logout()
         {
             // 1) stop watching folder changes ------------------
@@ -198,11 +268,12 @@ namespace FolderSynchMUIClient
             FolderSynchProxy = new FolderSynchServiceContractClient();
         }
 
-        /* ---------------------------------------------------------------- */
-        /* ------------ USERS FILE ---------------------------------------- */
-        /* ---------------------------------------------------------------- */
 
-        /********************************************************************/
+
+        /* ------------------------------------------------------------------------------------------------------------------------ */
+        /* ------------ USERS FILE ------------------------------------------------------------------------------------------------ */
+        /* ------------------------------------------------------------------------------------------------------------------------ */
+
         private void UsersFileCheck()
         {
             KnownUsers = new Dictionary<string, string>();
@@ -419,6 +490,25 @@ namespace FolderSynchMUIClient
             }
         }
 
+
+        /********************************************************************/
+        private bool checkLocalFolder(string path)
+        {
+            if (!Directory.Exists(path))
+                return false;
+
+            return true;
+        }
+
+
+        /********************************************************************/
+        private void printUpdate(Update update)
+        {
+            Console.WriteLine("Update number: " + update.Number);
+            Console.WriteLine("timestamp: " + update.Timestamp);
+            Console.WriteLine("transaction: " + update.TransactionID);
+            Console.WriteLine("number of changes: " + update.UpdateEntries.Length);
+        }
 
         /* ---------------------------------------------------------------- */
         /* ------------ FOLDER WATCHERS ----------------------------------- */
