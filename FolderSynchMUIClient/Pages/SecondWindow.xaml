@@ -5,8 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:mui="http://firstfloorsoftware.com/ModernUI"
              Height="680" Width="1024"
-             ContentSource="/Pages/HomePage.xaml"
-                 Initialized="ModernWindow_ContentRendered">
+             ContentSource="/Pages/HomePage.xaml">
 
     <mui:ModernWindow.Resources>
         <Style x:Key="DownloadButton" TargetType="Button">

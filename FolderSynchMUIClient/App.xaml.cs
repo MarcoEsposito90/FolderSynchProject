@@ -114,10 +114,9 @@ namespace FolderSynchMUIClient
 
 
         /* ---------------------------------------------------------------------------------------------------------------------- */
-        /* ------------ CALLBACKS ----------------------------------------------------------------------------------------------- */
+        /* ------------ STARTUP ------------------------------------------------------------------------------------------------- */
         /* ---------------------------------------------------------------------------------------------------------------------- */
 
-        /****************************************************************************************************************************/
         private void Application_Startup(object sender, StartupEventArgs e)
         {
 
@@ -137,7 +136,10 @@ namespace FolderSynchMUIClient
         }
 
 
-        /****************************************************************************************************************************/
+        /* ---------------------------------------------------------------------------------------------------------------------- */
+        /* ------------ EXIT ---------------------------------------------------------------------------------------------------- */
+        /* ---------------------------------------------------------------------------------------------------------------------- */
+
         private void Application_Exit(object sender, ExitEventArgs e)
         {
 
@@ -148,52 +150,63 @@ namespace FolderSynchMUIClient
         }
 
 
-        /****************************************************************************************************************************/
+        /* ---------------------------------------------------------------------------------------------------------------------- */
+        /* ------------ LOGIN --------------------------------------------------------------------------------------------------- */
+        /* ---------------------------------------------------------------------------------------------------------------------- */
+
         private void Application_Login()
         {
             Console.WriteLine("Application_Login called");
             List<Folder> missingFolders = new List<Folder>();
             List<LocalFolder> disappearedFolders = new List<LocalFolder>();
+            List<LocalFolder> deletedFolders = new List<LocalFolder>();
             Dictionary<LocalFolder, Update> needResynch = new Dictionary<LocalFolder, Update>();
 
+            // check if all folders are still on the server ----------------------------------
+            foreach (LocalFolder lf in _LocalFolders)
+            {
+                bool found = false;
+                foreach(Folder f in User.Folders)
+                {
+                    if (f.FolderName.Equals(lf.Name))
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found)
+                    deletedFolders.Add(lf);
+            }
+
+            // checks for the local folders ------------------------------------------------
             foreach (Folder f in User.Folders)
             {
-                Console.WriteLine("Checking for folder: " + f.FolderName);
+                Console.WriteLine("***********************************************************");
+                Console.WriteLine("Checking folder: " + f.FolderName);
                 int index = _LocalFolders.ToList().FindIndex(item => item.Name.Equals(f.FolderName));
+
                 if (index != -1)
                 {
                     LocalFolder lf = _LocalFolders.ElementAt(index);
 
-                    // check if the folder has been moved meanwhile --------------------------------------------
+                    // check if the folder has been moved meanwhile -----------------------
                     if (!checkLocalFolder(lf.Path))
                     {
-                        Console.WriteLine("the folder has been moved wihout authorization");
+                        Console.WriteLine("the folder has been moved without authorization");
                         disappearedFolders.Add(lf);
+                        _LocalFolders.Remove(lf);
                         continue;
                     }
 
-                    // check if local folder needs to be resynched ----------------------------------------------
+                    // check if local folder needs to be resynched ------------------------
                     Update lastLocalUpdate = lf.Updates.ElementAt(lf.Updates.Count - 1);
                     List<Update> remoteUpdates = new List<Update>(FolderSynchProxy.getHistory(lf.Name));
                     Update lastRemoteUpdate = remoteUpdates.ElementAt(remoteUpdates.Count - 1);
 
-                    Console.WriteLine("******************************************************************************");
-                    Console.WriteLine("Checking synchronization for folder: " + lf.Name);
-
-                    Console.WriteLine("------------------------------------------------------");
-                    Console.WriteLine("local update: ");
-                    printUpdate(lastLocalUpdate);
-
-                    Console.WriteLine("------------------------------------------------------");
-                    Console.WriteLine("remote update: ");
-                    printUpdate(lastRemoteUpdate);
-
                     if (!lastRemoteUpdate.TransactionID.Equals(lastLocalUpdate.TransactionID))
                     {
-                        Console.WriteLine(lf.Name + " is not synchronized! localUpdate: " +
-                                            lf.Updates.ElementAt(lf.Updates.Count - 1).TransactionID +
-                                            "; remoteUpdate: " + remoteUpdates.ElementAt(remoteUpdates.Count - 1).TransactionID);
-
+                        Console.WriteLine(lf.Name + " is not synchronized!");
                         needResynch.Add(lf, lastRemoteUpdate);
                     }
 
@@ -205,40 +218,73 @@ namespace FolderSynchMUIClient
                     Console.WriteLine(f.FolderName + " is missing");
                     missingFolders.Add(f);
                 }
-                
+
+                Console.WriteLine("***********************************************************");
+
             }
 
-            // show dialogs if necessary ---------------------------------------------------------------
+            
+            // show dialog for deleted folders ----------------------------------------------
+            if (deletedFolders.Count > 0)
+            {
+                string message = "The Folders: ";
+                foreach (LocalFolder lf in deletedFolders)
+                    message += lf.Name + ", ";
+
+                message += "\nAre no more available on the server. You have probably deleted them from another device.";
+                message += "\nThese Folders will be desynched on this device too.";
+                ErrorDialog ed = new ErrorDialog(message);
+
+                if (ed.ShowDialog() == true)
+                {
+                    foreach (LocalFolder lf in deletedFolders)
+                        removeLocalFolder(lf);
+                }
+            }
+
+            // show dialog for missing folders ----------------------------------------------
             if (missingFolders.Count > 0)
             {
                 LocalFoldersWarningDialog dialog1 = new LocalFoldersWarningDialog(missingFolders);
                 dialog1.ShowDialog();
             }
 
+            // show dialog for folders which need resynch -----------------------------------
             if (needResynch.Count > 0)
             {
                 FolderDesynchUpdateDialog dialog2 = new FolderDesynchUpdateDialog(needResynch);
                 dialog2.ShowDialog();
             }
 
+            // show dialog for folders moved or deleted outside the app ----------------------
             if(disappearedFolders.Count > 0)
             {
-                string message = "The Folders:\n";
+                string message = "The Folders: ";
                 foreach (LocalFolder lf in disappearedFolders)
-                    message += lf.Name + "\n";
-                message += "Have been moved from their path and will loose synchronization.\n";
-                message += "If you want them to be resynched close the application and move them back to their original path";
+                    message += lf.Name + ", ";
+                message += "\n\nHave been moved from their path or deleted.\n";
+                message += "If you want them to be synched close the application and move them back to their original path.\n";
+                message += "To move or delete a folder in future, we remind you to make use of the functions Move, Delete and Desynch in the Options Tab";
 
-                ErrorDialog ed = new ErrorDialog(message);
-                ed.ShowDialog();
+                message += "\n\nDo you want to desynch these folders on this PC (they will still be available on the server)?";
+
+                ConfirmDialog cd = new ConfirmDialog(message);
+                if(cd.ShowDialog() == true)
+                {
+                    foreach (LocalFolder lf in disappearedFolders)
+                        removeLocalFolder(lf);
+                }
             }
 
-            // can now start monitoring ---------------------------------------------------------------
+            // can now start monitoring ------------------------------
             startWatching();
         }
 
 
-        /****************************************************************************************************************/
+        /* ---------------------------------------------------------------------------------------------------------------------- */
+        /* ------------ LOGOUT -------------------------------------------------------------------------------------------------- */
+        /* ---------------------------------------------------------------------------------------------------------------------- */
+
         private void Application_Logout()
         {
             // 1) stop watching folder changes ------------------
