@@ -21,12 +21,6 @@ namespace FolderSynchMUIClient
             private set;
         }
 
-        public bool IsWatching
-        {
-            get;
-            private set;
-        }
-
         Folder folder;
 
 
@@ -45,8 +39,10 @@ namespace FolderSynchMUIClient
 
         public void watch()
         {
+            if (timer != null)
+                return;
+
             Console.WriteLine("Start watching (" + LocalFolder.Name + ")");
-            IsWatching = true;
 
             // 1)   must detect if update is immediately necessary (for instance,
             //      the client may have been closed for days)
@@ -61,6 +57,9 @@ namespace FolderSynchMUIClient
                                 TimeSpan.FromMinutes(1));                                           // second is for subsequent
         }
 
+
+
+        /********************************************************************/
         public void stopWatching()
         {
             Console.WriteLine("Stop watching (" + LocalFolder.Name + ")");
@@ -68,7 +67,6 @@ namespace FolderSynchMUIClient
                 timer.Dispose();
             timer = null;
 
-            IsWatching = false;
         }
 
 

@@ -17,5 +17,8 @@ namespace ServicesProject
 
         [OperationContract]
         Stream downloadFileStreamed(string username, string baseFolder, string localPath, int updateNumber);
+
+        [OperationContract]
+        void heartBeat(string username);
     }
 }

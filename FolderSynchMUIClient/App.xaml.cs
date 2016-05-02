@@ -564,7 +564,7 @@ namespace FolderSynchMUIClient
         public void stopWatching(LocalFolder localFolder)
         {
             foreach (FolderWatcher fw in FolderWatchers)
-                if (fw.LocalFolder.Name.Equals(localFolder.Name) && fw.IsWatching)
+                if (fw.LocalFolder.Name.Equals(localFolder.Name))
                 {
                     fw.stopWatching();
                     break;
@@ -576,7 +576,7 @@ namespace FolderSynchMUIClient
         public void startWatching(LocalFolder localFolder)
         {
             foreach (FolderWatcher fw in FolderWatchers)
-                if (fw.LocalFolder.Name.Equals(localFolder.Name) && !fw.IsWatching)
+                if (fw.LocalFolder.Name.Equals(localFolder.Name))
                 {
                     fw.watch();
                     break;

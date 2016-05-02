@@ -334,7 +334,7 @@ namespace ServicesProject
         {
             // 1) check if everything ok ---------------------------------------------------
             User user = null;
-            ConnectedUsers.TryGetValue(username+baseFolder, out user);
+            ConnectedUsers.TryGetValue(username, out user);
 
             if (user == null)
                 throw new FaultException(new FaultReason(FileTransferFault.USER_NOT_CONNECTED));

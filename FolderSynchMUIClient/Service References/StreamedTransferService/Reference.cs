@@ -27,6 +27,12 @@ namespace FolderSynchMUIClient.StreamedTransferService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/StreamedTransferContract/downloadFileStreamed", ReplyAction="http://tempuri.org/StreamedTransferContract/downloadFileStreamedResponse")]
         System.Threading.Tasks.Task<System.IO.Stream> downloadFileStreamedAsync(string username, string baseFolder, string localPath, int updateNumber);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/StreamedTransferContract/heartBeat", ReplyAction="http://tempuri.org/StreamedTransferContract/heartBeatResponse")]
+        void heartBeat(string username);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/StreamedTransferContract/heartBeat", ReplyAction="http://tempuri.org/StreamedTransferContract/heartBeatResponse")]
+        System.Threading.Tasks.Task heartBeatAsync(string username);
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -141,6 +147,14 @@ namespace FolderSynchMUIClient.StreamedTransferService {
         
         public System.Threading.Tasks.Task<System.IO.Stream> downloadFileStreamedAsync(string username, string baseFolder, string localPath, int updateNumber) {
             return base.Channel.downloadFileStreamedAsync(username, baseFolder, localPath, updateNumber);
+        }
+        
+        public void heartBeat(string username) {
+            base.Channel.heartBeat(username);
+        }
+        
+        public System.Threading.Tasks.Task heartBeatAsync(string username) {
+            return base.Channel.heartBeatAsync(username);
         }
     }
 }

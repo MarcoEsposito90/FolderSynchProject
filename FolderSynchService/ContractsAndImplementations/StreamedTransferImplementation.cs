@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ServicesProject
 {
-
+    [ServiceBehavior (InstanceContextMode = InstanceContextMode.PerCall)]
     public class StreamedTransferImplementation : StreamedTransferContract
     {
 
@@ -26,6 +27,11 @@ namespace ServicesProject
         {
             Console.WriteLine(username + " wants to download " + baseFolder + "\\" + localPath + " in streamed mode. (update " + updateNumber + ")");
             return FolderSynchServer.Instance.downloadFileStreamed(username, baseFolder, localPath, updateNumber);
-        } 
+        }
+
+
+        public void heartBeat(string username)
+        {
+        }
     }
 }

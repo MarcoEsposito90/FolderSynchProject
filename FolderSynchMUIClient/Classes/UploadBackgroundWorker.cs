@@ -79,15 +79,13 @@ namespace FolderSynchMUIClient.Classes
         /*********************************************************************************/
         private void Upload_BackgroundWork(object sender, DoWorkEventArgs e)
         {
+            // 1) temporary stop watching the folder -------------------------------
             application.stopWatching(LocalFolder);
 
             BackgroundWorker worker = sender as BackgroundWorker;
             worker.ReportProgress(0, State.Computing);
             Update newUpdate = null;
 
-            // 1) temporary save the object ---------------------------------------------
-            string localFolderSerialized = JsonConvert.SerializeObject(LocalFolder);
-            LocalFolder.setLatestUpdateItems();
 
             // 2) compute size -----------------------------------------------------
             filesNumber = computeFileNumber(LocalFolder);
@@ -107,6 +105,7 @@ namespace FolderSynchMUIClient.Classes
                     e.Result = new UploadWorkerResponse(true, "");
                     LocalFolder.LastUpdateCheck = DateTime.Now;
                     LocalFolder.Updates.Add(newUpdate);
+                    LocalFolder.setLatestUpdateItems();
                 }
                 else
                 {
@@ -117,14 +116,13 @@ namespace FolderSynchMUIClient.Classes
             catch (FaultException f)
             {
                 Console.WriteLine("error: " + f.Reason);
-
-                // rollback to saved object
-                Newtonsoft.Json.Linq.JObject o = (Newtonsoft.Json.Linq.JObject)JsonConvert.DeserializeObject(localFolderSerialized);
-                LocalFolder = (LocalFolder)o.ToObject(typeof(LocalFolder));
-                LocalFolder.printLastUpdateStructure();
-
                 e.Result = new UploadWorkerResponse(false, UploadWorkerResponse.ERROR_MESSAGE);
 
+            }
+            catch (TimeoutException exception)
+            {
+                Console.WriteLine("error: " + exception.Message);
+                e.Result = new UploadWorkerResponse(false, UploadWorkerResponse.ERROR_MESSAGE);
             }
 
             application.startWatching(LocalFolder);
@@ -168,6 +166,7 @@ namespace FolderSynchMUIClient.Classes
                                                         Item.Change.NEW_FILE,
                                                         application.User.Username,
                                                         uploadStream);
+
                     }
                     else
                     {
@@ -197,6 +196,7 @@ namespace FolderSynchMUIClient.Classes
 
         private void Upload_BackgroundWork_Incremental(object sender, DoWorkEventArgs e)
         {
+            // 1) stop watching the folder -----------------------------------------------
             application.stopWatching(LocalFolder);
 
             if (application.User == null)
@@ -204,10 +204,6 @@ namespace FolderSynchMUIClient.Classes
                 e.Result = new UploadWorkerResponse(false, UploadWorkerResponse.USER_NOT_CONNECTED);
                 return;
             }
-
-            // 1) temporary save the object ---------------------------------------------
-            string localFolderSerialized = JsonConvert.SerializeObject(LocalFolder);
-            LocalFolder.setLatestUpdateItems();
 
             // 2) preparation ------------------------------------------------------------
             BackgroundWorker worker = sender as BackgroundWorker;
@@ -235,16 +231,16 @@ namespace FolderSynchMUIClient.Classes
                 e.Result = new UploadWorkerResponse(true, "");
                 LocalFolder.LastUpdateCheck = DateTime.Now;
                 LocalFolder.Updates = new ObservableCollection<Update>(proxy.getHistory(LocalFolder.Name));
+                LocalFolder.setLatestUpdateItems();
             }
             catch (FaultException f)
             {
                 Console.WriteLine("error: " + f.Message);
-
-                // rollback to saved object
-                Newtonsoft.Json.Linq.JObject o = (Newtonsoft.Json.Linq.JObject)JsonConvert.DeserializeObject(localFolderSerialized);
-                LocalFolder = (LocalFolder)o.ToObject(typeof(LocalFolder));
-                LocalFolder.printLastUpdateStructure();
-
+                e.Result = new UploadWorkerResponse(false, UploadWorkerResponse.ERROR_MESSAGE);
+            }
+            catch (TimeoutException exception)
+            {
+                Console.WriteLine("error: " + exception.Message);
                 e.Result = new UploadWorkerResponse(false, UploadWorkerResponse.ERROR_MESSAGE);
             }
 
@@ -270,6 +266,7 @@ namespace FolderSynchMUIClient.Classes
 
             else
             {
+                
                 using (Stream uploadStream = new FileStream(change.Path, FileMode.Open, FileAccess.Read))
                 {
                     FileInfo fi = new FileInfo(change.Path);
@@ -283,6 +280,7 @@ namespace FolderSynchMUIClient.Classes
                                                         change.Type,
                                                         application.User.Username,
                                                         uploadStream);
+
                     }
                     else
                     {
