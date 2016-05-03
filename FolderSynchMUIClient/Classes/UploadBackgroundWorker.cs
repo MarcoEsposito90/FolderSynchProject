@@ -81,11 +81,14 @@ namespace FolderSynchMUIClient.Classes
         {
             // 1) temporary stop watching the folder -------------------------------
             application.stopWatching(LocalFolder);
+            string savedLocalFolder = JsonConvert.SerializeObject(LocalFolder);
+            LocalFolder.setLatestUpdateItems();
 
             BackgroundWorker worker = sender as BackgroundWorker;
             worker.ReportProgress(0, State.Computing);
             Update newUpdate = null;
-
+            UpdateTransaction transaction = null;
+            bool success = true;
 
             // 2) compute size -----------------------------------------------------
             filesNumber = computeFileNumber(LocalFolder);
@@ -97,7 +100,7 @@ namespace FolderSynchMUIClient.Classes
                 {
                     // 3) begin update transaction --------------------------------------
                     DateTime timestamp = DateTime.Now;
-                    UpdateTransaction transaction = proxy.beginUpdate(LocalFolder.Name, timestamp);
+                    transaction = proxy.beginUpdate(LocalFolder.Name, timestamp);
 
                     uploadDirectory(LocalFolder, transaction, worker);
                     newUpdate = proxy.updateCommit(transaction);
@@ -105,7 +108,6 @@ namespace FolderSynchMUIClient.Classes
                     e.Result = new UploadWorkerResponse(true, "");
                     LocalFolder.LastUpdateCheck = DateTime.Now;
                     LocalFolder.Updates.Add(newUpdate);
-                    LocalFolder.setLatestUpdateItems();
                 }
                 else
                 {
@@ -116,13 +118,25 @@ namespace FolderSynchMUIClient.Classes
             catch (FaultException f)
             {
                 Console.WriteLine("error: " + f.Reason);
-                e.Result = new UploadWorkerResponse(false, UploadWorkerResponse.ERROR_MESSAGE);
 
+                if (transaction != null)
+                    proxy.updateAbort(transaction);
+
+                success = false;
+                e.Result = new UploadWorkerResponse(false, UploadWorkerResponse.ERROR_MESSAGE);
             }
             catch (TimeoutException exception)
             {
                 Console.WriteLine("error: " + exception.Message);
+                success = false;
                 e.Result = new UploadWorkerResponse(false, UploadWorkerResponse.ERROR_MESSAGE);
+            }
+
+            if (!success)
+            {
+                // rollback to saved object
+                Newtonsoft.Json.Linq.JObject o = (Newtonsoft.Json.Linq.JObject)JsonConvert.DeserializeObject(savedLocalFolder);
+                LocalFolder = (LocalFolder)o.ToObject(typeof(LocalFolder));
             }
 
             application.startWatching(LocalFolder);
@@ -198,6 +212,8 @@ namespace FolderSynchMUIClient.Classes
         {
             // 1) stop watching the folder -----------------------------------------------
             application.stopWatching(LocalFolder);
+            string savedLocalFolder = JsonConvert.SerializeObject(LocalFolder);
+            LocalFolder.setLatestUpdateItems();
 
             if (application.User == null)
             {
@@ -209,6 +225,9 @@ namespace FolderSynchMUIClient.Classes
             BackgroundWorker worker = sender as BackgroundWorker;
             worker.ReportProgress(0, State.Computing);
             Update newUpdate = null;
+            UpdateTransaction transaction = null;
+            bool success = true;
+
             filesNumber = Changes.Count;
             worker.ReportProgress(0, State.Uploading);
 
@@ -216,7 +235,7 @@ namespace FolderSynchMUIClient.Classes
             {
                 // 3) begin update transaction --------------------------------------
                 DateTime timestamp = DateTime.Now;
-                UpdateTransaction transaction = proxy.beginUpdate(LocalFolder.Name, timestamp);
+                transaction = proxy.beginUpdate(LocalFolder.Name, timestamp);
 
                 // 4) upload items --------------------------------------------------
                 foreach (Item.Change change in Changes)
@@ -231,17 +250,29 @@ namespace FolderSynchMUIClient.Classes
                 e.Result = new UploadWorkerResponse(true, "");
                 LocalFolder.LastUpdateCheck = DateTime.Now;
                 LocalFolder.Updates = new ObservableCollection<Update>(proxy.getHistory(LocalFolder.Name));
-                LocalFolder.setLatestUpdateItems();
             }
             catch (FaultException f)
             {
                 Console.WriteLine("error: " + f.Message);
+
+                if (transaction != null)
+                    proxy.updateAbort(transaction);
+
+                success = false;
                 e.Result = new UploadWorkerResponse(false, UploadWorkerResponse.ERROR_MESSAGE);
             }
             catch (TimeoutException exception)
             {
                 Console.WriteLine("error: " + exception.Message);
                 e.Result = new UploadWorkerResponse(false, UploadWorkerResponse.ERROR_MESSAGE);
+                success = false;
+            }
+
+            if (!success)
+            {
+                // rollback to saved object
+                Newtonsoft.Json.Linq.JObject o = (Newtonsoft.Json.Linq.JObject)JsonConvert.DeserializeObject(savedLocalFolder);
+                LocalFolder = (LocalFolder)o.ToObject(typeof(LocalFolder));
             }
 
             application.startWatching(LocalFolder);

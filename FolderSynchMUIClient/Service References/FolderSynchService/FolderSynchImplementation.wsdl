@@ -90,6 +90,12 @@
   <wsdl:message name="FolderSynchServiceContract_updateCommit_OutputMessage">
     <wsdl:part name="parameters" element="tns:updateCommitResponse" />
   </wsdl:message>
+  <wsdl:message name="FolderSynchServiceContract_updateAbort_InputMessage">
+    <wsdl:part name="parameters" element="tns:updateAbort" />
+  </wsdl:message>
+  <wsdl:message name="FolderSynchServiceContract_updateAbort_OutputMessage">
+    <wsdl:part name="parameters" element="tns:updateAbortResponse" />
+  </wsdl:message>
   <wsdl:message name="FolderSynchServiceContract_getFileHistory_InputMessage">
     <wsdl:part name="parameters" element="tns:getFileHistory" />
   </wsdl:message>
@@ -185,6 +191,10 @@
     <wsdl:operation msc:isInitiating="false" msc:isTerminating="false" name="updateCommit">
       <wsdl:input wsaw:Action="http://tempuri.org/FolderSynchServiceContract/updateCommit" message="tns:FolderSynchServiceContract_updateCommit_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/FolderSynchServiceContract/updateCommitResponse" message="tns:FolderSynchServiceContract_updateCommit_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="false" msc:isTerminating="false" name="updateAbort">
+      <wsdl:input wsaw:Action="http://tempuri.org/FolderSynchServiceContract/updateAbort" message="tns:FolderSynchServiceContract_updateAbort_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/FolderSynchServiceContract/updateAbortResponse" message="tns:FolderSynchServiceContract_updateAbort_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation msc:isInitiating="false" msc:isTerminating="false" name="getFileHistory">
       <wsdl:input wsaw:Action="http://tempuri.org/FolderSynchServiceContract/getFileHistory" message="tns:FolderSynchServiceContract_getFileHistory_InputMessage" />
@@ -323,6 +333,15 @@
     </wsdl:operation>
     <wsdl:operation name="updateCommit">
       <soap12:operation soapAction="http://tempuri.org/FolderSynchServiceContract/updateCommit" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateAbort">
+      <soap12:operation soapAction="http://tempuri.org/FolderSynchServiceContract/updateAbort" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

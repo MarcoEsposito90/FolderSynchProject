@@ -155,6 +155,18 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="updateAbort">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/ServicesProject" minOccurs="0" name="transaction" nillable="true" type="q8:UpdateTransaction" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="updateAbortResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
   <xs:element name="getFileHistory">
     <xs:complexType>
       <xs:sequence>
@@ -166,7 +178,7 @@
   <xs:element name="getFileHistoryResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/ServicesProject" minOccurs="0" name="getFileHistoryResult" nillable="true" type="q8:ArrayOfUpdate.UpdateEntry" />
+        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/ServicesProject" minOccurs="0" name="getFileHistoryResult" nillable="true" type="q9:ArrayOfUpdate.UpdateEntry" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -180,28 +192,28 @@
   <xs:element name="getHistoryResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/ServicesProject" minOccurs="0" name="getHistoryResult" nillable="true" type="q9:ArrayOfUpdate" />
+        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/ServicesProject" minOccurs="0" name="getHistoryResult" nillable="true" type="q10:ArrayOfUpdate" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="getUpdateFileList">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/ServicesProject" minOccurs="0" name="update" nillable="true" type="q10:Update" />
+        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/ServicesProject" minOccurs="0" name="update" nillable="true" type="q11:Update" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="getUpdateFileListResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/ServicesProject" minOccurs="0" name="getUpdateFileListResult" nillable="true" type="q11:ArrayOfUpdate.UpdateEntry" />
+        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/ServicesProject" minOccurs="0" name="getUpdateFileListResult" nillable="true" type="q12:ArrayOfUpdate.UpdateEntry" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="beginRollback">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/ServicesProject" minOccurs="0" name="update" nillable="true" type="q12:Update" />
+        <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/ServicesProject" minOccurs="0" name="update" nillable="true" type="q13:Update" />
         <xs:element minOccurs="0" name="timestamp" type="xs:dateTime" />
       </xs:sequence>
     </xs:complexType>
@@ -209,7 +221,7 @@
   <xs:element name="beginRollbackResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/ServicesProject" minOccurs="0" name="beginRollbackResult" nillable="true" type="q13:RollbackTransaction" />
+        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/ServicesProject" minOccurs="0" name="beginRollbackResult" nillable="true" type="q14:RollbackTransaction" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -232,7 +244,7 @@
   <xs:element name="commitRollback">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/ServicesProject" minOccurs="0" name="transaction" nillable="true" type="q14:RollbackTransaction" />
+        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/ServicesProject" minOccurs="0" name="transaction" nillable="true" type="q15:RollbackTransaction" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -245,7 +257,7 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="folderName" nillable="true" type="xs:string" />
-        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/ServicesProject" minOccurs="0" name="updatedFolder" nillable="true" type="q15:Folder" />
+        <xs:element xmlns:q16="http://schemas.datacontract.org/2004/07/ServicesProject" minOccurs="0" name="updatedFolder" nillable="true" type="q16:Folder" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

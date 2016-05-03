@@ -167,6 +167,18 @@ namespace ServicesProject
             return result;
         }
 
+
+        /***************************************************************************************************/
+        public void updateAbort(UpdateTransaction transaction)
+        {
+            Console.WriteLine(" -------------------------------------------------------------------------- ");
+            Console.WriteLine(currentUser.Username + "must abort an update");
+            FolderSynchServer.Instance.updateAbort(currentUser, transaction);
+            ActiveUpdateTransactions.Remove(transaction.TransactionID);
+            Console.WriteLine(" -------------------------------------------------------------------------- ");
+        }
+
+
         /* ------------------------------------------------------------------------------ */
         /* ------------------------ FOLDERS --------------------------------------------- */
         /* ------------------------------------------------------------------------------ */
@@ -189,7 +201,6 @@ namespace ServicesProject
             Console.WriteLine(" -------------------------------------------------------------------------- ");
             Console.WriteLine(currentUser.Username + " wants file history: " + baseFolder + "\\" + localPath);
             return FolderSynchServer.Instance.getFileHistory(currentUser, baseFolder, localPath);
-            Console.WriteLine(" -------------------------------------------------------------------------- ");
         }
 
         public List<Update> getHistory(string baseFolder)
@@ -197,7 +208,6 @@ namespace ServicesProject
             Console.WriteLine(" -------------------------------------------------------------------------- ");
             Console.WriteLine(currentUser.Username + " wants history of: " + baseFolder);
             return FolderSynchServer.Instance.getHistory(currentUser, baseFolder);
-            Console.WriteLine(" -------------------------------------------------------------------------- ");
         }
 
 
@@ -210,7 +220,6 @@ namespace ServicesProject
             Console.WriteLine(" -------------------------------------------------------------------------- ");
             Console.WriteLine(currentUser.Username + " wants to download: " + baseFolder + "\\" + localPath + "; (update " + updateNumber + ")");
             return FolderSynchServer.Instance.downloadFile(currentUser, baseFolder, localPath, updateNumber);
-            Console.WriteLine(" -------------------------------------------------------------------------- ");
         }
 
 
@@ -220,7 +229,6 @@ namespace ServicesProject
             Console.WriteLine(" -------------------------------------------------------------------------- ");
             Console.WriteLine(currentUser.Username + " wants the list of file relative to update " + update.Number);
             return FolderSynchServer.Instance.getUpdateFilesList(currentUser, update);
-            Console.WriteLine(" -------------------------------------------------------------------------- ");
         }
 
 
@@ -278,6 +286,6 @@ namespace ServicesProject
             Console.WriteLine(" -------------------------------------------------------------------------- ");
         }
 
-
+        
     }
 }

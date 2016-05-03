@@ -709,6 +709,12 @@ namespace FolderSynchMUIClient.FolderSynchService {
         [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/updateCommit", ReplyAction="http://tempuri.org/FolderSynchServiceContract/updateCommitResponse")]
         System.Threading.Tasks.Task<FolderSynchMUIClient.FolderSynchService.Update> updateCommitAsync(FolderSynchMUIClient.FolderSynchService.UpdateTransaction transaction);
         
+        [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/updateAbort", ReplyAction="http://tempuri.org/FolderSynchServiceContract/updateAbortResponse")]
+        void updateAbort(FolderSynchMUIClient.FolderSynchService.UpdateTransaction transaction);
+        
+        [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/updateAbort", ReplyAction="http://tempuri.org/FolderSynchServiceContract/updateAbortResponse")]
+        System.Threading.Tasks.Task updateAbortAsync(FolderSynchMUIClient.FolderSynchService.UpdateTransaction transaction);
+        
         [System.ServiceModel.OperationContractAttribute(IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/getFileHistory", ReplyAction="http://tempuri.org/FolderSynchServiceContract/getFileHistoryResponse")]
         FolderSynchMUIClient.FolderSynchService.Update.UpdateEntry[] getFileHistory(string baseFolder, string localPath);
         
@@ -871,6 +877,14 @@ namespace FolderSynchMUIClient.FolderSynchService {
         
         public System.Threading.Tasks.Task<FolderSynchMUIClient.FolderSynchService.Update> updateCommitAsync(FolderSynchMUIClient.FolderSynchService.UpdateTransaction transaction) {
             return base.Channel.updateCommitAsync(transaction);
+        }
+        
+        public void updateAbort(FolderSynchMUIClient.FolderSynchService.UpdateTransaction transaction) {
+            base.Channel.updateAbort(transaction);
+        }
+        
+        public System.Threading.Tasks.Task updateAbortAsync(FolderSynchMUIClient.FolderSynchService.UpdateTransaction transaction) {
+            return base.Channel.updateAbortAsync(transaction);
         }
         
         public FolderSynchMUIClient.FolderSynchService.Update.UpdateEntry[] getFileHistory(string baseFolder, string localPath) {

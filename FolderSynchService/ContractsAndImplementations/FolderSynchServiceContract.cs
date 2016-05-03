@@ -50,6 +50,9 @@ namespace ServicesProject
         [OperationContract(IsInitiating = false, IsTerminating = false)]
         Update updateCommit(UpdateTransaction transaction);
 
+        [OperationContract(IsInitiating = false, IsTerminating = false)]
+        void updateAbort(UpdateTransaction transaction);
+
         /**********************************************************************************************************/
         [OperationContract(IsInitiating = false, IsTerminating = false)]
         List<Update.UpdateEntry> getFileHistory(string baseFolder, string localPath);

@@ -117,7 +117,6 @@ namespace ServicesProject
 
 
             // 1) initialize files and directories ---------------------
-
             string docsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
             if (!Directory.Exists(MainDirectoryPath))
@@ -146,6 +145,8 @@ namespace ServicesProject
             checkForRollbacks();
             IsInitialized = true;
         }
+
+        
 
 
         /*****************************************************************************************/
@@ -441,7 +442,32 @@ namespace ServicesProject
 
             Update result = handler.commit(transaction);
             UpdateTransactionsHandler.Instance.CommitTransaction(transaction);
+            ActiveTransactions.Remove(transaction.TransactionID);
             return result;
+        }
+
+
+        /**************************************************************************************************/
+        public void updateAbort(User user, UpdateTransaction transaction)
+        {
+            UpdatesFileHandler handler = null;
+            if (!UpdateHandlers.TryGetValue(transaction.User.Username + transaction.BaseFolder, out handler))
+                throw new FaultException(new FaultReason("Transaction handler not found"));
+
+            bool crashOnCreation = false;
+            handler.rollBack(transaction.TransactionID, out crashOnCreation);
+
+            if (crashOnCreation)
+            {
+                Console.WriteLine("crash on creating a remote folder. removing it from user's folder list");
+                int index = user.Folders.FindIndex(item => item.FolderName.Equals(transaction.BaseFolder));
+                if (index >= 0)
+                    user.Folders.RemoveAt(index);
+
+                UsersFileHandler.Instance.WriteUsersList(Users.Values.ToList());
+            }
+
+            UpdateTransactionsHandler.Instance.AddOperation(transaction, TransactionsHandler.Operations.Abort, "");
         }
 
 
@@ -655,6 +681,9 @@ namespace ServicesProject
             UpdateHandlers.Remove(user.Username + baseFolder);
             handler = null;
         }
+
+
+
     }
 
 
