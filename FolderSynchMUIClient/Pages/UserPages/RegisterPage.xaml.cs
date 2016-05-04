@@ -55,6 +55,14 @@ namespace FolderSynchMUIClient.Pages
                         application.User = proxy.RegisterNewUser(TBRegisterUsername.Text.ToString(), TBRegisterPassword.Password.ToString());
                         ResponseLabel.Content = "Registration successful";
                         ResponseLabel.Foreground = Brushes.Green;
+
+                        // change window ---------------------------------------------------------------------------
+                        SecondWindow sw = new SecondWindow();
+                        sw.Show();
+
+                        Application.Current.MainWindow.Close();
+                        Application.Current.MainWindow = sw;
+
                     }
                     catch (FaultException f)
                     {
