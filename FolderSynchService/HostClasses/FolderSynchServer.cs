@@ -441,8 +441,9 @@ namespace ServicesProject
                 throw new FaultException(new FaultReason("Transaction handler not found"));
 
             Update result = handler.commit(transaction);
+            Console.WriteLine("update cimmit 1");
             UpdateTransactionsHandler.Instance.CommitTransaction(transaction);
-            ActiveTransactions.Remove(transaction.TransactionID);
+            Console.WriteLine("update commit 2");
             return result;
         }
 
