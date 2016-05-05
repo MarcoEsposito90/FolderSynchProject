@@ -20,11 +20,11 @@ namespace ServicesProject
         /* ------------------------ USER ---------------------------------------- */
         /* ---------------------------------------------------------------------- */
 
-        public User loginUser(string username, string password)
+        public User loginUser(string username, string password, string machineName)
         {
             Console.WriteLine(" -------------------------------------------------------------------------- ");
 
-            currentUser = FolderSynchServer.Instance.LoginUser(username, password);
+            currentUser = FolderSynchServer.Instance.LoginUser(username, password, machineName);
             ActiveUpdateTransactions = new Dictionary<string, UpdateTransaction>();
             ActiveRollbackTransactions = new Dictionary<string, RollbackTransaction>();
 
@@ -52,10 +52,10 @@ namespace ServicesProject
 
 
         /***************************************************************************************************/
-        public User RegisterNewUser(string username, string password)
+        public User RegisterNewUser(string username, string password, string machineName)
         {
             Console.WriteLine(" -------------------------------------------------------------------------- ");
-            currentUser = FolderSynchServer.Instance.registerNewUser(username, password);
+            currentUser = FolderSynchServer.Instance.registerNewUser(username, password, machineName);
             Console.WriteLine(" -------------------------------------------------------------------------- ");
             return currentUser;
         }

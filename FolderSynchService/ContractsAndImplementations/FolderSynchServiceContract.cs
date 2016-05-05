@@ -15,11 +15,11 @@ namespace ServicesProject
         /**********************************************************************************************************/
         [OperationContract(IsInitiating = true, IsTerminating = false)]
         [FaultContract(typeof(RegistrationFault))]
-        User RegisterNewUser(string username, string password);
+        User RegisterNewUser(string username, string password, string machineName);
 
         [OperationContract (IsInitiating = true, IsTerminating = false)]
         [FaultContract(typeof(LoginFault))]
-        User loginUser(string username, string password);
+        User loginUser(string username, string password, string machineName); 
 
         [OperationContract(IsInitiating = false, IsTerminating = true)]
         void logoutUser(User user);

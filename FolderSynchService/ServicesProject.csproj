@@ -62,6 +62,7 @@
     <Compile Include="HostClasses\UpdateTransactionsHandler.cs" />
     <Compile Include="Faults\FileTransferFault.cs" />
     <Compile Include="HostClasses\RollbackTransactionsHandler.cs" />
+    <Compile Include="SharedTypes\Installation.cs" />
     <Compile Include="SharedTypes\RollbackTransaction.cs" />
     <Compile Include="SharedTypes\Folder.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

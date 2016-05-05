@@ -69,12 +69,6 @@ namespace ServicesProject
 
         // updates --------------------------------------------------------------------
 
-        public Dictionary<string, UpdateTransaction> ActiveTransactions
-        {
-            get;
-            private set;
-        }
-
         public Dictionary<string, UpdatesFileHandler> UpdateHandlers
         {
             get;
@@ -193,7 +187,7 @@ namespace ServicesProject
         /* ----------------------------------------------------------------------------------------------- */
 
         /******************************************************************************************************/
-        public User registerNewUser(string username, string password)
+        public User registerNewUser(string username, string password, string machineName)
         {
             // check if server has startupped ----------------
             if (!IsInitialized)
@@ -210,6 +204,7 @@ namespace ServicesProject
                 if (Users.Count == 0)
                 {
                     newUser = new User(username, password);
+                    newUser.Installations.Add(new Installation(machineName));
                     Users.Add(username, newUser);
                     UsersFileHandler.Instance.WriteUsersList(new List<User>(Users.Values));
                     return newUser;
@@ -229,7 +224,7 @@ namespace ServicesProject
                 UsersFileHandler.Instance.WriteUsersList(new List<User>(Users.Values));
 
                 Directory.CreateDirectory(RemoteFoldersPath + "\\" + newUser.Username);
-                LoginUser(newUser);
+                LoginUser(newUser, machineName);
                 return newUser;
             }
 
@@ -237,7 +232,7 @@ namespace ServicesProject
         }
 
         /***************************************************************************************************/
-        public User LoginUser(string username, string password)
+        public User LoginUser(string username, string password, string machineName)
         {
             lock (Users)
             {
@@ -249,7 +244,9 @@ namespace ServicesProject
                 if (!u.Password.Equals(password))
                     throw new FaultException(new FaultReason(LoginFault.WRONG_USERNAME_OR_PASSWORD));
 
-                LoginUser(u);
+                
+
+                LoginUser(u, machineName);
                 return u;
             }
 
@@ -284,12 +281,34 @@ namespace ServicesProject
 
 
         /*******************************************************************************************/
-        private void LoginUser(User u)
+        private void LoginUser(User u, string machineName)
         {
             lock (ConnectedUsers)
             {
                 if (ConnectedUsers.ContainsKey(u.Username))
-                    throw new FaultException(new FaultReason(LoginFault.USER_ALREADY_IN));
+                {
+                    // the user is trying to login from another device simultaneously. This is not allowed
+                    if (!u.LastAccessDevice.MachineName.Equals(machineName))
+                        throw new FaultException(new FaultReason(LoginFault.USER_ALREADY_IN));
+
+                    // the user is trying to login from the same device without logging out.
+                    // this happens only when it looses connectivity
+                    Console.WriteLine("Access from already logged device. Connectivity restored after loss");
+                    foreach(string key in UpdateTransactionsHandler.Instance.ActiveTransactions.Keys)
+                    {
+                        string[] tokens = key.Split('|');
+                        if (tokens[0].Equals(u.Username))
+                        {
+                            Console.WriteLine("Proceed aborting update transaction for: " + tokens[1]);
+                            Transaction tr = null;
+                            UpdateTransactionsHandler.Instance.ActiveTransactions.TryGetValue(key, out tr);
+                            UpdateTransaction ut = (UpdateTransaction)tr;
+                            updateAbort(u, ut);
+                        }
+                    }
+
+                    return;
+                }
 
                 ConnectedUsers.Add(u.Username,u);
             }
@@ -425,7 +444,7 @@ namespace ServicesProject
             // 1) check if everything ok
             if (!ConnectedUsers.ContainsKey(user.Username))
                 throw new FaultException(new FaultReason(FileTransferFault.USER_NOT_CONNECTED));
-
+            
             UpdateTransaction tr = null;
             UpdatesFileHandler handler = null;
             fileTransferChecks(user, baseFolder, transaction.TransactionID, out tr, out handler);
@@ -440,7 +459,7 @@ namespace ServicesProject
         public Update updateCommit(UpdateTransaction transaction)
         {
             UpdatesFileHandler handler = null;
-            if (!UpdateHandlers.TryGetValue(transaction.User.Username+transaction.BaseFolder, out handler))
+            if (!UpdateHandlers.TryGetValue(transaction.User.Username + "|" + transaction.BaseFolder, out handler))
                 throw new FaultException(new FaultReason("Transaction handler not found"));
 
             Update result = handler.commit(transaction);
@@ -455,7 +474,7 @@ namespace ServicesProject
         public void updateAbort(User user, UpdateTransaction transaction)
         {
             UpdatesFileHandler handler = null;
-            if (!UpdateHandlers.TryGetValue(transaction.User.Username + transaction.BaseFolder, out handler))
+            if (!UpdateHandlers.TryGetValue(transaction.User.Username + "|" + transaction.BaseFolder, out handler))
                 throw new FaultException(new FaultReason("Transaction handler not found"));
 
             bool crashOnCreation = false;
@@ -638,7 +657,7 @@ namespace ServicesProject
 
             transaction = (UpdateTransaction)tr;
 
-            if (!UpdateHandlers.TryGetValue(user.Username + baseFolder, out handler))
+            if (!UpdateHandlers.TryGetValue(user.Username + "|" + baseFolder, out handler))
                 throw new FaultException(new FaultReason("Transaction handler not found"));
 
         }
@@ -649,7 +668,7 @@ namespace ServicesProject
         {
             UpdatesFileHandler handler = null;
 
-            if (!UpdateHandlers.TryGetValue(user.Username + baseFolder, out handler))
+            if (!UpdateHandlers.TryGetValue(user.Username + "|" + baseFolder, out handler))
             {
                 foreach (Folder f in user.Folders)
                     if (f.FolderName.Equals(baseFolder))
@@ -661,7 +680,7 @@ namespace ServicesProject
                 if (handler == null)
                     throw new FaultException(new FaultReason("This user has no folder named " + baseFolder));
 
-                UpdateHandlers.Add(handler.User.Username + handler.BaseFolder, handler);
+                UpdateHandlers.Add(handler.User.Username + "|" + handler.BaseFolder, handler);
             }
 
             return handler;
@@ -673,7 +692,7 @@ namespace ServicesProject
         private void removeUpdateFileHandler(User user, string baseFolder)
         {
             UpdatesFileHandler handler = null;
-            UpdateHandlers.TryGetValue(user.Username + baseFolder, out handler);
+            UpdateHandlers.TryGetValue(user.Username + "|" + baseFolder, out handler);
 
             if (handler == null)
             {
@@ -682,7 +701,7 @@ namespace ServicesProject
             }
 
             Console.WriteLine("Proceed removing handler");
-            UpdateHandlers.Remove(user.Username + baseFolder);
+            UpdateHandlers.Remove(user.Username + "|" + baseFolder);
             handler = null;
         }
 

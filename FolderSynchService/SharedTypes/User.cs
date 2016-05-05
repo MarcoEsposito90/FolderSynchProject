@@ -34,6 +34,19 @@ namespace ServicesProject
             private set;
         }
 
+        [DataMember]
+        public List<Installation> Installations
+        {
+            get;
+            private set;
+        }
+
+        [DataMember]
+        public Installation LastAccessDevice
+        {
+            get;
+            set;
+        }
 
         /* -------------- CONSTRUCTORS -------------------------*/
 
@@ -43,6 +56,7 @@ namespace ServicesProject
             this.Username = username;
             this.Password = password;
             Folders = new List<Folder>();
+            Installations = new List<Installation>();
         }
 
 
