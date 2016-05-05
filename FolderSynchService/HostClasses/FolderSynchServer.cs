@@ -189,13 +189,6 @@ namespace ServicesProject
         /******************************************************************************************************/
         public User registerNewUser(string username, string password, string machineName)
         {
-            // check if server has startupped ----------------
-            if (!IsInitialized)
-            {
-                Console.WriteLine("Trying to register a user on an uninitalized server");
-                throw new FaultException<RegistrationFault>(new RegistrationFault(RegistrationFault.SERVER_ERROR));
-            }
-
             lock (Users)
             {
                 User newUser;
@@ -220,6 +213,7 @@ namespace ServicesProject
 
                 // add new user to list -----------------------------
                 newUser = new User(username, password);
+                newUser.Installations.Add(new Installation(machineName));
                 Users.Add(username, newUser);
                 UsersFileHandler.Instance.WriteUsersList(new List<User>(Users.Values));
 
@@ -243,8 +237,6 @@ namespace ServicesProject
 
                 if (!u.Password.Equals(password))
                     throw new FaultException(new FaultReason(LoginFault.WRONG_USERNAME_OR_PASSWORD));
-
-                
 
                 LoginUser(u, machineName);
                 return u;
@@ -310,6 +302,14 @@ namespace ServicesProject
                     return;
                 }
 
+                if(u.Installations.FindIndex(item => item.MachineName.Equals(machineName)) == -1)
+                {
+                    Console.WriteLine("new device for this user: " + machineName);
+                    Installation installation = new Installation(machineName);
+                    u.Installations.Add(installation);
+                    u.LastAccessDevice = installation;
+                    UsersFileHandler.Instance.WriteUsersList(Users.Values.ToList());
+                }
                 ConnectedUsers.Add(u.Username,u);
             }
         }

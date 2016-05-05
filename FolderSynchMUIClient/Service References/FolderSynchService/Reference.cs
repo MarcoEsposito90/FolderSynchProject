@@ -26,6 +26,12 @@ namespace FolderSynchMUIClient.FolderSynchService {
         private FolderSynchMUIClient.FolderSynchService.Folder[] FoldersField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private FolderSynchMUIClient.FolderSynchService.Installation[] InstallationsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private FolderSynchMUIClient.FolderSynchService.Installation LastAccessDeviceField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string PasswordField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -55,6 +61,32 @@ namespace FolderSynchMUIClient.FolderSynchService {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
+        public FolderSynchMUIClient.FolderSynchService.Installation[] Installations {
+            get {
+                return this.InstallationsField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.InstallationsField, value) != true)) {
+                    this.InstallationsField = value;
+                    this.RaisePropertyChanged("Installations");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public FolderSynchMUIClient.FolderSynchService.Installation LastAccessDevice {
+            get {
+                return this.LastAccessDeviceField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.LastAccessDeviceField, value) != true)) {
+                    this.LastAccessDeviceField = value;
+                    this.RaisePropertyChanged("LastAccessDevice");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
         public string Password {
             get {
                 return this.PasswordField;
@@ -77,6 +109,35 @@ namespace FolderSynchMUIClient.FolderSynchService {
                     this.UsernameField = value;
                     this.RaisePropertyChanged("Username");
                 }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Installation", Namespace="http://schemas.datacontract.org/2004/07/ServicesProject")]
+    [System.SerializableAttribute()]
+    public partial class Installation : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
             }
         }
         
@@ -641,17 +702,17 @@ namespace FolderSynchMUIClient.FolderSynchService {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/FolderSynchServiceContract/RegisterNewUser", ReplyAction="http://tempuri.org/FolderSynchServiceContract/RegisterNewUserResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(FolderSynchMUIClient.FolderSynchService.RegistrationFault), Action="http://tempuri.org/FolderSynchServiceContract/RegisterNewUserRegistrationFaultFau" +
             "lt", Name="RegistrationFault", Namespace="http://schemas.datacontract.org/2004/07/ServicesProject")]
-        FolderSynchMUIClient.FolderSynchService.User RegisterNewUser(string username, string password);
+        FolderSynchMUIClient.FolderSynchService.User RegisterNewUser(string username, string password, string machineName);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/FolderSynchServiceContract/RegisterNewUser", ReplyAction="http://tempuri.org/FolderSynchServiceContract/RegisterNewUserResponse")]
-        System.Threading.Tasks.Task<FolderSynchMUIClient.FolderSynchService.User> RegisterNewUserAsync(string username, string password);
+        System.Threading.Tasks.Task<FolderSynchMUIClient.FolderSynchService.User> RegisterNewUserAsync(string username, string password, string machineName);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/FolderSynchServiceContract/loginUser", ReplyAction="http://tempuri.org/FolderSynchServiceContract/loginUserResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(FolderSynchMUIClient.FolderSynchService.LoginFault), Action="http://tempuri.org/FolderSynchServiceContract/loginUserLoginFaultFault", Name="LoginFault", Namespace="http://schemas.datacontract.org/2004/07/ServicesProject")]
-        FolderSynchMUIClient.FolderSynchService.User loginUser(string username, string password);
+        FolderSynchMUIClient.FolderSynchService.User loginUser(string username, string password, string machineName);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/FolderSynchServiceContract/loginUser", ReplyAction="http://tempuri.org/FolderSynchServiceContract/loginUserResponse")]
-        System.Threading.Tasks.Task<FolderSynchMUIClient.FolderSynchService.User> loginUserAsync(string username, string password);
+        System.Threading.Tasks.Task<FolderSynchMUIClient.FolderSynchService.User> loginUserAsync(string username, string password, string machineName);
         
         [System.ServiceModel.OperationContractAttribute(IsTerminating=true, IsInitiating=false, Action="http://tempuri.org/FolderSynchServiceContract/logoutUser", ReplyAction="http://tempuri.org/FolderSynchServiceContract/logoutUserResponse")]
         void logoutUser(FolderSynchMUIClient.FolderSynchService.User user);
@@ -791,20 +852,20 @@ namespace FolderSynchMUIClient.FolderSynchService {
                 base(binding, remoteAddress) {
         }
         
-        public FolderSynchMUIClient.FolderSynchService.User RegisterNewUser(string username, string password) {
-            return base.Channel.RegisterNewUser(username, password);
+        public FolderSynchMUIClient.FolderSynchService.User RegisterNewUser(string username, string password, string machineName) {
+            return base.Channel.RegisterNewUser(username, password, machineName);
         }
         
-        public System.Threading.Tasks.Task<FolderSynchMUIClient.FolderSynchService.User> RegisterNewUserAsync(string username, string password) {
-            return base.Channel.RegisterNewUserAsync(username, password);
+        public System.Threading.Tasks.Task<FolderSynchMUIClient.FolderSynchService.User> RegisterNewUserAsync(string username, string password, string machineName) {
+            return base.Channel.RegisterNewUserAsync(username, password, machineName);
         }
         
-        public FolderSynchMUIClient.FolderSynchService.User loginUser(string username, string password) {
-            return base.Channel.loginUser(username, password);
+        public FolderSynchMUIClient.FolderSynchService.User loginUser(string username, string password, string machineName) {
+            return base.Channel.loginUser(username, password, machineName);
         }
         
-        public System.Threading.Tasks.Task<FolderSynchMUIClient.FolderSynchService.User> loginUserAsync(string username, string password) {
-            return base.Channel.loginUserAsync(username, password);
+        public System.Threading.Tasks.Task<FolderSynchMUIClient.FolderSynchService.User> loginUserAsync(string username, string password, string machineName) {
+            return base.Channel.loginUserAsync(username, password, machineName);
         }
         
         public void logoutUser(FolderSynchMUIClient.FolderSynchService.User user) {

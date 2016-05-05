@@ -609,7 +609,8 @@ namespace FolderSynchMUIClient
                 e.Exception.GetType().Equals(typeof(CommunicationObjectAbortedException)) ||
                 e.Exception.GetType().Equals(typeof(FaultException)) ||
                 e.Exception.GetType().Equals(typeof(ServerTooBusyException)) ||
-                e.Exception.GetType().Equals(typeof(ServiceActivationException)))
+                e.Exception.GetType().Equals(typeof(ServiceActivationException)) ||
+                e.Exception.GetType().Equals(typeof(TimeoutException)))
             {
 
                 Console.WriteLine("Communication with server faulted");

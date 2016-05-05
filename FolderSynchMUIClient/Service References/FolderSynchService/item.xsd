@@ -3,6 +3,8 @@
   <xs:complexType name="User">
     <xs:sequence>
       <xs:element minOccurs="0" name="Folders" nillable="true" type="tns:ArrayOfFolder" />
+      <xs:element minOccurs="0" name="Installations" nillable="true" type="tns:ArrayOfInstallation" />
+      <xs:element minOccurs="0" name="LastAccessDevice" nillable="true" type="tns:Installation" />
       <xs:element minOccurs="0" name="Password" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="Username" nillable="true" type="xs:string" />
     </xs:sequence>
@@ -24,6 +26,16 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="Folder" nillable="true" type="tns:Folder" />
+  <xs:complexType name="ArrayOfInstallation">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Installation" nillable="true" type="tns:Installation" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfInstallation" nillable="true" type="tns:ArrayOfInstallation" />
+  <xs:complexType name="Installation">
+    <xs:sequence />
+  </xs:complexType>
+  <xs:element name="Installation" nillable="true" type="tns:Installation" />
   <xs:complexType name="RegistrationFault">
     <xs:complexContent mixed="false">
       <xs:extension base="tns:MyBaseFault">

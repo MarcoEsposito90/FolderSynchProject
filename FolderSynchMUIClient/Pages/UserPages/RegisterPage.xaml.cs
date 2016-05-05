@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using FolderSynchMUIClient.FolderSynchService;
 using System.Text.RegularExpressions;
+using System.Management;
 
 namespace FolderSynchMUIClient.Pages
 {
@@ -52,7 +53,17 @@ namespace FolderSynchMUIClient.Pages
                         App application = (App)Application.Current;
                         FolderSynchServiceContractClient proxy = application.FolderSynchProxy;
 
-                        application.User = proxy.RegisterNewUser(TBRegisterUsername.Text.ToString(), TBRegisterPassword.Password.ToString());
+                        // get device HW identifier ----------------------------------------------------------------
+                        string cpuSerialNumber = "";
+                        ManagementObjectSearcher mos = new ManagementObjectSearcher("SELECT * FROM Win32_Processor");
+                        foreach (ManagementObject mo in mos.Get())
+                        {
+                            cpuSerialNumber = (string)mo["ProcessorID"];
+                            break;
+                        }
+
+                        // perform registration --------------------------------------------------------------------
+                        application.User = proxy.RegisterNewUser(TBRegisterUsername.Text.ToString(), TBRegisterPassword.Password.ToString(), Environment.MachineName);
                         ResponseLabel.Content = "Registration successful";
                         ResponseLabel.Foreground = Brushes.Green;
 

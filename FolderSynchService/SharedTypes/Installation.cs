@@ -12,6 +12,7 @@ namespace ServicesProject
     public class Installation
     {
 
+        [DataMember]
         public string MachineName
         {
             get;

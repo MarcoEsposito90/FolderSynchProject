@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
+using System.Management;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -38,16 +39,26 @@ namespace FolderSynchMUIClient.Pages
         {
             try
             {
-                // perform login ---------------------------------------------------------------------------
                 App application = (App)Application.Current;
                 FolderSynchServiceContractClient proxy = application.FolderSynchProxy;
 
-                application.User = proxy.loginUser(TBLoginUsername.Text.ToString(), TBLoginPassword.Password.ToString());
+                // get device HW identifier
+                string cpuSerialNumber = "";
+                ManagementObjectSearcher mos = new ManagementObjectSearcher("SELECT * FROM Win32_Processor");
+                foreach (ManagementObject mo in mos.Get())
+                {
+                    cpuSerialNumber = (string)mo["ProcessorID"];
+                    break;
+                }
+
+                // perform login ---------------------------------------------------------------------------
+                Console.WriteLine("Login on device: " + cpuSerialNumber);
+                application.User = proxy.loginUser(TBLoginUsername.Text.ToString(), TBLoginPassword.Password.ToString(), cpuSerialNumber);
                 Console.WriteLine("user object obtained. FOlders list: ");
 
                 foreach (Folder f in application.User.Folders)
                     Console.WriteLine(f.FolderName + "; synched at: " + f.SynchDate);
-
+                
                 if (CheckBoxRemember.IsChecked.Value)
                     application.AddKnownUser(TBLoginUsername.Text, TBLoginPassword.Password);
 
