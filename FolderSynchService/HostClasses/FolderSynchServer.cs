@@ -115,6 +115,7 @@ namespace ServicesProject
             Console.WriteLine();
             Console.WriteLine();
 
+            System.AppDomain.CurrentDomain.UnhandledException += UnhandledException_Handler;
 
             // 1) initialize files and directories ---------------------
             string docsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
@@ -147,6 +148,8 @@ namespace ServicesProject
         }
 
         
+
+
 
 
         /*****************************************************************************************/
@@ -684,7 +687,11 @@ namespace ServicesProject
         }
 
 
-
+        /**************************************************************************************************/
+        private void UnhandledException_Handler(object sender, UnhandledExceptionEventArgs e)
+        {
+            Console.WriteLine("Unhandled exception!");
+        }
     }
 
 
