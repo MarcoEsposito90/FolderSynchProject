@@ -141,7 +141,7 @@ namespace ServicesProject
             IsInitialized = true;
         }
 
-        
+
 
 
 
@@ -278,31 +278,9 @@ namespace ServicesProject
             lock (ConnectedUsers)
             {
                 if (ConnectedUsers.ContainsKey(u.Username))
-                {
-                    // the user is trying to login from another device simultaneously. This is not allowed
-                    if (!u.LastAccessDevice.MachineName.Equals(machineName))
-                        throw new FaultException(new FaultReason(LoginFault.USER_ALREADY_IN));
+                    throw new FaultException(new FaultReason(LoginFault.USER_ALREADY_IN));
 
-                    // the user is trying to login from the same device without logging out.
-                    // this happens only when it looses connectivity
-                    Console.WriteLine("Access from already logged device. Connectivity restored after loss");
-                    foreach(string key in UpdateTransactionsHandler.Instance.ActiveTransactions.Keys)
-                    {
-                        string[] tokens = key.Split('|');
-                        if (tokens[0].Equals(u.Username))
-                        {
-                            Console.WriteLine("Proceed aborting update transaction for: " + tokens[1]);
-                            Transaction tr = null;
-                            UpdateTransactionsHandler.Instance.ActiveTransactions.TryGetValue(key, out tr);
-                            UpdateTransaction ut = (UpdateTransaction)tr;
-                            updateAbort(u, ut);
-                        }
-                    }
-
-                    return;
-                }
-
-                if(u.Installations.FindIndex(item => item.MachineName.Equals(machineName)) == -1)
+                if (u.Installations.FindIndex(item => item.MachineName.Equals(machineName)) == -1)
                 {
                     Console.WriteLine("new device for this user: " + machineName);
                     Installation installation = new Installation(machineName);
@@ -310,9 +288,33 @@ namespace ServicesProject
                     u.LastAccessDevice = installation;
                     UsersFileHandler.Instance.WriteUsersList(Users.Values.ToList());
                 }
-                ConnectedUsers.Add(u.Username,u);
+                ConnectedUsers.Add(u.Username, u);
             }
         }
+
+
+
+        /*******************************************************************************************/
+        public void ChannelFault_Handler(User user)
+        {
+            Console.WriteLine("Server is handling communication fault");
+
+            foreach (string key in UpdateTransactionsHandler.Instance.ActiveTransactions.Keys)
+            {
+                string[] tokens = key.Split('|');
+                if (tokens[0].Equals(user.Username))
+                {
+                    Console.WriteLine("Proceed aborting update transaction for: " + tokens[1]);
+                    Transaction tr = null;
+                    UpdateTransactionsHandler.Instance.ActiveTransactions.TryGetValue(key, out tr);
+                    UpdateTransaction ut = (UpdateTransaction)tr;
+                    updateAbort(user, ut);
+                }
+            }
+
+            logoutUser(user);
+        }
+
 
         /* ----------------------------------------------------------------------------------------------- */
         /* ------------ FOLDERS METHODS ------------------------------------------------------------------ */
@@ -376,8 +378,8 @@ namespace ServicesProject
                 localPath);
         }
 
-        
-        
+
+
         /**************************************************************************************************/
         public void uploadFile(User user, UpdateTransaction transaction, string baseFolder, string localPath, int type, byte[] data)
         {
@@ -394,9 +396,9 @@ namespace ServicesProject
             handler.AddFile(tr, localPath, type, data);
 
             // 3) register to log
-            UpdateTransactionsHandler.Instance.AddOperation(  
-                tr, 
-                type == Update.UpdateEntry.MODIFIED_FILE ? UpdateTransactionsHandler.Operations.UpdateFile : UpdateTransactionsHandler.Operations.NewFile, 
+            UpdateTransactionsHandler.Instance.AddOperation(
+                tr,
+                type == Update.UpdateEntry.MODIFIED_FILE ? UpdateTransactionsHandler.Operations.UpdateFile : UpdateTransactionsHandler.Operations.NewFile,
                 localPath);
         }
 
@@ -444,7 +446,7 @@ namespace ServicesProject
             // 1) check if everything ok
             if (!ConnectedUsers.ContainsKey(user.Username))
                 throw new FaultException(new FaultReason(FileTransferFault.USER_NOT_CONNECTED));
-            
+
             UpdateTransaction tr = null;
             UpdatesFileHandler handler = null;
             fileTransferChecks(user, baseFolder, transaction.TransactionID, out tr, out handler);
@@ -507,7 +509,7 @@ namespace ServicesProject
         /*****************************************************************************************************/
         public List<Update.UpdateEntry> getFileHistory(User user, string baseFolder, string localPath)
         {
-            return getUpdateFileHandler(user,baseFolder).getFileHistory(localPath);
+            return getUpdateFileHandler(user, baseFolder).getFileHistory(localPath);
         }
 
 
@@ -520,7 +522,7 @@ namespace ServicesProject
             return getUpdateFileHandler(user, update.BaseFolder).getUpdateFilesList(update.Number);
         }
 
-        
+
         /*****************************************************************************************************/
         public void beginRollback(RollbackTransaction transaction)
         {
@@ -582,12 +584,12 @@ namespace ServicesProject
         /* ----------------------------------------------------------------------------------------------- */
         /* ------------ OPTIONS METHODS ------------------------------------------------------------------ */
         /* ----------------------------------------------------------------------------------------------- */
-        
+
         public void changeFolderOptions(User user, string folderName, Folder updatedFolder)
         {
             Folder oldFolder = checkFolder(user, folderName);
 
-            if(oldFolder.AutoRefreshTime != updatedFolder.AutoRefreshTime)
+            if (oldFolder.AutoRefreshTime != updatedFolder.AutoRefreshTime)
             {
                 Console.WriteLine(user.Username + " wants to change auto refresh");
                 oldFolder.AutoRefreshTime = updatedFolder.AutoRefreshTime;
@@ -630,10 +632,10 @@ namespace ServicesProject
         /* ------------ AUXILIARY METHODS ---------------------------------------------------------------- */
         /* ----------------------------------------------------------------------------------------------- */
 
-        private void fileTransferChecks(User user, 
-                                        string baseFolder, 
+        private void fileTransferChecks(User user,
+                                        string baseFolder,
                                         string transactionID,
-                                        out UpdateTransaction transaction, 
+                                        out UpdateTransaction transaction,
                                         out UpdatesFileHandler handler)
         {
 

@@ -13,6 +13,7 @@ namespace ServicesProject
     public class FolderSynchImplementation : FolderSynchServiceContract
     {
         User currentUser = null;
+        HeartbeatBackgroundWorker heartbeatHandlder;
         Dictionary<string,UpdateTransaction> ActiveUpdateTransactions = null;
         Dictionary<string, RollbackTransaction> ActiveRollbackTransactions = null;
 
@@ -36,11 +37,14 @@ namespace ServicesProject
         {
             Console.WriteLine(" -------------------------------------------------------------------------- ");
             
-
-            
             currentUser = FolderSynchServer.Instance.LoginUser(username, password, machineName);
             ActiveUpdateTransactions = new Dictionary<string, UpdateTransaction>();
             ActiveRollbackTransactions = new Dictionary<string, RollbackTransaction>();
+
+            heartbeatHandlder = new HeartbeatBackgroundWorker(Callback, this);
+            heartbeatHandlder.startHeartbeat();
+            Console.WriteLine("outgoing channels: " + OperationContext.Current.InstanceContext.IncomingChannels.Count);
+            
 
             Console.WriteLine(currentUser.Username + " wants to login");
             Console.WriteLine(currentUser.Username + " Folders list: ");
@@ -62,6 +66,8 @@ namespace ServicesProject
             Console.WriteLine(user.Username + "is logging out");
             FolderSynchServer.Instance.logoutUser(user);
             currentUser = null;
+            heartbeatHandlder.stopHeartbeat();
+            heartbeatHandlder = null;
             Console.WriteLine(" -------------------------------------------------------------------------- ");
         }
 
@@ -308,9 +314,17 @@ namespace ServicesProject
         /* ------------------------ FAULT ----------------------------------------------- */
         /* ------------------------------------------------------------------------------ */
 
-        private void InstanceContext_Faulted(object sender, EventArgs e)
+        public void ChannelFault_Handler()
         {
-            Console.WriteLine("Communication faulted for: " + currentUser.Username);
+            Console.WriteLine("-------------------------------------------------------------------------- ");
+            Console.WriteLine(currentUser.Username + " is no more available");
+
+            heartbeatHandlder.stopHeartbeat();
+            heartbeatHandlder = null;
+            FolderSynchServer.Instance.ChannelFault_Handler(currentUser);
+
+            Console.WriteLine("-------------------------------------------------------------------------- ");
+
         }
 
     }

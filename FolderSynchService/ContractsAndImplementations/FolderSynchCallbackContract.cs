@@ -10,7 +10,7 @@ namespace ServicesProject
     public interface FolderSynchCallbackContract
     {
 
-        [OperationContract (IsOneWay = true)]
+        [OperationContract (IsOneWay = false)]
         void heartbeat();
     }
 }
