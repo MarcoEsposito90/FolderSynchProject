@@ -144,6 +144,9 @@
   <wsdl:message name="FolderSynchServiceContract_removeSynchronizedFolder_OutputMessage">
     <wsdl:part name="parameters" element="tns:removeSynchronizedFolderResponse" />
   </wsdl:message>
+  <wsdl:message name="FolderSynchServiceContract_heartbeat_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:heartbeat" />
+  </wsdl:message>
   <wsdl:portType msc:usingSession="true" name="FolderSynchServiceContract">
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="RegisterNewUser">
       <wsdl:input wsaw:Action="http://tempuri.org/FolderSynchServiceContract/RegisterNewUser" message="tns:FolderSynchServiceContract_RegisterNewUser_InputMessage" />
@@ -227,6 +230,9 @@
     <wsdl:operation msc:isInitiating="false" msc:isTerminating="false" name="removeSynchronizedFolder">
       <wsdl:input wsaw:Action="http://tempuri.org/FolderSynchServiceContract/removeSynchronizedFolder" message="tns:FolderSynchServiceContract_removeSynchronizedFolder_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/FolderSynchServiceContract/removeSynchronizedFolderResponse" message="tns:FolderSynchServiceContract_removeSynchronizedFolder_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="heartbeat">
+      <wsdl:output wsaw:Action="http://tempuri.org/FolderSynchServiceContract/heartbeat" message="tns:FolderSynchServiceContract_heartbeat_OutputCallbackMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="serviceTcpEndpoint" type="tns:FolderSynchServiceContract">
@@ -417,6 +423,12 @@
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="heartbeat">
+      <soap12:operation soapAction="http://tempuri.org/FolderSynchServiceContract/heartbeat" style="document" />
       <wsdl:output>
         <soap12:body use="literal" />
       </wsdl:output>

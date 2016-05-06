@@ -121,7 +121,8 @@ namespace FolderSynchMUIClient
         {
 
             // first, open connection with the service
-            FolderSynchProxy = new FolderSynchServiceContractClient();
+
+            FolderSynchProxy = new FolderSynchServiceContractClient(new InstanceContext(new FolderSynchCallback()));
             StreamTransferProxy = new StreamedTransferContractClient();
             Application.Current.Resources["ButtonBackgroundHover"] = Brushes.AliceBlue;
 
@@ -311,7 +312,7 @@ namespace FolderSynchMUIClient
             // 2) clean everything ------------------------------
             _LocalFolders.Clear();
             FolderWatchers.Clear();
-            FolderSynchProxy = new FolderSynchServiceContractClient();
+            FolderSynchProxy = new FolderSynchServiceContractClient(new InstanceContext(new FolderSynchCallback()));
         }
 
 

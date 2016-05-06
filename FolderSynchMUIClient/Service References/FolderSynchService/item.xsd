@@ -33,7 +33,9 @@
   </xs:complexType>
   <xs:element name="ArrayOfInstallation" nillable="true" type="tns:ArrayOfInstallation" />
   <xs:complexType name="Installation">
-    <xs:sequence />
+    <xs:sequence>
+      <xs:element minOccurs="0" name="MachineName" nillable="true" type="xs:string" />
+    </xs:sequence>
   </xs:complexType>
   <xs:element name="Installation" nillable="true" type="tns:Installation" />
   <xs:complexType name="RegistrationFault">

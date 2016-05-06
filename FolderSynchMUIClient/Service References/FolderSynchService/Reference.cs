@@ -131,6 +131,9 @@ namespace FolderSynchMUIClient.FolderSynchService {
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string MachineNameField;
+        
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
             get {
@@ -138,6 +141,19 @@ namespace FolderSynchMUIClient.FolderSynchService {
             }
             set {
                 this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string MachineName {
+            get {
+                return this.MachineNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.MachineNameField, value) != true)) {
+                    this.MachineNameField = value;
+                    this.RaisePropertyChanged("MachineName");
+                }
             }
         }
         
@@ -696,7 +712,7 @@ namespace FolderSynchMUIClient.FolderSynchService {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="FolderSynchService.FolderSynchServiceContract", SessionMode=System.ServiceModel.SessionMode.Required)]
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="FolderSynchService.FolderSynchServiceContract", CallbackContract=typeof(FolderSynchMUIClient.FolderSynchService.FolderSynchServiceContractCallback), SessionMode=System.ServiceModel.SessionMode.Required)]
     public interface FolderSynchServiceContract {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/FolderSynchServiceContract/RegisterNewUser", ReplyAction="http://tempuri.org/FolderSynchServiceContract/RegisterNewUserResponse")]
@@ -826,30 +842,38 @@ namespace FolderSynchMUIClient.FolderSynchService {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public interface FolderSynchServiceContractCallback {
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/FolderSynchServiceContract/heartbeat")]
+        void heartbeat();
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public interface FolderSynchServiceContractChannel : FolderSynchMUIClient.FolderSynchService.FolderSynchServiceContract, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class FolderSynchServiceContractClient : System.ServiceModel.ClientBase<FolderSynchMUIClient.FolderSynchService.FolderSynchServiceContract>, FolderSynchMUIClient.FolderSynchService.FolderSynchServiceContract {
+    public partial class FolderSynchServiceContractClient : System.ServiceModel.DuplexClientBase<FolderSynchMUIClient.FolderSynchService.FolderSynchServiceContract>, FolderSynchMUIClient.FolderSynchService.FolderSynchServiceContract {
         
-        public FolderSynchServiceContractClient() {
+        public FolderSynchServiceContractClient(System.ServiceModel.InstanceContext callbackInstance) : 
+                base(callbackInstance) {
         }
         
-        public FolderSynchServiceContractClient(string endpointConfigurationName) : 
-                base(endpointConfigurationName) {
+        public FolderSynchServiceContractClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName) : 
+                base(callbackInstance, endpointConfigurationName) {
         }
         
-        public FolderSynchServiceContractClient(string endpointConfigurationName, string remoteAddress) : 
-                base(endpointConfigurationName, remoteAddress) {
+        public FolderSynchServiceContractClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName, string remoteAddress) : 
+                base(callbackInstance, endpointConfigurationName, remoteAddress) {
         }
         
-        public FolderSynchServiceContractClient(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
-                base(endpointConfigurationName, remoteAddress) {
+        public FolderSynchServiceContractClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
+                base(callbackInstance, endpointConfigurationName, remoteAddress) {
         }
         
-        public FolderSynchServiceContractClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
-                base(binding, remoteAddress) {
+        public FolderSynchServiceContractClient(System.ServiceModel.InstanceContext callbackInstance, System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
+                base(callbackInstance, binding, remoteAddress) {
         }
         
         public FolderSynchMUIClient.FolderSynchService.User RegisterNewUser(string username, string password, string machineName) {
