@@ -59,6 +59,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContractsAndImplementations\FolderSynchCallbackContract.cs" />
+    <Compile Include="HeartbeatBackgroundWorker.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="HostClasses\UpdateTransactionsHandler.cs" />
     <Compile Include="Faults\FileTransferFault.cs" />
     <Compile Include="HostClasses\RollbackTransactionsHandler.cs" />

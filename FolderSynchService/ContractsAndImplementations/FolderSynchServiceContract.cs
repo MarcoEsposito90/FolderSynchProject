@@ -9,7 +9,7 @@ using System.Text;
 namespace ServicesProject
 {
 
-    [ServiceContract (SessionMode = SessionMode.Required)]
+    [ServiceContract (SessionMode = SessionMode.Required, CallbackContract = typeof(FolderSynchCallbackContract))]
     public interface FolderSynchServiceContract
     {
         /**********************************************************************************************************/
@@ -80,5 +80,6 @@ namespace ServicesProject
 
         [OperationContract(IsInitiating = false, IsTerminating = false)]
         void removeSynchronizedFolder(string folderName);
+        
     }
 }

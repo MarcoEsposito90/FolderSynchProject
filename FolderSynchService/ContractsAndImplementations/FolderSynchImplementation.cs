@@ -17,13 +17,27 @@ namespace ServicesProject
         Dictionary<string, RollbackTransaction> ActiveRollbackTransactions = null;
 
         /* ---------------------------------------------------------------------- */
+        /* ------------------------ CALLBACK CHANNEL ---------------------------- */
+        /* ---------------------------------------------------------------------- */
+
+        public FolderSynchCallbackContract Callback
+        {
+            get
+            {
+                return OperationContext.Current.GetCallbackChannel<FolderSynchCallbackContract>();
+            }
+        }       
+
+        /* ---------------------------------------------------------------------- */
         /* ------------------------ USER ---------------------------------------- */
         /* ---------------------------------------------------------------------- */
 
         public User loginUser(string username, string password, string machineName)
         {
             Console.WriteLine(" -------------------------------------------------------------------------- ");
+            
 
+            
             currentUser = FolderSynchServer.Instance.LoginUser(username, password, machineName);
             ActiveUpdateTransactions = new Dictionary<string, UpdateTransaction>();
             ActiveRollbackTransactions = new Dictionary<string, RollbackTransaction>();
@@ -36,6 +50,8 @@ namespace ServicesProject
             Console.WriteLine(" -------------------------------------------------------------------------- ");
             return currentUser;
         }
+
+        
 
 
 
@@ -79,6 +95,7 @@ namespace ServicesProject
 
         public UpdateTransaction beginUpdate(string baseFolder, DateTime timestamp)
         {
+            
             Console.WriteLine(" -------------------------------------------------------------------------- ");
             Console.WriteLine(currentUser.Username + "wants to start a transaction");
             Console.WriteLine("timestamp = " + timestamp.ToString());
@@ -286,6 +303,15 @@ namespace ServicesProject
             Console.WriteLine(" -------------------------------------------------------------------------- ");
         }
 
-        
+
+        /* ------------------------------------------------------------------------------ */
+        /* ------------------------ FAULT ----------------------------------------------- */
+        /* ------------------------------------------------------------------------------ */
+
+        private void InstanceContext_Faulted(object sender, EventArgs e)
+        {
+            Console.WriteLine("Communication faulted for: " + currentUser.Username);
+        }
+
     }
 }
