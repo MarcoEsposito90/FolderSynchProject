@@ -36,13 +36,25 @@ namespace ServicesProject
         private void heartbeat(object state)
         {
             Console.WriteLine("************ heartbeat *************** ");
+
+            DateTime invocationTimestamp = DateTime.Now;
             try
             {
                 Callback.heartbeat();
             }
-            catch (Exception e)
+            catch (TimeoutException e)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine("Over timeout");
+
+                if (invocationTimestamp.CompareTo(instanceContext.LastCallTimestamp) > 0)
+                    instanceContext.ChannelFault_Handler();
+                else
+                    Console.WriteLine("ignoring");
+            }
+            catch(CommunicationException f)
+            {
+                
+                Console.WriteLine("Communication fault");
                 instanceContext.ChannelFault_Handler();
             }
         }

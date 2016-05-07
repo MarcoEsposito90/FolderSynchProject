@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace ServicesProject
 {
     [ServiceBehavior(   InstanceContextMode = InstanceContextMode.PerSession,
-                        ConcurrencyMode = ConcurrencyMode.Single)]
+                        ConcurrencyMode = ConcurrencyMode.Multiple)]
     public class FolderSynchImplementation : FolderSynchServiceContract
     {
         User currentUser = null;
@@ -29,6 +29,12 @@ namespace ServicesProject
             }
         }       
 
+        public DateTime LastCallTimestamp
+        {
+            get;
+            private set;
+        }
+
         /* ---------------------------------------------------------------------- */
         /* ------------------------ USER ---------------------------------------- */
         /* ---------------------------------------------------------------------- */
@@ -43,8 +49,6 @@ namespace ServicesProject
 
             heartbeatHandlder = new HeartbeatBackgroundWorker(Callback, this);
             heartbeatHandlder.startHeartbeat();
-            Console.WriteLine("outgoing channels: " + OperationContext.Current.InstanceContext.IncomingChannels.Count);
-            
 
             Console.WriteLine(currentUser.Username + " wants to login");
             Console.WriteLine(currentUser.Username + " Folders list: ");
@@ -64,10 +68,12 @@ namespace ServicesProject
         {
             Console.WriteLine(" -------------------------------------------------------------------------- ");
             Console.WriteLine(user.Username + "is logging out");
+
             FolderSynchServer.Instance.logoutUser(user);
             currentUser = null;
             heartbeatHandlder.stopHeartbeat();
             heartbeatHandlder = null;
+
             Console.WriteLine(" -------------------------------------------------------------------------- ");
         }
 
@@ -88,6 +94,7 @@ namespace ServicesProject
         public void changeCredentials(string oldPassword, string newPassword)
         {
             Console.WriteLine(" -------------------------------------------------------------------------- ");
+            LastCallTimestamp = DateTime.Now;
             Console.WriteLine(currentUser.Username + " wants to change password");
             FolderSynchServer.Instance.changeCredentials(currentUser, oldPassword, newPassword);
             Console.WriteLine(" -------------------------------------------------------------------------- ");
@@ -106,19 +113,25 @@ namespace ServicesProject
             Console.WriteLine(currentUser.Username + "wants to start a transaction");
             Console.WriteLine("timestamp = " + timestamp.ToString());
             Console.WriteLine("baseFodler = " + baseFolder);
+
+            LastCallTimestamp = DateTime.Now;
             UpdateTransaction tr = new UpdateTransaction(currentUser, baseFolder, timestamp);
             FolderSynchServer.Instance.beginUpdate(tr);
             ActiveUpdateTransactions.Add(tr.TransactionID,tr);
+
             Console.WriteLine(" -------------------------------------------------------------------------- ");
             return tr;
         }
+
 
         /***************************************************************************************************/
         public void uploadFile(string transactionID, string baseFolder, string localPath, int type, byte[] data)
         {
             Console.WriteLine(" -------------------------------------------------------------------------- ");
+
+            LastCallTimestamp = DateTime.Now;
             UpdateTransaction transaction = null;
-            
+
 
             if (!ActiveUpdateTransactions.TryGetValue(transactionID, out transaction))
                 throw new FaultException(new FaultReason("This transaction is not active for the user"));
@@ -150,6 +163,7 @@ namespace ServicesProject
         {
             Console.WriteLine(" -------------------------------------------------------------------------- ");
 
+            LastCallTimestamp = DateTime.Now;
             UpdateTransaction transaction = null;
 
             if (!ActiveUpdateTransactions.TryGetValue(transactionID, out transaction))
@@ -157,6 +171,7 @@ namespace ServicesProject
 
             Console.WriteLine(currentUser.Username + "wants to delete a file");
             FolderSynchServer.Instance.deleteFile(currentUser, transaction, baseFolder, localPath);
+
             Console.WriteLine("Delete file return");
             Console.WriteLine(" -------------------------------------------------------------------------- ");
 
@@ -167,6 +182,8 @@ namespace ServicesProject
         public void deleteSubDirectory(string transactionID, string baseFolder, string localPath)
         {
             Console.WriteLine(" -------------------------------------------------------------------------- ");
+
+            LastCallTimestamp = DateTime.Now;
             UpdateTransaction transaction = null;
 
             if (!ActiveUpdateTransactions.TryGetValue(transactionID, out transaction))
@@ -174,6 +191,7 @@ namespace ServicesProject
 
             Console.WriteLine(currentUser.Username + "wants to delete a subDirectory");
             FolderSynchServer.Instance.deleteSubDirectory(currentUser, transaction, baseFolder, localPath);
+
             Console.WriteLine("Delete subDirectory return");
             Console.WriteLine(" -------------------------------------------------------------------------- ");
         }
@@ -184,8 +202,11 @@ namespace ServicesProject
         {
             Console.WriteLine(" -------------------------------------------------------------------------- ");
             Console.WriteLine(currentUser.Username + "wants to commit an update");
+
+            LastCallTimestamp = DateTime.Now;
             Update result = FolderSynchServer.Instance.updateCommit(transaction);
             ActiveUpdateTransactions.Remove(transaction.TransactionID);
+
             Console.WriteLine(" -------------------------------------------------------------------------- ");
             return result;
         }
@@ -195,6 +216,7 @@ namespace ServicesProject
         public void updateAbort(UpdateTransaction transaction)
         {
             Console.WriteLine(" -------------------------------------------------------------------------- ");
+            LastCallTimestamp = DateTime.Now;
             Console.WriteLine(currentUser.Username + "must abort an update");
             FolderSynchServer.Instance.updateAbort(currentUser, transaction);
             ActiveUpdateTransactions.Remove(transaction.TransactionID);
@@ -210,6 +232,7 @@ namespace ServicesProject
         {
             Console.WriteLine(" -------------------------------------------------------------------------- ");
             Console.WriteLine(currentUser.Username + " wants to add a new folder: " + folder.FolderName);
+            LastCallTimestamp = DateTime.Now;
             FolderSynchServer.Instance.AddNewFolder(currentUser, folder);
             Console.WriteLine(" -------------------------------------------------------------------------- ");
         }
@@ -223,6 +246,7 @@ namespace ServicesProject
         {
             Console.WriteLine(" -------------------------------------------------------------------------- ");
             Console.WriteLine(currentUser.Username + " wants file history: " + baseFolder + "\\" + localPath);
+            LastCallTimestamp = DateTime.Now;
             return FolderSynchServer.Instance.getFileHistory(currentUser, baseFolder, localPath);
         }
 
@@ -230,6 +254,7 @@ namespace ServicesProject
         {
             Console.WriteLine(" -------------------------------------------------------------------------- ");
             Console.WriteLine(currentUser.Username + " wants history of: " + baseFolder);
+            LastCallTimestamp = DateTime.Now;
             return FolderSynchServer.Instance.getHistory(currentUser, baseFolder);
         }
 
@@ -251,6 +276,7 @@ namespace ServicesProject
         {
             Console.WriteLine(" -------------------------------------------------------------------------- ");
             Console.WriteLine(currentUser.Username + " wants the list of file relative to update " + update.Number);
+            LastCallTimestamp = DateTime.Now;
             return FolderSynchServer.Instance.getUpdateFilesList(currentUser, update);
         }
 
@@ -263,6 +289,7 @@ namespace ServicesProject
             Console.WriteLine("Update: " + update.Number);
             Console.WriteLine("time: " + timestamp.ToString());
 
+            LastCallTimestamp = DateTime.Now;
             RollbackTransaction transaction = new RollbackTransaction(currentUser, update.Number, update.BaseFolder, timestamp);
             FolderSynchServer.Instance.beginRollback(transaction);
             ActiveRollbackTransactions.Add(transaction.TransactionID, transaction);
@@ -277,6 +304,7 @@ namespace ServicesProject
             Console.WriteLine(" -------------------------------------------------------------------------- ");
             Console.WriteLine(currentUser.Username + " wants to commit a rollback");
 
+            LastCallTimestamp = DateTime.Now;
             RollbackTransaction tr = null;
             if (!ActiveRollbackTransactions.TryGetValue(transaction.TransactionID, out tr))
                 throw new FaultException(new FaultReason("No active transaction for this rollback"));
@@ -295,6 +323,7 @@ namespace ServicesProject
         {
             Console.WriteLine(" -------------------------------------------------------------------------- ");
             Console.WriteLine(currentUser.Username + " wants to change options for: " + folderName);
+            LastCallTimestamp = DateTime.Now;
             FolderSynchServer.Instance.changeFolderOptions(currentUser, folderName, updatedFolder);
             Console.WriteLine(" -------------------------------------------------------------------------- ");
         }
@@ -304,6 +333,7 @@ namespace ServicesProject
         {
             Console.WriteLine(" -------------------------------------------------------------------------- ");
             Console.WriteLine(currentUser.Username + " wants to remove a folder: " + folderName);
+            LastCallTimestamp = DateTime.Now;
             FolderSynchServer.Instance.removeSynchronizedFolder(currentUser, folderName);
             Console.WriteLine(currentUser.Username + " succesfully removed the folder");
             Console.WriteLine(" -------------------------------------------------------------------------- ");
@@ -317,6 +347,10 @@ namespace ServicesProject
         public void ChannelFault_Handler()
         {
             Console.WriteLine("-------------------------------------------------------------------------- ");
+
+            if (currentUser == null)
+                return;
+
             Console.WriteLine(currentUser.Username + " is no more available");
 
             heartbeatHandlder.stopHeartbeat();
