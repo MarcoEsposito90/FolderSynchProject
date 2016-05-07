@@ -68,8 +68,12 @@
                         Style="{StaticResource BaseButtonStyle}"
                         Click="ButtonLogin_Click"/>
 
-                <Label Name="responseLabel"/>
+                <ProgressBar Name="progressBar"
+                             IsIndeterminate="True"
+                             Visibility="Hidden"/>
 
+                <Label Name="responseLabel"/>
+                
                 <Image Width="200" Margin="10,25,10,10"
                        HorizontalAlignment="Center"
                     Source="/Icons/LogoFS.png" Opacity="0.7"/>
