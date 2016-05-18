@@ -67,7 +67,6 @@ namespace FolderSynchMUIClient.Pages
                     break;
                 }
 
-                bool finished = false;
                 // perform login ---------------------------------------------------------------------------
                 this.Dispatcher.Invoke((Action)( () =>
                         {
@@ -75,11 +74,9 @@ namespace FolderSynchMUIClient.Pages
                             application.User = application.FolderSynchProxy.loginUser(  TBLoginUsername.Text.ToString(), 
                                                                                         TBLoginPassword.Password.ToString(), 
                                                                                         cpuSerialNumber);
-                            //finished = true;
                         }
                     ));
 
-                //while (!finished) { }
                 e.Result = LOGIN_SUCCESS;
             }
             catch (FaultException f)

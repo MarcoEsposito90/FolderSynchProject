@@ -36,7 +36,6 @@ namespace FolderSynchMUIClient.Pages.HomePages
 
             RefreshComboBox.ItemsSource = hoursArray;
             RefreshComboBox.SelectedIndex = 23;
-            
         }
 
 
@@ -117,6 +116,10 @@ namespace FolderSynchMUIClient.Pages.HomePages
             }
 
         }
+
+
+        /*----------- SYNCH OPERATION ------------------------------------------------------------- */
+
 
     }
 }

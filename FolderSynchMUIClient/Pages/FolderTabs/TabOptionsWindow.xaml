@@ -33,9 +33,9 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
+
     </UserControl.Resources>
-    
+
     <StackPanel>
 
         <!-- TITLE -->
@@ -170,7 +170,7 @@
                      Margin="10,0,10,0" Grid.Column="1" Grid.Row="1"/>
             </Grid>
             <!-- END MOVE SECTION -->
-            
+
             <!-- SAVE SECTION -->
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"
@@ -183,19 +183,19 @@
                     Width="35" Height="35" Background="{DynamicResource ItemBackgroundSelected}"
                     CornerRadius="4" BorderThickness="1" 
                     VerticalAlignment="Center" HorizontalAlignment="Right">
-                <Button Name="btnSaveChanges" Click="btnSaveChanges_Click"
+                    <Button Name="btnSaveChanges" Click="btnSaveChanges_Click"
                         Width="35" Height="35" 
                         BorderBrush="{x:Null}" 
                         HorizontalAlignment="Center" VerticalAlignment="Center"
                         Style="{StaticResource SaveButton}">
-                </Button>
+                    </Button>
 
-            </Border>
-        </StackPanel>
+                </Border>
+            </StackPanel>
             <Rectangle Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"
                        Margin="15, 5, 10, 5" Opacity="0.7"
                        Stroke="#FFC8CDCF" />
-            
+
             <!-- END SAVE SECTION -->
 
             <!-- DESYNCH FOLDER SECTION -->
@@ -227,6 +227,6 @@
             <!-- END DELETE FOLDER SECTION -->
 
         </Grid>
-       
+
     </StackPanel>
 </UserControl>

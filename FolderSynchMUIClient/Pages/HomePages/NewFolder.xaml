@@ -91,7 +91,6 @@
                     
                 </WrapPanel>
 
-                <Label Name="responseLabel"/>
                 <!-- END CONFIRM SYNC -->
                 
             </StackPanel>
