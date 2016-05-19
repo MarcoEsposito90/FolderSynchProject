@@ -147,6 +147,9 @@
   <wsdl:message name="FolderSynchServiceContract_heartbeat_OutputCallbackMessage">
     <wsdl:part name="parameters" element="tns:heartbeat" />
   </wsdl:message>
+  <wsdl:message name="FolderSynchServiceContract_heartbeat_InputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:heartbeatResponse" />
+  </wsdl:message>
   <wsdl:portType msc:usingSession="true" name="FolderSynchServiceContract">
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="RegisterNewUser">
       <wsdl:input wsaw:Action="http://tempuri.org/FolderSynchServiceContract/RegisterNewUser" message="tns:FolderSynchServiceContract_RegisterNewUser_InputMessage" />
@@ -233,6 +236,7 @@
     </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="heartbeat">
       <wsdl:output wsaw:Action="http://tempuri.org/FolderSynchServiceContract/heartbeat" message="tns:FolderSynchServiceContract_heartbeat_OutputCallbackMessage" />
+      <wsdl:input wsaw:Action="http://tempuri.org/FolderSynchServiceContract/heartbeatResponse" message="tns:FolderSynchServiceContract_heartbeat_InputCallbackMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="serviceTcpEndpoint" type="tns:FolderSynchServiceContract">
@@ -429,6 +433,9 @@
     </wsdl:operation>
     <wsdl:operation name="heartbeat">
       <soap12:operation soapAction="http://tempuri.org/FolderSynchServiceContract/heartbeat" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />
       </wsdl:output>

@@ -844,7 +844,7 @@ namespace FolderSynchMUIClient.FolderSynchService {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public interface FolderSynchServiceContractCallback {
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/FolderSynchServiceContract/heartbeat")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/FolderSynchServiceContract/heartbeat", ReplyAction="http://tempuri.org/FolderSynchServiceContract/heartbeatResponse")]
         void heartbeat();
     }
     

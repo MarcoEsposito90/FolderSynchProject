@@ -285,4 +285,9 @@
       <xs:sequence />
     </xs:complexType>
   </xs:element>
+  <xs:element name="heartbeatResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
 </xs:schema>

@@ -14,6 +14,7 @@ namespace ServicesProject
         FolderSynchCallbackContract Callback;
         FolderSynchImplementation instanceContext;
         Timer timer;
+        DateTime invocationTimestamp;
 
         public HeartbeatBackgroundWorker(FolderSynchCallbackContract Callback, FolderSynchImplementation instanceContext) : base()
         {
@@ -37,26 +38,31 @@ namespace ServicesProject
         {
             Console.WriteLine("************ heartbeat *************** ");
 
-            DateTime invocationTimestamp = DateTime.Now;
+            invocationTimestamp = DateTime.Now;
             try
             {
                 Callback.heartbeat();
+                Console.WriteLine("***** Heartbeat response received ***** ");
             }
-            catch (TimeoutException e)
+            catch (TimeoutException)
             {
                 Console.WriteLine("Over timeout");
-
-                if (invocationTimestamp.CompareTo(instanceContext.LastCallTimestamp) > 0)
-                    instanceContext.ChannelFault_Handler();
-                else
-                    Console.WriteLine("ignoring");
+                launchException();
             }
-            catch(CommunicationException f)
+            catch(CommunicationException)
             {
-                
-                Console.WriteLine("Communication fault");
-                instanceContext.ChannelFault_Handler();
+                Console.WriteLine("Communication exception");
+                launchException();
             }
+        }
+
+
+        private void launchException()
+        {
+            if (invocationTimestamp.CompareTo(instanceContext.LastCallTimestamp) > 0)
+                instanceContext.ChannelFault_Handler();
+            else
+                Console.WriteLine("ignoring");
         }
     }
 }
